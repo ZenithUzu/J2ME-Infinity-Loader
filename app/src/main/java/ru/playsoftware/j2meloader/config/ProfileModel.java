@@ -110,6 +110,10 @@ public class ProfileModel {
 	@SerializedName("FontAntiAlias")
 	public boolean fontAA;
 
+	/** 虚拟屏幕超采样倍率：0 = 自动（按屏幕分辨率），1 = 关闭，2..10 = 指定倍率。 */
+	@SerializedName("Supersampling")
+	public int supersampling = 0;
+
 	@SerializedName("TouchInput")
 	public boolean touchInput;
 

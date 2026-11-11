@@ -27,8 +27,10 @@ import android.content.Intent;
 import android.content.res.XmlResourceParser;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Environment;
 import android.os.Bundle;
 import android.provider.DocumentsContract;
+import android.provider.Settings;
 import android.util.Log;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -73,10 +75,21 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 		prefFolder = findPreference(PREF_EMULATOR_DIR);
 		prefFolder.setSummary(Config.getEmulatorDir());
 		prefFolder.setOnPreferenceClickListener(preference -> {
-			if (FileUtils.isExternalStorageLegacy()) {
+			if (FileUtils.isExternalStorageLegacy() || isAllFilesAccessGranted()) {
 				openDirLauncher.launch(null);
 			} else {
-				openPicker();
+				// Android 11+ 分区存储：需要「所有文件访问」权限才能使用自定义目录
+				new AlertDialog.Builder(requireActivity())
+						.setTitle(R.string.error)
+						.setMessage(R.string.pref_workdir_all_files_access)
+						.setCancelable(false)
+						.setPositiveButton(android.R.string.ok, (d, w) -> {
+							Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION,
+									Uri.parse("package:" + requireContext().getPackageName()));
+							startActivity(intent);
+						})
+						.setNegativeButton(android.R.string.cancel, null)
+						.show();
 			}
 			return true;
 		});
@@ -127,6 +140,10 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 			AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags((String) value));
 			return true;
 		});
+	}
+
+	private static boolean isAllFilesAccessGranted() {
+		return Build.VERSION.SDK_INT < Build.VERSION_CODES.R || Environment.isExternalStorageManager();
 	}
 
 	private void openPicker() {

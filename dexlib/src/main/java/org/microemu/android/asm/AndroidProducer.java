@@ -46,7 +46,26 @@ public class AndroidProducer {
 			throw new IllegalArgumentException("Class name does not match path");
 		}
 
-		ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS);
+		// Instrumentation changes bytecode, so the original StackMapTable is invalid:
+		// recompute frames. COMPUTE_MAXS alone makes dx fail on class version >= 50
+		// ("SimException: stack: overflow"), common in ports built with modern JDKs.
+		ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_FRAMES) {
+			@Override
+			protected String getCommonSuperClass(String type1, String type2) {
+				if (type1.equals(type2)) {
+					return type1;
+				}
+				if ("java/lang/Object".equals(type1) || "java/lang/Object".equals(type2)) {
+					return "java/lang/Object";
+				}
+				try {
+					return super.getCommonSuperClass(type1, type2);
+				} catch (Throwable t) {
+					// MIDP classes are not on the classpath here; fall back to Object
+					return "java/lang/Object";
+				}
+			}
+		};
 		ClassVisitor cv = new AndroidClassVisitor(cw, renamer);
 		cr.accept(cv, ClassReader.SKIP_DEBUG | ClassReader.SKIP_FRAMES);
 
