@@ -278,4 +278,17 @@
     <string name="storage_not_granted">Nincs engedély: az adatok az alkalmazás mappájában maradnak.</string>
     <string name="storage_public_already">Az adatok már itt vannak: %1$s</string>
     <string name="pref_data_folder">Adatmappa</string>
+    <string name="quick_resume">Folytatás</string>
+    <string name="quick_section_screen">Kép</string>
+    <string name="quick_section_controls">Irányítás</string>
+    <string name="quick_section_game">Játék</string>
+    <string name="quick_exit_game">Kilépés a játékból</string>
+    <string name="quick_smooth">Kép simítása</string>
+    <string name="quick_top_bar">Felső sáv</string>
+    <string name="quick_keys_on_screen">Képernyőgombok</string>
+    <string name="quick_edit_controls">Irányítás szerkesztése (hely és méret)</string>
+    <string name="quick_editor_hint">Koppints egy részre (iránykereszt, a 4 gomb, L, R…) a kiválasztáshoz, és húzd egyben. A − és + a méretet állítja.</string>
+    <string name="quick_hide_piece">Elrejtés</string>
+    <string name="quick_reset_short">Visszaállítás</string>
+    <string name="quick_done">Kész</string>
 </resources>

@@ -335,4 +335,17 @@
     <string name="storage_not_granted">未获得权限：数据仍在应用文件夹中。</string>
     <string name="storage_public_already">数据已在 %1$s</string>
     <string name="pref_data_folder">数据文件夹</string>
+    <string name="quick_resume">继续</string>
+    <string name="quick_section_screen">画面</string>
+    <string name="quick_section_controls">按键</string>
+    <string name="quick_section_game">游戏</string>
+    <string name="quick_exit_game">退出游戏</string>
+    <string name="quick_smooth">平滑画面</string>
+    <string name="quick_top_bar">顶部栏</string>
+    <string name="quick_keys_on_screen">屏幕按键</string>
+    <string name="quick_edit_controls">编辑按键（位置和大小）</string>
+    <string name="quick_editor_hint">点按一个部件（方向键、4 个按键、L、R…）选中，再整体拖动。− 和 + 调整大小。</string>
+    <string name="quick_hide_piece">隐藏</string>
+    <string name="quick_reset_short">重置</string>
+    <string name="quick_done">完成</string>
 </resources>

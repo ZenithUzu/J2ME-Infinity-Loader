@@ -302,4 +302,17 @@
     <string name="storage_not_granted">Разрешението не е дадено: данните остават в папката на приложението.</string>
     <string name="storage_public_already">Данните вече са в %1$s</string>
     <string name="pref_data_folder">Папка с данни</string>
+    <string name="quick_resume">Продължи</string>
+    <string name="quick_section_screen">Екран</string>
+    <string name="quick_section_controls">Управление</string>
+    <string name="quick_section_game">Игра</string>
+    <string name="quick_exit_game">Изход от играта</string>
+    <string name="quick_smooth">Изглаждане</string>
+    <string name="quick_top_bar">Горна лента</string>
+    <string name="quick_keys_on_screen">Екранни бутони</string>
+    <string name="quick_edit_controls">Редакция на бутоните (място и размер)</string>
+    <string name="quick_editor_hint">Докоснете част (кръстачка, 4-те бутона, L, R…), за да я изберете, и я плъзнете цялата. − и + променят размера.</string>
+    <string name="quick_hide_piece">Скрий</string>
+    <string name="quick_reset_short">Нулирай</string>
+    <string name="quick_done">Готово</string>
 </resources>

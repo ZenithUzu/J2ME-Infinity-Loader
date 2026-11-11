@@ -335,4 +335,17 @@
     <string name="storage_not_granted">अनुमति नहीं मिली: डेटा ऐप फ़ोल्डर में ही रहेगा।</string>
     <string name="storage_public_already">आपका डेटा पहले से %1$s में है</string>
     <string name="pref_data_folder">डेटा फ़ोल्डर</string>
+    <string name="quick_resume">जारी रखें</string>
+    <string name="quick_section_screen">स्क्रीन</string>
+    <string name="quick_section_controls">कंट्रोल</string>
+    <string name="quick_section_game">गेम</string>
+    <string name="quick_exit_game">गेम से बाहर निकलें</string>
+    <string name="quick_smooth">चित्र चिकना करें</string>
+    <string name="quick_top_bar">ऊपरी बार</string>
+    <string name="quick_keys_on_screen">स्क्रीन बटन</string>
+    <string name="quick_edit_controls">कंट्रोल बदलें (जगह और आकार)</string>
+    <string name="quick_editor_hint">किसी हिस्से (डी-पैड, 4 बटन, L, R…) को चुनने के लिए छुएँ और पूरा खींचें। − और + आकार बदलते हैं।</string>
+    <string name="quick_hide_piece">छिपाएँ</string>
+    <string name="quick_reset_short">रीसेट</string>
+    <string name="quick_done">हो गया</string>
 </resources>

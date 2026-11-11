@@ -332,4 +332,17 @@
     <string name="storage_not_granted">Autorisation refusée : vos données restent dans le dossier de l\'appli.</string>
     <string name="storage_public_already">Vos données sont déjà dans %1$s</string>
     <string name="pref_data_folder">Dossier des données</string>
+    <string name="quick_resume">Reprendre</string>
+    <string name="quick_section_screen">Écran</string>
+    <string name="quick_section_controls">Commandes</string>
+    <string name="quick_section_game">Jeu</string>
+    <string name="quick_exit_game">Quitter le jeu</string>
+    <string name="quick_smooth">Lisser l\'image</string>
+    <string name="quick_top_bar">Barre du haut</string>
+    <string name="quick_keys_on_screen">Touches à l\'écran</string>
+    <string name="quick_edit_controls">Modifier les commandes (place et taille)</string>
+    <string name="quick_editor_hint">Touchez une partie (croix, les 4 boutons, L, R…) pour la choisir et faites-la glisser en entier. − et + changent sa taille.</string>
+    <string name="quick_hide_piece">Masquer</string>
+    <string name="quick_reset_short">Réinitialiser</string>
+    <string name="quick_done">Terminé</string>
 </resources>

@@ -335,4 +335,17 @@
     <string name="storage_not_granted">Oprávnění nebylo uděleno: data zůstávají ve složce aplikace.</string>
     <string name="storage_public_already">Data už jsou v %1$s</string>
     <string name="pref_data_folder">Složka dat</string>
+    <string name="quick_resume">Pokračovat</string>
+    <string name="quick_section_screen">Obraz</string>
+    <string name="quick_section_controls">Ovládání</string>
+    <string name="quick_section_game">Hra</string>
+    <string name="quick_exit_game">Ukončit hru</string>
+    <string name="quick_smooth">Vyhlazení obrazu</string>
+    <string name="quick_top_bar">Horní lišta</string>
+    <string name="quick_keys_on_screen">Tlačítka na obrazovce</string>
+    <string name="quick_edit_controls">Upravit ovládání (místo a velikost)</string>
+    <string name="quick_editor_hint">Klepnutím vyberte část (kříž, 4 tlačítka, L, R…) a přetáhněte ji celou. − a + mění velikost.</string>
+    <string name="quick_hide_piece">Skrýt</string>
+    <string name="quick_reset_short">Obnovit</string>
+    <string name="quick_done">Hotovo</string>
 </resources>

@@ -335,4 +335,17 @@
     <string name="storage_not_granted">No se dio el permiso: tus datos siguen en la carpeta de la app.</string>
     <string name="storage_public_already">Tus datos ya están en %1$s</string>
     <string name="pref_data_folder">Carpeta de datos</string>
+    <string name="quick_resume">Continuar</string>
+    <string name="quick_section_screen">Pantalla</string>
+    <string name="quick_section_controls">Controles</string>
+    <string name="quick_section_game">Juego</string>
+    <string name="quick_exit_game">Salir del juego</string>
+    <string name="quick_smooth">Suavizar imagen</string>
+    <string name="quick_top_bar">Barra superior</string>
+    <string name="quick_keys_on_screen">Teclas en pantalla</string>
+    <string name="quick_edit_controls">Editar controles (mover y tamaño)</string>
+    <string name="quick_editor_hint">Toca una pieza (cruceta, los 4 botones, L, R…) para elegirla y arrástrala para moverla completa. − y + cambian su tamaño.</string>
+    <string name="quick_hide_piece">Ocultar</string>
+    <string name="quick_reset_short">Restablecer</string>
+    <string name="quick_done">Listo</string>
 </resources>

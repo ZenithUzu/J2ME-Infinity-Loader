@@ -287,4 +287,17 @@
     <string name="storage_not_granted">권한이 없습니다: 데이터는 앱 폴더에 남습니다.</string>
     <string name="storage_public_already">데이터가 이미 %1$s에 있습니다</string>
     <string name="pref_data_folder">데이터 폴더</string>
+    <string name="quick_resume">계속</string>
+    <string name="quick_section_screen">화면</string>
+    <string name="quick_section_controls">조작</string>
+    <string name="quick_section_game">게임</string>
+    <string name="quick_exit_game">게임 종료</string>
+    <string name="quick_smooth">이미지 부드럽게</string>
+    <string name="quick_top_bar">상단 바</string>
+    <string name="quick_keys_on_screen">화면 버튼</string>
+    <string name="quick_edit_controls">조작 편집(위치와 크기)</string>
+    <string name="quick_editor_hint">부품(방향키, 버튼 4개, L, R…)을 눌러 고르고 통째로 끌어 옮기세요. −와 +로 크기를 바꿉니다.</string>
+    <string name="quick_hide_piece">숨기기</string>
+    <string name="quick_reset_short">초기화</string>
+    <string name="quick_done">완료</string>
 </resources>

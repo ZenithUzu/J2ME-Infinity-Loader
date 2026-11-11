@@ -318,4 +318,17 @@
     <string name="storage_not_granted">Δεν δόθηκε άδεια: τα δεδομένα μένουν στον φάκελο της εφαρμογής.</string>
     <string name="storage_public_already">Τα δεδομένα είναι ήδη στο %1$s</string>
     <string name="pref_data_folder">Φάκελος δεδομένων</string>
+    <string name="quick_resume">Συνέχεια</string>
+    <string name="quick_section_screen">Οθόνη</string>
+    <string name="quick_section_controls">Χειρισμοί</string>
+    <string name="quick_section_game">Παιχνίδι</string>
+    <string name="quick_exit_game">Έξοδος από το παιχνίδι</string>
+    <string name="quick_smooth">Εξομάλυνση εικόνας</string>
+    <string name="quick_top_bar">Επάνω γραμμή</string>
+    <string name="quick_keys_on_screen">Κουμπιά οθόνης</string>
+    <string name="quick_edit_controls">Επεξεργασία χειρισμών (θέση και μέγεθος)</string>
+    <string name="quick_editor_hint">Αγγίξτε ένα κομμάτι (σταυρός, τα 4 κουμπιά, L, R…) για να το επιλέξετε και σύρετέ το ολόκληρο. Τα − και + αλλάζουν το μέγεθος.</string>
+    <string name="quick_hide_piece">Απόκρυψη</string>
+    <string name="quick_reset_short">Επαναφορά</string>
+    <string name="quick_done">Τέλος</string>
 </resources>

@@ -335,4 +335,17 @@
     <string name="storage_not_granted">Дозвіл не надано: дані залишаються в папці застосунку.</string>
     <string name="storage_public_already">Дані вже в %1$s</string>
     <string name="pref_data_folder">Папка даних</string>
+    <string name="quick_resume">Продовжити</string>
+    <string name="quick_section_screen">Екран</string>
+    <string name="quick_section_controls">Керування</string>
+    <string name="quick_section_game">Гра</string>
+    <string name="quick_exit_game">Вийти з гри</string>
+    <string name="quick_smooth">Згладжування</string>
+    <string name="quick_top_bar">Верхня панель</string>
+    <string name="quick_keys_on_screen">Екранні кнопки</string>
+    <string name="quick_edit_controls">Налаштувати кнопки (місце й розмір)</string>
+    <string name="quick_editor_hint">Торкніться частини (хрестовина, 4 кнопки, L, R…), щоб вибрати, і перетягніть цілком. − і + змінюють розмір.</string>
+    <string name="quick_hide_piece">Приховати</string>
+    <string name="quick_reset_short">Скинути</string>
+    <string name="quick_done">Готово</string>
 </resources>

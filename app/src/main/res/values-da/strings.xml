@@ -209,4 +209,17 @@
     <string name="storage_not_granted">Ingen tilladelse: dine data bliver i appens mappe.</string>
     <string name="storage_public_already">Dine data ligger allerede i %1$s</string>
     <string name="pref_data_folder">Datamappe</string>
+    <string name="quick_resume">Fortsæt</string>
+    <string name="quick_section_screen">Skærm</string>
+    <string name="quick_section_controls">Styring</string>
+    <string name="quick_section_game">Spil</string>
+    <string name="quick_exit_game">Afslut spil</string>
+    <string name="quick_smooth">Udjævn billede</string>
+    <string name="quick_top_bar">Øverste bjælke</string>
+    <string name="quick_keys_on_screen">Skærmknapper</string>
+    <string name="quick_edit_controls">Rediger knapper (placering og størrelse)</string>
+    <string name="quick_editor_hint">Tryk på en del (krydset, de 4 knapper, L, R…) for at vælge den, og træk den samlet. − og + ændrer størrelsen.</string>
+    <string name="quick_hide_piece">Skjul</string>
+    <string name="quick_reset_short">Nulstil</string>
+    <string name="quick_done">Færdig</string>
 </resources>

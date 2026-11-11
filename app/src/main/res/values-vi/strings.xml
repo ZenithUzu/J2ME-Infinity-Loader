@@ -327,4 +327,17 @@
     <string name="storage_not_granted">Chưa cấp quyền: dữ liệu vẫn ở thư mục ứng dụng.</string>
     <string name="storage_public_already">Dữ liệu đã ở %1$s</string>
     <string name="pref_data_folder">Thư mục dữ liệu</string>
+    <string name="quick_resume">Tiếp tục</string>
+    <string name="quick_section_screen">Màn hình</string>
+    <string name="quick_section_controls">Điều khiển</string>
+    <string name="quick_section_game">Trò chơi</string>
+    <string name="quick_exit_game">Thoát trò chơi</string>
+    <string name="quick_smooth">Làm mịn hình</string>
+    <string name="quick_top_bar">Thanh trên cùng</string>
+    <string name="quick_keys_on_screen">Nút trên màn hình</string>
+    <string name="quick_edit_controls">Sửa điều khiển (vị trí và cỡ)</string>
+    <string name="quick_editor_hint">Chạm vào một cụm (phím hướng, 4 nút, L, R…) để chọn rồi kéo cả cụm. − và + đổi kích thước.</string>
+    <string name="quick_hide_piece">Ẩn</string>
+    <string name="quick_reset_short">Đặt lại</string>
+    <string name="quick_done">Xong</string>
 </resources>

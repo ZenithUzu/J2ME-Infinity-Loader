@@ -240,4 +240,17 @@
     <string name="storage_not_granted">未取得權限：資料仍在應用程式資料夾中。</string>
     <string name="storage_public_already">資料已在 %1$s</string>
     <string name="pref_data_folder">資料資料夾</string>
+    <string name="quick_resume">繼續</string>
+    <string name="quick_section_screen">畫面</string>
+    <string name="quick_section_controls">按鍵</string>
+    <string name="quick_section_game">遊戲</string>
+    <string name="quick_exit_game">離開遊戲</string>
+    <string name="quick_smooth">平滑畫面</string>
+    <string name="quick_top_bar">頂端列</string>
+    <string name="quick_keys_on_screen">螢幕按鍵</string>
+    <string name="quick_edit_controls">編輯按鍵（位置與大小）</string>
+    <string name="quick_editor_hint">點一下部件（方向鍵、4 個按鍵、L、R…）選取，再整體拖曳。− 和 + 調整大小。</string>
+    <string name="quick_hide_piece">隱藏</string>
+    <string name="quick_reset_short">重設</string>
+    <string name="quick_done">完成</string>
 </resources>

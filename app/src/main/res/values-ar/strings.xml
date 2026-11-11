@@ -335,4 +335,17 @@
     <string name="storage_not_granted">لم يُمنح الإذن: تبقى البيانات في مجلد التطبيق.</string>
     <string name="storage_public_already">بياناتك موجودة بالفعل في %1$s</string>
     <string name="pref_data_folder">مجلد البيانات</string>
+    <string name="quick_resume">متابعة</string>
+    <string name="quick_section_screen">الشاشة</string>
+    <string name="quick_section_controls">التحكم</string>
+    <string name="quick_section_game">اللعبة</string>
+    <string name="quick_exit_game">الخروج من اللعبة</string>
+    <string name="quick_smooth">تنعيم الصورة</string>
+    <string name="quick_top_bar">الشريط العلوي</string>
+    <string name="quick_keys_on_screen">أزرار الشاشة</string>
+    <string name="quick_edit_controls">تعديل التحكم (المكان والحجم)</string>
+    <string name="quick_editor_hint">المس جزءًا (الأسهم، الأزرار الأربعة، L، R…) لاختياره واسحبه كاملًا. − و+ يغيّران الحجم.</string>
+    <string name="quick_hide_piece">إخفاء</string>
+    <string name="quick_reset_short">إعادة ضبط</string>
+    <string name="quick_done">تم</string>
 </resources>

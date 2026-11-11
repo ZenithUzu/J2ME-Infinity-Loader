@@ -335,4 +335,17 @@
     <string name="storage_not_granted">Permissão não concedida: seus dados continuam na pasta do app.</string>
     <string name="storage_public_already">Seus dados já estão em %1$s</string>
     <string name="pref_data_folder">Pasta de dados</string>
+    <string name="quick_resume">Continuar</string>
+    <string name="quick_section_screen">Tela</string>
+    <string name="quick_section_controls">Controles</string>
+    <string name="quick_section_game">Jogo</string>
+    <string name="quick_exit_game">Sair do jogo</string>
+    <string name="quick_smooth">Suavizar imagem</string>
+    <string name="quick_top_bar">Barra superior</string>
+    <string name="quick_keys_on_screen">Botões na tela</string>
+    <string name="quick_edit_controls">Editar controles (lugar e tamanho)</string>
+    <string name="quick_editor_hint">Toque numa peça (direcional, os 4 botões, L, R…) para escolhê-la e arraste para movê-la inteira. − e + mudam o tamanho.</string>
+    <string name="quick_hide_piece">Ocultar</string>
+    <string name="quick_reset_short">Redefinir</string>
+    <string name="quick_done">Pronto</string>
 </resources>

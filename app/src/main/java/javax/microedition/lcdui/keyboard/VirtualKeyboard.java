@@ -76,6 +76,8 @@ public class VirtualKeyboard implements Overlay, Runnable {
 	@SuppressWarnings("unused")
 	public static final int LAYOUT_COLORS = 2;
 	public static final int LAYOUT_TYPE = 3;
+	/** Editor like Portemon: touch a piece to pick it, drag to move it whole; -/+ resize it. */
+	public static final int LAYOUT_GROUPS = 10;
 
 	private static final int OVAL_SHAPE = 0;
 	private static final int RECT_SHAPE = 1;
@@ -147,6 +149,7 @@ public class VirtualKeyboard implements Overlay, Runnable {
 			1, 1,
 			1, 1,
 			1, 1,
+			1, 1,
 	};
 	private final int[][] keyScaleGroups = {{
 			KEY_UP_LEFT,
@@ -185,7 +188,35 @@ public class VirtualKeyboard implements Overlay, Runnable {
 			KEY_TOGGLE
 	}, {
 			KEY_STICK
+	}, {
 	}};
+
+	/**
+	 * Gamepad pieces, like JarNix and Portemon: each one moves and resizes as a whole
+	 * (the d-pad, the 4 face buttons, L, R, Select/Start row, the stick). Same count as above.
+	 */
+	private final int[][] padScaleGroups = {{
+			KEY_UP_LEFT, KEY_UP, KEY_UP_RIGHT, KEY_LEFT, KEY_RIGHT, KEY_DOWN_LEFT, KEY_DOWN, KEY_DOWN_RIGHT
+	}, {
+			KEY_MENU, KEY_SOFT_LEFT, KEY_SOFT_RIGHT, KEY_TOGGLE
+	}, {
+			KEY_A, KEY_B, KEY_C
+	}, {
+			KEY_NUM1, KEY_NUM2, KEY_NUM3, KEY_NUM4, KEY_NUM5, KEY_NUM6, KEY_NUM8
+	}, {
+			KEY_D, KEY_FIRE, KEY_NUM7, KEY_NUM9, KEY_NUM0
+	}, {
+			KEY_STAR
+	}, {
+			KEY_POUND
+	}, {
+			KEY_STICK
+	}};
+
+	/** The groups of what is on screen: gamepad pieces or the phone keys. */
+	private int[][] groups() {
+		return padMode ? padScaleGroups : keyScaleGroups;
+	}
 	private final VirtualKey[] keypad = new VirtualKey[KEYBOARD_SIZE];
 	// the average user usually has no more than 10 fingers...
 	private final VirtualKey[] associatedKeys = new VirtualKey[10];
@@ -418,8 +449,8 @@ public class VirtualKeyboard implements Overlay, Runnable {
 				// like a game controller: d-pad bottom left with the stick above it, A B X Y
 				// diamond bottom right, L and R in the top corners, Select / menu / Start bottom center
 				Arrays.fill(keyScales, 1);
-				keyScales[keyScales.length - 2] = 2; // stick: 2 x 2 keys
-				keyScales[keyScales.length - 1] = 2;
+				keyScales[14] = 2; // stick (last gamepad group): 2 x 2 keys
+				keyScales[15] = 2;
 
 				setSnap(KEY_DOWN_LEFT, SCREEN, RectSnap.INT_SOUTHWEST, true);
 				setSnap(KEY_DOWN, KEY_DOWN_LEFT, RectSnap.EXT_EAST, true);
@@ -430,14 +461,14 @@ public class VirtualKeyboard implements Overlay, Runnable {
 				setSnap(KEY_UP, KEY_UP_RIGHT, RectSnap.EXT_WEST, true);
 				setSnap(KEY_UP_LEFT, KEY_UP, RectSnap.EXT_WEST, true);
 				setSnap(KEY_STICK, KEY_UP, RectSnap.EXT_NORTH, true);
-				setSnap(KEY_STAR, SCREEN, RectSnap.INT_NORTHWEST, true);       // L
+				setSnap(KEY_STAR, KEY_STICK, RectSnap.EXT_NORTH, true);        // L, above the stick
 
 				setSnap(KEY_D, SCREEN, RectSnap.INT_SOUTHEAST, false);         // hidden anchor
 				setSnap(KEY_NUM7, KEY_D, RectSnap.EXT_WEST, true);              // B (bottom)
 				setSnap(KEY_FIRE, KEY_D, RectSnap.EXT_NORTH, true);             // A (right)
 				setSnap(KEY_NUM9, KEY_NUM7, RectSnap.EXT_NORTHWEST, true);      // X (left)
 				setSnap(KEY_NUM0, KEY_FIRE, RectSnap.EXT_NORTHWEST, true);      // Y (top)
-				setSnap(KEY_POUND, SCREEN, RectSnap.INT_NORTHEAST, true);      // R
+				setSnap(KEY_POUND, KEY_NUM0, RectSnap.EXT_NORTH, true);        // R, above the face buttons
 
 				setSnap(KEY_MENU, SCREEN, RectSnap.INT_SOUTH, true);
 				setSnap(KEY_SOFT_LEFT, KEY_MENU, RectSnap.EXT_WEST, true);      // Select
@@ -718,7 +749,7 @@ public class VirtualKeyboard implements Overlay, Runnable {
 		}
 		layoutVariant = variant;
 		onLayoutChanged(variant);
-		for (int group = 0; group < keyScaleGroups.length; group++) {
+		for (int group = 0; group < groups().length; group++) {
 			resizeKeyGroup(group);
 		}
 		snapKeys();
@@ -1062,13 +1093,76 @@ public class VirtualKeyboard implements Overlay, Runnable {
 		return layoutVariant == TYPE_PHONE || layoutVariant == TYPE_PHONE_ARROWS;
 	}
 
+	private boolean dragging;
+
+	/** The group of the visible key under the finger, or -1. */
+	private int groupAt(float x, float y) {
+		int[][] g = groups();
+		for (int group = 0; group < g.length; group++) {
+			for (int key : g[group]) {
+				if (keypad[key].contains(x, y)) return group;
+			}
+		}
+		return -1;
+	}
+
+	/**
+	 * Moves a whole group: only its keys that hang from something outside the group get a new
+	 * place on the screen; the others keep following them, so the piece keeps its shape.
+	 */
+	private void moveGroup(int group, float dx, float dy) {
+		int[] keys = groups()[group];
+		for (int key : keys) {
+			keypad[key].rect.offset(dx, dy);
+		}
+		for (int key : keys) {
+			VirtualKey k = keypad[key];
+			if (k.snapOrigin != SCREEN && contains(keys, k.snapOrigin)) continue;
+			k.snapMode = RectSnap.getSnap(k.rect, screen, k.snapOffset);
+			k.snapOrigin = SCREEN;
+		}
+		snapKeys();
+		overlayView.postInvalidate();
+	}
+
+	private static boolean contains(int[] keys, int key) {
+		for (int k : keys) if (k == key) return true;
+		return false;
+	}
+
+	/** Editor - / +: bigger or smaller picked piece (from half to triple size). */
+	public void scaleEditedGroup(float step) {
+		if (layoutEditMode != LAYOUT_GROUPS || editedIndex < 0) return;
+		int i = editedIndex * 2;
+		keyScales[i] = Math.max(0.5f, Math.min(3f, keyScales[i] + step));
+		keyScales[i + 1] = Math.max(0.5f, Math.min(3f, keyScales[i + 1] + step));
+		resizeKeyGroup(editedIndex);
+		snapKeys();
+		overlayView.postInvalidate();
+	}
+
+	/** Editor "Hide": hides the picked piece (Hide buttons shows it again). */
+	public void hideEditedGroup() {
+		if (layoutEditMode != LAYOUT_GROUPS || editedIndex < 0) return;
+		for (int key : groups()[editedIndex]) keypad[key].visible = false;
+		highlightGroup(-1);
+		editedIndex = -1;
+		overlayView.postInvalidate();
+	}
+
+	/** Editor "Done": keeps the edited layout as this mode's own (custom) layout. */
+	public void finishGroupEditing() {
+		setLayoutEditMode(LAYOUT_EOF);
+		onLayoutChanged(TYPE_CUSTOM);
+	}
+
 	private void highlightGroup(int group) {
 		for (VirtualKey aKeypad : keypad) {
 			aKeypad.selected = false;
 		}
 		if (group >= 0) {
-			for (int key = 0; key < keyScaleGroups[group].length; key++) {
-				keypad[keyScaleGroups[group][key]].selected = true;
+			for (int key = 0; key < groups()[group].length; key++) {
+				keypad[groups()[group][key]].selected = true;
 			}
 		}
 	}
@@ -1080,6 +1174,7 @@ public class VirtualKeyboard implements Overlay, Runnable {
 	public void setLayoutEditMode(int mode) {
 		layoutEditMode = mode;
 		int group = -1;
+		editedIndex = -1;
 		if (mode == LAYOUT_SCALES) {
 			editedIndex = 0;
 			group = 0;
@@ -1100,8 +1195,8 @@ public class VirtualKeyboard implements Overlay, Runnable {
 	private void resizeKeyGroup(int group) {
 		float sizeX = keySize * keyScales[group * 2];
 		float sizeY = keySize * keyScales[group * 2 + 1];
-		for (int key = 0; key < keyScaleGroups[group].length; key++) {
-			resizeKey(keyScaleGroups[group][key], sizeX, sizeY);
+		for (int key = 0; key < groups()[group].length; key++) {
+			resizeKey(groups()[group][key], sizeX, sizeY);
 		}
 	}
 
@@ -1119,7 +1214,7 @@ public class VirtualKeyboard implements Overlay, Runnable {
 		float keySize = getKeySize(screen.width(), screen.height());
 		snapRadius = keySize * snapRadius / 4;
 		this.keySize = keySize;
-		for (int group = 0; group < keyScaleGroups.length; group++) {
+		for (int group = 0; group < groups().length; group++) {
 			resizeKeyGroup(group);
 		}
 		snapKeys();
@@ -1382,11 +1477,23 @@ public class VirtualKeyboard implements Overlay, Runnable {
 					}
 				}
 				break;
+			case LAYOUT_GROUPS: {
+				int found = groupAt(x, y);
+				if (found >= 0) {
+					editedIndex = found;
+					highlightGroup(found);
+					overlayView.postInvalidate();
+				}
+				offsetX = x;
+				offsetY = y;
+				dragging = found >= 0;
+				break;
+			}
 			case LAYOUT_SCALES:
 				int index = -1;
-				for (int group = 0; group < keyScaleGroups.length && index < 0; group++) {
-					for (int key = 0; key < keyScaleGroups[group].length && index < 0; key++) {
-						if (keypad[keyScaleGroups[group][key]].contains(x, y)) {
+				for (int group = 0; group < groups().length && index < 0; group++) {
+					for (int key = 0; key < groups()[group].length && index < 0; key++) {
+						if (keypad[groups()[group][key]].contains(x, y)) {
 							index = group;
 						}
 					}
@@ -1450,6 +1557,13 @@ public class VirtualKeyboard implements Overlay, Runnable {
 					overlayView.postInvalidate();
 				}
 				break;
+			case LAYOUT_GROUPS:
+				if (dragging && editedIndex >= 0) {
+					moveGroup(editedIndex, x - offsetX, y - offsetY);
+					offsetX = x;
+					offsetY = y;
+				}
+				break;
 			case LAYOUT_SCALES:
 				float dx = x - offsetX;
 				float dy = offsetY - y;
@@ -1482,6 +1596,10 @@ public class VirtualKeyboard implements Overlay, Runnable {
 
 	@Override
 	public boolean pointerReleased(int pointer, float x, float y) {
+		if (layoutEditMode == LAYOUT_GROUPS) {
+			dragging = false; // the picked piece stays picked for - / +
+			return false;
+		}
 		if (layoutEditMode == LAYOUT_EOF) {
 			if (pointer > associatedKeys.length) {
 				return false;

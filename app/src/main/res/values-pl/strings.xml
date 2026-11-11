@@ -285,4 +285,17 @@
     <string name="storage_not_granted">Brak uprawnienia: dane zostają w folderze aplikacji.</string>
     <string name="storage_public_already">Dane są już w %1$s</string>
     <string name="pref_data_folder">Folder danych</string>
+    <string name="quick_resume">Wznów</string>
+    <string name="quick_section_screen">Ekran</string>
+    <string name="quick_section_controls">Sterowanie</string>
+    <string name="quick_section_game">Gra</string>
+    <string name="quick_exit_game">Wyjdź z gry</string>
+    <string name="quick_smooth">Wygładzanie obrazu</string>
+    <string name="quick_top_bar">Górny pasek</string>
+    <string name="quick_keys_on_screen">Przyciski ekranowe</string>
+    <string name="quick_edit_controls">Edytuj sterowanie (miejsce i rozmiar)</string>
+    <string name="quick_editor_hint">Dotknij części (krzyżak, 4 przyciski, L, R…), by ją wybrać, i przeciągnij całą. − i + zmieniają rozmiar.</string>
+    <string name="quick_hide_piece">Ukryj</string>
+    <string name="quick_reset_short">Przywróć</string>
+    <string name="quick_done">Gotowe</string>
 </resources>

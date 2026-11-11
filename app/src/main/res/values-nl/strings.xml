@@ -287,4 +287,17 @@
     <string name="storage_not_granted">Geen toestemming: je gegevens blijven in de app-map.</string>
     <string name="storage_public_already">Je gegevens staan al in %1$s</string>
     <string name="pref_data_folder">Gegevensmap</string>
+    <string name="quick_resume">Doorgaan</string>
+    <string name="quick_section_screen">Scherm</string>
+    <string name="quick_section_controls">Bediening</string>
+    <string name="quick_section_game">Spel</string>
+    <string name="quick_exit_game">Spel afsluiten</string>
+    <string name="quick_smooth">Beeld verzachten</string>
+    <string name="quick_top_bar">Bovenbalk</string>
+    <string name="quick_keys_on_screen">Schermknoppen</string>
+    <string name="quick_edit_controls">Knoppen bewerken (plaats en grootte)</string>
+    <string name="quick_editor_hint">Tik op een onderdeel (kruis, de 4 knoppen, L, R…) om het te kiezen en sleep het in zijn geheel. − en + veranderen de grootte.</string>
+    <string name="quick_hide_piece">Verbergen</string>
+    <string name="quick_reset_short">Herstellen</string>
+    <string name="quick_done">Klaar</string>
 </resources>

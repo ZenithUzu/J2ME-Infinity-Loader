@@ -269,4 +269,17 @@
     <string name="storage_not_granted">権限がありません：データはアプリのフォルダーに残ります。</string>
     <string name="storage_public_already">データはすでに %1$s にあります</string>
     <string name="pref_data_folder">データフォルダー</string>
+    <string name="quick_resume">再開</string>
+    <string name="quick_section_screen">画面</string>
+    <string name="quick_section_controls">操作</string>
+    <string name="quick_section_game">ゲーム</string>
+    <string name="quick_exit_game">ゲームを終了</string>
+    <string name="quick_smooth">画像をなめらかに</string>
+    <string name="quick_top_bar">上部バー</string>
+    <string name="quick_keys_on_screen">画面ボタン</string>
+    <string name="quick_edit_controls">操作を編集（位置とサイズ）</string>
+    <string name="quick_editor_hint">パーツ（十字キー、4つのボタン、L、R…）をタップして選び、まとめてドラッグで移動します。− と + でサイズ変更。</string>
+    <string name="quick_hide_piece">隠す</string>
+    <string name="quick_reset_short">リセット</string>
+    <string name="quick_done">完了</string>
 </resources>

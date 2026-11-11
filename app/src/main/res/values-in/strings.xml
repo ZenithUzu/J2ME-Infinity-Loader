@@ -335,4 +335,17 @@
     <string name="storage_not_granted">Izin tidak diberikan: data tetap di folder aplikasi.</string>
     <string name="storage_public_already">Data sudah ada di %1$s</string>
     <string name="pref_data_folder">Folder data</string>
+    <string name="quick_resume">Lanjutkan</string>
+    <string name="quick_section_screen">Layar</string>
+    <string name="quick_section_controls">Kontrol</string>
+    <string name="quick_section_game">Game</string>
+    <string name="quick_exit_game">Keluar dari game</string>
+    <string name="quick_smooth">Haluskan gambar</string>
+    <string name="quick_top_bar">Bilah atas</string>
+    <string name="quick_keys_on_screen">Tombol layar</string>
+    <string name="quick_edit_controls">Edit kontrol (posisi dan ukuran)</string>
+    <string name="quick_editor_hint">Ketuk satu bagian (d-pad, 4 tombol, L, R…) untuk memilihnya lalu seret utuh. − dan + mengubah ukurannya.</string>
+    <string name="quick_hide_piece">Sembunyikan</string>
+    <string name="quick_reset_short">Atur ulang</string>
+    <string name="quick_done">Selesai</string>
 </resources>

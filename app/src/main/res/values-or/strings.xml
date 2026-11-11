@@ -235,4 +235,17 @@
     <string name="storage_not_granted">ଅନୁମତି ମିଳିଲା ନାହିଁ: ଡାଟା ଆପ ଫୋଲ୍ଡରରେ ରହିବ।</string>
     <string name="storage_public_already">ଆପଣଙ୍କ ଡାଟା ପୂର୍ବରୁ %1$s ରେ ଅଛି</string>
     <string name="pref_data_folder">ଡାଟା ଫୋଲ୍ଡର</string>
+    <string name="quick_resume">ଜାରି ରଖନ୍ତୁ</string>
+    <string name="quick_section_screen">ସ୍କ୍ରିନ</string>
+    <string name="quick_section_controls">ନିୟନ୍ତ୍ରଣ</string>
+    <string name="quick_section_game">ଖେଳ</string>
+    <string name="quick_exit_game">ଖେଳରୁ ବାହାରନ୍ତୁ</string>
+    <string name="quick_smooth">ଛବି ମସୃଣ କରନ୍ତୁ</string>
+    <string name="quick_top_bar">ଉପର ବାର</string>
+    <string name="quick_keys_on_screen">ସ୍କ୍ରିନ ବଟନ</string>
+    <string name="quick_edit_controls">ନିୟନ୍ତ୍ରଣ ସମ୍ପାଦନା (ସ୍ଥାନ ଓ ଆକାର)</string>
+    <string name="quick_editor_hint">ଏକ ଅଂଶ (ଡି-ପ୍ୟାଡ, 4 ବଟନ, L, R…) ବାଛିବାକୁ ଛୁଅନ୍ତୁ ଓ ପୂରା ଟାଣନ୍ତୁ। − ଓ + ଆକାର ବଦଳାଏ।</string>
+    <string name="quick_hide_piece">ଲୁଚାନ୍ତୁ</string>
+    <string name="quick_reset_short">ରିସେଟ</string>
+    <string name="quick_done">ହେଲା</string>
 </resources>

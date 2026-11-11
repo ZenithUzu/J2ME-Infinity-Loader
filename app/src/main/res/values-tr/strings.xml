@@ -333,4 +333,17 @@
     <string name="storage_not_granted">İzin verilmedi: veriler uygulama klasöründe kalıyor.</string>
     <string name="storage_public_already">Verilerin zaten %1$s içinde</string>
     <string name="pref_data_folder">Veri klasörü</string>
+    <string name="quick_resume">Devam</string>
+    <string name="quick_section_screen">Ekran</string>
+    <string name="quick_section_controls">Kontroller</string>
+    <string name="quick_section_game">Oyun</string>
+    <string name="quick_exit_game">Oyundan çık</string>
+    <string name="quick_smooth">Görüntüyü yumuşat</string>
+    <string name="quick_top_bar">Üst çubuk</string>
+    <string name="quick_keys_on_screen">Ekran düğmeleri</string>
+    <string name="quick_edit_controls">Kontrolleri düzenle (yer ve boyut)</string>
+    <string name="quick_editor_hint">Seçmek için bir parçaya (yön tuşu, 4 düğme, L, R…) dokunun ve bütün olarak sürükleyin. − ve + boyutunu değiştirir.</string>
+    <string name="quick_hide_piece">Gizle</string>
+    <string name="quick_reset_short">Sıfırla</string>
+    <string name="quick_done">Bitti</string>
 </resources>

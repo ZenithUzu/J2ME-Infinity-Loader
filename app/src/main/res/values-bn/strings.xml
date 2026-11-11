@@ -238,4 +238,17 @@
     <string name="storage_not_granted">অনুমতি দেওয়া হয়নি: ডেটা অ্যাপের ফোল্ডারেই থাকবে।</string>
     <string name="storage_public_already">আপনার ডেটা ইতিমধ্যে %1$s-এ আছে</string>
     <string name="pref_data_folder">ডেটা ফোল্ডার</string>
+    <string name="quick_resume">চালিয়ে যান</string>
+    <string name="quick_section_screen">স্ক্রিন</string>
+    <string name="quick_section_controls">নিয়ন্ত্রণ</string>
+    <string name="quick_section_game">গেম</string>
+    <string name="quick_exit_game">গেম থেকে বের হন</string>
+    <string name="quick_smooth">ছবি মসৃণ করুন</string>
+    <string name="quick_top_bar">উপরের বার</string>
+    <string name="quick_keys_on_screen">স্ক্রিনের বোতাম</string>
+    <string name="quick_edit_controls">নিয়ন্ত্রণ সম্পাদনা (জায়গা ও আকার)</string>
+    <string name="quick_editor_hint">একটি অংশ (ডি-প্যাড, ৪টি বোতাম, L, R…) বেছে নিতে ছুঁয়ে পুরোটা টেনে সরান। − ও + আকার বদলায়।</string>
+    <string name="quick_hide_piece">লুকান</string>
+    <string name="quick_reset_short">রিসেট</string>
+    <string name="quick_done">সম্পন্ন</string>
 </resources>

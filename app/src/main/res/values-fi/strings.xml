@@ -207,4 +207,17 @@
     <string name="storage_not_granted">Lupaa ei annettu: tiedot pysyvät sovelluksen kansiossa.</string>
     <string name="storage_public_already">Tietosi ovat jo kansiossa %1$s</string>
     <string name="pref_data_folder">Tietokansio</string>
+    <string name="quick_resume">Jatka</string>
+    <string name="quick_section_screen">Näyttö</string>
+    <string name="quick_section_controls">Ohjaimet</string>
+    <string name="quick_section_game">Peli</string>
+    <string name="quick_exit_game">Lopeta peli</string>
+    <string name="quick_smooth">Pehmennä kuvaa</string>
+    <string name="quick_top_bar">Yläpalkki</string>
+    <string name="quick_keys_on_screen">Näyttöpainikkeet</string>
+    <string name="quick_edit_controls">Muokkaa painikkeita (paikka ja koko)</string>
+    <string name="quick_editor_hint">Napauta osaa (ristiohjain, 4 painiketta, L, R…) valitaksesi sen ja vedä se kokonaisena. − ja + muuttavat kokoa.</string>
+    <string name="quick_hide_piece">Piilota</string>
+    <string name="quick_reset_short">Palauta</string>
+    <string name="quick_done">Valmis</string>
 </resources>

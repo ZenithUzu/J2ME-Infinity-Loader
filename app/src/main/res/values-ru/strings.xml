@@ -340,4 +340,17 @@
     <string name="storage_not_granted">Разрешение не выдано: данные остаются в папке приложения.</string>
     <string name="storage_public_already">Данные уже в %1$s</string>
     <string name="pref_data_folder">Папка данных</string>
+    <string name="quick_resume">Продолжить</string>
+    <string name="quick_section_screen">Экран</string>
+    <string name="quick_section_controls">Управление</string>
+    <string name="quick_section_game">Игра</string>
+    <string name="quick_exit_game">Выйти из игры</string>
+    <string name="quick_smooth">Сглаживание</string>
+    <string name="quick_top_bar">Верхняя панель</string>
+    <string name="quick_keys_on_screen">Экранные кнопки</string>
+    <string name="quick_edit_controls">Настроить кнопки (место и размер)</string>
+    <string name="quick_editor_hint">Коснитесь части (крестовина, 4 кнопки, L, R…), чтобы выбрать, и перетащите целиком. − и + меняют размер.</string>
+    <string name="quick_hide_piece">Скрыть</string>
+    <string name="quick_reset_short">Сбросить</string>
+    <string name="quick_done">Готово</string>
 </resources>

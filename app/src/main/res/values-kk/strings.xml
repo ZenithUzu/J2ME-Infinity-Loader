@@ -335,4 +335,17 @@
     <string name="storage_not_granted">Рұқсат берілмеді: деректер қолданба қалтасында қалады.</string>
     <string name="storage_public_already">Деректер қазірдің өзінде %1$s ішінде</string>
     <string name="pref_data_folder">Деректер қалтасы</string>
+    <string name="quick_resume">Жалғастыру</string>
+    <string name="quick_section_screen">Экран</string>
+    <string name="quick_section_controls">Басқару</string>
+    <string name="quick_section_game">Ойын</string>
+    <string name="quick_exit_game">Ойыннан шығу</string>
+    <string name="quick_smooth">Тегістеу</string>
+    <string name="quick_top_bar">Жоғарғы жолақ</string>
+    <string name="quick_keys_on_screen">Экрандық түймелер</string>
+    <string name="quick_edit_controls">Түймелерді өңдеу (орны мен өлшемі)</string>
+    <string name="quick_editor_hint">Бөлікті (крестовина, 4 түйме, L, R…) таңдау үшін түртіп, тұтас жылжыту үшін сүйреңіз. − және + өлшемін өзгертеді.</string>
+    <string name="quick_hide_piece">Жасыру</string>
+    <string name="quick_reset_short">Қалпына келтіру</string>
+    <string name="quick_done">Дайын</string>
 </resources>

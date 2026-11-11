@@ -221,4 +221,17 @@
     <string name="storage_not_granted">ไม่ได้รับสิทธิ์: ข้อมูลยังอยู่ในโฟลเดอร์ของแอป</string>
     <string name="storage_public_already">ข้อมูลอยู่ที่ %1$s แล้ว</string>
     <string name="pref_data_folder">โฟลเดอร์ข้อมูล</string>
+    <string name="quick_resume">เล่นต่อ</string>
+    <string name="quick_section_screen">หน้าจอ</string>
+    <string name="quick_section_controls">การควบคุม</string>
+    <string name="quick_section_game">เกม</string>
+    <string name="quick_exit_game">ออกจากเกม</string>
+    <string name="quick_smooth">ทำภาพให้เนียน</string>
+    <string name="quick_top_bar">แถบด้านบน</string>
+    <string name="quick_keys_on_screen">ปุ่มบนหน้าจอ</string>
+    <string name="quick_edit_controls">แก้ไขการควบคุม (ตำแหน่งและขนาด)</string>
+    <string name="quick_editor_hint">แตะชิ้นส่วน (ปุ่มทิศทาง, ปุ่ม 4 ปุ่ม, L, R…) เพื่อเลือก แล้วลากทั้งชิ้น ปุ่ม − และ + เปลี่ยนขนาด</string>
+    <string name="quick_hide_piece">ซ่อน</string>
+    <string name="quick_reset_short">รีเซ็ต</string>
+    <string name="quick_done">เสร็จ</string>
 </resources>

@@ -239,4 +239,17 @@
     <string name="storage_not_granted">Permisiune refuzată: datele rămân în dosarul aplicației.</string>
     <string name="storage_public_already">Datele sunt deja în %1$s</string>
     <string name="pref_data_folder">Dosarul de date</string>
+    <string name="quick_resume">Continuă</string>
+    <string name="quick_section_screen">Ecran</string>
+    <string name="quick_section_controls">Controale</string>
+    <string name="quick_section_game">Joc</string>
+    <string name="quick_exit_game">Ieși din joc</string>
+    <string name="quick_smooth">Netezește imaginea</string>
+    <string name="quick_top_bar">Bara de sus</string>
+    <string name="quick_keys_on_screen">Butoane pe ecran</string>
+    <string name="quick_edit_controls">Editează controalele (loc și mărime)</string>
+    <string name="quick_editor_hint">Atinge o piesă (cruce, cele 4 butoane, L, R…) ca s-o alegi și trage-o întreagă. − și + îi schimbă mărimea.</string>
+    <string name="quick_hide_piece">Ascunde</string>
+    <string name="quick_reset_short">Resetează</string>
+    <string name="quick_done">Gata</string>
 </resources>

@@ -319,4 +319,17 @@
     <string name="storage_not_granted">Keine Berechtigung: Deine Daten bleiben im App-Ordner.</string>
     <string name="storage_public_already">Deine Daten liegen schon in %1$s</string>
     <string name="pref_data_folder">Datenordner</string>
+    <string name="quick_resume">Weiter</string>
+    <string name="quick_section_screen">Bild</string>
+    <string name="quick_section_controls">Steuerung</string>
+    <string name="quick_section_game">Spiel</string>
+    <string name="quick_exit_game">Spiel beenden</string>
+    <string name="quick_smooth">Bild glätten</string>
+    <string name="quick_top_bar">Obere Leiste</string>
+    <string name="quick_keys_on_screen">Bildschirmtasten</string>
+    <string name="quick_edit_controls">Tasten bearbeiten (Ort und Größe)</string>
+    <string name="quick_editor_hint">Tippe auf ein Teil (Steuerkreuz, die 4 Tasten, L, R…), um es zu wählen, und ziehe es als Ganzes. − und + ändern die Größe.</string>
+    <string name="quick_hide_piece">Ausblenden</string>
+    <string name="quick_reset_short">Zurücksetzen</string>
+    <string name="quick_done">Fertig</string>
 </resources>

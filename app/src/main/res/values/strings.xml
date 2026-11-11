@@ -428,4 +428,17 @@
     <string name="storage_not_granted">Permission not given: your data stays in the app folder.</string>
     <string name="storage_public_already">Your data is already in %1$s</string>
     <string name="pref_data_folder">Data folder</string>
+    <string name="quick_resume">Continue</string>
+    <string name="quick_section_screen">Screen</string>
+    <string name="quick_section_controls">Controls</string>
+    <string name="quick_section_game">Game</string>
+    <string name="quick_exit_game">Exit game</string>
+    <string name="quick_smooth">Smooth image</string>
+    <string name="quick_top_bar">Top bar</string>
+    <string name="quick_keys_on_screen">On-screen keys</string>
+    <string name="quick_edit_controls">Edit controls (move and size)</string>
+    <string name="quick_editor_hint">Touch a piece (d-pad, the 4 buttons, L, R…) to pick it and drag it to move it whole. − and + change its size.</string>
+    <string name="quick_hide_piece">Hide</string>
+    <string name="quick_reset_short">Reset</string>
+    <string name="quick_done">Done</string>
 </resources>

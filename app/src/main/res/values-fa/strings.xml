@@ -254,4 +254,17 @@
     <string name="storage_not_granted">اجازه داده نشد: داده‌ها در پوشهٔ برنامه می‌مانند.</string>
     <string name="storage_public_already">داده‌ها هم‌اکنون در %1$s هستند</string>
     <string name="pref_data_folder">پوشهٔ داده</string>
+    <string name="quick_resume">ادامه</string>
+    <string name="quick_section_screen">صفحه</string>
+    <string name="quick_section_controls">کنترل‌ها</string>
+    <string name="quick_section_game">بازی</string>
+    <string name="quick_exit_game">خروج از بازی</string>
+    <string name="quick_smooth">نرم کردن تصویر</string>
+    <string name="quick_top_bar">نوار بالا</string>
+    <string name="quick_keys_on_screen">دکمه‌های صفحه</string>
+    <string name="quick_edit_controls">ویرایش کنترل‌ها (جا و اندازه)</string>
+    <string name="quick_editor_hint">روی یک بخش (جهت‌نما، ۴ دکمه، L، R…) بزنید تا انتخاب شود و کل آن را بکشید. − و + اندازه را تغییر می‌دهند.</string>
+    <string name="quick_hide_piece">پنهان</string>
+    <string name="quick_reset_short">بازنشانی</string>
+    <string name="quick_done">تمام</string>
 </resources>
