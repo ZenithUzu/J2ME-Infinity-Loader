@@ -98,6 +98,13 @@ public class AndroidMethodVisitor extends MethodVisitor {
 					mv.visitMethodInsn(opcode, owner, "sleep", "(J)V", false);
 					return;
 				}
+				// game speed: real waits get shorter (see VirtualClock)
+				if (opcode == INVOKESTATIC && name.equals("sleep")
+						&& (desc.equals("(J)V") || desc.equals("(JI)V"))) {
+					mv.visitMethodInsn(INVOKESTATIC, "javax/microedition/util/VirtualClock",
+							"sleep", desc, false);
+					return;
+				}
 				break;
 			case "java/lang/String":
 				if (name.equals("<init>") && desc.startsWith("([B") && !desc.endsWith("Ljava/lang/String;)V")) {
@@ -152,6 +159,13 @@ public class AndroidMethodVisitor extends MethodVisitor {
 			case "java/lang/System":
 				if (opcode == INVOKESTATIC && name.equals("getProperty")) {
 					mv.visitMethodInsn(opcode, "javax/microedition/shell/MidletSystem", name, desc, itf);
+					return;
+				}
+				// game speed: the time the game sees comes from VirtualClock
+				if (opcode == INVOKESTATIC && desc.equals("()J")
+						&& (name.equals("currentTimeMillis") || name.equals("nanoTime"))) {
+					mv.visitMethodInsn(INVOKESTATIC, "javax/microedition/util/VirtualClock",
+							name, desc, false);
 					return;
 				}
 				break;

@@ -61,6 +61,8 @@
     <string name="PREF_KEEP_ASPECT_RATIO">Mantener relación de aspecto</string>
     <string name="PREF_FILTER">Filtro</string>
     <string name="PREF_IMMEDIATE">Modo de procesamiento inmediato</string>
+    <string name="PREF_GAME_SPEED">Velocidad del juego</string>
+    <string name="game_speed_hint">Si la velocidad no cambia, vuelve a instalar el juego.</string>
     <string name="PREF_FRAME_BLEND">Anti-parpadeo (mezclar fotogramas)</string>
     <string name="PREF_SHOW_FPS">Mostrar FPS</string>
     <string name="PREF_FORCE_FULLSCREEN">Forzar pantalla completa</string>

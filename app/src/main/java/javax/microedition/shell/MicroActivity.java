@@ -87,6 +87,7 @@ import javax.microedition.lcdui.event.SimpleEvent;
 import javax.microedition.lcdui.keyboard.VirtualKeyboard;
 import javax.microedition.location.LocationProviderImpl;
 import javax.microedition.util.ContextHolder;
+import javax.microedition.util.VirtualClock;
 
 import io.reactivex.SingleObserver;
 import io.reactivex.disposables.Disposable;
@@ -556,6 +557,8 @@ public class MicroActivity extends AppCompatActivity {
 			takeScreenshot();
 		} else if (id == R.id.action_limit_fps) {
 			showLimitFpsDialog();
+		} else if (id == R.id.action_game_speed) {
+			showGameSpeedDialog();
 		} else if (ContextHolder.getVk() != null) {
 			// Handled only when virtual keyboard is enabled
 			handleVkOptions(id);
@@ -675,6 +678,28 @@ public class MicroActivity extends AppCompatActivity {
 					}
 				});
 		builder.show();
+	}
+
+	private void showGameSpeedDialog() {
+		final int[] speeds = {1, 2, 3, 4};
+		final String[] labels = {"1×", "2×", "3×", "4×"};
+		int checked = 0;
+		for (int i = 0; i < speeds.length; i++) {
+			if (speeds[i] == VirtualClock.getSpeed()) {
+				checked = i;
+			}
+		}
+		new AlertDialog.Builder(this)
+				.setTitle(R.string.PREF_GAME_SPEED)
+				.setSingleChoiceItems(labels, checked, (dialog, which) -> {
+					VirtualClock.setSpeed(speeds[which]);
+					dialog.dismiss();
+					if (speeds[which] > 1) {
+						Toast.makeText(this, R.string.game_speed_hint, Toast.LENGTH_LONG).show();
+					}
+				})
+				.setNegativeButton(android.R.string.cancel, null)
+				.show();
 	}
 
 	private void showLimitFpsDialog() {
