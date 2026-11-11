@@ -20,6 +20,7 @@ public class CanvasWrapper {
 	private final Paint fillPaint = new Paint();
 	private final Paint textPaint = new Paint();
 	private final Paint imgPaint = new Paint();
+	private final Paint skinPaint = new Paint(Paint.FILTER_BITMAP_FLAG | Paint.ANTI_ALIAS_FLAG);
 	private final Rect imgSrc = new Rect();
 	private final float textSize;
 
@@ -93,6 +94,19 @@ public class CanvasWrapper {
 
 	public void fillRect(RectF rect) {
 		canvas.drawRect(rect, fillPaint);
+	}
+
+	/** Draws a gamepad skin picture, optionally turned around its center. */
+	public void drawSkin(Bitmap bitmap, RectF dst, int alpha, float degrees) {
+		skinPaint.setAlpha(alpha);
+		if (degrees != 0) {
+			canvas.save();
+			canvas.rotate(degrees, dst.centerX(), dst.centerY());
+		}
+		canvas.drawBitmap(bitmap, null, dst, skinPaint);
+		if (degrees != 0) {
+			canvas.restore();
+		}
 	}
 
 	public void drawBitmap(Bitmap bitmap, Rect src, RectF dst) {

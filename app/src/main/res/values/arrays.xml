@@ -28,6 +28,10 @@
         <item>@string/pref_orientation_port</item>
         <item>@string/pref_orientation_land</item>
     </string-array>
+    <string-array name="pad_skin_actions">
+        <item>@string/pad_skin_choose</item>
+        <item>@string/pad_skin_default</item>
+    </string-array>
     <string-array name="PREF_SCREEN_ROTATION_ENTRIES">
         <item>@string/pref_screen_rotation_0</item>
         <item>@string/pref_screen_rotation_90</item>

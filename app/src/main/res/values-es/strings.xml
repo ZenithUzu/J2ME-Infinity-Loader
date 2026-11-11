@@ -61,6 +61,13 @@
     <string name="PREF_KEEP_ASPECT_RATIO">Mantener relación de aspecto</string>
     <string name="PREF_FILTER">Filtro</string>
     <string name="PREF_IMMEDIATE">Modo de procesamiento inmediato</string>
+    <string name="pref_pad_skin">Skin del mando</string>
+    <string name="pref_pad_skin_summary">Imágenes del mando en pantalla (también sirven skins de Citra)</string>
+    <string name="pad_skin_choose">Elegir una carpeta con las imágenes</string>
+    <string name="pad_skin_default">Usar la skin incluida</string>
+    <string name="pad_skin_imported">Skin importada: %d imágenes</string>
+    <string name="pad_skin_empty">No hay imágenes PNG en esa carpeta</string>
+    <string name="pad_skin_reset">Se volvió a la skin incluida</string>
     <string name="action_install_folder">Instalar una carpeta</string>
     <string name="install_folder_empty">No hay juegos (.jar, .jad, .kjx) en esa carpeta</string>
     <string name="PREF_AUTO_FIT">Ajuste automático (mostrar solo lo que dibuja el juego)</string>

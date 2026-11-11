@@ -20,6 +20,7 @@ package javax.microedition.lcdui.keyboard;
 import static javax.microedition.lcdui.keyboard.KeyMapper.SE_KEY_SPECIAL_GAMING_A;
 import static javax.microedition.lcdui.keyboard.KeyMapper.SE_KEY_SPECIAL_GAMING_B;
 
+import android.graphics.Bitmap;
 import android.graphics.PointF;
 import android.graphics.RectF;
 import android.os.Handler;
@@ -174,6 +175,11 @@ public class VirtualKeyboard implements Overlay, Runnable {
 	private final File saveFile;
 	/** exists while the layout is (or was edited from) the gamepad layout */
 	private final File padLabelsFile;
+	/** gamepad layout: keys are drawn with the skin pictures (PadSkin) when there are any */
+	private boolean padMode;
+	private final RectF skinRect = new RectF();
+	private static final int[] DPAD_KEYS = {KEY_UP_LEFT, KEY_UP, KEY_UP_RIGHT, KEY_LEFT,
+			KEY_RIGHT, KEY_DOWN_LEFT, KEY_DOWN, KEY_DOWN_RIGHT};
 	private final ProfileModel settings;
 	private final RectF virtualScreen = new RectF();
 
@@ -541,6 +547,7 @@ public class VirtualKeyboard implements Overlay, Runnable {
 			}
 		}
 		boolean pad = variant == TYPE_GAMEPAD || (variant == TYPE_CUSTOM && padLabelsFile.exists());
+		padMode = pad;
 		for (VirtualKey key : keypad) {
 			key.label = key.defaultLabel;
 		}
@@ -981,12 +988,86 @@ public class VirtualKeyboard implements Overlay, Runnable {
 	@Override
 	public void paint(CanvasWrapper g) {
 		if (visible) {
-			for (VirtualKey key : keypad) {
-				if (key.visible) {
+			boolean skinDpad = padMode && layoutEditMode == LAYOUT_EOF && paintSkinDpad(g);
+			for (int i = 0; i < keypad.length; i++) {
+				VirtualKey key = keypad[i];
+				if (key.visible && !(skinDpad && isDpadKey(i))) {
 					key.paint(g);
 				}
 			}
 		}
+	}
+
+	private static boolean isDpadKey(int index) {
+		for (int k : DPAD_KEYS) {
+			if (k == index) return true;
+		}
+		return false;
+	}
+
+	/** Skin alpha: like the keys, see-through only where they cover the game screen. */
+	private int skinAlpha(VirtualKey key) {
+		return key.opaque || layoutEditMode != LAYOUT_EOF ? 0xFF : settings.vkAlpha;
+	}
+
+	/** Fits a picture inside rect keeping its proportions (centered) into skinRect. */
+	private void fitSkin(Bitmap bm, RectF rect) {
+		float s = Math.min(rect.width() / bm.getWidth(), rect.height() / bm.getHeight());
+		float w = bm.getWidth() * s / 2, h = bm.getHeight() * s / 2;
+		skinRect.set(rect.centerX() - w, rect.centerY() - h, rect.centerX() + w, rect.centerY() + h);
+	}
+
+	/**
+	 * One d-pad picture over the 8 direction keys. Pressed: dpad_up, dpad_down_left... if the
+	 * skin has them, else Citra style dpad_pressed_one (up) / dpad_pressed_two (up + left) turned.
+	 */
+	private boolean paintSkinDpad(CanvasWrapper g) {
+		Bitmap idle = PadSkin.get("dpad");
+		if (idle == null) return false;
+		RectF area = new RectF(keypad[KEY_UP_LEFT].rect);
+		boolean up = false, down = false, left = false, right = false;
+		for (int k : DPAD_KEYS) {
+			VirtualKey key = keypad[k];
+			if (!key.visible) return false;
+			area.union(key.rect);
+		}
+		up = keypad[KEY_UP_LEFT].selected || keypad[KEY_UP].selected || keypad[KEY_UP_RIGHT].selected;
+		down = keypad[KEY_DOWN_LEFT].selected || keypad[KEY_DOWN].selected || keypad[KEY_DOWN_RIGHT].selected;
+		left = keypad[KEY_UP_LEFT].selected || keypad[KEY_LEFT].selected || keypad[KEY_DOWN_LEFT].selected;
+		right = keypad[KEY_UP_RIGHT].selected || keypad[KEY_RIGHT].selected || keypad[KEY_DOWN_RIGHT].selected;
+		Bitmap bm = idle;
+		float degrees = 0;
+		if (up || down || left || right) {
+			boolean diag = (up || down) && (left || right);
+			String name = "dpad_" + (diag ? (up ? "up_" : "down_") + (left ? "left" : "right")
+					: up ? "up" : down ? "down" : left ? "left" : "right");
+			Bitmap own = PadSkin.get(name);
+			if (own != null) {
+				bm = own;
+			} else if (diag && PadSkin.get("dpad_pressed_two") != null) {
+				bm = PadSkin.get("dpad_pressed_two");
+				degrees = up ? (left ? 0 : 90) : (right ? 180 : 270);
+			} else if (!diag && PadSkin.get("dpad_pressed_one") != null) {
+				bm = PadSkin.get("dpad_pressed_one");
+				degrees = up ? 0 : right ? 90 : down ? 180 : 270;
+			}
+		}
+		fitSkin(bm, area);
+		g.drawSkin(bm, skinRect, skinAlpha(keypad[KEY_UP]), degrees);
+		return true;
+	}
+
+	/** The skin picture name for a key in gamepad mode, or null. */
+	private String skinName(VirtualKey key) {
+		if (key == keypad[KEY_FIRE]) return "a";
+		if (key == keypad[KEY_NUM7]) return "b";
+		if (key == keypad[KEY_NUM9]) return "x";
+		if (key == keypad[KEY_NUM0]) return "y";
+		if (key == keypad[KEY_STAR]) return "l";
+		if (key == keypad[KEY_POUND]) return "r";
+		if (key == keypad[KEY_SOFT_LEFT]) return "select";
+		if (key == keypad[KEY_SOFT_RIGHT]) return "start";
+		return null;
 	}
 
 	@Override
@@ -1309,6 +1390,14 @@ public class VirtualKeyboard implements Overlay, Runnable {
 		}
 
 		void paint(CanvasWrapper g) {
+			String skin = padMode && layoutEditMode == LAYOUT_EOF ? skinName(this) : null;
+			Bitmap bm = skin == null ? null : PadSkin.get(selected ? skin + "_pressed" : skin);
+			if (bm == null && skin != null) bm = PadSkin.get(skin);
+			if (bm != null) {
+				fitSkin(bm, rect);
+				g.drawSkin(bm, skinRect, skinAlpha(this), 0);
+				return;
+			}
 			int bgColor;
 			int fgColor;
 			if (selected) {

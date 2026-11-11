@@ -67,6 +67,11 @@
         android:title="@string/pref_emulator_dir"
         tools:summary="/sdcard/J2ME-Loader" />
     <Preference
+        android:key="pref_pad_skin"
+        android:icon="@drawable/ic_setting_folder"
+        android:summary="@string/pref_pad_skin_summary"
+        android:title="@string/pref_pad_skin" />
+    <Preference
         android:key="pref_backup"
         android:icon="@drawable/ic_setting_backup"
         android:summary="@string/pref_backup_summary"

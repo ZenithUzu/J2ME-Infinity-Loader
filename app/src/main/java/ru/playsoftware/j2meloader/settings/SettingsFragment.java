@@ -60,6 +60,42 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 			new PickDirResultContract(),
 			this::onPickDirResult);
 
+	/** gamepad skin: a folder of PNG pictures, also Citra style (see PadSkin) */
+	private final ActivityResultLauncher<Uri> openSkinLauncher = registerForActivityResult(
+			new androidx.activity.result.contract.ActivityResultContracts.OpenDocumentTree(),
+			this::onPickSkinResult);
+
+	private void onPickSkinResult(Uri tree) {
+		if (tree == null) {
+			return;
+		}
+		int count;
+		try {
+			count = javax.microedition.lcdui.keyboard.PadSkin.importFrom(tree);
+		} catch (Exception e) {
+			Log.e(TAG, "onPickSkinResult: ", e);
+			count = 0;
+		}
+		android.widget.Toast.makeText(requireContext(), count > 0
+				? getString(R.string.pad_skin_imported, count)
+				: getString(R.string.pad_skin_empty), android.widget.Toast.LENGTH_LONG).show();
+	}
+
+	private void showSkinDialog() {
+		new AlertDialog.Builder(requireContext())
+				.setTitle(R.string.pref_pad_skin)
+				.setItems(R.array.pad_skin_actions, (d, which) -> {
+					if (which == 0) {
+						openSkinLauncher.launch(null);
+					} else {
+						javax.microedition.lcdui.keyboard.PadSkin.reset();
+						android.widget.Toast.makeText(requireContext(), R.string.pad_skin_reset,
+								android.widget.Toast.LENGTH_SHORT).show();
+					}
+				})
+				.show();
+	}
+
 	@Override
 	public void onCreatePreferences(Bundle bundle, String s) {
 		addPreferencesFromResource(R.xml.preferences);
@@ -68,6 +104,10 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 		findPreference("pref_backup").setOnPreferenceClickListener(preference -> {
 			Intent intent = new Intent(requireActivity(), BackupActivity.class);
 			startActivity(intent);
+			return true;
+		});
+		findPreference("pref_pad_skin").setOnPreferenceClickListener(preference -> {
+			showSkinDialog();
 			return true;
 		});
 		prefFolder = findPreference(PREF_EMULATOR_DIR);
