@@ -67,12 +67,13 @@ public class MainActivity extends BaseActivity {
 	public void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		// the game list model first: checkAndCreateDirs() tells it the folder is ready
+		appListModel = new ViewModelProvider(this).get(AppListModel.class);
 		if (FileUtils.hasAllFilesAccess()) {
-			checkAndCreateDirs(); // nothing more to ask
+			checkAndCreateDirs(); // public folder: nothing more to ask
 		} else if (FileUtils.isExternalStorageLegacy()) {
 			permissionsLauncher.launch(STORAGE_PERMISSIONS);
 		}
-		appListModel = new ViewModelProvider(this).get(AppListModel.class);
 		if (savedInstanceState == null) {
 			Intent intent = getIntent();
 			Uri uri = null;
