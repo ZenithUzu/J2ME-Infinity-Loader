@@ -285,6 +285,7 @@ public class MicroLoader {
 
 			KeyMapper.setKeyMapping(params);
 			Canvas.setHasTouchInput(params.touchInput);
+			Display.setForceMultiTouch(params.forceMultiTouch);
 			File sb = new File(workDir + Config.SOUNDBANKS_DIR + params.soundBank);
 			if (sb.exists()) {
 				soundBank = sb.getPath();

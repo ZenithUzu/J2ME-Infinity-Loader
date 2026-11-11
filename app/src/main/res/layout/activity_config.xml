@@ -580,6 +580,19 @@
                 app:layout_constraintTop_toBottomOf="@+id/config_input_title"
                 app:layout_constraintWidth_min="wrap" />
 
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/force_multitouch_toggle"
+                style="@style/SwitchStyle"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/height_config_row"
+                android:layout_marginHorizontal="5dp"
+                android:text="@string/PREF_FORCE_MULTITOUCH"
+                app:layout_constrainedWidth="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/enable_touch_input_toggle"
+                app:layout_constraintWidth_min="wrap" />
+
             <!-- KeyCodes layout -->
             <TextView
                 android:id="@+id/buttons_layout_hint"
@@ -595,7 +608,7 @@
                 app:layout_constrainedWidth="true"
                 app:layout_constraintEnd_toStartOf="@+id/input_config_barrier"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/enable_touch_input_toggle"
+                app:layout_constraintTop_toBottomOf="@+id/force_multitouch_toggle"
                 app:layout_constraintWidth_min="wrap" />
 
             <Spinner
@@ -610,7 +623,7 @@
                 android:textSize="15sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/input_config_barrier"
-                app:layout_constraintTop_toBottomOf="@+id/enable_touch_input_toggle" />
+                app:layout_constraintTop_toBottomOf="@+id/force_multitouch_toggle" />
             <!-- End keyCodes layout -->
 
             <Button

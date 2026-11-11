@@ -54,6 +54,7 @@ public class Display {
 	private static Display instance;
 	static EventQueue queue = new EventQueue();
 	private static boolean multiTouchSupported;
+	private static boolean forceMultiTouch;
 	private static String pointerNumber;
 
 	static {
@@ -88,8 +89,12 @@ public class Display {
 		return queue;
 	}
 
+	public static void setForceMultiTouch(boolean force) {
+		forceMultiTouch = force;
+	}
+
 	public static boolean isMultiTouchSupported() {
-		return multiTouchSupported;
+		return multiTouchSupported || forceMultiTouch;
 	}
 
 	static void setPointerNumber(int pointerNumber) {
