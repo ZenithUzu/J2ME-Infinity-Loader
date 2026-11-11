@@ -470,7 +470,7 @@ public class VirtualKeyboard implements Overlay, Runnable {
 				setSnap(KEY_NUM0, KEY_FIRE, RectSnap.EXT_NORTHWEST, true);      // Y (top)
 				setSnap(KEY_POUND, KEY_NUM0, RectSnap.EXT_NORTH, true);        // R, above the face buttons
 
-				setSnap(KEY_MENU, SCREEN, RectSnap.INT_SOUTH, true);
+				setSnap(KEY_MENU, SCREEN, RectSnap.INT_SOUTH, false); // Back opens the quick panel
 				setSnap(KEY_SOFT_LEFT, KEY_MENU, RectSnap.EXT_WEST, true);      // Select
 				setSnap(KEY_SOFT_RIGHT, KEY_MENU, RectSnap.EXT_EAST, true);     // Start
 				setSnap(KEY_TOGGLE, KEY_MENU, RectSnap.EXT_NORTH, true);        // keys "123"
@@ -753,6 +753,7 @@ public class VirtualKeyboard implements Overlay, Runnable {
 			resizeKeyGroup(group);
 		}
 		snapKeys();
+		placePad();
 		overlayView.postInvalidate();
 		if (target != null && target.isShown()) {
 			target.updateSize();
@@ -1095,6 +1096,101 @@ public class VirtualKeyboard implements Overlay, Runnable {
 
 	private boolean dragging;
 
+	/**
+	 * The default gamepad, placed like JarNix for the screen it is on:
+	 * <ul>
+	 * <li>Portrait: under the game a row L | Select | 123 | Start | R, the d-pad on the left
+	 * above the stick, A B X Y on the right.</li>
+	 * <li>Landscape: L and R in the top corners with Select / 123 / Start, the d-pad above the
+	 * stick on the left, A B X Y on the right, the game in the middle.</li>
+	 * </ul>
+	 * Sizes go through the group scales and places through screen snaps, so the editor can
+	 * then move and resize every piece. An edited (custom) gamepad is left as it is.
+	 */
+	private void placePad() {
+		if (layoutVariant != TYPE_GAMEPAD || screen == null || keySize <= 0 || !padMode) return;
+		float w = screen.width(), h = screen.height();
+		float dp = ContextHolder.getAppContext().getResources().getDisplayMetrics().density;
+		float m = 12 * dp;
+		float s, leftCx, rightCx, dpadCy, stickCy, faceCy;
+		RectF l = new RectF(), r = new RectF(), sel = new RectF(), tog = new RectF(), start = new RectF();
+		if (h > w) {
+			float gb = virtualScreen.bottom - screen.top;
+			if (gb <= 0 || h - gb < h * 0.35f) gb = h * 0.58f; // tall game: the keys go over its bottom
+			float room = h - gb;
+			s = Math.min(w * 0.3f, room * 0.36f);
+			float rowH = s * 0.36f;
+			float gap = m * 0.5f, avail = w - 2 * m - 4 * gap, topY = gb + m;
+			float[] widths = {avail * 0.23f, avail * 0.18f, avail * 0.18f, avail * 0.18f, avail * 0.23f};
+			RectF[] row = {l, sel, tog, start, r};
+			float x = m;
+			for (int i = 0; i < 5; i++) {
+				row[i].set(x, topY, x + widths[i], topY + rowH);
+				x += widths[i] + gap;
+			}
+			leftCx = m + s * 0.62f;
+			rightCx = w - m - s * 0.75f;
+			dpadCy = topY + rowH + m + s * 0.48f;
+			stickCy = h - m - s / 2;
+			faceCy = (dpadCy + stickCy) / 2;
+		} else {
+			s = Math.min(h * 0.34f, w * 0.17f);
+			float shH = s / 2, pillW = s * 0.7f, pillH = pillW / 2.4f, topY = m;
+			l.set(m, topY, m + s, topY + shH);
+			r.set(w - m - s, topY, w - m, topY + shH);
+			float tx = m + s + m;
+			sel.set(tx, topY, tx + pillW, topY + pillH);
+			tog.set(tx + pillW + m * 0.5f, topY, tx + pillW * 1.55f + m * 0.5f, topY + pillH);
+			start.set(w - m - s - m - pillW, topY, w - m - s - m, topY + pillH);
+			leftCx = m + s / 2 + m * 0.5f;
+			rightCx = w - leftCx;
+			stickCy = h - m - s / 2;
+			dpadCy = topY + shH + m + s * 0.45f;
+			faceCy = h - m - s * 0.62f;
+		}
+		float cell = s * 1.05f / 3, d = s * 0.4f, btn = s * 0.38f;
+		// sizes, as scales of the key size (pad groups: 0 d-pad, 1 Select row, 4 A B X Y, 5 L, 6 R, 7 stick)
+		setGroupSize(0, cell, cell);
+		setGroupSize(1, sel.width(), sel.height());
+		setGroupSize(4, btn, btn);
+		setGroupSize(5, l.width(), l.height());
+		setGroupSize(6, r.width(), r.height());
+		setGroupSize(7, s, s);
+		// places
+		float x0 = leftCx - cell * 1.5f, y0 = dpadCy - cell * 1.5f;
+		int[][] dpad = {{KEY_UP_LEFT, 0, 0}, {KEY_UP, 1, 0}, {KEY_UP_RIGHT, 2, 0}, {KEY_LEFT, 0, 1},
+				{KEY_RIGHT, 2, 1}, {KEY_DOWN_LEFT, 0, 2}, {KEY_DOWN, 1, 2}, {KEY_DOWN_RIGHT, 2, 2}};
+		for (int[] k : dpad) putKey(k[0], x0 + k[1] * cell, y0 + k[2] * cell);
+		putKey(KEY_STICK, leftCx - s / 2, stickCy - s / 2);
+		putKey(KEY_FIRE, rightCx + d - btn / 2, faceCy - btn / 2);   // A, right
+		putKey(KEY_NUM7, rightCx - btn / 2, faceCy + d - btn / 2);   // B, bottom
+		putKey(KEY_NUM9, rightCx - btn / 2, faceCy - d - btn / 2);   // X, top
+		putKey(KEY_NUM0, rightCx - d - btn / 2, faceCy - btn / 2);   // Y, left
+		putKey(KEY_D, rightCx - btn / 2, faceCy - btn / 2);          // hidden anchor in the middle
+		putKey(KEY_STAR, l.left, l.top);
+		putKey(KEY_POUND, r.left, r.top);
+		putKey(KEY_SOFT_LEFT, sel.left, sel.top);
+		putKey(KEY_TOGGLE, tog.left, tog.top);
+		putKey(KEY_SOFT_RIGHT, start.left, start.top);
+		putKey(KEY_MENU, tog.left, tog.top);
+		snapKeys();
+	}
+
+	private void setGroupSize(int group, float width, float height) {
+		keyScales[group * 2] = width / keySize;
+		keyScales[group * 2 + 1] = height / keySize;
+		resizeKeyGroup(group);
+	}
+
+	/** Puts a key at a place of the screen (top-left corner), held there by a screen snap. */
+	private void putKey(int key, float x, float y) {
+		VirtualKey k = keypad[key];
+		k.rect.offsetTo(screen.left + x, screen.top + y);
+		k.snapOrigin = SCREEN;
+		k.snapMode = RectSnap.getSnap(k.rect, screen, k.snapOffset);
+		k.snapValid = false;
+	}
+
 	/** The group of the visible key under the finger, or -1. */
 	private int groupAt(float x, float y) {
 		int[][] g = groups();
@@ -1218,6 +1314,7 @@ public class VirtualKeyboard implements Overlay, Runnable {
 			resizeKeyGroup(group);
 		}
 		snapKeys();
+		placePad();
 		overlayView.postInvalidate();
 		int delay = settings.vkHideDelay;
 		if (delay > 0 && obscuresVirtualScreen && layoutEditMode == LAYOUT_EOF) {
