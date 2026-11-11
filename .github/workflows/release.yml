@@ -1,27 +1,35 @@
-name: Automated CI builds
+# Publishes a signed Release when a version tag (v1.9.0, v1.10.0...) is pushed,
+# or by hand from the Actions tab (Run workflow, then type the tag).
+# Needs the repository secrets SIGNING_KEY (base64 keystore) and KEYSTORE_PROPERTIES
+# (base64 keystore.properties). Always sign with the same key, or updates cannot be installed.
+name: Release
 
-# Needs the SIGNING_KEY and KEYSTORE_PROPERTIES secrets; run it by hand from the Actions tab.
-# Test APKs without secrets come from build-apk.yml.
 on:
+  push:
+    tags:
+      - 'v*'
   workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Version tag to publish, e.g. v1.9.0'
+        required: true
 
 permissions:
   contents: write
 
 jobs:
-  build-release:
-    name: Build release APK
+  release:
+    name: Build and publish signed APK
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v7
+        uses: actions/checkout@v4
         with:
           submodules: 'true'
-          fetch-depth: 0
 
       - name: Set up JDK 21
-        uses: actions/setup-java@v6
+        uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: '21'
@@ -35,56 +43,37 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle', 'gradle/wrapper/gradle-wrapper.properties') }}
           restore-keys: ${{ runner.os }}-gradle-
 
-      - name: Decode Android keystore
+      - name: Decode signing key
         env:
           ENCODED_KEYSTORE: ${{ secrets.SIGNING_KEY }}
           ENCODED_PROPS: ${{ secrets.KEYSTORE_PROPERTIES }}
         run: |
           if [ -z "$ENCODED_KEYSTORE" ] || [ -z "$ENCODED_PROPS" ]; then
-            echo "::error::Set repository secrets SIGNING_KEY and KEYSTORE_PROPERTIES"
+            echo "::error::Add the repository secrets SIGNING_KEY and KEYSTORE_PROPERTIES"
             exit 1
           fi
-          printf '%s' "$ENCODED_KEYSTORE" | base64 -di > app/keystore.jks
-          printf '%s' "$ENCODED_PROPS" | base64 -di > keystore.properties
+          printf '%s' "$ENCODED_KEYSTORE" | base64 -d > app/keystore.jks
+          printf '%s' "$ENCODED_PROPS" | base64 -d > keystore.properties
 
-      - name: Build release APKs
+      - name: Build signed APK
         run: |
           chmod +x gradlew
-          ./gradlew assembleDevRelease
+          ./gradlew assembleOpenRelease --stacktrace
 
       - name: Collect APK
+        env:
+          TAG: ${{ github.event.inputs.tag || github.ref_name }}
         run: |
           mkdir -p dist
-          cp app/build/outputs/apk/dev/release/*.apk dist/
+          cp app/build/outputs/apk/open/release/*.apk "dist/J2ME-Infinity-Loader-$TAG.apk"
+          rm -f app/keystore.jks keystore.properties
 
-      - name: Upload APK artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: apks
-          path: dist/*.apk
-
-      - name: Move continuous tag
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          base="repos/$GITHUB_REPOSITORY/git"
-          if gh api "$base/ref/tags/continuous" >/dev/null 2>&1; then
-            gh api -X PATCH "$base/refs/tags/continuous" \
-              -f sha="$GITHUB_SHA" -F force=true >/dev/null
-          else
-            gh api -X POST "$base/refs" \
-              -f ref="refs/tags/continuous" -f sha="$GITHUB_SHA" >/dev/null
-          fi
-
-      - name: Update GitHub release
+      - name: Publish release
         uses: ncipollo/release-action@v1
         with:
-          tag: continuous
+          tag: ${{ github.event.inputs.tag || github.ref_name }}
           commit: ${{ github.sha }}
-          name: Automated CI builds
-          body: Automated builds from the latest commits on master.
-          prerelease: true
+          name: J2ME Infinity Loader ${{ github.event.inputs.tag || github.ref_name }}
+          generateReleaseNotes: true
           allowUpdates: true
-          removeArtifacts: true
-          artifactErrorsFailBuild: true
           artifacts: dist/*.apk
