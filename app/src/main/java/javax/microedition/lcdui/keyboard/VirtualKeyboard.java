@@ -209,6 +209,9 @@ public class VirtualKeyboard implements Overlay, Runnable {
 	private boolean visible = true;
 	/** hidden because a game controller or physical keyboard is in use; a touch brings it back */
 	private boolean hiddenByController;
+	/** hidden from the quick settings: no keys at all until shown again (remembered per game) */
+	private boolean userHidden;
+	private final File hiddenFile;
 	private int layoutEditMode = LAYOUT_EOF;
 	private int editedIndex;
 	private float offsetX;
@@ -225,6 +228,8 @@ public class VirtualKeyboard implements Overlay, Runnable {
 		this.settings = settings;
 		this.saveFile = new File(settings.dir + Config.MIDLET_KEY_LAYOUT_FILE);
 		this.padLabelsFile = new File(saveFile.getPath() + ".gamepad");
+		this.hiddenFile = new File(saveFile.getPath() + ".hidden");
+		this.userHidden = hiddenFile.exists();
 
 		for (int i = KEY_NUM1; i < 9; i++) {
 			keypad[i] = new VirtualKey(Canvas.KEY_NUM1 + i, Integer.toString(1 + i));
@@ -1105,9 +1110,47 @@ public class VirtualKeyboard implements Overlay, Runnable {
 		return keySize;
 	}
 
+	/** Keys on screen right now (the game is centered when there are none). */
+	public boolean isShown() {
+		return !userHidden && !hiddenByController;
+	}
+
+	public boolean isUserHidden() {
+		return userHidden;
+	}
+
+	/** Quick settings: hides or shows every key, and remembers it for this game. */
+	public void setUserHidden(boolean hidden) {
+		if (hidden == userHidden) return;
+		userHidden = hidden;
+		releaseAll();
+		try {
+			if (hidden) hiddenFile.createNewFile(); else hiddenFile.delete();
+		} catch (IOException e) {
+			Log.w(TAG, "setUserHidden: ", e);
+		}
+		relayoutTarget();
+	}
+
+	private void releaseAll() {
+		for (int i = 0; i < associatedKeys.length; i++) {
+			if (associatedKeys[i] != null) {
+				associatedKeys[i].onUp();
+				associatedKeys[i] = null;
+			}
+		}
+	}
+
+	/** Keys appeared or went away: the game moves to the middle or back to the top. */
+	private void relayoutTarget() {
+		if (overlayView != null) overlayView.postInvalidate();
+		Canvas t = target;
+		if (t != null && t.isShown()) t.updateSize();
+	}
+
 	/** Called when a physical game controller / keyboard is used. */
 	public void hideForController() {
-		if (!hiddenByController && layoutEditMode == LAYOUT_EOF) {
+		if (!hiddenByController && !userHidden && layoutEditMode == LAYOUT_EOF) {
 			hiddenByController = true;
 			for (int i = 0; i < associatedKeys.length; i++) {
 				if (associatedKeys[i] != null) {
@@ -1115,13 +1158,13 @@ public class VirtualKeyboard implements Overlay, Runnable {
 					associatedKeys[i] = null;
 				}
 			}
-			if (overlayView != null) overlayView.postInvalidate();
+			relayoutTarget();
 		}
 	}
 
 	@Override
 	public void paint(CanvasWrapper g) {
-		if (visible && !hiddenByController) {
+		if (visible && !hiddenByController && !userHidden) {
 			boolean skinDpad = padMode && layoutEditMode == LAYOUT_EOF && paintSkinDpad(g);
 			for (int i = 0; i < keypad.length; i++) {
 				VirtualKey key = keypad[i];
@@ -1208,9 +1251,12 @@ public class VirtualKeyboard implements Overlay, Runnable {
 	public boolean pointerPressed(int pointer, float x, float y) {
 		switch (layoutEditMode) {
 			case LAYOUT_EOF:
+				if (userHidden) {
+					return false;
+				}
 				if (hiddenByController) { // first touch only shows the keys again
 					hiddenByController = false;
-					overlayView.postInvalidate();
+					relayoutTarget();
 					return true;
 				}
 				if (pointer > associatedKeys.length) {

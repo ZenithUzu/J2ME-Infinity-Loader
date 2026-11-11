@@ -22,11 +22,15 @@ import android.net.Uri;
 import android.provider.DocumentsContract;
 import android.util.Log;
 
+import ru.playsoftware.j2meloader.util.FileUtils;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Locale;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
@@ -62,6 +66,65 @@ public final class Filters {
 		} catch (IOException e) {
 			Log.e(TAG, "installBundled: ", e);
 		}
+	}
+
+	/** The filters in the shaders folder (PPSSPP .ini and RetroArch .glsl), sorted by name. */
+	public static ArrayList<ShaderInfo> list(File dir) {
+		ArrayList<ShaderInfo> list = new ArrayList<>();
+		File[] files = dir.listFiles((f) -> f.isFile() && f.getName().toLowerCase().endsWith(".ini"));
+		if (files != null) {
+			for (File file : files) {
+				String text = FileUtils.getText(file.getAbsolutePath());
+				String[] split = text.split("[\\n\\r]+");
+				ShaderInfo info = null;
+				for (String line : split) {
+					if (line.startsWith("[")) {
+						if (info != null && info.fragment != null && info.vertex != null) {
+							list.add(info);
+						}
+						info = new ShaderInfo(line.replaceAll("[\\[\\]]", ""), "unknown");
+					} else if (info != null) {
+						try {
+							info.set(line);
+						} catch (Exception e) {
+							Log.e(TAG, "list: ", e);
+						}
+					}
+				}
+				if (info != null && info.fragment != null && info.vertex != null) {
+					list.add(info);
+				}
+			}
+			// RetroArch single-file shaders (github.com/libretro/glsl-shaders)
+			File[] glsl = dir.listFiles((f) -> f.isFile() && f.getName().toLowerCase().endsWith(".glsl"));
+			if (glsl != null) {
+				for (File file : glsl) {
+					String name = file.getName();
+					ShaderInfo info = new ShaderInfo(name.substring(0, name.length() - 5), "RetroArch");
+					info.fragment = name;
+					info.vertex = name;
+					info.retroArch = true;
+					String text = FileUtils.getText(file.getAbsolutePath());
+					info.linear = text.contains("J2ME-Infinity: Linear=true") || !text.contains("J2ME-Infinity:");
+					list.add(info);
+				}
+			}
+			Collections.sort(list);
+		}
+		return list;
+	}
+
+	/** The filter's own default strength values, if it has settings. */
+	public static float[] defaultValues(ShaderInfo item) {
+		float[] values = null;
+		ShaderInfo.Setting[] settings = item.settings;
+		for (int i = 0; settings != null && i < 4; i++) {
+			if (settings[i] != null) {
+				if (values == null) values = new float[4];
+				values[i] = settings[i].def;
+			}
+		}
+		return values;
 	}
 
 	private static boolean isFilterFile(String name) {

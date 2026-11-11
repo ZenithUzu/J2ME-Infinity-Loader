@@ -193,6 +193,16 @@
     <string name="PREF_VK_TYPE">Tipo de teclado</string>
     <string name="pref_vk_type_arrows">Flechas</string>
     <string name="pref_vk_type_jarnix">JarNix (flechas y números)</string>
+    <string name="quick_settings">Ajustes rápidos</string>
+    <string name="quick_keyboard_show">Mostrar teclas en pantalla</string>
+    <string name="quick_keyboard_hide">Ocultar teclas en pantalla</string>
+    <string name="quick_scale">Ajustar a la pantalla</string>
+    <string name="quick_filter">Filtro de pantalla</string>
+    <string name="quick_smooth_on">Suavizar imagen: activar</string>
+    <string name="quick_smooth_off">Suavizar imagen: desactivar</string>
+    <string name="quick_bar_show">Mostrar barra superior</string>
+    <string name="quick_bar_hide">Ocultar barra superior</string>
+    <string name="quick_filter_gl_only">Los filtros funcionan en el modo gráfico OpenGL ES. Cámbialo en la configuración de este juego.</string>
     <string name="vk_toggle_pad">Mando ↔ teclas</string>
     <string name="pref_vk_type_gamepad">Mando</string>
     <string name="pref_vk_type_arrows_numbers">Flechas &amp; números</string>

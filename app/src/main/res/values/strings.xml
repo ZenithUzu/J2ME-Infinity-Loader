@@ -214,6 +214,16 @@
     <string name="PREF_VK_TYPE">Keyboard type</string>
     <string name="pref_vk_type_arrows">Arrows</string>
     <string name="pref_vk_type_jarnix">JarNix (arrows &amp; numbers)</string>
+    <string name="quick_settings">Quick settings</string>
+    <string name="quick_keyboard_show">Show on-screen keys</string>
+    <string name="quick_keyboard_hide">Hide on-screen keys</string>
+    <string name="quick_scale">Fit to screen</string>
+    <string name="quick_filter">Screen filter</string>
+    <string name="quick_smooth_on">Smooth image: turn on</string>
+    <string name="quick_smooth_off">Smooth image: turn off</string>
+    <string name="quick_bar_show">Show top bar</string>
+    <string name="quick_bar_hide">Hide top bar</string>
+    <string name="quick_filter_gl_only">Filters work in the OpenGL ES graphics mode. Change it in this game’s settings.</string>
     <string name="vk_toggle_pad">Gamepad ↔ keys</string>
     <string name="pref_vk_type_gamepad">Gamepad</string>
     <string name="pref_vk_type_arrows_numbers">Arrows &amp; numbers</string>

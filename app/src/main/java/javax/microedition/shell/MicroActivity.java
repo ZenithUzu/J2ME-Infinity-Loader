@@ -94,6 +94,10 @@ import io.reactivex.disposables.Disposable;
 import ru.playsoftware.j2meloader.BuildConfig;
 import ru.playsoftware.j2meloader.R;
 import ru.playsoftware.j2meloader.config.Config;
+import ru.playsoftware.j2meloader.config.Filters;
+import ru.playsoftware.j2meloader.config.ProfileModel;
+import ru.playsoftware.j2meloader.config.ProfilesManager;
+import ru.playsoftware.j2meloader.config.ShaderInfo;
 import ru.playsoftware.j2meloader.databinding.ActivityMicroBinding;
 import ru.playsoftware.j2meloader.util.Constants;
 import ru.playsoftware.j2meloader.util.LogUtils;
@@ -555,6 +559,7 @@ public class MicroActivity extends AppCompatActivity {
 		inflater.inflate(R.menu.midlet_displayable, menu);
 		menu.findItem(R.id.action_lock_orientation).setVisible(true);
 		if (actionBarEnabled) {
+			menu.findItem(R.id.action_quick_settings).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 			menu.findItem(R.id.action_ime_keyboard).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 			menu.findItem(R.id.action_take_screenshot).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 		}
@@ -610,6 +615,8 @@ public class MicroActivity extends AppCompatActivity {
 			showGameSpeedDialog();
 		} else if (id == R.id.action_memory_editor) {
 			MemoryEditor.show(this);
+		} else if (id == R.id.action_quick_settings) {
+			showQuickSettings();
 		} else if (ContextHolder.getVk() != null) {
 			// Handled only when virtual keyboard is enabled
 			handleVkOptions(id);
@@ -716,6 +723,140 @@ public class MicroActivity extends AppCompatActivity {
 					ContextHolder.getVk().onLayoutChanged(VirtualKeyboard.TYPE_CUSTOM));
 		}
 		dialog.show();
+	}
+
+	/**
+	 * Quick settings (like JarNix's menu): changes that apply at once, without leaving the
+	 * game, and are saved in the game's settings.
+	 */
+	private void showQuickSettings() {
+		VirtualKeyboard vk = ContextHolder.getVk();
+		java.util.ArrayList<String> names = new java.util.ArrayList<>();
+		java.util.ArrayList<Runnable> actions = new java.util.ArrayList<>();
+		if (vk == null || vk.isUserHidden()) {
+			names.add(getString(R.string.quick_keyboard_show));
+			actions.add(this::showKeyboardNow);
+		} else {
+			names.add(getString(R.string.quick_keyboard_hide));
+			actions.add(() -> vk.setUserHidden(true));
+		}
+		if (vk != null) {
+			names.add(getString(R.string.vk_toggle_pad));
+			actions.add(() -> {
+				vk.setUserHidden(false);
+				vk.togglePad();
+			});
+		}
+		names.add(getString(R.string.quick_scale));
+		actions.add(this::showQuickScale);
+		names.add(getString(R.string.quick_filter));
+		actions.add(this::showQuickFilter);
+		names.add(getString(Canvas.isFilterBitmap() ? R.string.quick_smooth_off : R.string.quick_smooth_on));
+		actions.add(() -> {
+			microLoader.params.screenFilter = !Canvas.isFilterBitmap();
+			Canvas.setFilterBitmap(microLoader.params.screenFilter);
+			applyQuickChange();
+		});
+		names.add(getString(actionBarEnabled ? R.string.quick_bar_hide : R.string.quick_bar_show));
+		actions.add(() -> setActionBarEnabled(!actionBarEnabled));
+		new AlertDialog.Builder(this)
+				.setTitle(R.string.quick_settings)
+				.setItems(names.toArray(new String[0]), (d, w) -> actions.get(w).run())
+				.show();
+	}
+
+	/** Shows the keys again, or turns the on-screen keyboard on if this game had it off. */
+	private void showKeyboardNow() {
+		VirtualKeyboard vk = ContextHolder.getVk();
+		if (vk != null) {
+			vk.setUserHidden(false);
+			return;
+		}
+		microLoader.params.showKeyboard = true;
+		ProfilesManager.saveConfig(microLoader.params);
+		vk = new VirtualKeyboard(microLoader.params);
+		vk.setUserHidden(false);
+		ContextHolder.setVk(vk);
+		vk.setView(binding.overlayView);
+		binding.overlayView.addLayer(vk);
+		if (current instanceof Canvas) {
+			((Canvas) current).attachOverlay();
+		}
+		invalidateOptionsMenu();
+	}
+
+	private void showQuickScale() {
+		new AlertDialog.Builder(this)
+				.setTitle(R.string.quick_scale)
+				.setSingleChoiceItems(R.array.pref_scale_type_entries, Canvas.getScaleType(), (d, w) -> {
+					ProfileModel p = microLoader.params;
+					p.screenScaleType = w;
+					p.screenScaleRatio = 100; // the whole screen, without an old zoom
+					Canvas.setScale(p.screenGravity, w, p.screenScaleRatio);
+					applyQuickChange();
+					d.dismiss();
+				})
+				.show();
+	}
+
+	private void showQuickFilter() {
+		if (microLoader.params.graphicsMode != 1) {
+			Toast.makeText(this, R.string.quick_filter_gl_only, Toast.LENGTH_LONG).show();
+			return;
+		}
+		File dir = new File(Config.getShadersDir());
+		Filters.installBundled(this, dir);
+		java.util.ArrayList<ShaderInfo> list = Filters.list(dir);
+		list.add(0, null); // no filter
+		String[] names = new String[list.size()];
+		names[0] = getString(R.string.identity_filter);
+		for (int i = 1; i < names.length; i++) names[i] = list.get(i).toString();
+		int checked = Math.max(0, list.indexOf(Canvas.getShaderFilter()));
+		new AlertDialog.Builder(this)
+				.setTitle(R.string.quick_filter)
+				.setSingleChoiceItems(names, checked, (d, w) -> {
+					ShaderInfo shader = list.get(w);
+					if (shader != null) {
+						shader.dir = dir.getPath();
+						shader.values = Filters.defaultValues(shader);
+					}
+					microLoader.params.shader = shader;
+					Canvas.setShaderFilter(shader);
+					applyQuickChange();
+					d.dismiss();
+				})
+				.show();
+	}
+
+	/** Shows a quick settings change on the running game and saves it for next time. */
+	private void applyQuickChange() {
+		if (current instanceof Canvas) {
+			((Canvas) current).refreshDisplay();
+		}
+		ProfilesManager.saveConfig(microLoader.params);
+	}
+
+	/** Top bar on or off right away (it is the same option as in Settings). */
+	private void setActionBarEnabled(boolean enabled) {
+		actionBarEnabled = enabled;
+		PreferenceManager.getDefaultSharedPreferences(this).edit().putBoolean(PREF_TOOLBAR, enabled).apply();
+		if (!(current instanceof Canvas)) return;
+		ActionBar actionBar = Objects.requireNonNull(getSupportActionBar());
+		LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) binding.toolbar.getLayoutParams();
+		if (enabled) {
+			String title = current.getTitle();
+			actionBar.setTitle(title == null ? appName : title);
+			actionBar.show();
+			toolbarHeight = (int) (getToolBarHeight() / 1.5);
+			layoutParams.height = toolbarHeight;
+		} else {
+			actionBar.hide();
+			toolbarHeight = 0;
+			hideSystemUI();
+		}
+		binding.toolbar.setLayoutParams(layoutParams);
+		updateOverlayLocation();
+		invalidateOptionsMenu();
 	}
 
 	private void showSetLayoutDialog() {

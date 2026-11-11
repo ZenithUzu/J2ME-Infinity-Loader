@@ -423,46 +423,7 @@ public class ConfigActivity extends BaseActivity implements View.OnClickListener
 		spShaderAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, list);
 		spShaderAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		binding.shaderSelector.setAdapter(spShaderAdapter);
-		File[] files = dir.listFiles((f) -> f.isFile() && f.getName().toLowerCase().endsWith(".ini"));
-		if (files != null) {
-			for (File file : files) {
-				String text = FileUtils.getText(file.getAbsolutePath());
-				String[] split = text.split("[\\n\\r]+");
-				ShaderInfo info = null;
-				for (String line : split) {
-					if (line.startsWith("[")) {
-						if (info != null && info.fragment != null && info.vertex != null) {
-							list.add(info);
-						}
-						info = new ShaderInfo(line.replaceAll("[\\[\\]]", ""), "unknown");
-					} else if (info != null) {
-						try {
-							info.set(line);
-						} catch (Exception e) {
-							Log.e(TAG, "initShaderSpinner: ", e);
-						}
-					}
-				}
-				if (info != null && info.fragment != null && info.vertex != null) {
-					list.add(info);
-				}
-			}
-			// RetroArch single-file shaders (github.com/libretro/glsl-shaders)
-			File[] glsl = dir.listFiles((f) -> f.isFile() && f.getName().toLowerCase().endsWith(".glsl"));
-			if (glsl != null) {
-				for (File file : glsl) {
-					String name = file.getName();
-					ShaderInfo info = new ShaderInfo(name.substring(0, name.length() - 5), "RetroArch");
-					info.fragment = name;
-					info.vertex = name;
-					info.retroArch = true;
-					String text = FileUtils.getText(file.getAbsolutePath());
-					info.linear = text.contains("J2ME-Infinity: Linear=true") || !text.contains("J2ME-Infinity:");
-					list.add(info);
-				}
-			}
-			Collections.sort(list);
-		}
+		list.addAll(Filters.list(dir));
 		list.add(0, new ShaderInfo(getString(R.string.identity_filter), "woesss"));
 		spShaderAdapter.notifyDataSetChanged();
 		ShaderInfo selected = params.shader;

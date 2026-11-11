@@ -213,6 +213,36 @@ public abstract class Canvas extends Displayable {
 		Canvas.shaderFilter = shader;
 	}
 
+	/** Quick settings: applies filter, smoothing and scaling changes to the running game. */
+	public void refreshDisplay() {
+		updateSize();
+		if (renderer != null) {
+			renderer.reload();
+		}
+		repaintInternal();
+	}
+
+	/** Quick settings: the on-screen keyboard was turned on while the game runs. */
+	public void attachOverlay() {
+		overlay = ContextHolder.getVk();
+		if (overlay != null) {
+			overlay.setTarget(this);
+		}
+		updateSize();
+	}
+
+	public static ShaderInfo getShaderFilter() {
+		return shaderFilter;
+	}
+
+	public static int getScaleType() {
+		return scaleType;
+	}
+
+	public static boolean isFilterBitmap() {
+		return filter;
+	}
+
 	public static void setAutoFit(boolean enable) {
 		Canvas.autoFit = enable;
 	}
@@ -643,7 +673,12 @@ protected int getSupersamplingFactor() {
 		onWidth = onWidth * scaleRatio / 100;
 		onHeight = onHeight * scaleRatio / 100;
 
-		switch (Canvas.screenGravity) {
+		int gravity = Canvas.screenGravity;
+		// like JarNix: without keys on screen the game sits in the middle; with keys, on top
+		if (gravity == 1 && (vk == null || !vk.isShown())) {
+			gravity = 2;
+		}
+		switch (gravity) {
 			case 0: // left
 				onX = 0;
 				onY = (scaledDisplayHeight - onHeight) / 2;
@@ -1209,6 +1244,27 @@ protected int getSupersamplingFactor() {
 		public void stop() {
 			isStarted = false;
 			mView.onPause();
+		}
+
+		/** New filter or smoothing while the game runs: rebuilds the program on the GL thread. */
+		void reload() {
+			if (!isStarted || mView == null) return;
+			mView.queueEvent(() -> {
+				program = new ShaderProgram(shaderFilter);
+				boolean linear = filter || (shaderFilter != null && shaderFilter.linear);
+				glBindTexture(GL_TEXTURE_2D, bgTextureId[0]);
+				glTexParameteri(GLES20.GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, linear ? GL_LINEAR : GL_NEAREST);
+				glTexParameteri(GLES20.GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, linear ? GL_LINEAR : GL_NEAREST);
+				glUniform1i(program.uTextureUnit, 0);
+				Bitmap bitmap = offscreenCopy.getBitmap();
+				synchronized (vbo) {
+					program.loadVbo(vbo, bitmap.getWidth(), bitmap.getHeight());
+				}
+				if (shaderFilter != null && shaderFilter.values != null && program.uSetting >= 0) {
+					glUniform4fv(program.uSetting, 1, shaderFilter.values, 0);
+				}
+			});
+			mView.requestRender();
 		}
 
 		public void start() {
