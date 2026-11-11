@@ -629,6 +629,9 @@ public class MicroActivity extends AppCompatActivity {
 			vk.setLayoutEditMode(VirtualKeyboard.LAYOUT_EOF);
 			Toast.makeText(this, R.string.layout_edit_finished, Toast.LENGTH_SHORT).show();
 			showSaveVkAlert(false);
+		} else if (id == R.id.action_toggle_pad) {
+			vk.togglePad();
+			setOrientation(vk.isPhone() ? ORIENTATION_PORTRAIT : microLoader.getOrientation());
 		} else if (id == R.id.action_layout_switch) {
 			showSetLayoutDialog();
 		} else if (id == R.id.action_hide_buttons) {

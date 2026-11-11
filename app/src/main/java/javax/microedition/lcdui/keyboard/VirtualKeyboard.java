@@ -45,9 +45,11 @@ import javax.microedition.lcdui.overlay.Overlay;
 import javax.microedition.shell.MicroActivity;
 import javax.microedition.util.ContextHolder;
 
+import ru.playsoftware.j2meloader.R;
 import ru.playsoftware.j2meloader.config.Config;
 import ru.playsoftware.j2meloader.config.ProfileModel;
 import ru.playsoftware.j2meloader.config.ProfilesManager;
+import ru.playsoftware.j2meloader.util.FileUtils;
 
 public class VirtualKeyboard implements Overlay, Runnable {
 	private static final String TAG = VirtualKeyboard.class.getSimpleName();
@@ -60,6 +62,11 @@ public class VirtualKeyboard implements Overlay, Runnable {
 	private static final String ARROW_UP_RIGHT = "\u2197";
 	private static final String ARROW_DOWN_LEFT = "\u2199";
 	private static final String ARROW_DOWN_RIGHT = "\u2198";
+	// JarNix style labels for the four directions
+	private static final String TRI_LEFT = "\u25C0";
+	private static final String TRI_UP = "\u25B2";
+	private static final String TRI_RIGHT = "\u25B6";
+	private static final String TRI_DOWN = "\u25BC";
 
 	private static final int LAYOUT_SIGNATURE = 0x564B4C00;
 	private static final int LAYOUT_VERSION = 3;
@@ -82,6 +89,8 @@ public class VirtualKeyboard implements Overlay, Runnable {
 	private static final int TYPE_NUMBERS = 5;
 	private static final int TYPE_ARROWS = 6;
 	private static final int TYPE_GAMEPAD = 7;
+	/** JarNix keypad: d-pad with OK on the left, numbers on the right, soft keys above (default) */
+	private static final int TYPE_JARNIX = 8;
 
 	private static final float PHONE_KEY_ROWS = 5;
 	private static final float PHONE_KEY_SCALE_X = 2.0f;
@@ -118,9 +127,13 @@ public class VirtualKeyboard implements Overlay, Runnable {
 	private static final int KEY_B = 26;
 	private static final int KEY_MENU = 27;
 	private static final int KEY_STICK = 28;
-	private static final int KEYBOARD_SIZE = 29;
+	private static final int KEY_TOGGLE = 29;
+	private static final int KEYBOARD_SIZE = 30;
 	/** not a real key code: identifies the on-screen stick in saved layouts */
 	private static final int STICK_KEY_CODE = -0x5354;
+	private static final int TOGGLE_KEY_CODE = -0x544F;
+	/** The keyboard's look before JarNix's: a game still on it gets the new one. */
+	private static final int[] OLD_DEFAULT_COLORS = {0xD0D0D0, 0x000080, 0x000080, 0xFFFFFF, 0xFFFFFF};
 
 	private static final float SCALE_SNAP_RADIUS = 0.05f;
 
@@ -168,7 +181,8 @@ public class VirtualKeyboard implements Overlay, Runnable {
 	}, {
 			KEY_FIRE
 	}, {
-			KEY_MENU
+			KEY_MENU,
+			KEY_TOGGLE
 	}, {
 			KEY_STICK
 	}};
@@ -229,26 +243,28 @@ public class VirtualKeyboard implements Overlay, Runnable {
 		keypad[KEY_D] = new VirtualKey(Canvas.KEY_SEND, "D");
 
 		keypad[KEY_UP_LEFT] = new DualKey(Canvas.KEY_UP, Canvas.KEY_LEFT, ARROW_UP_LEFT);
-		keypad[KEY_UP] = new VirtualKey(Canvas.KEY_UP, ARROW_UP);
+		keypad[KEY_UP] = new VirtualKey(Canvas.KEY_UP, TRI_UP);
 		keypad[KEY_UP_RIGHT] = new DualKey(Canvas.KEY_UP, Canvas.KEY_RIGHT, ARROW_UP_RIGHT);
 
-		keypad[KEY_LEFT] = new VirtualKey(Canvas.KEY_LEFT, ARROW_LEFT);
-		keypad[KEY_RIGHT] = new VirtualKey(Canvas.KEY_RIGHT, ARROW_RIGHT);
+		keypad[KEY_LEFT] = new VirtualKey(Canvas.KEY_LEFT, TRI_LEFT);
+		keypad[KEY_RIGHT] = new VirtualKey(Canvas.KEY_RIGHT, TRI_RIGHT);
 
 		keypad[KEY_DOWN_LEFT] = new DualKey(Canvas.KEY_DOWN, Canvas.KEY_LEFT, ARROW_DOWN_LEFT);
-		keypad[KEY_DOWN] = new VirtualKey(Canvas.KEY_DOWN, ARROW_DOWN);
+		keypad[KEY_DOWN] = new VirtualKey(Canvas.KEY_DOWN, TRI_DOWN);
 		keypad[KEY_DOWN_RIGHT] = new DualKey(Canvas.KEY_DOWN, Canvas.KEY_RIGHT, ARROW_DOWN_RIGHT);
 
-		keypad[KEY_FIRE] = new VirtualKey(Canvas.KEY_FIRE, "F");
+		keypad[KEY_FIRE] = new VirtualKey(Canvas.KEY_FIRE, "OK");
 		keypad[KEY_MENU] = new MenuKey();
 		keypad[KEY_STICK] = new StickKey();
+		keypad[KEY_TOGGLE] = new ToggleKey();
+		useJarnixColors();
 
 		layoutVariant = readLayoutType();
 
 		if (layoutVariant == -1) {
 			layoutVariant = settings.vkType;
 			if (layoutVariant == TYPE_CUSTOM) {
-				layoutVariant = TYPE_NUM_ARR;
+				layoutVariant = TYPE_JARNIX;
 			}
 		}
 		resetLayout(layoutVariant);
@@ -257,14 +273,66 @@ public class VirtualKeyboard implements Overlay, Runnable {
 				readLayout();
 			} catch (IOException e) {
 				e.printStackTrace();
-				resetLayout(TYPE_NUM_ARR);
-				layoutVariant = TYPE_NUM_ARR;
+				resetLayout(TYPE_JARNIX);
+				layoutVariant = TYPE_JARNIX;
 				saveLayout();
 			}
 		}
 		HandlerThread thread = new HandlerThread("MidletVirtualKeyboard");
 		thread.start();
 		handler = new Handler(thread.getLooper());
+	}
+
+	/** A game still on the old default colors gets JarNix's look (dark keys, white text and border). */
+	private void useJarnixColors() {
+		ProfileModel p = settings;
+		int[] now = {p.vkBgColor, p.vkFgColor, p.vkBgColorSelected, p.vkFgColorSelected, p.vkOutlineColor};
+		if (!Arrays.equals(now, OLD_DEFAULT_COLORS)) return;
+		p.vkBgColor = ProfileModel.JARNIX_VK_BG;
+		p.vkFgColor = ProfileModel.JARNIX_VK_FG;
+		p.vkBgColorSelected = ProfileModel.JARNIX_VK_BG_SELECTED;
+		p.vkFgColorSelected = ProfileModel.JARNIX_VK_FG_SELECTED;
+		p.vkOutlineColor = ProfileModel.JARNIX_VK_OUTLINE;
+	}
+
+	/**
+	 * Gamepad <-> keys (the "Mando" / "123" key and the in-game menu). Each side remembers the
+	 * layout it had, edited (custom) ones too: the custom layout is kept in its own copy.
+	 */
+	public void togglePad() {
+		File memo = new File(saveFile.getPath() + ".toggle");
+		boolean toPad = !padMode;
+		int next = toPad ? TYPE_GAMEPAD : TYPE_JARNIX;
+		try (DataInputStream in = new DataInputStream(new FileInputStream(memo))) {
+			int variant = in.readInt();
+			boolean pad = in.readBoolean();
+			if (pad == toPad) next = variant;
+		} catch (IOException ignored) {
+		}
+		try (java.io.DataOutputStream out = new java.io.DataOutputStream(new java.io.FileOutputStream(memo))) {
+			out.writeInt(layoutVariant);
+			out.writeBoolean(padMode);
+		} catch (IOException e) {
+			Log.w(TAG, "togglePad: ", e);
+		}
+		File mine = new File(saveFile.getPath() + (padMode ? ".pad" : ".keys"));
+		File theirs = new File(saveFile.getPath() + (toPad ? ".pad" : ".keys"));
+		try {
+			if (layoutVariant == TYPE_CUSTOM) FileUtils.copyFileUsingChannel(saveFile, mine);
+			if (next == TYPE_CUSTOM) {
+				if (!theirs.exists()) {
+					next = toPad ? TYPE_GAMEPAD : TYPE_JARNIX;
+				} else {
+					FileUtils.copyFileUsingChannel(theirs, saveFile);
+					// tells updateLabels which kind of custom layout it is
+					if (toPad) padLabelsFile.createNewFile(); else padLabelsFile.delete();
+				}
+			}
+		} catch (IOException e) {
+			Log.w(TAG, "togglePad: ", e);
+			next = toPad ? TYPE_GAMEPAD : TYPE_JARNIX;
+		}
+		setLayout(next);
 	}
 
 	public void onLayoutChanged(int variant) {
@@ -294,7 +362,44 @@ public class VirtualKeyboard implements Overlay, Runnable {
 	private void resetLayout(int variant) {
 		updateLabels(variant);
 		setSnap(KEY_STICK, SCREEN, RectSnap.INT_SOUTHWEST, false); // only the gamepad shows it
+		setSnap(KEY_TOGGLE, SCREEN, RectSnap.INT_NORTH, false); // gamepad <-> keys, see below
 		switch (variant) {
+			case TYPE_JARNIX:
+				// like JarNix: d-pad (OK in the middle) bottom left, numbers bottom right,
+				// left soft key, the gamepad switch and right soft key in a row above them
+				Arrays.fill(keyScales, 1);
+
+				setSnap(KEY_DOWN_LEFT, SCREEN, RectSnap.INT_SOUTHWEST, true);
+				setSnap(KEY_DOWN, KEY_DOWN_LEFT, RectSnap.EXT_EAST, true);
+				setSnap(KEY_DOWN_RIGHT, KEY_DOWN, RectSnap.EXT_EAST, true);
+				setSnap(KEY_LEFT, KEY_DOWN_LEFT, RectSnap.EXT_NORTH, true);
+				setSnap(KEY_RIGHT, KEY_DOWN_RIGHT, RectSnap.EXT_NORTH, true);
+				setSnap(KEY_UP_RIGHT, KEY_RIGHT, RectSnap.EXT_NORTH, true);
+				setSnap(KEY_UP, KEY_UP_RIGHT, RectSnap.EXT_WEST, true);
+				setSnap(KEY_UP_LEFT, KEY_UP, RectSnap.EXT_WEST, true);
+				setSnap(KEY_FIRE, KEY_DOWN_RIGHT, RectSnap.EXT_NORTHWEST, true);
+				setSnap(KEY_POUND, SCREEN, RectSnap.INT_SOUTHEAST, true);
+				setSnap(KEY_NUM0, KEY_POUND, RectSnap.EXT_WEST, true);
+				setSnap(KEY_STAR, KEY_NUM0, RectSnap.EXT_WEST, true);
+				setSnap(KEY_NUM7, KEY_STAR, RectSnap.EXT_NORTH, true);
+				setSnap(KEY_NUM8, KEY_NUM7, RectSnap.EXT_EAST, true);
+				setSnap(KEY_NUM9, KEY_NUM8, RectSnap.EXT_EAST, true);
+				setSnap(KEY_NUM4, KEY_NUM7, RectSnap.EXT_NORTH, true);
+				setSnap(KEY_NUM5, KEY_NUM4, RectSnap.EXT_EAST, true);
+				setSnap(KEY_NUM6, KEY_NUM5, RectSnap.EXT_EAST, true);
+				setSnap(KEY_NUM1, KEY_NUM4, RectSnap.EXT_NORTH, true);
+				setSnap(KEY_NUM2, KEY_NUM1, RectSnap.EXT_EAST, true);
+				setSnap(KEY_NUM3, KEY_NUM2, RectSnap.EXT_EAST, true);
+				setSnap(KEY_SOFT_LEFT, KEY_UP_LEFT, RectSnap.EXT_NORTH, true);
+				setSnap(KEY_TOGGLE, KEY_UP, RectSnap.EXT_NORTH, true);
+				setSnap(KEY_SOFT_RIGHT, KEY_NUM3, RectSnap.EXT_NORTH, true);
+
+				setSnap(KEY_D, KEY_NUM1, RectSnap.EXT_NORTH, false);
+				setSnap(KEY_C, KEY_NUM2, RectSnap.EXT_NORTH, false);
+				setSnap(KEY_A, SCREEN, RectSnap.INT_NORTHWEST, false);
+				setSnap(KEY_B, SCREEN, RectSnap.INT_NORTHEAST, false);
+				setSnap(KEY_MENU, KEY_UP_RIGHT, RectSnap.EXT_NORTH, false);
+				break;
 			case TYPE_GAMEPAD:
 				// like a game controller: d-pad bottom left with the stick above it, A B X Y
 				// diamond bottom right, L and R in the top corners, Select / menu / Start bottom center
@@ -323,6 +428,7 @@ public class VirtualKeyboard implements Overlay, Runnable {
 				setSnap(KEY_MENU, SCREEN, RectSnap.INT_SOUTH, true);
 				setSnap(KEY_SOFT_LEFT, KEY_MENU, RectSnap.EXT_WEST, true);      // Select
 				setSnap(KEY_SOFT_RIGHT, KEY_MENU, RectSnap.EXT_EAST, true);     // Start
+				setSnap(KEY_TOGGLE, KEY_MENU, RectSnap.EXT_NORTH, true);        // keys "123"
 
 				setSnap(KEY_NUM2, SCREEN, RectSnap.INT_NORTH, false);
 				setSnap(KEY_NUM1, KEY_NUM2, RectSnap.EXT_WEST, false);
@@ -564,6 +670,7 @@ public class VirtualKeyboard implements Overlay, Runnable {
 		for (VirtualKey key : keypad) {
 			key.label = key.defaultLabel;
 		}
+		keypad[KEY_TOGGLE].label = pad ? "123" : ContextHolder.getAppContext().getString(R.string.pref_vk_type_gamepad);
 		if (pad) {
 			keypad[KEY_FIRE].label = "A";
 			keypad[KEY_NUM7].label = "B";
@@ -1642,6 +1749,35 @@ public class VirtualKeyboard implements Overlay, Runnable {
 			RectF k = new RectF(cx - kr, cy - kr, cx + kr, cy + kr);
 			g.setFillColor(a | (selected ? settings.vkBgColorSelected : settings.vkFgColor));
 			g.fillArc(k, 0, 360);
+		}
+	}
+
+	/** Switches between the on-screen gamepad and the keys; sends nothing to the game. */
+	private class ToggleKey extends VirtualKey {
+
+		ToggleKey() {
+			super(TOGGLE_KEY_CODE, "123");
+		}
+
+		@Override
+		protected void onDown() {
+			selected = true;
+		}
+
+		@Override
+		public void onUp() {
+			if (!selected) return;
+			selected = false;
+			// after the touch is done: the layout and its keys are rebuilt
+			overlayView.post(VirtualKeyboard.this::togglePad);
+		}
+
+		@Override
+		public void onRepeat() {
+		}
+
+		@Override
+		public void run() {
 		}
 	}
 

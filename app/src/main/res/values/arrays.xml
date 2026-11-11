@@ -66,6 +66,7 @@
         <item>@string/pref_vk_type_numbers</item>
         <item>@string/pref_vk_type_arrows</item>
         <item>@string/pref_vk_type_gamepad</item>
+        <item>@string/pref_vk_type_jarnix</item>
     </string-array>
     <string-array name="pref_button_shape_entries">
         <item>@string/pref_button_shape_oval</item>

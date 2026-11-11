@@ -143,7 +143,7 @@ public class MicroLoader {
 					throw new RuntimeException("App manifest not found! It MUST be on project path:" +
 							" 'app/midlet/resources/MIDLET-META-INF/MANIFEST.MF'");
 				}
-				String text = new String(IOUtils.toByteArray(stream));
+				String text = javax.microedition.util.TextCodec.text(IOUtils.toByteArray(stream));
 				descriptor = new Descriptor(text, false);
 			}
 		}

@@ -37,6 +37,7 @@ import java.util.ArrayList;
 
 public class AndroidMethodVisitor extends MethodVisitor {
 	static boolean USE_PANIC_LOGGING = false;
+	private static final String TEXT_CODEC = "javax/microedition/util/TextCodec";
 	private final ArrayList<Label> exceptionHandlers = new ArrayList<>();
 	private final boolean returnsBoolean;
 	private final MethodRenamer renamer;
@@ -107,13 +108,13 @@ public class AndroidMethodVisitor extends MethodVisitor {
 				}
 				break;
 			case "java/lang/String":
-				if (name.equals("<init>") && desc.startsWith("([B") && !desc.endsWith("Ljava/lang/String;)V")) {
+				// game text: valid UTF-8 is read as UTF-8, otherwise with the game's encoding (see TextCodec)
+				if (opcode == INVOKESPECIAL && name.equals("<init>")
+						&& (desc.equals("([B)V") || desc.equals("([BII)V"))) {
 					injectGetPropertyEncoding();
-					String descriptor = new StringBuilder(desc.length() + 18)
-							.append(desc)
-							.insert(desc.length() - 2, "Ljava/lang/String;")
-							.toString();
-					mv.visitMethodInsn(opcode, owner, name, descriptor, itf);
+					mv.visitMethodInsn(INVOKESTATIC, TEXT_CODEC, "decode",
+							desc.replace(")V", "Ljava/lang/String;)[C"), false);
+					mv.visitMethodInsn(opcode, owner, name, "([C)V", itf);
 					return;
 				} else if (name.equals("getBytes"))
 					if (desc.equals("()[B")) {
@@ -125,6 +126,12 @@ public class AndroidMethodVisitor extends MethodVisitor {
 			case "java/io/InputStreamReader":
 				if (name.equals("<init>") && desc.equals("(Ljava/io/InputStream;)V")) {
 					injectGetPropertyEncoding();
+					mv.visitMethodInsn(INVOKESTATIC, TEXT_CODEC, "stream",
+							"(Ljava/io/InputStream;Ljava/lang/String;)Ljava/io/InputStream;", false);
+					mv.visitInsn(DUP);
+					injectGetPropertyEncoding();
+					mv.visitMethodInsn(INVOKESTATIC, TEXT_CODEC, "readerCharset",
+							"(Ljava/io/InputStream;Ljava/lang/String;)Ljava/lang/String;", false);
 					mv.visitMethodInsn(opcode, owner, name, "(Ljava/io/InputStream;Ljava/lang/String;)V", itf);
 					return;
 				}
@@ -137,9 +144,10 @@ public class AndroidMethodVisitor extends MethodVisitor {
 				}
 				break;
 			case "java/io/ByteArrayOutputStream":
-				if (name.equals("toString") && desc.equals("()Ljava/lang/String;")) {
+				if (opcode == INVOKEVIRTUAL && name.equals("toString") && desc.equals("()Ljava/lang/String;")) {
 					injectGetPropertyEncoding();
-					mv.visitMethodInsn(opcode, owner, name, "(Ljava/lang/String;)Ljava/lang/String;", itf);
+					mv.visitMethodInsn(INVOKESTATIC, TEXT_CODEC, "toString",
+							"(Ljava/io/ByteArrayOutputStream;Ljava/lang/String;)Ljava/lang/String;", false);
 					return;
 				}
 				break;

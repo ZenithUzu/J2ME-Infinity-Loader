@@ -84,7 +84,14 @@ public class Descriptor {
 	}
 
 	public Descriptor(File file, boolean isJad) throws IOException {
-		this(FileUtils.getText(file.getPath()), isJad);
+		// Latin-1 or UTF-8: names like "Peña" or "Fútbol" come out right either way
+		this(readText(file), isJad);
+	}
+
+	private static String readText(File file) throws IOException {
+		try (java.io.FileInputStream in = new java.io.FileInputStream(file)) {
+			return javax.microedition.util.TextCodec.text(ru.playsoftware.j2meloader.util.IOUtils.toByteArray(in));
+		}
 	}
 
 	public int compareVersion(String version) {

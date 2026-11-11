@@ -139,6 +139,11 @@ public class ProfileModel {
 
 	@SerializedName("VirtualKeyboardType")
 	public int vkType;
+	public static final int JARNIX_VK_BG = 0x2E2E33;
+	public static final int JARNIX_VK_FG = 0xFFFFFF;
+	public static final int JARNIX_VK_BG_SELECTED = 0x78AAFF;
+	public static final int JARNIX_VK_FG_SELECTED = 0xFFFFFF;
+	public static final int JARNIX_VK_OUTLINE = 0xE6E6E6;
 
 	@SerializedName("ButtonShape")
 	public int vkButtonShape;
@@ -221,11 +226,13 @@ public class ProfileModel {
 		vkButtonShape = VirtualKeyboard.ROUND_RECT_SHAPE;
 		vkAlpha = 64;
 
-		vkBgColor = 0xD0D0D0;
-		vkFgColor = 0x000080;
-		vkBgColorSelected = 0x000080;
-		vkFgColorSelected = 0xFFFFFF;
-		vkOutlineColor = 0xFFFFFF;
+		// JarNix look: dark keys with a white border and white text, blue when pressed
+		vkType = 8;
+		vkBgColor = JARNIX_VK_BG;
+		vkFgColor = JARNIX_VK_FG;
+		vkBgColorSelected = JARNIX_VK_BG_SELECTED;
+		vkFgColorSelected = JARNIX_VK_FG_SELECTED;
+		vkOutlineColor = JARNIX_VK_OUTLINE;
 		systemProperties = ContextHolder.getAssetAsString("defaults/system.props");
 	}
 }

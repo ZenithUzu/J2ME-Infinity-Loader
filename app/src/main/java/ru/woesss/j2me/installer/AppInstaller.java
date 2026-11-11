@@ -358,7 +358,7 @@ public class AppInstaller {
 				throw new IOException("JAR not have " + JarFile.MANIFEST_NAME);
 			}
 			try (ZipInputStream is = zip.getInputStream(manifest)) {
-				String text = new String(IOUtils.toByteArray(is));
+				String text = javax.microedition.util.TextCodec.text(IOUtils.toByteArray(is));
 				return new Descriptor(text, false);
 			}
 		}

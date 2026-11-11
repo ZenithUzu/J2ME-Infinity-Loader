@@ -36,6 +36,12 @@ public class CanvasWrapper {
 
 		// init text paint
 		Resources res = ContextHolder.getAppContext().getResources();
+		// JarNix look: a thin smooth border and bold labels
+		drawPaint.setAntiAlias(true);
+		fillPaint.setAntiAlias(true);
+		drawPaint.setStrokeWidth(1.5f * res.getDisplayMetrics().density);
+		textPaint.setAntiAlias(true);
+		textPaint.setFakeBoldText(true);
 		Typeface typeface = Typeface.createFromAsset(res.getAssets(), "Roboto-Regular.ttf");
 		textPaint.setTypeface(typeface);
 		textSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, TEXT_SIZE_KEYBOARD, res.getDisplayMetrics());

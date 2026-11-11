@@ -213,6 +213,8 @@
     <string name="message_clear_data">Do you really want to clear app data?</string>
     <string name="PREF_VK_TYPE">Keyboard type</string>
     <string name="pref_vk_type_arrows">Arrows</string>
+    <string name="pref_vk_type_jarnix">JarNix (arrows &amp; numbers)</string>
+    <string name="vk_toggle_pad">Gamepad ↔ keys</string>
     <string name="pref_vk_type_gamepad">Gamepad</string>
     <string name="pref_vk_type_arrows_numbers">Arrows &amp; numbers</string>
     <string name="pref_vk_type_custom">Custom</string>
