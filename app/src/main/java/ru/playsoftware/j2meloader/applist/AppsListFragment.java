@@ -170,7 +170,7 @@ public class AppsListFragment extends Fragment implements MenuProvider {
 		int viewType = preferences.getInt(PREF_APPS_VIEW, AppsListAdapter.LAYOUT_TYPE_GRID);
 		int spanCount;
 		if (viewType == AppsListAdapter.LAYOUT_TYPE_GRID) {
-			spanCount = getResources().getConfiguration().screenWidthDp / 90;
+			spanCount = gridColumns(getResources().getConfiguration().screenWidthDp);
 		} else {
 			spanCount = 1;
 			itemDecoration = new DividerItemDecoration(view.getContext(), DividerItemDecoration.VERTICAL);
@@ -180,7 +180,7 @@ public class AppsListFragment extends Fragment implements MenuProvider {
 		layoutManager = new GridLayoutManager(requireContext(), spanCount);
 		requireActivity().addOnConfigurationChangedListener(configuration -> {
 			if (adapter.getItemViewType(0) == AppsListAdapter.LAYOUT_TYPE_GRID) {
-				layoutManager.setSpanCount(configuration.screenWidthDp / 90);
+				layoutManager.setSpanCount(gridColumns(configuration.screenWidthDp));
 			}
 		});
 		binding.list.setLayoutManager(layoutManager);
@@ -368,6 +368,21 @@ public class AppsListFragment extends Fragment implements MenuProvider {
 			activity.runOnUiThread(() -> Toast.makeText(activity,
 					ok ? R.string.game_imported : R.string.game_import_invalid, Toast.LENGTH_LONG).show());
 		}, "ImportGame").start();
+	}
+
+	/** Grid columns for the chosen icon size (Settings > Library grid). */
+	private int gridColumns(int screenWidthDp) {
+		return Math.max(1, screenWidthDp / (AppsListAdapter.gridIconDp(requireContext()) + 42));
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		// grid settings may have changed in Settings
+		if (layoutManager != null && adapter.getItemViewType(0) == AppsListAdapter.LAYOUT_TYPE_GRID) {
+			layoutManager.setSpanCount(gridColumns(getResources().getConfiguration().screenWidthDp));
+			adapter.notifyDataSetChanged();
+		}
 	}
 
 	private GameCollections collections() {
@@ -796,7 +811,7 @@ public class AppsListFragment extends Fragment implements MenuProvider {
 			}
 			int spanCount;
 			if (viewType == AppsListAdapter.LAYOUT_TYPE_GRID) {
-				spanCount = getResources().getConfiguration().screenWidthDp / 90;
+				spanCount = gridColumns(getResources().getConfiguration().screenWidthDp);
 				if (itemDecoration != null) {
 					binding.list.removeItemDecoration(itemDecoration);
 				}

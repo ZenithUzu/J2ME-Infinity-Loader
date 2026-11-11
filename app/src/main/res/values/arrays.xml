@@ -28,6 +28,16 @@
         <item>@string/pref_orientation_port</item>
         <item>@string/pref_orientation_land</item>
     </string-array>
+    <string-array name="pref_grid_icon_size_entries">
+        <item>@string/pref_grid_icon_small</item>
+        <item>@string/pref_grid_icon_medium</item>
+        <item>@string/pref_grid_icon_large</item>
+    </string-array>
+    <string-array name="pref_grid_icon_size_values" translatable="false">
+        <item>48</item>
+        <item>72</item>
+        <item>96</item>
+    </string-array>
     <string-array name="icon_actions">
         <item>@string/icon_choose</item>
         <item>@string/icon_original</item>

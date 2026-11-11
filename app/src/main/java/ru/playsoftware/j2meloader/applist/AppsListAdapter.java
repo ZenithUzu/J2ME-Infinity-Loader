@@ -108,6 +108,16 @@ class AppsListAdapter extends ListAdapter<AppItem, AppsListAdapter.AppViewHolder
 		this.layout = layout;
 	}
 
+	/** Library grid options (like JL-Mod Plus): icon size, 3:4 icons, hidden titles. */
+	static int gridIconDp(android.content.Context context) {
+		try {
+			return Integer.parseInt(androidx.preference.PreferenceManager.getDefaultSharedPreferences(context)
+					.getString("pref_grid_icon_size", "48"));
+		} catch (NumberFormatException e) {
+			return 48;
+		}
+	}
+
 	static class AppViewHolder extends RecyclerView.ViewHolder {
 		private final ImageView icon;
 		private final TextView name;
@@ -145,6 +155,22 @@ class AppsListAdapter extends ListAdapter<AppItem, AppsListAdapter.AppViewHolder
 			}
 			name.setText(item.getTitle());
 			itemView.setTag(item);
+			if (!(this instanceof AppListViewHolder)) {
+				android.content.Context c = itemView.getContext();
+				android.content.SharedPreferences p =
+						androidx.preference.PreferenceManager.getDefaultSharedPreferences(c);
+				float density = c.getResources().getDisplayMetrics().density;
+				int w = Math.round(gridIconDp(c) * density);
+				// 3:4 portrait tiles suit cover-like icons
+				int h = p.getBoolean("pref_grid_portrait", false) ? w * 4 / 3 : w;
+				android.view.ViewGroup.LayoutParams lp = this.icon.getLayoutParams();
+				if (lp.width != w || lp.height != h) {
+					lp.width = w;
+					lp.height = h;
+					this.icon.setLayoutParams(lp);
+				}
+				name.setVisibility(p.getBoolean("pref_grid_hide_titles", false) ? View.GONE : View.VISIBLE);
+			}
 		}
 	}
 

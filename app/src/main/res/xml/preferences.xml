@@ -66,6 +66,24 @@
         android:icon="@drawable/ic_setting_folder"
         android:title="@string/pref_emulator_dir"
         tools:summary="/sdcard/J2ME-Loader" />
+    <PreferenceCategory android:title="@string/pref_category_library">
+        <ListPreference
+            android:defaultValue="48"
+            android:entries="@array/pref_grid_icon_size_entries"
+            android:entryValues="@array/pref_grid_icon_size_values"
+            android:key="pref_grid_icon_size"
+            android:title="@string/pref_grid_icon_size"
+            app:useSimpleSummaryProvider="true" />
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="pref_grid_portrait"
+            android:summary="@string/pref_grid_portrait_summary"
+            android:title="@string/pref_grid_portrait" />
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="pref_grid_hide_titles"
+            android:title="@string/pref_grid_hide_titles" />
+    </PreferenceCategory>
     <Preference
         android:key="pref_pad_skin"
         android:icon="@drawable/ic_setting_folder"

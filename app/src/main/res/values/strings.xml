@@ -79,6 +79,14 @@
     <string name="PREF_KEEP_ASPECT_RATIO">Keep aspect ratio</string>
     <string name="PREF_FILTER">Filter</string>
     <string name="PREF_IMMEDIATE">Immediate processing mode</string>
+    <string name="pref_category_library">Library grid</string>
+    <string name="pref_grid_icon_size">Icon size</string>
+    <string name="pref_grid_portrait">3:4 icons</string>
+    <string name="pref_grid_portrait_summary">Taller tiles, for cover-like icons</string>
+    <string name="pref_grid_hide_titles">Hide titles</string>
+    <string name="pref_grid_icon_small">Small</string>
+    <string name="pref_grid_icon_medium">Medium</string>
+    <string name="pref_grid_icon_large">Large</string>
     <string name="replace_this">Replace</string>
     <string name="skip_this">Skip</string>
     <string name="replace_all">Replace all</string>

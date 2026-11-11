@@ -61,6 +61,14 @@
     <string name="PREF_KEEP_ASPECT_RATIO">Mantener relación de aspecto</string>
     <string name="PREF_FILTER">Filtro</string>
     <string name="PREF_IMMEDIATE">Modo de procesamiento inmediato</string>
+    <string name="pref_category_library">Rejilla de la biblioteca</string>
+    <string name="pref_grid_icon_size">Tamaño de los iconos</string>
+    <string name="pref_grid_portrait">Iconos 3:4</string>
+    <string name="pref_grid_portrait_summary">Mosaicos más altos, para iconos tipo portada</string>
+    <string name="pref_grid_hide_titles">Ocultar títulos</string>
+    <string name="pref_grid_icon_small">Pequeño</string>
+    <string name="pref_grid_icon_medium">Mediano</string>
+    <string name="pref_grid_icon_large">Grande</string>
     <string name="replace_this">Reemplazar</string>
     <string name="skip_this">Omitir</string>
     <string name="replace_all">Reemplazar todos</string>
