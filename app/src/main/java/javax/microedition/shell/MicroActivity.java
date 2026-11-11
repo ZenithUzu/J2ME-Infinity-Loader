@@ -1113,7 +1113,7 @@ public class MicroActivity extends AppCompatActivity {
 			editorBar = null;
 		});
 		done.setBackgroundTintList(android.content.res.ColorStateList.valueOf(
-				themeColor(com.google.android.material.R.attr.colorPrimary)));
+				themeColor(androidx.appcompat.R.attr.colorPrimary)));
 		done.setTextColor(themeColor(com.google.android.material.R.attr.colorOnPrimary));
 		editorBar = bar;
 		FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
