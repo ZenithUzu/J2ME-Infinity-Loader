@@ -17,7 +17,7 @@ All new options live in **each game's settings**, just like the original J2ME Lo
 - **Anti-flicker** (*Screen*): blends each frame with the previous one. Fixes games that fake transparency with alternating lines or dots, which flicker on a modern screen.
 - **Auto fit** (*Screen*): if a game only draws part of the screen (e.g. 176×208 inside 240×320), only that part is shown. It waits about 12 seconds so a logo does not fool it.
 - **Game speed 0.25×–16×** (in-game menu → *Game speed*): speeds the game up or slows it down. Games installed before this version must be reinstalled.
-- **On-screen gamepad** (in-game menu → keyboard → *Gamepad*): 8-way d-pad, stick, A B X Y, L and R, Select and Start. Move, resize and remap it with the usual editor. It is drawn with a PNG skin; pick your own folder or .zip in *Settings → Gamepad skin*, Citra skins work too.
+- **On-screen gamepad** (in-game menu → keyboard → *Gamepad*): 8-way d-pad, stick, A B X Y, L and R, Select and Start. Move, resize and remap it with the usual editor. It is drawn with Portemon-style buttons; you can use your own picture skin (folder or .zip) in *Settings → Gamepad skin*.
 - **Physical controllers work out of the box**: Xbox, PlayStation and generic pads need no setup (A = OK, B = 7, X = 9, Y = 0, L = \*, R = #, Select/Start = soft keys), and the left stick works like the d-pad. Using a physical controller or keyboard hides the on-screen keys; touching the screen brings them back.
 - **Collections** (main menu and each game's menu): group your games and show only one collection. Includes *★ Favorites* and *Recent* (the last 20 you opened). Removing a game from a collection does not uninstall it.
 - **Vibration you can feel**: on Android 12+ (HyperOS, One UI) vibration is marked as game use so the system does not mute it.
@@ -39,6 +39,10 @@ All new options live in **each game's settings**, just like the original J2ME Lo
 - **Full Spanish text support (ñ, accents, ¿ ¡)**: each game's text is read in the right encoding with no setup: UTF-8 when it is UTF-8, otherwise Latin-1 (windows-1252). So `ñ` no longer shows as `Ã±` or vanishes, in the game and in the library name. Games installed before must be reinstalled. If a game draws text with its own picture font that has no ñ, the emulator cannot fix it.
 - **JarNix-style keypad** (default): d-pad with OK on the left, numbers on the right and soft keys above, dark rounded keys with a white border and bold labels. Move, resize, hide, remap, colors and opacity work as always. Games with a saved layout keep it.
 - **Switch between gamepad and keys in game**: the *Gamepad* key (on the keypad) or *123* (on the gamepad) switches instantly, also from the game menu → *Virtual keyboard* → *Gamepad ↔ keys*. Each one remembers its own layout, even when edited.
+- **New home with adaptive colors (Material You)**: the last game big with *Play*, then Recent and Favorites rows, then all your games. A bottom bar with Games, Collections and Settings, and an *Install* button. On Android 12+ the whole app (library, settings, dialogs and the in-game buttons) takes your wallpaper colors, light and dark; it can be turned off in *Settings → Dynamic colors*.
+- **Portemon-style buttons**: the on-screen gamepad and keypad are drawn like Portemon's (*Modern*: see-through fill; *Outline*: border only), without pictures and sharp at any size. In *Settings → Button style* you can also use the game colors or your own picture skin (folder or .zip; more skins can still be added).
+- **Customize controls in game** (*Quick settings → Customize controls*): move, resize, hide or show buttons (gamepad and keypad each on their own), opacity, button style and reset layout.
+- **Translated**: everything new is in 30 languages besides Spanish and English.
 - **Quick settings** (game menu → *Quick settings*, with the back button): applied at once, without leaving the game, and saved for next time. Show or hide the on-screen keys (or turn the keyboard on if the game had it off), switch gamepad/keys, fit the image to the screen, pick a filter, smooth the image and hide or show the top bar.
 - **Centered screen without controls** (like JarNix): with no keys on screen (off, hidden, or hidden while using a physical controller) the game sits in the middle. When the keys come back it moves to the top to make room.
 - **Install from ZIP**: pick a .zip and the games inside are installed. When installing several, a game that already exists asks whether to replace or skip it (or all).
@@ -95,6 +99,7 @@ Open the project in Android Studio and build the variant you want, or use the co
 - [fuyijian/J2ME-Loader-HD](https://github.com/fuyijian/J2ME-Loader-HD), for supersampling and the install fix.
 - [H3nb/JL-Mod-Plus](https://github.com/H3nb/JL-Mod-Plus), as a reference for controls and library features.
 - [JarNix](https://github.com/ZenithUzu/JarNix-Java-ME-Porting-Toolkit), where the multitouch and rotation ideas come from.
+- [Portemon](https://github.com/ZenithUzu/portemon-pc), for the on-screen button design.
 
 ## License
 
