@@ -195,4 +195,16 @@
     <string name="action_install">Asenna</string>
     <string name="pref_dynamic_colors">Dynaamiset värit</string>
     <string name="pref_dynamic_colors_summary">Sovelluksen värit taustakuvasta (Android 12+)</string>
+    <string name="quick_more">Lisää valintoja</string>
+    <string name="home_start">Aloita pelaaminen</string>
+    <string name="storage_choice_title">Minne pelit tallennetaan?</string>
+    <string name="storage_choice_message">Pelisi ja tallennuksesi ovat nyt kansiossa %1$s, jonka Android poistaa, jos poistat sovelluksen.\n\nVoit pitää ne julkisessa kansiossa %2$s kuten JL-Mod: ne säilyvät poiston jälkeen ja näkyvät missä tahansa tiedostonhallinnassa. Tätä varten Android pyytää ”Pääsyä kaikkiin tiedostoihin”.</string>
+    <string name="storage_use_public">Käytä julkista kansiota</string>
+    <string name="storage_keep_here">Pidä täällä</string>
+    <string name="storage_moving">Siirretään pelejä ja tallennuksia…</string>
+    <string name="storage_moved">Valmis: tietosi ovat nyt kansiossa %1$s</string>
+    <string name="storage_move_failed">Tietoja ei voitu siirtää. Ne pysyvät paikallaan.</string>
+    <string name="storage_not_granted">Lupaa ei annettu: tiedot pysyvät sovelluksen kansiossa.</string>
+    <string name="storage_public_already">Tietosi ovat jo kansiossa %1$s</string>
+    <string name="pref_data_folder">Tietokansio</string>
 </resources>

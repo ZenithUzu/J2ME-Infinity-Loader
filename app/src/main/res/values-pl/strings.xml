@@ -273,4 +273,16 @@
     <string name="action_install">Zainstaluj</string>
     <string name="pref_dynamic_colors">Kolory dynamiczne</string>
     <string name="pref_dynamic_colors_summary">Kolory aplikacji z tapety (Android 12+)</string>
+    <string name="quick_more">Więcej opcji</string>
+    <string name="home_start">Zacznij grać</string>
+    <string name="storage_choice_title">Gdzie trzymać gry?</string>
+    <string name="storage_choice_message">Teraz gry i zapisy są w %1$s, które Android usuwa przy odinstalowaniu aplikacji.\n\nMożesz trzymać je w folderze publicznym %2$s, jak w JL-Mod: zostaną po odinstalowaniu i zobaczysz je w każdym menedżerze plików. W tym celu Android poprosi o „Dostęp do wszystkich plików”.</string>
+    <string name="storage_use_public">Użyj folderu publicznego</string>
+    <string name="storage_keep_here">Zostaw tutaj</string>
+    <string name="storage_moving">Przenoszenie gier i zapisów…</string>
+    <string name="storage_moved">Gotowe: dane są teraz w %1$s</string>
+    <string name="storage_move_failed">Nie udało się przenieść danych. Zostały na miejscu.</string>
+    <string name="storage_not_granted">Brak uprawnienia: dane zostają w folderze aplikacji.</string>
+    <string name="storage_public_already">Dane są już w %1$s</string>
+    <string name="pref_data_folder">Folder danych</string>
 </resources>

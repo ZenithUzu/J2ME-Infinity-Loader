@@ -306,4 +306,16 @@
     <string name="action_install">Εγκατάσταση</string>
     <string name="pref_dynamic_colors">Δυναμικά χρώματα</string>
     <string name="pref_dynamic_colors_summary">Χρώματα εφαρμογής από την ταπετσαρία (Android 12+)</string>
+    <string name="quick_more">Περισσότερα</string>
+    <string name="home_start">Ξεκινήστε να παίζετε</string>
+    <string name="storage_choice_title">Πού να κρατήσετε τα παιχνίδια;</string>
+    <string name="storage_choice_message">Τα παιχνίδια και οι αποθηκεύσεις είναι τώρα στο %1$s, που το Android σβήνει αν απεγκαταστήσετε την εφαρμογή.\n\nΜπορείτε να τα κρατήσετε στον δημόσιο φάκελο %2$s, όπως το JL-Mod: μένουν μετά την απεγκατάσταση και φαίνονται από κάθε διαχειριστή αρχείων. Γι\' αυτό το Android θα ζητήσει «Πρόσβαση σε όλα τα αρχεία».</string>
+    <string name="storage_use_public">Δημόσιος φάκελος</string>
+    <string name="storage_keep_here">Να μείνουν εδώ</string>
+    <string name="storage_moving">Μεταφορά παιχνιδιών και αποθηκεύσεων…</string>
+    <string name="storage_moved">Έτοιμο: τα δεδομένα είναι τώρα στο %1$s</string>
+    <string name="storage_move_failed">Τα δεδομένα δεν μεταφέρθηκαν. Μένουν όπου ήταν.</string>
+    <string name="storage_not_granted">Δεν δόθηκε άδεια: τα δεδομένα μένουν στον φάκελο της εφαρμογής.</string>
+    <string name="storage_public_already">Τα δεδομένα είναι ήδη στο %1$s</string>
+    <string name="pref_data_folder">Φάκελος δεδομένων</string>
 </resources>

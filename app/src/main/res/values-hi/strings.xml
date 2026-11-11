@@ -323,4 +323,16 @@
     <string name="action_install">इंस्टॉल करें</string>
     <string name="pref_dynamic_colors">डायनामिक रंग</string>
     <string name="pref_dynamic_colors_summary">ऐप के रंग वॉलपेपर से लें (Android 12+)</string>
+    <string name="quick_more">और विकल्प</string>
+    <string name="home_start">खेलना शुरू करें</string>
+    <string name="storage_choice_title">गेम कहाँ रखें?</string>
+    <string name="storage_choice_message">अभी आपके गेम और सेव %1$s में हैं, जिसे ऐप अनइंस्टॉल करने पर Android मिटा देता है।\n\nआप इन्हें JL-Mod की तरह सार्वजनिक फ़ोल्डर %2$s में रख सकते हैं: अनइंस्टॉल के बाद भी रहते हैं और किसी भी फ़ाइल मैनेजर से दिखते हैं। इसके लिए Android “सभी फ़ाइलों का एक्सेस” माँगेगा।</string>
+    <string name="storage_use_public">सार्वजनिक फ़ोल्डर इस्तेमाल करें</string>
+    <string name="storage_keep_here">यहीं रखें</string>
+    <string name="storage_moving">गेम और सेव ले जा रहे हैं…</string>
+    <string name="storage_moved">हो गया: आपका डेटा अब %1$s में है</string>
+    <string name="storage_move_failed">डेटा नहीं ले जा सके। वह वहीं है।</string>
+    <string name="storage_not_granted">अनुमति नहीं मिली: डेटा ऐप फ़ोल्डर में ही रहेगा।</string>
+    <string name="storage_public_already">आपका डेटा पहले से %1$s में है</string>
+    <string name="pref_data_folder">डेटा फ़ोल्डर</string>
 </resources>

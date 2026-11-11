@@ -290,4 +290,16 @@
     <string name="action_install">Инсталиране</string>
     <string name="pref_dynamic_colors">Динамични цветове</string>
     <string name="pref_dynamic_colors_summary">Цветовете на приложението от тапета (Android 12+)</string>
+    <string name="quick_more">Още опции</string>
+    <string name="home_start">Започнете да играете</string>
+    <string name="storage_choice_title">Къде да пазите игрите?</string>
+    <string name="storage_choice_message">Сега игрите и записите са в %1$s, която Android изтрива при деинсталиране.\n\nМожете да ги пазите в публичната папка %2$s, както JL-Mod: остават след деинсталиране и се виждат с всеки файлов мениджър. За това Android ще поиска „Достъп до всички файлове“.</string>
+    <string name="storage_use_public">Публичната папка</string>
+    <string name="storage_keep_here">Остави ги тук</string>
+    <string name="storage_moving">Преместване на игрите и записите…</string>
+    <string name="storage_moved">Готово: данните са в %1$s</string>
+    <string name="storage_move_failed">Данните не бяха преместени. Остават където бяха.</string>
+    <string name="storage_not_granted">Разрешението не е дадено: данните остават в папката на приложението.</string>
+    <string name="storage_public_already">Данните вече са в %1$s</string>
+    <string name="pref_data_folder">Папка с данни</string>
 </resources>

@@ -47,6 +47,8 @@ class HomeHeaderAdapter extends RecyclerView.Adapter<HomeHeaderAdapter.Holder> {
 	private final List<AppItem> recent = new ArrayList<>();
 	private final List<AppItem> favorites = new ArrayList<>();
 	private int total;
+	/** first game of the library, for the big card before anything was played */
+	private AppItem first;
 	private boolean shown;
 
 	HomeHeaderAdapter(View.OnCreateContextMenuListener contextMenuListener) {
@@ -68,6 +70,7 @@ class HomeHeaderAdapter extends RecyclerView.Adapter<HomeHeaderAdapter.Holder> {
 			if (fav.contains(item.getPath())) favorites.add(item);
 		}
 		total = all.size();
+		first = all.isEmpty() ? null : all.get(0);
 		boolean was = shown;
 		shown = show && total > 0;
 		if (was && shown) notifyItemChanged(0);
@@ -94,7 +97,8 @@ class HomeHeaderAdapter extends RecyclerView.Adapter<HomeHeaderAdapter.Holder> {
 	@Override
 	public void onBindViewHolder(@NonNull Holder h, int position) {
 		Context c = h.itemView.getContext();
-		AppItem last = recent.isEmpty() ? null : recent.get(0);
+		AppItem last = recent.isEmpty() ? first : recent.get(0);
+		h.b.heroLabel.setText(recent.isEmpty() ? R.string.home_start : R.string.home_continue);
 		h.b.hero.setVisibility(last == null ? View.GONE : View.VISIBLE);
 		if (last != null) {
 			h.b.heroTitle.setText(last.getTitle());

@@ -84,6 +84,11 @@ public class MicroLoader {
 	private final File appDir;
 	private final Context context;
 	private final String workDir;
+
+	/** The filters folder of this game's work folder (also right in the game's own process). */
+	String getShadersDir() {
+		return workDir + Config.SHADERS_DIR;
+	}
 	private final String appDirName;
 
 	MicroLoader(Context context, String appPath) {

@@ -223,4 +223,16 @@
     <string name="action_install">ଇନଷ୍ଟଲ କରନ୍ତୁ</string>
     <string name="pref_dynamic_colors">ଡାଇନାମିକ ରଙ୍ଗ</string>
     <string name="pref_dynamic_colors_summary">ୱାଲପେପରରୁ ଆପ ରଙ୍ଗ ନିଅନ୍ତୁ (Android 12+)</string>
+    <string name="quick_more">ଅଧିକ ବିକଳ୍ପ</string>
+    <string name="home_start">ଖେଳିବା ଆରମ୍ଭ କରନ୍ତୁ</string>
+    <string name="storage_choice_title">ଖେଳ କେଉଁଠି ରଖିବେ?</string>
+    <string name="storage_choice_message">ଏବେ ଆପଣଙ୍କ ଖେଳ ଓ ସେଭ %1$s ରେ ଅଛି, ଆପ ଅନଇନଷ୍ଟଲ କଲେ Android ଏହାକୁ ଲିଭାଇଦିଏ।\n\nJL-Mod ଭଳି ଏଗୁଡ଼ିକୁ ସାର୍ବଜନୀନ ଫୋଲ୍ଡର %2$s ରେ ରଖିପାରିବେ: ଅନଇନଷ୍ଟଲ ପରେ ବି ରହେ ଓ ଯେକୌଣସି ଫାଇଲ ମ୍ୟାନେଜରରେ ଦେଖାଯାଏ। ଏଥିପାଇଁ Android “ସମସ୍ତ ଫାଇଲ ଆକ୍ସେସ” ମାଗିବ।</string>
+    <string name="storage_use_public">ସାର୍ବଜନୀନ ଫୋଲ୍ଡର ବ୍ୟବହାର କରନ୍ତୁ</string>
+    <string name="storage_keep_here">ଏଠାରେ ରଖନ୍ତୁ</string>
+    <string name="storage_moving">ଖେଳ ଓ ସେଭ ଘୁଞ୍ଚାଯାଉଛି…</string>
+    <string name="storage_moved">ହେଲା: ଡାଟା ଏବେ %1$s ରେ ଅଛି</string>
+    <string name="storage_move_failed">ଡାଟା ଘୁଞ୍ଚାଯାଇପାରିଲା ନାହିଁ। ପୂର୍ବ ସ୍ଥାନରେ ଅଛି।</string>
+    <string name="storage_not_granted">ଅନୁମତି ମିଳିଲା ନାହିଁ: ଡାଟା ଆପ ଫୋଲ୍ଡରରେ ରହିବ।</string>
+    <string name="storage_public_already">ଆପଣଙ୍କ ଡାଟା ପୂର୍ବରୁ %1$s ରେ ଅଛି</string>
+    <string name="pref_data_folder">ଡାଟା ଫୋଲ୍ଡର</string>
 </resources>

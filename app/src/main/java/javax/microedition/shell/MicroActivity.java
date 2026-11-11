@@ -49,6 +49,9 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -546,7 +549,12 @@ public class MicroActivity extends AppCompatActivity {
 	public boolean onKeyUp(int keyCode, KeyEvent event) {
 		if ((keyCode == menuKey || keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_MENU)
 				&& (event.getFlags() & (KeyEvent.FLAG_LONG_PRESS | KeyEvent.FLAG_CANCELED)) == 0) {
-			openOptionsMenu();
+			// Back opens the quick panel in the game; the menu key still opens the full menu
+			if (keyCode == KeyEvent.KEYCODE_BACK && current instanceof Canvas) {
+				showQuickPanel();
+			} else {
+				openOptionsMenu();
+			}
 			return true;
 		}
 		return super.onKeyUp(keyCode, event);
@@ -783,6 +791,137 @@ public class MicroActivity extends AppCompatActivity {
 				.show();
 	}
 
+	/**
+	 * Quick panel (like JarNix): opens with Back. Big tiles that act at once; "More options"
+	 * opens the full menu. A long press on Back still asks to exit.
+	 */
+	private void showQuickPanel() {
+		VirtualKeyboard vk = ContextHolder.getVk();
+		com.google.android.material.bottomsheet.BottomSheetDialog sheet =
+				new com.google.android.material.bottomsheet.BottomSheetDialog(this);
+		float dp = getResources().getDisplayMetrics().density;
+		LinearLayout root = new LinearLayout(this);
+		root.setOrientation(LinearLayout.VERTICAL);
+		int pad = (int) (16 * dp);
+		root.setPadding(pad, pad / 2, pad, pad);
+		TextView title = new TextView(this);
+		title.setText(R.string.quick_settings);
+		title.setTextAppearance(com.google.android.material.R.style.TextAppearance_Material3_TitleLarge);
+		title.setPadding((int) (4 * dp), 0, 0, (int) (12 * dp));
+		root.addView(title);
+
+		java.util.ArrayList<Object[]> tiles = new java.util.ArrayList<>();
+		boolean keysHidden = vk == null || vk.isUserHidden();
+		tiles.add(new Object[]{R.drawable.ic_q_keys, getString(keysHidden ? R.string.quick_keyboard_show
+				: R.string.quick_keyboard_hide), !keysHidden, (Runnable) () -> {
+			if (vk == null || vk.isUserHidden()) showKeyboardNow(); else vk.setUserHidden(true);
+		}});
+		if (vk != null) {
+			tiles.add(new Object[]{R.drawable.ic_q_pad, getString(R.string.vk_toggle_pad), false, (Runnable) () -> {
+				vk.setUserHidden(false);
+				vk.togglePad();
+			}});
+			tiles.add(new Object[]{R.drawable.ic_q_move, getString(R.string.quick_move_controls), false,
+					(Runnable) () -> {
+						vk.setUserHidden(false);
+						handleVkOptions(R.id.action_layout_edit_mode);
+						toastEditDone();
+					}});
+			tiles.add(new Object[]{R.drawable.ic_q_hide, getString(R.string.hide_buttons), false,
+					(Runnable) this::showHideButtonDialog});
+		}
+		tiles.add(new Object[]{R.drawable.ic_q_fit, getString(R.string.quick_scale), false,
+				(Runnable) this::showQuickScale});
+		ShaderInfo shader = Canvas.getShaderFilter();
+		tiles.add(new Object[]{R.drawable.ic_q_filter, shader == null ? getString(R.string.quick_filter)
+				: getString(R.string.quick_filter) + ": " + shader, shader != null, (Runnable) this::showQuickFilter});
+		tiles.add(new Object[]{R.drawable.ic_q_speed, getString(R.string.PREF_GAME_SPEED), false,
+				(Runnable) this::showGameSpeedDialog});
+		if (current instanceof Canvas) {
+			tiles.add(new Object[]{R.drawable.ic_q_shot, getString(R.string.take_screenshot), false,
+					(Runnable) this::takeScreenshot});
+		}
+		tiles.add(new Object[]{R.drawable.ic_q_more, getString(R.string.quick_more), false,
+				(Runnable) this::openOptionsMenu});
+		if (vk != null) {
+			tiles.add(new Object[]{R.drawable.ic_q_pad, getString(R.string.quick_controls), false,
+					(Runnable) this::showControlsMenu});
+		}
+
+		LinearLayout row = null;
+		for (int i = 0; i < tiles.size(); i++) {
+			if (i % 3 == 0) {
+				row = new LinearLayout(this);
+				root.addView(row);
+			}
+			Object[] t = tiles.get(i);
+			row.addView(quickTile((Integer) t[0], (String) t[1], (Boolean) t[2], () -> {
+				sheet.dismiss();
+				((Runnable) t[3]).run();
+			}, dp), new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
+		}
+		for (int i = tiles.size() % 3; i != 0 && i < 3; i++) {
+			row.addView(new View(this), new LinearLayout.LayoutParams(0, 1, 1));
+		}
+
+		if (vk != null) {
+			TextView label = new TextView(this);
+			label.setText(R.string.quick_opacity);
+			label.setPadding((int) (4 * dp), (int) (14 * dp), 0, 0);
+			root.addView(label);
+			com.google.android.material.slider.Slider slider = new com.google.android.material.slider.Slider(this);
+			slider.setValueFrom(0);
+			slider.setValueTo(255);
+			slider.setStepSize(1);
+			slider.setValue(vk.getAlpha());
+			slider.addOnChangeListener((s, value, user) -> vk.setAlpha((int) value));
+			root.addView(slider);
+			sheet.setOnDismissListener(d -> ProfilesManager.saveConfig(microLoader.params));
+		}
+		sheet.setContentView(root);
+		sheet.show();
+	}
+
+	/** One tile of the quick panel: icon over text, highlighted when that option is on. */
+	private View quickTile(int icon, String text, boolean on, Runnable action, float dp) {
+		com.google.android.material.card.MaterialCardView card =
+				new com.google.android.material.card.MaterialCardView(this);
+		card.setRadius(18 * dp);
+		card.setCardElevation(0);
+		card.setStrokeWidth(0);
+		int bg = com.google.android.material.color.MaterialColors.getColor(card, on
+				? com.google.android.material.R.attr.colorPrimaryContainer
+				: com.google.android.material.R.attr.colorSurfaceContainerHighest);
+		int fg = com.google.android.material.color.MaterialColors.getColor(card, on
+				? com.google.android.material.R.attr.colorOnPrimaryContainer
+				: com.google.android.material.R.attr.colorOnSurface);
+		card.setCardBackgroundColor(bg);
+		LinearLayout box = new LinearLayout(this);
+		box.setOrientation(LinearLayout.VERTICAL);
+		int p = (int) (12 * dp);
+		box.setPadding(p, p, p, p);
+		box.setMinimumHeight((int) (84 * dp));
+		ImageView image = new ImageView(this);
+		image.setImageResource(icon);
+		image.setColorFilter(fg);
+		box.addView(image, new LinearLayout.LayoutParams((int) (26 * dp), (int) (26 * dp)));
+		TextView label = new TextView(this);
+		label.setText(text);
+		label.setTextColor(fg);
+		label.setTextSize(13);
+		label.setMaxLines(2);
+		label.setEllipsize(android.text.TextUtils.TruncateAt.END);
+		label.setPadding(0, (int) (8 * dp), 0, 0);
+		box.addView(label);
+		card.addView(box);
+		card.setOnClickListener(v -> action.run());
+		FrameLayout holder = new FrameLayout(this);
+		int m = (int) (5 * dp);
+		holder.setPadding(m, m, m, m);
+		holder.addView(card);
+		return holder;
+	}
+
 	/** Like JarNix: everything about the on-screen controls from inside the game. */
 	private void showControlsMenu() {
 		VirtualKeyboard vk = ContextHolder.getVk();
@@ -893,7 +1032,8 @@ public class MicroActivity extends AppCompatActivity {
 			Toast.makeText(this, R.string.quick_filter_gl_only, Toast.LENGTH_LONG).show();
 			return;
 		}
-		File dir = new File(Config.getShadersDir());
+		// the game runs in its own process: use its work folder, like when the game starts
+		File dir = new File(microLoader.getShadersDir());
 		Filters.installBundled(this, dir);
 		java.util.ArrayList<ShaderInfo> list = Filters.list(dir);
 		list.add(0, null); // no filter
@@ -906,7 +1046,7 @@ public class MicroActivity extends AppCompatActivity {
 				.setSingleChoiceItems(names, checked, (d, w) -> {
 					ShaderInfo shader = list.get(w);
 					if (shader != null) {
-						shader.dir = dir.getPath();
+						shader.dir = dir.getPath() + "/";
 						shader.values = Filters.defaultValues(shader);
 					}
 					microLoader.params.shader = shader;

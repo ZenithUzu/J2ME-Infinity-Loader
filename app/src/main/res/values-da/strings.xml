@@ -197,4 +197,16 @@
     <string name="action_install">Installér</string>
     <string name="pref_dynamic_colors">Dynamiske farver</string>
     <string name="pref_dynamic_colors_summary">Appens farver fra din baggrund (Android 12+)</string>
+    <string name="quick_more">Flere valg</string>
+    <string name="home_start">Begynd at spille</string>
+    <string name="storage_choice_title">Hvor skal dine spil ligge?</string>
+    <string name="storage_choice_message">Dine spil og gemte spil ligger nu i %1$s, som Android sletter, hvis du afinstallerer appen.\n\nDu kan i stedet gemme dem i den offentlige mappe %2$s, som JL-Mod gør: de overlever afinstallation og kan ses med enhver filhåndtering. Til det beder Android om “Adgang til alle filer”.</string>
+    <string name="storage_use_public">Brug den offentlige mappe</string>
+    <string name="storage_keep_here">Lad dem ligge her</string>
+    <string name="storage_moving">Flytter spil og gemte spil…</string>
+    <string name="storage_moved">Færdig: dine data ligger nu i %1$s</string>
+    <string name="storage_move_failed">Dataene kunne ikke flyttes. De bliver, hvor de var.</string>
+    <string name="storage_not_granted">Ingen tilladelse: dine data bliver i appens mappe.</string>
+    <string name="storage_public_already">Dine data ligger allerede i %1$s</string>
+    <string name="pref_data_folder">Datamappe</string>
 </resources>

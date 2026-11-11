@@ -209,4 +209,16 @@
     <string name="action_install">ติดตั้ง</string>
     <string name="pref_dynamic_colors">สีแบบไดนามิก</string>
     <string name="pref_dynamic_colors_summary">ใช้สีแอปจากวอลเปเปอร์ (Android 12 ขึ้นไป)</string>
+    <string name="quick_more">ตัวเลือกเพิ่มเติม</string>
+    <string name="home_start">เริ่มเล่น</string>
+    <string name="storage_choice_title">จะเก็บเกมไว้ที่ไหน?</string>
+    <string name="storage_choice_message">ตอนนี้เกมและเซฟอยู่ใน %1$s ซึ่ง Android จะลบเมื่อถอนการติดตั้งแอป\n\nคุณเก็บไว้ในโฟลเดอร์สาธารณะ %2$s แบบ JL-Mod ได้: ไม่หายเมื่อถอนการติดตั้งและเปิดดูได้จากตัวจัดการไฟล์ใดก็ได้ โดย Android จะขอ “สิทธิ์เข้าถึงไฟล์ทั้งหมด”</string>
+    <string name="storage_use_public">ใช้โฟลเดอร์สาธารณะ</string>
+    <string name="storage_keep_here">เก็บไว้ที่นี่</string>
+    <string name="storage_moving">กำลังย้ายเกมและเซฟ…</string>
+    <string name="storage_moved">เสร็จแล้ว: ข้อมูลอยู่ที่ %1$s</string>
+    <string name="storage_move_failed">ย้ายข้อมูลไม่ได้ ข้อมูลยังอยู่ที่เดิม</string>
+    <string name="storage_not_granted">ไม่ได้รับสิทธิ์: ข้อมูลยังอยู่ในโฟลเดอร์ของแอป</string>
+    <string name="storage_public_already">ข้อมูลอยู่ที่ %1$s แล้ว</string>
+    <string name="pref_data_folder">โฟลเดอร์ข้อมูล</string>
 </resources>

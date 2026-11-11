@@ -323,4 +323,16 @@
     <string name="action_install">Instalar</string>
     <string name="pref_dynamic_colors">Colores dinámicos</string>
     <string name="pref_dynamic_colors_summary">Toma los colores de la app de tu fondo de pantalla (Android 12+)</string>
+    <string name="quick_more">Más opciones</string>
+    <string name="home_start">Empieza a jugar</string>
+    <string name="storage_choice_title">¿Dónde guardar tus juegos?</string>
+    <string name="storage_choice_message">Ahora tus juegos y partidas están en %1$s, que Android borra si desinstalas la app.\n\nPuedes guardarlos en la carpeta pública %2$s, como hace JL-Mod: no se borran al desinstalar y los ves con cualquier explorador de archivos. Para eso Android pedirá “Acceso a todos los archivos”.</string>
+    <string name="storage_use_public">Usar la carpeta pública</string>
+    <string name="storage_keep_here">Dejarlos aquí</string>
+    <string name="storage_moving">Moviendo tus juegos y partidas…</string>
+    <string name="storage_moved">Listo: tus datos ahora están en %1$s</string>
+    <string name="storage_move_failed">No se pudieron mover los datos. Siguen donde estaban.</string>
+    <string name="storage_not_granted">No se dio el permiso: tus datos siguen en la carpeta de la app.</string>
+    <string name="storage_public_already">Tus datos ya están en %1$s</string>
+    <string name="pref_data_folder">Carpeta de datos</string>
 </resources>

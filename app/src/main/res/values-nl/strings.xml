@@ -275,4 +275,16 @@
     <string name="action_install">Installeren</string>
     <string name="pref_dynamic_colors">Dynamische kleuren</string>
     <string name="pref_dynamic_colors_summary">App-kleuren uit je achtergrond (Android 12+)</string>
+    <string name="quick_more">Meer opties</string>
+    <string name="home_start">Begin met spelen</string>
+    <string name="storage_choice_title">Waar bewaar je je spellen?</string>
+    <string name="storage_choice_message">Je spellen en opslagen staan nu in %1$s, dat Android wist als je de app verwijdert.\n\nJe kunt ze ook in de openbare map %2$s bewaren, zoals JL-Mod: ze blijven bewaard na verwijderen en zijn met elke bestandsbeheerder te zien. Daarvoor vraagt Android om „Toegang tot alle bestanden”.</string>
+    <string name="storage_use_public">Openbare map gebruiken</string>
+    <string name="storage_keep_here">Hier laten</string>
+    <string name="storage_moving">Spellen en opslagen verplaatsen…</string>
+    <string name="storage_moved">Klaar: je gegevens staan nu in %1$s</string>
+    <string name="storage_move_failed">Kon de gegevens niet verplaatsen. Ze blijven waar ze waren.</string>
+    <string name="storage_not_granted">Geen toestemming: je gegevens blijven in de app-map.</string>
+    <string name="storage_public_already">Je gegevens staan al in %1$s</string>
+    <string name="pref_data_folder">Gegevensmap</string>
 </resources>

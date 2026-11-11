@@ -323,4 +323,16 @@
     <string name="action_install">Pasang</string>
     <string name="pref_dynamic_colors">Warna dinamis</string>
     <string name="pref_dynamic_colors_summary">Ambil warna aplikasi dari wallpaper (Android 12+)</string>
+    <string name="quick_more">Opsi lainnya</string>
+    <string name="home_start">Mulai bermain</string>
+    <string name="storage_choice_title">Di mana game disimpan?</string>
+    <string name="storage_choice_message">Saat ini game dan simpanan ada di %1$s, yang dihapus Android jika aplikasi dicopot.\n\nAnda bisa menyimpannya di folder publik %2$s seperti JL-Mod: tetap ada setelah dicopot dan terlihat di pengelola file mana pun. Untuk itu Android akan meminta “Akses ke semua file”.</string>
+    <string name="storage_use_public">Pakai folder publik</string>
+    <string name="storage_keep_here">Biarkan di sini</string>
+    <string name="storage_moving">Memindahkan game dan simpanan…</string>
+    <string name="storage_moved">Selesai: data kini ada di %1$s</string>
+    <string name="storage_move_failed">Data tidak dapat dipindahkan. Tetap di tempat semula.</string>
+    <string name="storage_not_granted">Izin tidak diberikan: data tetap di folder aplikasi.</string>
+    <string name="storage_public_already">Data sudah ada di %1$s</string>
+    <string name="pref_data_folder">Folder data</string>
 </resources>

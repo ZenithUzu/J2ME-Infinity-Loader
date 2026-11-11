@@ -156,6 +156,15 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 	@Override
 	public void onCreatePreferences(Bundle bundle, String s) {
 		addPreferencesFromResource(R.xml.preferences);
+		// where games and saves live; a public folder survives uninstalling (like JL-Mod)
+		androidx.preference.Preference folder = findPreference("pref_data_folder");
+		if (folder != null) {
+			folder.setSummary(ru.playsoftware.j2meloader.config.Config.getEmulatorDir());
+			folder.setOnPreferenceClickListener(p -> {
+				ru.playsoftware.j2meloader.util.StorageChoice.ask(requireActivity());
+				return true;
+			});
+		}
 		// new colors are seen at once
 		androidx.preference.Preference dyn = findPreference("pref_dynamic_colors");
 		if (dyn != null) dyn.setOnPreferenceChangeListener((p, v) -> {

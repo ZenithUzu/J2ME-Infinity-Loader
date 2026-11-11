@@ -226,4 +226,16 @@
     <string name="action_install">ইনস্টল করুন</string>
     <string name="pref_dynamic_colors">ডায়নামিক রং</string>
     <string name="pref_dynamic_colors_summary">ওয়ালপেপার থেকে অ্যাপের রং নিন (Android 12+)</string>
+    <string name="quick_more">আরও বিকল্প</string>
+    <string name="home_start">খেলা শুরু করুন</string>
+    <string name="storage_choice_title">গেম কোথায় রাখবেন?</string>
+    <string name="storage_choice_message">এখন আপনার গেম ও সেভ %1$s-এ আছে, অ্যাপ আনইনস্টল করলে Android এটি মুছে দেয়।\n\nJL-Mod-এর মতো এগুলো পাবলিক ফোল্ডার %2$s-এ রাখতে পারেন: আনইনস্টলের পরেও থাকে এবং যেকোনো ফাইল ম্যানেজারে দেখা যায়। এর জন্য Android “সব ফাইলে অ্যাক্সেস” চাইবে।</string>
+    <string name="storage_use_public">পাবলিক ফোল্ডার ব্যবহার করুন</string>
+    <string name="storage_keep_here">এখানেই রাখুন</string>
+    <string name="storage_moving">গেম ও সেভ সরানো হচ্ছে…</string>
+    <string name="storage_moved">হয়ে গেছে: আপনার ডেটা এখন %1$s-এ</string>
+    <string name="storage_move_failed">ডেটা সরানো গেল না। আগের জায়গাতেই আছে।</string>
+    <string name="storage_not_granted">অনুমতি দেওয়া হয়নি: ডেটা অ্যাপের ফোল্ডারেই থাকবে।</string>
+    <string name="storage_public_already">আপনার ডেটা ইতিমধ্যে %1$s-এ আছে</string>
+    <string name="pref_data_folder">ডেটা ফোল্ডার</string>
 </resources>

@@ -321,4 +321,16 @@
     <string name="action_install">Yükle</string>
     <string name="pref_dynamic_colors">Dinamik renkler</string>
     <string name="pref_dynamic_colors_summary">Uygulama renklerini duvar kâğıdından al (Android 12+)</string>
+    <string name="quick_more">Diğer seçenekler</string>
+    <string name="home_start">Oynamaya başla</string>
+    <string name="storage_choice_title">Oyunların nerede dursun?</string>
+    <string name="storage_choice_message">Oyunların ve kayıtların şu an %1$s içinde; uygulamayı kaldırırsan Android bunu siler.\n\nOnları JL-Mod gibi ortak %2$s klasöründe tutabilirsin: kaldırınca silinmez ve her dosya yöneticisinden görünür. Bunun için Android “Tüm dosyalara erişim” isteyecek.</string>
+    <string name="storage_use_public">Ortak klasörü kullan</string>
+    <string name="storage_keep_here">Burada kalsın</string>
+    <string name="storage_moving">Oyunlar ve kayıtlar taşınıyor…</string>
+    <string name="storage_moved">Tamam: verilerin artık %1$s içinde</string>
+    <string name="storage_move_failed">Veriler taşınamadı. Oldukları yerde kaldılar.</string>
+    <string name="storage_not_granted">İzin verilmedi: veriler uygulama klasöründe kalıyor.</string>
+    <string name="storage_public_already">Verilerin zaten %1$s içinde</string>
+    <string name="pref_data_folder">Veri klasörü</string>
 </resources>

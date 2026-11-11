@@ -416,4 +416,16 @@
     <string name="action_install">Install</string>
     <string name="pref_dynamic_colors">Dynamic colors</string>
     <string name="pref_dynamic_colors_summary">Take the app colors from your wallpaper (Android 12+)</string>
+    <string name="quick_more">More options</string>
+    <string name="home_start">Start playing</string>
+    <string name="storage_choice_title">Where to keep your games?</string>
+    <string name="storage_choice_message">Right now your games and saves are in %1$s, which Android deletes if you uninstall the app.\n\nYou can keep them in the public folder %2$s instead, like JL-Mod does: they survive uninstalling and you can reach them with any file manager. For that, Android will ask for “All files access”.</string>
+    <string name="storage_use_public">Use the public folder</string>
+    <string name="storage_keep_here">Keep them here</string>
+    <string name="storage_moving">Moving your games and saves…</string>
+    <string name="storage_moved">Done: your data is now in %1$s</string>
+    <string name="storage_move_failed">Could not move the data. It stays where it was.</string>
+    <string name="storage_not_granted">Permission not given: your data stays in the app folder.</string>
+    <string name="storage_public_already">Your data is already in %1$s</string>
+    <string name="pref_data_folder">Data folder</string>
 </resources>

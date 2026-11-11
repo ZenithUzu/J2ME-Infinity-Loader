@@ -229,7 +229,13 @@ public class FileUtils {
 	}
 
 	public static boolean isExternalStorageLegacy() {
-		return Build.VERSION.SDK_INT < Build.VERSION_CODES.Q || Environment.isExternalStorageLegacy();
+		return Build.VERSION.SDK_INT < Build.VERSION_CODES.Q || Environment.isExternalStorageLegacy()
+				|| hasAllFilesAccess();
+	}
+
+	/** Android 11+: the user gave "all files access" to use the public data folder. */
+	public static boolean hasAllFilesAccess() {
+		return Build.VERSION.SDK_INT >= Build.VERSION_CODES.R && Environment.isExternalStorageManager();
 	}
 
 	public static ActivityResultContract<String, List<Uri>> getFilePicker() {

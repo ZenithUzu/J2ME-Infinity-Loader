@@ -57,6 +57,7 @@ public class Config {
 	public static final String MIDLET_RES_FILE = "/res.jar";
 	public static final String SCREENSHOTS_DIR;
 	public static final String SHADERS_DIR = "/shaders/";
+	public static final String PUBLIC_DIR = "J2ME-Infinity";
 	public static final String SOUNDBANKS_DIR = "/soundbanks/";
 	public static final String APPS_DB_NAME = "/J2ME-apps.db";
 
@@ -87,7 +88,8 @@ public class Config {
 				preferences.getString(PREF_EMULATOR_DIR, null) :
 				context.getExternalFilesDir(null).getPath();
 		if (path == null) {
-			path = Environment.getExternalStorageDirectory() + "/" + appName;
+			// public folder of this fork (kept when the app is uninstalled), not J2ME Loader's
+			path = Environment.getExternalStorageDirectory() + "/" + PUBLIC_DIR;
 		}
 		initDirs(path);
 		preferences.registerOnSharedPreferenceChangeListener(sPrefListener);

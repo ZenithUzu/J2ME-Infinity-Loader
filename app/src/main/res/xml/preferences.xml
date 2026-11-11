@@ -114,6 +114,10 @@
         android:summary="@string/pref_pad_skin_summary"
         android:title="@string/pref_pad_skin" />
     <Preference
+        android:icon="@drawable/ic_setting_folder"
+        android:key="pref_data_folder"
+        android:title="@string/pref_data_folder" />
+    <Preference
         android:key="pref_backup"
         android:icon="@drawable/ic_setting_backup"
         android:summary="@string/pref_backup_summary"

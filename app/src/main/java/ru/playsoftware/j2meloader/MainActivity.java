@@ -39,6 +39,7 @@ import java.util.Map;
 
 import ru.playsoftware.j2meloader.applist.AppListModel;
 import ru.playsoftware.j2meloader.applist.AppsListFragment;
+import ru.playsoftware.j2meloader.util.StorageChoice;
 import ru.playsoftware.j2meloader.base.BaseActivity;
 import ru.playsoftware.j2meloader.config.Config;
 import ru.playsoftware.j2meloader.util.FileUtils;
@@ -66,7 +67,9 @@ public class MainActivity extends BaseActivity {
 	public void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		if (FileUtils.isExternalStorageLegacy()) {
+		if (FileUtils.hasAllFilesAccess()) {
+			checkAndCreateDirs(); // nothing more to ask
+		} else if (FileUtils.isExternalStorageLegacy()) {
 			permissionsLauncher.launch(STORAGE_PERMISSIONS);
 		}
 		appListModel = new ViewModelProvider(this).get(AppListModel.class);
@@ -87,7 +90,7 @@ public class MainActivity extends BaseActivity {
 		}
 		boolean warningShown = preferences.getBoolean(PREF_STORAGE_WARNING_SHOWN, false);
 		if (!FileUtils.isExternalStorageLegacy() && !warningShown) {
-			showScopedStorageDialog();
+			StorageChoice.ask(this);
 			preferences.edit().putBoolean(PREF_STORAGE_WARNING_SHOWN, true).apply();
 		}
 		setVolumeControlStream(AudioManager.STREAM_MUSIC);
@@ -108,6 +111,13 @@ public class MainActivity extends BaseActivity {
 			}
 			return false; // "Games" stays selected
 		});
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		// back from "all files access": move the data to the public folder and restart
+		StorageChoice.finishIfGranted(this);
 	}
 
 	private void checkAndCreateDirs() {

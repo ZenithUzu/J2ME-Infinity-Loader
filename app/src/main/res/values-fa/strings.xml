@@ -242,4 +242,16 @@
     <string name="action_install">نصب</string>
     <string name="pref_dynamic_colors">رنگ‌های پویا</string>
     <string name="pref_dynamic_colors_summary">رنگ‌های برنامه از کاغذدیواری (Android 12 به بالا)</string>
+    <string name="quick_more">گزینه‌های بیشتر</string>
+    <string name="home_start">شروع بازی</string>
+    <string name="storage_choice_title">بازی‌ها کجا ذخیره شوند؟</string>
+    <string name="storage_choice_message">اکنون بازی‌ها و ذخیره‌ها در %1$s هستند که با حذف برنامه، Android آن را پاک می‌کند.\n\nمی‌توانید مثل JL-Mod آن‌ها را در پوشهٔ عمومی %2$s نگه دارید: پس از حذف برنامه می‌مانند و با هر مدیر فایلی دیده می‌شوند. برای این کار Android «دسترسی به همهٔ فایل‌ها» را می‌خواهد.</string>
+    <string name="storage_use_public">استفاده از پوشهٔ عمومی</string>
+    <string name="storage_keep_here">همین‌جا بماند</string>
+    <string name="storage_moving">در حال انتقال بازی‌ها و ذخیره‌ها…</string>
+    <string name="storage_moved">انجام شد: داده‌ها اکنون در %1$s هستند</string>
+    <string name="storage_move_failed">انتقال داده‌ها ممکن نشد. در جای قبلی ماندند.</string>
+    <string name="storage_not_granted">اجازه داده نشد: داده‌ها در پوشهٔ برنامه می‌مانند.</string>
+    <string name="storage_public_already">داده‌ها هم‌اکنون در %1$s هستند</string>
+    <string name="pref_data_folder">پوشهٔ داده</string>
 </resources>

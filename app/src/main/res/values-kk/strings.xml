@@ -323,4 +323,16 @@
     <string name="action_install">Орнату</string>
     <string name="pref_dynamic_colors">Динамикалық түстер</string>
     <string name="pref_dynamic_colors_summary">Қолданба түстерін тұсқағаздан алу (Android 12+)</string>
+    <string name="quick_more">Тағы</string>
+    <string name="home_start">Ойнауды бастаңыз</string>
+    <string name="storage_choice_title">Ойындарды қайда сақтау керек?</string>
+    <string name="storage_choice_message">Қазір ойындар мен сақтаулар %1$s ішінде — қолданбаны жойғанда Android оларды өшіреді.\n\nОларды JL-Mod сияқты %2$s ортақ қалтасында сақтауға болады: жойғаннан кейін де қалады. Ол үшін Android «Барлық файлдарға қатынас» сұрайды.</string>
+    <string name="storage_use_public">Ортақ қалтаны қолдану</string>
+    <string name="storage_keep_here">Осында қалдыру</string>
+    <string name="storage_moving">Ойындар мен сақтаулар жылжытылуда…</string>
+    <string name="storage_moved">Дайын: деректер енді %1$s ішінде</string>
+    <string name="storage_move_failed">Деректерді жылжыту мүмкін болмады. Олар орнында қалды.</string>
+    <string name="storage_not_granted">Рұқсат берілмеді: деректер қолданба қалтасында қалады.</string>
+    <string name="storage_public_already">Деректер қазірдің өзінде %1$s ішінде</string>
+    <string name="pref_data_folder">Деректер қалтасы</string>
 </resources>

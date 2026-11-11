@@ -228,4 +228,16 @@
     <string name="action_install">安裝</string>
     <string name="pref_dynamic_colors">動態色彩</string>
     <string name="pref_dynamic_colors_summary">依桌布設定應用程式顏色（Android 12 以上）</string>
+    <string name="quick_more">更多選項</string>
+    <string name="home_start">開始遊戲</string>
+    <string name="storage_choice_title">遊戲要存在哪裡？</string>
+    <string name="storage_choice_message">目前你的遊戲和存檔在 %1$s，解除安裝應用程式時 Android 會刪除它們。\n\n你可以像 JL-Mod 一樣把它們放在公用資料夾 %2$s：解除安裝後仍會保留，任何檔案管理器都能看到。為此 Android 會要求「所有檔案存取權」。</string>
+    <string name="storage_use_public">使用公用資料夾</string>
+    <string name="storage_keep_here">留在這裡</string>
+    <string name="storage_moving">正在移動遊戲和存檔…</string>
+    <string name="storage_moved">完成：資料現在位於 %1$s</string>
+    <string name="storage_move_failed">無法移動資料，資料仍在原處。</string>
+    <string name="storage_not_granted">未取得權限：資料仍在應用程式資料夾中。</string>
+    <string name="storage_public_already">資料已在 %1$s</string>
+    <string name="pref_data_folder">資料資料夾</string>
 </resources>

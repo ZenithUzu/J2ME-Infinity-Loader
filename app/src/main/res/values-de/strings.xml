@@ -307,4 +307,16 @@
     <string name="action_install">Installieren</string>
     <string name="pref_dynamic_colors">Dynamische Farben</string>
     <string name="pref_dynamic_colors_summary">App-Farben aus deinem Hintergrundbild (Android 12+)</string>
+    <string name="quick_more">Weitere Optionen</string>
+    <string name="home_start">Leg los</string>
+    <string name="storage_choice_title">Wo sollen deine Spiele liegen?</string>
+    <string name="storage_choice_message">Deine Spiele und Spielstände liegen gerade in %1$s – Android löscht das beim Deinstallieren der App.\n\nDu kannst sie stattdessen wie bei JL-Mod im öffentlichen Ordner %2$s speichern: Sie bleiben beim Deinstallieren erhalten und sind mit jedem Dateimanager erreichbar. Dafür fragt Android nach „Zugriff auf alle Dateien“.</string>
+    <string name="storage_use_public">Öffentlichen Ordner verwenden</string>
+    <string name="storage_keep_here">Hier lassen</string>
+    <string name="storage_moving">Spiele und Spielstände werden verschoben…</string>
+    <string name="storage_moved">Fertig: Deine Daten liegen jetzt in %1$s</string>
+    <string name="storage_move_failed">Daten konnten nicht verschoben werden. Sie bleiben, wo sie waren.</string>
+    <string name="storage_not_granted">Keine Berechtigung: Deine Daten bleiben im App-Ordner.</string>
+    <string name="storage_public_already">Deine Daten liegen schon in %1$s</string>
+    <string name="pref_data_folder">Datenordner</string>
 </resources>

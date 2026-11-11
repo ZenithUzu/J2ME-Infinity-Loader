@@ -257,4 +257,16 @@
     <string name="action_install">インストール</string>
     <string name="pref_dynamic_colors">ダイナミックカラー</string>
     <string name="pref_dynamic_colors_summary">アプリの色を壁紙から取得（Android 12 以上）</string>
+    <string name="quick_more">その他のオプション</string>
+    <string name="home_start">遊んでみよう</string>
+    <string name="storage_choice_title">ゲームの保存先</string>
+    <string name="storage_choice_message">現在、ゲームとセーブは %1$s にあり、アプリをアンインストールすると Android が削除します。\n\nJL-Mod のように公開フォルダー %2$s に置くこともできます。アンインストールしても残り、どのファイルマネージャーでも見られます。そのため Android が「すべてのファイルへのアクセス」を求めます。</string>
+    <string name="storage_use_public">公開フォルダーを使う</string>
+    <string name="storage_keep_here">ここのままにする</string>
+    <string name="storage_moving">ゲームとセーブを移動中…</string>
+    <string name="storage_moved">完了：データは %1$s にあります</string>
+    <string name="storage_move_failed">データを移動できませんでした。元の場所に残っています。</string>
+    <string name="storage_not_granted">権限がありません：データはアプリのフォルダーに残ります。</string>
+    <string name="storage_public_already">データはすでに %1$s にあります</string>
+    <string name="pref_data_folder">データフォルダー</string>
 </resources>

@@ -227,4 +227,16 @@
     <string name="action_install">Instalează</string>
     <string name="pref_dynamic_colors">Culori dinamice</string>
     <string name="pref_dynamic_colors_summary">Culorile aplicației din imaginea de fundal (Android 12+)</string>
+    <string name="quick_more">Mai multe opțiuni</string>
+    <string name="home_start">Începe să joci</string>
+    <string name="storage_choice_title">Unde îți păstrezi jocurile?</string>
+    <string name="storage_choice_message">Acum jocurile și salvările sunt în %1$s, pe care Android îl șterge dacă dezinstalezi aplicația.\n\nLe poți păstra în dosarul public %2$s, ca JL-Mod: rămân după dezinstalare și se văd cu orice manager de fișiere. Pentru asta Android va cere „Acces la toate fișierele”.</string>
+    <string name="storage_use_public">Folosește dosarul public</string>
+    <string name="storage_keep_here">Lasă-le aici</string>
+    <string name="storage_moving">Se mută jocurile și salvările…</string>
+    <string name="storage_moved">Gata: datele sunt acum în %1$s</string>
+    <string name="storage_move_failed">Datele nu au putut fi mutate. Rămân unde erau.</string>
+    <string name="storage_not_granted">Permisiune refuzată: datele rămân în dosarul aplicației.</string>
+    <string name="storage_public_already">Datele sunt deja în %1$s</string>
+    <string name="pref_data_folder">Dosarul de date</string>
 </resources>

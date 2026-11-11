@@ -46,4 +46,11 @@ public class SettingsActivity extends BaseActivity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		// back from "all files access" (Settings > Data folder)
+		ru.playsoftware.j2meloader.util.StorageChoice.finishIfGranted(this);
+	}
 }

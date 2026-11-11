@@ -323,4 +323,16 @@
     <string name="action_install">Встановити</string>
     <string name="pref_dynamic_colors">Динамічні кольори</string>
     <string name="pref_dynamic_colors_summary">Кольори застосунку з шпалер (Android 12+)</string>
+    <string name="quick_more">Ще</string>
+    <string name="home_start">Почніть грати</string>
+    <string name="storage_choice_title">Де зберігати ігри?</string>
+    <string name="storage_choice_message">Зараз ігри та збереження лежать у %1$s — Android видалить їх разом із застосунком.\n\nМожна зберігати їх у спільній папці %2$s, як у JL-Mod: вони залишаться після видалення й видні в будь-якому файловому менеджері. Для цього Android попросить «Доступ до всіх файлів».</string>
+    <string name="storage_use_public">Використати спільну папку</string>
+    <string name="storage_keep_here">Залишити тут</string>
+    <string name="storage_moving">Перенесення ігор і збережень…</string>
+    <string name="storage_moved">Готово: дані тепер у %1$s</string>
+    <string name="storage_move_failed">Не вдалося перенести дані. Вони залишилися на місці.</string>
+    <string name="storage_not_granted">Дозвіл не надано: дані залишаються в папці застосунку.</string>
+    <string name="storage_public_already">Дані вже в %1$s</string>
+    <string name="pref_data_folder">Папка даних</string>
 </resources>

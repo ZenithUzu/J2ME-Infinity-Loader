@@ -266,4 +266,16 @@
     <string name="action_install">Telepítés</string>
     <string name="pref_dynamic_colors">Dinamikus színek</string>
     <string name="pref_dynamic_colors_summary">Az alkalmazás színei a háttérképből (Android 12+)</string>
+    <string name="quick_more">További lehetőségek</string>
+    <string name="home_start">Kezdj el játszani</string>
+    <string name="storage_choice_title">Hol legyenek a játékaid?</string>
+    <string name="storage_choice_message">A játékok és mentések most itt vannak: %1$s – az Android törli, ha eltávolítod az alkalmazást.\n\nTarthatod őket a nyilvános %2$s mappában, mint a JL-Mod: eltávolítás után is megmaradnak, és bármely fájlkezelővel láthatók. Ehhez az Android „Hozzáférés minden fájlhoz” engedélyt kér.</string>
+    <string name="storage_use_public">Nyilvános mappa</string>
+    <string name="storage_keep_here">Maradjanak itt</string>
+    <string name="storage_moving">Játékok és mentések áthelyezése…</string>
+    <string name="storage_moved">Kész: az adatok itt vannak: %1$s</string>
+    <string name="storage_move_failed">Nem sikerült áthelyezni az adatokat. Maradtak a helyükön.</string>
+    <string name="storage_not_granted">Nincs engedély: az adatok az alkalmazás mappájában maradnak.</string>
+    <string name="storage_public_already">Az adatok már itt vannak: %1$s</string>
+    <string name="pref_data_folder">Adatmappa</string>
 </resources>

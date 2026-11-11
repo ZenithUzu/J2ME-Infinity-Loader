@@ -323,4 +323,16 @@
     <string name="action_install">Instalovat</string>
     <string name="pref_dynamic_colors">Dynamické barvy</string>
     <string name="pref_dynamic_colors_summary">Barvy aplikace podle tapety (Android 12+)</string>
+    <string name="quick_more">Další možnosti</string>
+    <string name="home_start">Začněte hrát</string>
+    <string name="storage_choice_title">Kde mít hry?</string>
+    <string name="storage_choice_message">Hry a uložené pozice jsou teď v %1$s, kterou Android při odinstalaci smaže.\n\nMůžete je mít ve veřejné složce %2$s jako JL-Mod: zůstanou i po odinstalaci a uvidíte je v každém správci souborů. Android k tomu požádá o „Přístup ke všem souborům“.</string>
+    <string name="storage_use_public">Použít veřejnou složku</string>
+    <string name="storage_keep_here">Nechat tady</string>
+    <string name="storage_moving">Přesouvání her a uložených pozic…</string>
+    <string name="storage_moved">Hotovo: data jsou teď v %1$s</string>
+    <string name="storage_move_failed">Data se nepodařilo přesunout. Zůstala na místě.</string>
+    <string name="storage_not_granted">Oprávnění nebylo uděleno: data zůstávají ve složce aplikace.</string>
+    <string name="storage_public_already">Data už jsou v %1$s</string>
+    <string name="pref_data_folder">Složka dat</string>
 </resources>

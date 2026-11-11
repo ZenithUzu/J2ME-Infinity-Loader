@@ -323,4 +323,16 @@
     <string name="action_install">安装</string>
     <string name="pref_dynamic_colors">动态取色</string>
     <string name="pref_dynamic_colors_summary">根据壁纸设置应用颜色（Android 12 及以上）</string>
+    <string name="quick_more">更多选项</string>
+    <string name="home_start">开始游戏</string>
+    <string name="storage_choice_title">游戏保存在哪里？</string>
+    <string name="storage_choice_message">目前你的游戏和存档在 %1$s，卸载应用时 Android 会删除它们。\n\n你可以像 JL-Mod 一样把它们放在公共文件夹 %2$s：卸载后仍会保留，任何文件管理器都能看到。为此 Android 会请求“所有文件访问权限”。</string>
+    <string name="storage_use_public">使用公共文件夹</string>
+    <string name="storage_keep_here">留在这里</string>
+    <string name="storage_moving">正在移动游戏和存档…</string>
+    <string name="storage_moved">完成：数据现在位于 %1$s</string>
+    <string name="storage_move_failed">无法移动数据，数据仍在原处。</string>
+    <string name="storage_not_granted">未获得权限：数据仍在应用文件夹中。</string>
+    <string name="storage_public_already">数据已在 %1$s</string>
+    <string name="pref_data_folder">数据文件夹</string>
 </resources>

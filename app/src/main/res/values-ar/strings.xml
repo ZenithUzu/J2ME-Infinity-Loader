@@ -323,4 +323,16 @@
     <string name="action_install">تثبيت</string>
     <string name="pref_dynamic_colors">ألوان ديناميكية</string>
     <string name="pref_dynamic_colors_summary">أخذ ألوان التطبيق من الخلفية (Android 12 وأحدث)</string>
+    <string name="quick_more">خيارات أخرى</string>
+    <string name="home_start">ابدأ اللعب</string>
+    <string name="storage_choice_title">أين تحفظ ألعابك؟</string>
+    <string name="storage_choice_message">ألعابك وحفظها الآن في %1$s، ويحذفها Android إذا أزلت التطبيق.\n\nيمكنك حفظها في المجلد العام %2$s كما يفعل JL-Mod: تبقى بعد إزالة التطبيق وتراها بأي مدير ملفات. لذلك سيطلب Android «الوصول إلى كل الملفات».</string>
+    <string name="storage_use_public">استخدام المجلد العام</string>
+    <string name="storage_keep_here">إبقاؤها هنا</string>
+    <string name="storage_moving">جارٍ نقل الألعاب والحفظ…</string>
+    <string name="storage_moved">تم: بياناتك الآن في %1$s</string>
+    <string name="storage_move_failed">تعذّر نقل البيانات. بقيت في مكانها.</string>
+    <string name="storage_not_granted">لم يُمنح الإذن: تبقى البيانات في مجلد التطبيق.</string>
+    <string name="storage_public_already">بياناتك موجودة بالفعل في %1$s</string>
+    <string name="pref_data_folder">مجلد البيانات</string>
 </resources>
