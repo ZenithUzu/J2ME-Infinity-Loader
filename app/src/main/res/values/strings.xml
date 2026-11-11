@@ -79,6 +79,8 @@
     <string name="PREF_KEEP_ASPECT_RATIO">Keep aspect ratio</string>
     <string name="PREF_FILTER">Filter</string>
     <string name="PREF_IMMEDIATE">Immediate processing mode</string>
+    <string name="action_install_folder">Install a folder</string>
+    <string name="install_folder_empty">No games (.jar, .jad, .kjx) found in that folder</string>
     <string name="PREF_AUTO_FIT">Auto fit (show only the area the game draws)</string>
     <string name="PREF_GAME_SPEED">Game speed</string>
     <string name="game_speed_hint">If the speed does not change, reinstall the game.</string>

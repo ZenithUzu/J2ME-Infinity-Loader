@@ -103,6 +103,10 @@ public class AppsListFragment extends Fragment implements MenuProvider {
 	private final ActivityResultLauncher<String> openFileLauncher = registerForActivityResult(
 			FileUtils.getFilePicker(),
 			this::onPickFileResult);
+	/** install every game in a folder (and its subfolders), like JL-Mod Plus */
+	private final ActivityResultLauncher<Uri> openFolderLauncher = registerForActivityResult(
+			new androidx.activity.result.contract.ActivityResultContracts.OpenDocumentTree(),
+			this::onPickFolderResult);
 	private final AppsListAdapter adapter = new AppsListAdapter(this);
 	private Uri appUri;
 	private SharedPreferences preferences;
@@ -193,6 +197,48 @@ public class AppsListFragment extends Fragment implements MenuProvider {
 		} else {
 			String msg = activity.getString(R.string.error) + ": " + throwable.getMessage();
 			Toast.makeText(activity, msg, Toast.LENGTH_SHORT).show();
+		}
+	}
+
+	private void onPickFolderResult(Uri tree) {
+		if (tree == null) {
+			return;
+		}
+		List<Uri> uris = new java.util.ArrayList<>();
+		try {
+			collectGames(tree, android.provider.DocumentsContract.getTreeDocumentId(tree), uris, 0);
+		} catch (Exception e) {
+			Log.e(TAG, "onPickFolderResult: ", e);
+		}
+		if (uris.isEmpty()) {
+			Toast.makeText(requireContext(), R.string.install_folder_empty, Toast.LENGTH_SHORT).show();
+			return;
+		}
+		onPickFileResult(uris);
+	}
+
+	/** Adds the .jar/.jad/.kjx files of a folder tree (max 3 subfolder levels). */
+	private void collectGames(Uri tree, String docId, List<Uri> out, int depth) {
+		Uri children = android.provider.DocumentsContract.buildChildDocumentsUriUsingTree(tree, docId);
+		String[] cols = {android.provider.DocumentsContract.Document.COLUMN_DOCUMENT_ID,
+				android.provider.DocumentsContract.Document.COLUMN_DISPLAY_NAME,
+				android.provider.DocumentsContract.Document.COLUMN_MIME_TYPE};
+		try (android.database.Cursor c = requireContext().getContentResolver()
+				.query(children, cols, null, null, null)) {
+			if (c == null) return;
+			while (c.moveToNext()) {
+				String id = c.getString(0);
+				String name = c.getString(1);
+				String mime = c.getString(2);
+				if (android.provider.DocumentsContract.Document.MIME_TYPE_DIR.equals(mime)) {
+					if (depth < 3) collectGames(tree, id, out, depth + 1);
+				} else if (name != null) {
+					String n = name.toLowerCase(java.util.Locale.ROOT);
+					if (n.endsWith(".jar") || n.endsWith(".jad") || n.endsWith(".kjx")) {
+						out.add(android.provider.DocumentsContract.buildDocumentUriUsingTree(tree, id));
+					}
+				}
+			}
 		}
 	}
 
@@ -359,7 +405,9 @@ public class AppsListFragment extends Fragment implements MenuProvider {
 	public boolean onMenuItemSelected(MenuItem item) {
 		FragmentActivity activity = requireActivity();
 		int itemId = item.getItemId();
-		if (itemId == R.id.action_about) {
+		if (itemId == R.id.action_install_folder) {
+			openFolderLauncher.launch(null);
+		} else if (itemId == R.id.action_about) {
 			AboutDialogFragment aboutDialogFragment = new AboutDialogFragment();
 			aboutDialogFragment.show(getChildFragmentManager(), "about");
 		} else if (itemId == R.id.action_profiles) {
