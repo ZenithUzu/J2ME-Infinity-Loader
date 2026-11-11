@@ -35,8 +35,27 @@ public class FpsCounter extends TimerTask implements Layer {
 		timer.scheduleAtFixedRate(this, 0, 1000);
 	}
 
+	private long lastCpuMs = -1, lastWallMs;
+
+	/**
+	 * Performance overlay (idea from JL-Mod Plus): FPS, Java memory used / limit,
+	 * and the app's CPU use (100% = every core busy).
+	 */
 	public void run() {
-		prevFrameCount = String.valueOf(totalFrameCount);
+		Runtime rt = Runtime.getRuntime();
+		long usedMb = (rt.totalMemory() - rt.freeMemory()) >> 20;
+		long maxMb = rt.maxMemory() >> 20;
+		long cpu = android.os.Process.getElapsedCpuTime();
+		long wall = android.os.SystemClock.elapsedRealtime();
+		String cpuText = "";
+		if (lastCpuMs >= 0 && wall > lastWallMs) {
+			int cores = Math.max(1, rt.availableProcessors());
+			long pct = (cpu - lastCpuMs) * 100 / ((wall - lastWallMs) * cores);
+			cpuText = " · CPU " + pct + "%";
+		}
+		lastCpuMs = cpu;
+		lastWallMs = wall;
+		prevFrameCount = totalFrameCount + " FPS · " + usedMb + "/" + maxMb + " MB" + cpuText;
 		totalFrameCount = 0;
 		view.postInvalidate();
 	}

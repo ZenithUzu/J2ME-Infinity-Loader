@@ -81,7 +81,7 @@
     <string name="PREF_GAME_SPEED">Velocidad del juego</string>
     <string name="game_speed_hint">Si la velocidad no cambia, vuelve a instalar el juego.</string>
     <string name="PREF_FRAME_BLEND">Anti-parpadeo (mezclar fotogramas)</string>
-    <string name="PREF_SHOW_FPS">Mostrar FPS</string>
+    <string name="PREF_SHOW_FPS">Mostrar FPS, memoria y CPU</string>
     <string name="PREF_FORCE_FULLSCREEN">Forzar pantalla completa</string>
     <string name="PREF_LIMIT_FPS">Limitar FPS</string>
     <string name="PREF_FONT_OPTIONS">Opciones de fuente</string>

@@ -99,7 +99,7 @@
     <string name="PREF_GAME_SPEED">Game speed</string>
     <string name="game_speed_hint">If the speed does not change, reinstall the game.</string>
     <string name="PREF_FRAME_BLEND">Anti-flicker (blend frames)</string>
-    <string name="PREF_SHOW_FPS">Show FPS</string>
+    <string name="PREF_SHOW_FPS">Show FPS, memory and CPU</string>
     <string name="PREF_FORCE_DISABLE_3D_LIGHTING">Force disable 3D lighting</string>
     <string name="PREF_FORCE_FULLSCREEN">Force fullscreen</string>
     <string name="PREF_LIMIT_FPS">Limit FPS</string>
