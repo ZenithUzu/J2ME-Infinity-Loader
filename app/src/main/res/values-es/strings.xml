@@ -61,6 +61,10 @@
     <string name="PREF_KEEP_ASPECT_RATIO">Mantener relación de aspecto</string>
     <string name="PREF_FILTER">Filtro</string>
     <string name="PREF_IMMEDIATE">Modo de procesamiento inmediato</string>
+    <string name="widescreen">Widescreen</string>
+    <string name="widescreen_this_phone">Este teléfono</string>
+    <string name="widescreen_need_size">Escribe primero el ancho y el alto originales del juego.</string>
+    <string name="widescreen_applied">Widescreen aplicado: el juego recibe más espacio a los lados sin estirarse. Los juegos con fondo o interfaz fijos pueden dejar zonas vacías; vuelve a poner el tamaño original para deshacerlo.</string>
     <string name="memory_editor">Editor de memoria</string>
     <string name="memory_value">Valor</string>
     <string name="memory_find">Buscar valor</string>

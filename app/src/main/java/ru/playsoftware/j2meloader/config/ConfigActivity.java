@@ -931,6 +931,57 @@ public class ConfigActivity extends BaseActivity implements View.OnClickListener
 		}
 	}
 
+	/**
+	 * Widescreen (from JarNix): keep the game's visible height and only add horizontal
+	 * coordinates up to a phone proportion; the image is never stretched. Adaptive games show
+	 * more scenery; games with fixed backgrounds or interface may leave empty areas.
+	 * A sideways game (image turned 90/270 degrees) grows along its other axis.
+	 */
+	private void showWidescreenDialog() {
+		int w, h;
+		try {
+			w = Integer.parseInt(binding.screenWidth.getText().toString().trim());
+			h = Integer.parseInt(binding.screenHeight.getText().toString().trim());
+		} catch (NumberFormatException e) {
+			w = h = 0;
+		}
+		if (w < 64 || h < 64) {
+			Toast.makeText(this, R.string.widescreen_need_size, Toast.LENGTH_LONG).show();
+			return;
+		}
+		int rotation = binding.screenRotationSelector.getSelectedItemPosition();
+		boolean turned = rotation == 1 || rotation == 2;
+		android.util.DisplayMetrics dm = getResources().getDisplayMetrics();
+		double device = Math.max(1, Math.min(4, Math.max(dm.widthPixels, dm.heightPixels)
+				/ (double) Math.max(1, Math.min(dm.widthPixels, dm.heightPixels))));
+		double[] ratios = {16.0 / 9, 18.0 / 9, 19.5 / 9, 20.0 / 9, 21.0 / 9, device};
+		String[] names = {"16:9", "18:9", "19.5:9", "20:9", "21:9", getString(R.string.widescreen_this_phone)};
+		java.util.List<int[]> sizes = new ArrayList<>();
+		java.util.List<String> labels = new ArrayList<>();
+		for (int i = 0; i < ratios.length; i++) {
+			int visibleW = turned ? h : w, visibleH = turned ? w : h;
+			int expanded = Math.max(visibleW, (int) Math.ceil(visibleH * ratios[i]));
+			if (expanded > 2048) continue;
+			int[] r = turned ? new int[]{visibleH, expanded} : new int[]{expanded, visibleH};
+			sizes.add(r);
+			labels.add(names[i] + ": " + r[0] + " x " + r[1]);
+		}
+		new AlertDialog.Builder(this)
+				.setTitle(R.string.widescreen)
+				.setItems(labels.toArray(new String[0]), (d, which) -> {
+					int[] r = sizes.get(which);
+					binding.keepAspectRatioToggle.setChecked(false);
+					binding.screenWidth.setText(String.valueOf(r[0]));
+					binding.screenHeight.setText(String.valueOf(r[1]));
+					binding.screenOrientationSelector.setSelection(3); // landscape
+					binding.scaleTypeSelector.setSelection(1);         // fit, keeping proportions
+					binding.autoFitToggle.setChecked(false);           // keep the wider area
+					Toast.makeText(this, R.string.widescreen_applied, Toast.LENGTH_LONG).show();
+				})
+				.setNegativeButton(android.R.string.cancel, null)
+				.show();
+	}
+
 	private void showScreenPresets(View v) {
 		presetsAdapter = new ResolutionAdapter();
 		presetsDialog = new AlertDialog.Builder(this)
@@ -941,6 +992,7 @@ public class ConfigActivity extends BaseActivity implements View.OnClickListener
 					binding.screenWidth.setText(string.substring(0, separator));
 					binding.screenHeight.setText(string.substring(separator + 3));
 				})
+				.setNeutralButton(R.string.widescreen, (d, w) -> showWidescreenDialog())
 				.setNegativeButton(android.R.string.cancel, null)
 				.create();
 		presetsDialog.setOnShowListener(d -> {

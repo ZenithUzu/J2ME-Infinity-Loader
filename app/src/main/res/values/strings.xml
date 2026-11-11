@@ -79,6 +79,10 @@
     <string name="PREF_KEEP_ASPECT_RATIO">Keep aspect ratio</string>
     <string name="PREF_FILTER">Filter</string>
     <string name="PREF_IMMEDIATE">Immediate processing mode</string>
+    <string name="widescreen">Widescreen</string>
+    <string name="widescreen_this_phone">This phone</string>
+    <string name="widescreen_need_size">Type the game\'s original width and height first.</string>
+    <string name="widescreen_applied">Widescreen applied: the game gets more horizontal space without stretching. Games with a fixed background or interface may show empty areas; set the original size again to undo.</string>
     <string name="memory_editor">Memory editor</string>
     <string name="memory_value">Value</string>
     <string name="memory_find">Find value</string>

@@ -22,6 +22,7 @@ All new options live in **each game's settings**, just like the original J2ME Lo
 - **Collections** (main menu and each game's menu): group your games and show only one collection. Includes *★ Favorites* and *Recent* (the last 20 you opened). Removing a game from a collection does not uninstall it.
 - **Vibration you can feel**: on Android 12+ (HyperOS, One UI) vibration is marked as game use so the system does not mute it.
 - **Uses the notch area** by default (can be turned off in Settings).
+- **Widescreen** (*Screen → size list → Widescreen*): like JarNix, keeps the game's height and gives it more room on the sides up to 16:9, 18:9, 19.5:9, 20:9, 21:9 or your phone's proportion, without stretching. Works with games that adapt to the screen size; games with a fixed background or interface may show empty areas.
 - **Automatic image rotation**: if almost everything a game draws is sideways, the image is turned, the app goes landscape and it is remembered. Default for new games.
 - **Memory editor** (in-game menu): find a game number (lives, money…) by value or by how it changed, then change or freeze it. A simple version: results are candidates, try which one is right.
 - **Performance overlay**: the *Show FPS* option now also shows memory and CPU.

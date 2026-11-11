@@ -22,6 +22,7 @@ Todas las opciones nuevas están en la **configuración de cada juego**, igual q
 - **Colecciones** (menú principal y menú de cada juego): agrupa tus juegos y muestra solo los de una colección. Incluye *★ Favoritos* y *Recientes* (los últimos 20 que abriste). Quitar un juego de una colección no lo desinstala.
 - **Vibración que sí se siente**: en Android 12 o más nuevo (HyperOS, One UI) la vibración se marca como de juego para que el sistema no la silencie.
 - **Usa la zona del notch** por defecto (se puede apagar en Ajustes).
+- **Widescreen** (*Pantalla → lista de tamaños → Widescreen*): como en JarNix, conserva el alto del juego y le da más espacio a los lados hasta 16:9, 18:9, 19.5:9, 20:9, 21:9 o la proporción de tu teléfono, sin estirar la imagen. Sirve en juegos que se adaptan al tamaño de pantalla; en los de fondo o interfaz fijos pueden quedar zonas vacías.
 - **Girar imagen automático**: si casi todo lo que dibuja el juego va de lado, gira la imagen, pone la app en horizontal y lo recuerda. Es la opción por defecto en juegos nuevos.
 - **Editor de memoria** (menú del juego): busca un número del juego (vidas, dinero…) por su valor o por cómo cambió, y cámbialo o congélalo. Es una versión sencilla: los resultados son candidatos, prueba cuál es el bueno.
 - **Rendimiento en pantalla**: la opción *Mostrar FPS* ahora también muestra la memoria y la CPU.
