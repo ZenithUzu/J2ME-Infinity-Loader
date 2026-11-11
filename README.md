@@ -17,7 +17,7 @@ Todas las opciones nuevas están en la **configuración de cada juego**, igual q
 - **Anti-parpadeo** (*Pantalla*): mezcla cada fotograma con el anterior. Arregla los juegos que hacen transparencias con rayas o puntos que se alternan y en una pantalla moderna parpadean.
 - **Ajuste automático** (*Pantalla*): si el juego solo dibuja una parte de la pantalla (por ejemplo 176×208 dentro de 240×320), muestra solo esa parte. Espera unos 12 segundos para no confundirse con un logo.
 - **Velocidad 1×–4×** (menú del juego → *Velocidad del juego*): acelera el juego en tiempo real. Los juegos instalados antes de esta versión hay que volver a instalarlos.
-- **Mando en pantalla** (menú del juego → teclado → *Mando*): cruceta de 8 direcciones, A B X Y, L y R, Select y Start. Se puede mover, cambiar de tamaño y reasignar con el editor de siempre.
+- **Mando en pantalla** (menú del juego → teclado → *Mando*): cruceta de 8 direcciones, A B X Y, L y R, Select y Start. Se puede mover, cambiar de tamaño y reasignar con el editor de siempre. Se dibuja con una skin de imágenes PNG; en *Ajustes → Skin del mando* puedes poner la tuya, también skins de Citra.
 - **Mandos físicos listos para usar**: Xbox, PlayStation y genéricos funcionan sin configurar (A = OK, B = 7, X = 9, Y = 0, L = \*, R = #, Select/Start = teclas suaves), y el stick izquierdo mueve como la cruceta.
 - **Instalar una carpeta** (menú principal): instala todos los juegos de una carpeta y sus subcarpetas de una vez.
 - **Silencio en segundo plano**: al salir del juego la música se pausa y vuelve al regresar.
