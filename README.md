@@ -47,6 +47,7 @@ Todas las opciones nuevas están en la **configuración de cada juego**, igual q
 - **Teclas de LG**: además de Siemens, Motorola y Nokia E62, ya se pueden usar los códigos de teclas suaves de LG.
 - **Instalar una carpeta** (menú principal): instala todos los juegos de una carpeta y sus subcarpetas de una vez.
 - **Silencio en segundo plano**: al salir del juego la música se pausa y vuelve al regresar.
+- **Icono nuevo**: un ∞ con JL arriba y 2ME abajo, en un degradado del morado de J2ME Loader al verde azulado de JL-Mod. En Android 13 o más nuevo también funciona como icono temático (toma el color de tu fondo de pantalla).
 - **Se instala junto al original**: tiene su propio identificador, así que no reemplaza al J2ME Loader.
 - **Instala juegos compilados con Java moderno**: los ports hechos con un JDK reciente ya no fallan con `Dexing error` al instalar.
 - **Permisos más discretos**: no pide "acceso a todos los archivos"; el almacenamiento funciona como en el J2ME Loader original, y los permisos antiguos de almacenamiento y Bluetooth solo se declaran en las versiones de Android que los usan.

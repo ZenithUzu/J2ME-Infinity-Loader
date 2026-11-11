@@ -47,6 +47,7 @@ All new options live in **each game's settings**, just like the original J2ME Lo
 - **LG keys**: besides Siemens, Motorola and Nokia E62, LG soft key codes can be used too.
 - **Install a folder** (main menu): installs every game in a folder and its subfolders at once.
 - **Silent in the background**: music pauses when you leave the game and resumes when you come back.
+- **New icon**: an ∞ with JL above and 2ME below, in a gradient from J2ME Loader's indigo to JL-Mod's teal. On Android 13+ it also works as a themed icon (takes your wallpaper color).
 - **Installs next to the original**: it has its own app id, so it does not replace J2ME Loader.
 - **Installs games built with modern Java**: ports compiled with a recent JDK no longer fail with `Dexing error`.
 - **Less invasive permissions**: no "All files access"; storage works like in the original J2ME Loader, and legacy storage and Bluetooth permissions are only declared on the Android versions that use them.
