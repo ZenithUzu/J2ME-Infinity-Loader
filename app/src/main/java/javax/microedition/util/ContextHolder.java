@@ -22,6 +22,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Vibrator;
+import android.os.VibrationEffect;
+import android.os.Build;
+import android.media.AudioAttributes;
 import android.view.Display;
 import android.view.WindowManager;
 
@@ -214,7 +217,7 @@ public class ContextHolder {
 			return false;
 		}
 		if (duration > 0) {
-			vibrator.vibrate(duration);
+			gameVibrate(duration);
 		} else if (duration < 0) {
 			throw new IllegalStateException();
 		} else {
@@ -233,7 +236,12 @@ public class ContextHolder {
 		if (vibrator == null || !vibrator.hasVibrator()) {
 			return;
 		}
-		vibrator.vibrate(new long[]{0, durationOn, durationOff}, 1);
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+			vibrator.vibrate(VibrationEffect.createWaveform(new long[]{0, durationOn, durationOff}, 1),
+					GAME_ATTRIBUTES);
+		} else {
+			vibrator.vibrate(new long[]{0, durationOn, durationOff}, 1);
+		}
 	}
 
 	public static void vibrateKey(int duration) {
@@ -243,7 +251,24 @@ public class ContextHolder {
 		if (vibrator == null || !vibrator.hasVibrator()) {
 			return;
 		}
-		vibrator.vibrate(duration);
+		gameVibrate(duration);
+	}
+
+	/**
+	 * From JarNix: Android 12+ (and HyperOS / One UI) mute or weaken vibrations of unknown use,
+	 * so say it is a game. Old phone motors were strong: under ~40 ms a modern motor is barely felt.
+	 */
+	private static final AudioAttributes GAME_ATTRIBUTES = new AudioAttributes.Builder()
+			.setUsage(AudioAttributes.USAGE_GAME).build();
+
+	private static void gameVibrate(int duration) {
+		int ms = Math.max(40, duration);
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+			vibrator.vibrate(VibrationEffect.createOneShot(ms, VibrationEffect.DEFAULT_AMPLITUDE),
+					GAME_ATTRIBUTES);
+		} else {
+			vibrator.vibrate(ms);
+		}
 	}
 
 	public static void setVibration(boolean vibrationEnabled) {
