@@ -621,6 +621,25 @@ protected int getSupersamplingFactor() {
 				onHeight = imgHeight * intFactor;
 				scaleRatio = 100;
 				break;
+			case 4: {
+				// 16:9 (from JarNix): widen the game toward the screen, but never past 16:9
+				// (or 9:16 on a tall screen): fills almost everything and distorts little
+				float game = (float) imgWidth / imgHeight;
+				float screen = (float) displayWidth / scaledDisplayHeight;
+				if (screen >= game) {
+					float target = Math.min(screen, Math.max(game, 16f / 9f));
+					onHeight = scaledDisplayHeight;
+					onWidth = Math.round(scaledDisplayHeight * target);
+				} else {
+					float target = Math.max(screen, Math.min(game, 9f / 16f));
+					onWidth = displayWidth;
+					onHeight = Math.round(displayWidth / target);
+				}
+				if (scaleRatio > 100) {
+					scaleRatio = 100;
+				}
+				break;
+			}
 		}
 
 		onWidth = onWidth * scaleRatio / 100;
