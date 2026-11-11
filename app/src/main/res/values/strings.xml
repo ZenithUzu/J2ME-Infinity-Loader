@@ -79,6 +79,10 @@
     <string name="PREF_KEEP_ASPECT_RATIO">Keep aspect ratio</string>
     <string name="PREF_FILTER">Filter</string>
     <string name="PREF_IMMEDIATE">Immediate processing mode</string>
+    <string name="replace_this">Replace</string>
+    <string name="skip_this">Skip</string>
+    <string name="replace_all">Replace all</string>
+    <string name="skip_all">Skip all</string>
     <string name="action_change_icon">Change icon</string>
     <string name="icon_choose">Choose a picture</string>
     <string name="icon_original">Back to the original icon</string>

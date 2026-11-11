@@ -61,6 +61,10 @@
     <string name="PREF_KEEP_ASPECT_RATIO">Mantener relación de aspecto</string>
     <string name="PREF_FILTER">Filtro</string>
     <string name="PREF_IMMEDIATE">Modo de procesamiento inmediato</string>
+    <string name="replace_this">Reemplazar</string>
+    <string name="skip_this">Omitir</string>
+    <string name="replace_all">Reemplazar todos</string>
+    <string name="skip_all">Omitir todos</string>
     <string name="action_change_icon">Cambiar icono</string>
     <string name="icon_choose">Elegir una imagen</string>
     <string name="icon_original">Volver al icono original</string>

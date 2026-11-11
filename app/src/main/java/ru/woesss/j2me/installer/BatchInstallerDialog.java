@@ -65,6 +65,8 @@ public class BatchInstallerDialog extends DialogFragment {
 	private int total;
 	private int processed;
 	private int installed;
+	/** answer to "replace all" / "skip all" for games already installed; null = ask */
+	private Boolean replaceAll;
 	private String currentSourceName;
 
 	private AppRepository appRepository;
@@ -190,10 +192,12 @@ public class BatchInstallerDialog extends DialogFragment {
 				nextFile();
 				return;
 			case AppInstaller.STATUS_NEW:
+				convert();
+				return;
 			case AppInstaller.STATUS_OLDEST:
 			case AppInstaller.STATUS_EQUAL:
 			case AppInstaller.STATUS_NEWEST:
-				convert();
+				askReplace(status, nd);
 				return;
 			default:
 				if ((status == AppInstaller.STATUS_NEED_JAD || status == AppInstaller.STATUS_UNMATCHED)
@@ -202,6 +206,42 @@ public class BatchInstallerDialog extends DialogFragment {
 				}
 				failCurrentFile();
 		}
+	}
+
+	/** Like JL-Mod Plus: a game that is already installed is only replaced if you say so. */
+	private void askReplace(int status, Descriptor nd) {
+		if (replaceAll != null) {
+			if (replaceAll) convert(); else skipCurrent();
+			return;
+		}
+		if (nd == null) {
+			convert();
+			return;
+		}
+		String message;
+		if (status == AppInstaller.STATUS_OLDEST) {
+			message = getString(R.string.reinstall_older, nd.getVersion(), installer.getCurrentVersion());
+		} else if (status == AppInstaller.STATUS_NEWEST) {
+			message = getString(R.string.reinstall_newest, nd.getVersion(), installer.getCurrentVersion());
+		} else {
+			message = getString(R.string.reinstall);
+		}
+		String[] choices = {getString(R.string.replace_this), getString(R.string.skip_this),
+				getString(R.string.replace_all), getString(R.string.skip_all)};
+		new AlertDialog.Builder(requireActivity())
+				.setTitle(nd.getName() + "\n" + message)
+				.setCancelable(false)
+				.setItems(choices, (d, which) -> {
+					if (which >= 2) replaceAll = which == 2;
+					if (which == 0 || which == 2) convert(); else skipCurrent();
+				})
+				.show();
+	}
+
+	private void skipCurrent() {
+		installer.clearCache();
+		installer.deleteTemp();
+		nextFile();
 	}
 
 	private boolean installFromSelectedJar() {
