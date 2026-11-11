@@ -149,6 +149,7 @@
     <string name="pref_screen_rotation_0">No rotation</string>
     <string name="pref_screen_rotation_90">90° (clockwise)</string>
     <string name="pref_screen_rotation_270">270° (counter-clockwise)</string>
+    <string name="pref_screen_rotation_auto">Automatic (detect sideways games)</string>
     <string name="pref_orientation_default">Default</string>
     <string name="pref_orientation_auto">Auto</string>
     <string name="pref_orientation_port">Portrait</string>

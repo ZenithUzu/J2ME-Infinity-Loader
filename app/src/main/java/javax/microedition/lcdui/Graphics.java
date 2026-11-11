@@ -404,6 +404,7 @@ public class Graphics implements
 	}
 
 	public void drawImage(Image image, int x, int y, int anchor) {
+		if (AutoRotate.tracking) AutoRotate.imageDrawn(this.image, 0, image.getWidth() * image.getHeight());
 		float lx;
 		if ((anchor & Graphics.RIGHT) != 0) {
 			lx = x - image.getWidth();
@@ -462,6 +463,10 @@ public class Graphics implements
 	public void drawRegion(Image image, int x_src, int y_src, int width, int height,
 						   int transform, int x_dst, int y_dst, int anchor) {
 		if (width <= 0 || height <= 0) return;
+		if (AutoRotate.tracking) {
+			AutoRotate.imageDrawn(this.image, transform == TRANS_ROT90 ? 90
+					: transform == TRANS_ROT270 ? 270 : 0, width * height);
+		}
 
 		Rect srcR = rect;
 		RectF dstR = rectF;

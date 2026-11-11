@@ -218,6 +218,12 @@ public class MicroActivity extends AppCompatActivity {
 	 * Here it closed the whole app; now the thread ends and the error is shown on screen,
 	 * so an endless "loading" is not left unexplained. Errors on the UI thread still crash.
 	 */
+	/** Called by auto rotation (UI thread): go landscape and remember it for this game. */
+	public void onAutoRotation(int mode) {
+		setOrientation(ORIENTATION_LANDSCAPE);
+		microLoader.saveDetectedRotation(mode, ORIENTATION_LANDSCAPE);
+	}
+
 	private void installThreadErrorHandler() {
 		Thread.UncaughtExceptionHandler crash = Thread.getDefaultUncaughtExceptionHandler();
 		Thread uiThread = android.os.Looper.getMainLooper().getThread();

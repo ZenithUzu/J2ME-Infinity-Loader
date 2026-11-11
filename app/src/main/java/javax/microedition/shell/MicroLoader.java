@@ -254,6 +254,13 @@ public class MicroLoader {
 		ContextHolder.setVk(show ? new VirtualKeyboard(params) : null);
 	}
 
+	/** Auto rotation found a sideways game: remember it (rotation + landscape) for next time. */
+	void saveDetectedRotation(int mode, int orientation) {
+		params.screenRotation = mode;
+		params.orientation = orientation;
+		ProfilesManager.saveConfig(params);
+	}
+
 	public int getOrientation() {
 		return params.orientation;
 	}

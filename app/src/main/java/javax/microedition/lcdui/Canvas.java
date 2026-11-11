@@ -303,8 +303,10 @@ public abstract class Canvas extends Displayable {
 		android.graphics.Canvas tc = blendLastCanvas; blendLastCanvas = blendRawCanvas; blendRawCanvas = tc;
 	}
 
+	/** 0 none, 1 = 90° clockwise, 2 = 270°, 3 = automatic (see AutoRotate) */
 	public static void setScreenRotation(int mode) {
 		Canvas.screenRotation = mode == 1 ? 90 : mode == 2 ? 270 : 0;
+		if (mode == 3) AutoRotate.begin();
 	}
 
 	public static void setScale(int screenGravity, int scaleType, int scaleRatio) {
@@ -717,6 +719,7 @@ protected int getSupersamplingFactor() {
 			// 超采样缓冲必须用双线性缩小，否则会有摩尔纹
 			canvasWrapper.setFilterBitmap(supersamplingFactor > 1 || filter);
 		}
+		AutoRotate.setScreenSize(width, height);
 		if (overlay != null) {
 			overlay.resize(screen, onX, onY, onX + onWidth, onY + onHeight + softBarHeight);
 		}
@@ -892,6 +895,7 @@ protected int getSupersamplingFactor() {
 			offscreenCopy.getSingleGraphics().flush(image, x, y, width, height);
 			blendFrame();
 			autoFitCheck();
+			AutoRotate.frameShown(this);
 		}
 		requestFlushToScreen();
 	}
@@ -903,6 +907,7 @@ protected int getSupersamplingFactor() {
 			image.copyTo(offscreenCopy, x, y);
 			blendFrame();
 			autoFitCheck();
+			AutoRotate.frameShown(this);
 		}
 		requestFlushToScreen();
 	}
@@ -1257,6 +1262,7 @@ protected int getSupersamplingFactor() {
 				offscreen.copyTo(offscreenCopy);
 				blendFrame();
 				autoFitCheck();
+				AutoRotate.frameShown(this);
 			}
 			if (surface == null || !surface.isValid()) {
 				return;
