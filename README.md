@@ -13,15 +13,24 @@ Todas las opciones nuevas están en la **configuración de cada juego**, igual q
 - **Multitáctil forzado** (*Controles → Forzar multitáctil*): cada dedo llega al juego por separado, aunque el juego no lo declare en su manifiesto. Así se puede, por ejemplo, moverse y saltar a la vez con los controles táctiles del propio juego. Viene apagado porque algunos juegos hechos para un solo dedo se confunden con un segundo.
 - **Girar imagen 90° / 270°** (*Pantalla → Girar imagen*): para juegos que se juegan de lado. La imagen se gira en los tres modos de dibujo (software, hardware y OpenGL) y los toques se giran también, para que caigan en el sitio correcto. Combínalo con la orientación *Horizontal*.
 - **Superresolución** (*Fuentes → Superresolución*): el juego se dibuja de 2× a 10× más grande y se reduce al mostrarlo, así el texto y los gráficos se ven nítidos en vez de borrosos. En *Auto* elige el tamaño según tu pantalla y baja solo si falta memoria. Incluye el 3D (M3G y Mascot Capsule). Tomado de [J2ME-Loader-HD](https://github.com/fuyijian/J2ME-Loader-HD).
-- **Escala entera** (*Pantalla → Tipo de escalado*): cada píxel del juego ocupa exactamente N×N píxeles de la pantalla; la imagen más nítida posible.
+- **Escala entera** (*Pantalla → Tipo de escalado*): cada píxel del juego ocupa exactamente N×N píxeles de la pantalla; la imagen más nítida posible. También hay *16:9*, que ensancha el juego hacia la pantalla sin pasar de 16:9 (llena casi todo y deforma poco).
 - **Anti-parpadeo** (*Pantalla*): mezcla cada fotograma con el anterior. Arregla los juegos que hacen transparencias con rayas o puntos que se alternan y en una pantalla moderna parpadean.
 - **Ajuste automático** (*Pantalla*): si el juego solo dibuja una parte de la pantalla (por ejemplo 176×208 dentro de 240×320), muestra solo esa parte. Espera unos 12 segundos para no confundirse con un logo.
 - **Velocidad 1×–4×** (menú del juego → *Velocidad del juego*): acelera el juego en tiempo real. Los juegos instalados antes de esta versión hay que volver a instalarlos.
 - **Mando en pantalla** (menú del juego → teclado → *Mando*): cruceta de 8 direcciones, joystick, A B X Y, L y R, Select y Start. Se puede mover, cambiar de tamaño y reasignar con el editor de siempre. Se dibuja con una skin de imágenes PNG; en *Ajustes → Skin del mando* puedes poner la tuya desde una carpeta o un .zip, también skins de Citra.
 - **Mandos físicos listos para usar**: Xbox, PlayStation y genéricos funcionan sin configurar (A = OK, B = 7, X = 9, Y = 0, L = \*, R = #, Select/Start = teclas suaves), y el stick izquierdo mueve como la cruceta. Al usar un mando o teclado físico, el teclado en pantalla se esconde y vuelve al tocar la pantalla.
-- **Colecciones** (menú principal y menú de cada juego): agrupa tus juegos y muestra solo los de una colección. Quitar un juego de una colección no lo desinstala.
+- **Colecciones** (menú principal y menú de cada juego): agrupa tus juegos y muestra solo los de una colección. Incluye *★ Favoritos* y *Recientes* (los últimos 20 que abriste). Quitar un juego de una colección no lo desinstala.
 - **Vibración que sí se siente**: en Android 12 o más nuevo (HyperOS, One UI) la vibración se marca como de juego para que el sistema no la silencie.
 - **Usa la zona del notch** por defecto (se puede apagar en Ajustes).
+- **Girar imagen automático**: si casi todo lo que dibuja el juego va de lado, gira la imagen, pone la app en horizontal y lo recuerda. Es la opción por defecto en juegos nuevos.
+- **Editor de memoria** (menú del juego): busca un número del juego (vidas, dinero…) por su valor o por cómo cambió, y cámbialo o congélalo. Es una versión sencilla: los resultados son candidatos, prueba cuál es el bueno.
+- **Rendimiento en pantalla**: la opción *Mostrar FPS* ahora también muestra la memoria y la CPU.
+- **Capturas nítidas**: salen recortadas al ajuste automático, giradas como la pantalla y ampliadas sin borrosidad.
+- **Tasa de refresco según el juego** (Android 11+): la pantalla va a 60, 90 o 120 Hz según los FPS del juego, para gastar menos batería.
+- **Errores sin cerrar la app**: si un hilo del juego falla, se avisa en pantalla en vez de cerrar todo.
+- **Preguntar teclado**: en juegos hechos para pantalla táctil, la primera vez pregunta si mostrar el teclado en pantalla.
+- **Exportar e importar un juego** (menú del juego / menú principal): un .zip con el juego, sus ajustes y sus partidas guardadas, para pasarlo a otro teléfono.
+- **Buscar actualizaciones** (menú principal): revisa las versiones publicadas en GitHub y abre la descarga.
 - **Instalar una carpeta** (menú principal): instala todos los juegos de una carpeta y sus subcarpetas de una vez.
 - **Silencio en segundo plano**: al salir del juego la música se pausa y vuelve al regresar.
 - **Se instala junto al original**: tiene su propio identificador, así que no reemplaza al J2ME Loader.
