@@ -641,6 +641,7 @@ public class ConfigActivity extends BaseActivity implements View.OnClickListener
 		binding.screenBackgroundHexColor.setText(String.format("%06X", params.screenBackgroundColor));
 		binding.scaleRatio.setText(Integer.toString(params.screenScaleRatio));
 		binding.screenOrientationSelector.setSelection(params.orientation);
+		binding.screenRotationSelector.setSelection(params.screenRotation);
 		binding.scaleTypeSelector.setSelection(params.screenScaleType);
 		binding.screenGravitySelector.setSelection(params.screenGravity);
 		binding.filteringToggle.setChecked(params.screenFilter);
@@ -729,6 +730,7 @@ public class ConfigActivity extends BaseActivity implements View.OnClickListener
 				params.screenScaleRatio = 100;
 			}
 			params.orientation = binding.screenOrientationSelector.getSelectedItemPosition();
+			params.screenRotation = binding.screenRotationSelector.getSelectedItemPosition();
 			params.screenGravity = binding.screenGravitySelector.getSelectedItemPosition();
 			params.screenScaleType = binding.scaleTypeSelector.getSelectedItemPosition();
 			params.screenFilter = binding.filteringToggle.isChecked();

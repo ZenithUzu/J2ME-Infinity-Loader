@@ -192,6 +192,31 @@
                 app:layout_constraintTop_toTopOf="@+id/screen_orientation_hint" />
 
             <TextView
+                android:id="@+id/screen_rotation_hint"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/height_config_row"
+                android:gravity="center_vertical"
+                android:text="@string/PREF_SCREEN_ROTATION"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="?attr/textColorSecondary"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toStartOf="@+id/barrier_screen_config"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/screen_orientation_hint"
+                app:layout_constraintWidth_min="wrap" />
+
+            <Spinner
+                android:id="@+id/screen_rotation_selector"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/height_config_row"
+                android:entries="@array/PREF_SCREEN_ROTATION_ENTRIES"
+                android:textColor="?attr/textColorSecondary"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/barrier_screen_config"
+                app:layout_constraintTop_toTopOf="@+id/screen_rotation_hint" />
+
+            <TextView
                 android:id="@+id/screen_gravity_hint"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/height_config_row"
@@ -203,7 +228,7 @@
                 android:textSize="15sp"
                 app:layout_constraintEnd_toStartOf="@+id/barrier_screen_config"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/screen_orientation_hint"
+                app:layout_constraintTop_toBottomOf="@+id/screen_rotation_hint"
                 app:layout_constraintWidth_min="wrap" />
 
             <Spinner
@@ -215,7 +240,7 @@
                 android:textSize="15sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/barrier_screen_config"
-                app:layout_constraintTop_toBottomOf="@+id/screen_orientation_hint" />
+                app:layout_constraintTop_toBottomOf="@+id/screen_rotation_hint" />
 
             <TextView
                 android:id="@+id/scale_type_hint"
@@ -413,7 +438,7 @@
                 android:layout_width="10dp"
                 android:layout_height="match_parent"
                 app:barrierDirection="end"
-                app:constraint_referenced_ids="scale_ratio_hint,select_screen_background_color,screen_orientation_hint,scale_type_hint,graphical_mode_hint,fps_limit_hint,screen_gravity_hint" />
+                app:constraint_referenced_ids="scale_ratio_hint,select_screen_background_color,screen_orientation_hint,screen_rotation_hint,scale_type_hint,graphical_mode_hint,fps_limit_hint,screen_gravity_hint" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout><!-- Screen -->

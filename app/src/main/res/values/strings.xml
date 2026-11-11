@@ -125,7 +125,10 @@
     <string name="pref_supersampling">Supersampling</string>
     <string name="pref_supersampling_auto">Auto</string>
     <string name="pref_supersampling_off">Off</string>
-    <string name="pref_workdir_all_files_access">A custom working folder needs the \"All files access\" permission. Tap OK to open system settings and turn it on.</string>
+    <string name="PREF_SCREEN_ROTATION">Rotate image</string>
+    <string name="pref_screen_rotation_0">No rotation</string>
+    <string name="pref_screen_rotation_90">90° (clockwise)</string>
+    <string name="pref_screen_rotation_270">270° (counter-clockwise)</string>
     <string name="pref_orientation_default">Default</string>
     <string name="pref_orientation_auto">Auto</string>
     <string name="pref_orientation_port">Portrait</string>

@@ -104,7 +104,10 @@
     <string name="pref_supersampling">Superresolución</string>
     <string name="pref_supersampling_auto">Auto</string>
     <string name="pref_supersampling_off">No</string>
-    <string name="pref_workdir_all_files_access">Para usar una carpeta de trabajo propia hace falta el permiso «Acceso a todos los archivos». Toca Aceptar para abrir los ajustes y activarlo.</string>
+    <string name="PREF_SCREEN_ROTATION">Girar imagen</string>
+    <string name="pref_screen_rotation_0">Sin girar</string>
+    <string name="pref_screen_rotation_90">90° (horario)</string>
+    <string name="pref_screen_rotation_270">270° (antihorario)</string>
     <string name="pref_orientation_default">Predeterminada</string>
     <string name="pref_orientation_auto">Automática</string>
     <string name="pref_orientation_port">Vertical</string>
