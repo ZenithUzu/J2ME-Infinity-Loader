@@ -61,6 +61,7 @@
     <string name="PREF_KEEP_ASPECT_RATIO">Mantener relación de aspecto</string>
     <string name="PREF_FILTER">Filtro</string>
     <string name="PREF_IMMEDIATE">Modo de procesamiento inmediato</string>
+    <string name="PREF_FRAME_BLEND">Anti-parpadeo (mezclar fotogramas)</string>
     <string name="PREF_SHOW_FPS">Mostrar FPS</string>
     <string name="PREF_FORCE_FULLSCREEN">Forzar pantalla completa</string>
     <string name="PREF_LIMIT_FPS">Limitar FPS</string>

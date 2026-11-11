@@ -75,6 +75,9 @@ public class ProfileModel {
 	@SerializedName("ImmediateMode")
 	public boolean immediateMode;
 
+	@SerializedName("FrameBlend")
+	public boolean frameBlend;
+
 	@SerializedName("HwAcceleration")
 	public boolean hwAcceleration;
 

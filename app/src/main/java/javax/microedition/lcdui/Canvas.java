@@ -168,6 +168,12 @@ public abstract class Canvas extends Displayable {
 	private boolean sizeChangedCalled;
 	private Image offscreen;
 	private Image offscreenCopy;
+	private static boolean frameBlend;
+	/** anti-flicker: last raw frame, spare buffer and the paint that mixes them 50/50 */
+	private Bitmap blendLast, blendRaw;
+	private android.graphics.Canvas blendLastCanvas, blendRawCanvas, blendOutCanvas;
+	private Bitmap blendOut;
+	private final android.graphics.Paint blendPaint = new android.graphics.Paint();
 	private int onX, onY, onWidth, onHeight;
 	private long lastFrameTime = System.currentTimeMillis();
 	private Handler uiHandler;
@@ -199,6 +205,39 @@ public abstract class Canvas extends Displayable {
 
 	public static void setShaderFilter(ShaderInfo shader) {
 		Canvas.shaderFilter = shader;
+	}
+
+	public static void setFrameBlend(boolean enable) {
+		Canvas.frameBlend = enable;
+	}
+
+	/**
+	 * Mixes the frame just written to offscreenCopy with the previous one (call under bufferLock).
+	 * Fixes games that fake transparency with lines/dots that alternate every frame:
+	 * old slow LCDs blended them, a modern screen shows them flickering.
+	 */
+	private void blendFrame() {
+		if (!frameBlend) return;
+		Bitmap cur = offscreenCopy.getBitmap();
+		int w = cur.getWidth(), h = cur.getHeight();
+		if (blendLast == null || blendLast.getWidth() != w || blendLast.getHeight() != h) {
+			blendLast = cur.copy(Bitmap.Config.ARGB_8888, true);
+			blendRaw = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
+			blendLastCanvas = new android.graphics.Canvas(blendLast);
+			blendRawCanvas = new android.graphics.Canvas(blendRaw);
+			blendOutCanvas = new android.graphics.Canvas(cur);
+			blendOut = cur;
+			blendPaint.setAlpha(128);
+			return;
+		}
+		if (blendOut != cur) {
+			blendOutCanvas = new android.graphics.Canvas(cur);
+			blendOut = cur;
+		}
+		blendRawCanvas.drawBitmap(cur, 0, 0, null);              // keep this raw frame
+		blendOutCanvas.drawBitmap(blendLast, 0, 0, blendPaint);  // shown = 50% this + 50% last
+		Bitmap t = blendLast; blendLast = blendRaw; blendRaw = t;
+		android.graphics.Canvas tc = blendLastCanvas; blendLastCanvas = blendRawCanvas; blendRawCanvas = tc;
 	}
 
 	public static void setScreenRotation(int mode) {
@@ -751,6 +790,7 @@ protected int getSupersamplingFactor() {
 				return;
 			}
 			offscreenCopy.getSingleGraphics().flush(image, x, y, width, height);
+			blendFrame();
 		}
 		requestFlushToScreen();
 	}
@@ -760,6 +800,7 @@ protected int getSupersamplingFactor() {
 		limitFps();
 		synchronized (bufferLock) {
 			image.copyTo(offscreenCopy, x, y);
+			blendFrame();
 		}
 		requestFlushToScreen();
 	}
@@ -1067,6 +1108,7 @@ protected int getSupersamplingFactor() {
 			}
 			synchronized (bufferLock) {
 				offscreen.copyTo(offscreenCopy);
+				blendFrame();
 			}
 			if (surface == null || !surface.isValid()) {
 				return;

@@ -646,6 +646,7 @@ public class ConfigActivity extends BaseActivity implements View.OnClickListener
 		binding.screenGravitySelector.setSelection(params.screenGravity);
 		binding.filteringToggle.setChecked(params.screenFilter);
 		binding.immediateProcessingToggle.setChecked(params.immediateMode);
+		binding.frameBlendToggle.setChecked(params.frameBlend);
 		binding.parallelScreenRedrawingToggle.setChecked(params.parallelRedrawScreen);
 		binding.forceFullscreenToggle.setChecked(params.forceFullscreen);
 		binding.graphicalModeSelector.setSelection(params.graphicsMode);
@@ -735,6 +736,7 @@ public class ConfigActivity extends BaseActivity implements View.OnClickListener
 			params.screenScaleType = binding.scaleTypeSelector.getSelectedItemPosition();
 			params.screenFilter = binding.filteringToggle.isChecked();
 			params.immediateMode = binding.immediateProcessingToggle.isChecked();
+			params.frameBlend = binding.frameBlendToggle.isChecked();
 			int mode = binding.graphicalModeSelector.getSelectedItemPosition();
 			params.graphicsMode = mode;
 			if (mode == 1) {
