@@ -100,6 +100,10 @@
     <string name="SWAP_SIZES">Intercambiar tamaños</string>
     <string name="PREF_SYS_PROPS">Propiedades del sistema</string>
     <string name="PREF_ORIENTATION">Orientación de la pantalla</string>
+    <string name="PREF_SCREEN_ROTATION">Girar imagen</string>
+    <string name="pref_screen_rotation_0">Sin girar</string>
+    <string name="pref_screen_rotation_90">90° (horario)</string>
+    <string name="pref_screen_rotation_270">270° (antihorario)</string>
     <string name="pref_orientation_default">Predeterminada</string>
     <string name="pref_orientation_auto">Automática</string>
     <string name="pref_orientation_port">Vertical</string>

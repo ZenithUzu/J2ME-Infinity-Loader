@@ -53,6 +53,10 @@ public class ProfileModel {
 	@SerializedName("Orientation")
 	public int orientation;
 
+	/** 0 = none, 1 = 90° clockwise, 2 = 270° (90° counter-clockwise) */
+	@SerializedName("ScreenRotation")
+	public int screenRotation;
+
 	@SerializedName("ScreenScaleToFit")
 	public boolean screenScaleToFit;
 

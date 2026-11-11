@@ -28,6 +28,11 @@
         <item>@string/pref_orientation_port</item>
         <item>@string/pref_orientation_land</item>
     </string-array>
+    <string-array name="PREF_SCREEN_ROTATION_ENTRIES">
+        <item>@string/pref_screen_rotation_0</item>
+        <item>@string/pref_screen_rotation_90</item>
+        <item>@string/pref_screen_rotation_270</item>
+    </string-array>
     <string-array name="PREF_VK_TYPE_ENTRIES">
         <item>@string/pref_vk_type_custom</item>
         <item>@string/pref_vk_type_phone</item>

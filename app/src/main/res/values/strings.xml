@@ -121,6 +121,10 @@
     <string name="PREF_SYS_PROPS">System properties</string>
     <string name="PREF_SYS_PROPS_HINT" translatable="false">microedition.platform: Sony Ericsson C510i\nmicroedition.profiles: MIDP2.0</string>
     <string name="PREF_ORIENTATION">Screen orientation</string>
+    <string name="PREF_SCREEN_ROTATION">Rotate image</string>
+    <string name="pref_screen_rotation_0">No rotation</string>
+    <string name="pref_screen_rotation_90">90° (clockwise)</string>
+    <string name="pref_screen_rotation_270">270° (counter-clockwise)</string>
     <string name="pref_orientation_default">Default</string>
     <string name="pref_orientation_auto">Auto</string>
     <string name="pref_orientation_port">Portrait</string>
