@@ -248,6 +248,17 @@ public class KeyMapper {
 		map.append(KeyEvent.KEYCODE_DPAD_RIGHT, KEY_RIGHT);
 		map.append(KeyEvent.KEYCODE_ENTER, KEY_FIRE);
 		map.append(KeyEvent.KEYCODE_DEL, KEY_CLEAR);
+		// game controllers (Xbox, PlayStation, Switch, generic), same defaults as JarNix:
+		// A = OK, B = 7, X = 9, Y = 0, L = *, R = #, Select/Start = left/right soft keys
+		map.put(KeyEvent.KEYCODE_BUTTON_A, KEY_FIRE);
+		map.put(KeyEvent.KEYCODE_BUTTON_B, KEY_NUM7);
+		map.put(KeyEvent.KEYCODE_BUTTON_X, KEY_NUM9);
+		map.put(KeyEvent.KEYCODE_BUTTON_Y, KEY_NUM0);
+		map.put(KeyEvent.KEYCODE_BUTTON_L1, KEY_STAR);
+		map.put(KeyEvent.KEYCODE_BUTTON_R1, KEY_POUND);
+		map.put(KeyEvent.KEYCODE_BUTTON_SELECT, KEY_SOFT_LEFT);
+		map.put(KeyEvent.KEYCODE_BUTTON_START, KEY_SOFT_RIGHT);
+		map.put(KeyEvent.KEYCODE_BUTTON_THUMBL, KEY_NUM5);
 		return map;
 	}
 }

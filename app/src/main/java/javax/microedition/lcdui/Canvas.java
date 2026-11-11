@@ -36,6 +36,7 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.InputDevice;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.Surface;
@@ -768,6 +769,7 @@ protected int getSupersamplingFactor() {
 			innerView.getHolder().addCallback(callback);
 			innerView.setOnTouchListener(callback);
 			innerView.setOnKeyListener(callback);
+			innerView.setOnGenericMotionListener(callback);
 			innerView.setFocusableInTouchMode(true);
 			layout.addView(innerView);
 			innerView.requestFocus();
@@ -1258,7 +1260,8 @@ protected int getSupersamplingFactor() {
 		}
 	}
 
-	private class ViewCallbacks implements View.OnTouchListener, SurfaceHolder.Callback, View.OnKeyListener {
+	private class ViewCallbacks implements View.OnTouchListener, SurfaceHolder.Callback, View.OnKeyListener,
+			View.OnGenericMotionListener {
 		private final View mView;
 		OverlayView overlayView;
 
@@ -1288,6 +1291,40 @@ protected int getSupersamplingFactor() {
 					}
 			}
 			return false;
+		}
+
+		/** directions currently held by the controller's stick/hat: left, right, up, down */
+		private final boolean[] padDir = new boolean[4];
+		private final int[] padKeys = {KeyEvent.KEYCODE_DPAD_LEFT, KeyEvent.KEYCODE_DPAD_RIGHT,
+				KeyEvent.KEYCODE_DPAD_UP, KeyEvent.KEYCODE_DPAD_DOWN};
+
+		/**
+		 * Game controller left stick and hat (d-pad reported as axes) become d-pad key presses,
+		 * so they follow the same mapping as the d-pad keys.
+		 */
+		@Override
+		public boolean onGenericMotion(View v, MotionEvent event) {
+			if ((event.getSource() & InputDevice.SOURCE_JOYSTICK) != InputDevice.SOURCE_JOYSTICK
+					|| event.getActionMasked() != MotionEvent.ACTION_MOVE) {
+				return false;
+			}
+			float x = event.getAxisValue(MotionEvent.AXIS_HAT_X);
+			float y = event.getAxisValue(MotionEvent.AXIS_HAT_Y);
+			if (Math.abs(x) < 0.5f) x = event.getAxisValue(MotionEvent.AXIS_X);
+			if (Math.abs(y) < 0.5f) y = event.getAxisValue(MotionEvent.AXIS_Y);
+			boolean[] now = {x < -0.5f, x > 0.5f, y < -0.5f, y > 0.5f};
+			for (int i = 0; i < 4; i++) {
+				if (now[i] != padDir[i]) {
+					padDir[i] = now[i];
+					KeyEvent key = new KeyEvent(now[i] ? KeyEvent.ACTION_DOWN : KeyEvent.ACTION_UP, padKeys[i]);
+					if (now[i]) {
+						onKeyDown(padKeys[i], key);
+					} else {
+						onKeyUp(padKeys[i], key);
+					}
+				}
+			}
+			return true;
 		}
 
 		public boolean onKeyDown(int keyCode, KeyEvent event) {
