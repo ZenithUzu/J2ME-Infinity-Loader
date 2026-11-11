@@ -13,6 +13,15 @@ All new options live in **each game's settings**, just like the original J2ME Lo
 - **Force multitouch** (*Controls → Force multitouch*): every finger reaches the game separately, even if the game does not declare it in its manifest. For example, you can move and jump at the same time with the game's own touch controls. Off by default, because some single-touch games get confused by a second finger.
 - **Rotate image 90° / 270°** (*Screen → Rotate image*): for games played sideways. The image is rotated in all three drawing modes (software, hardware and OpenGL), and touches are rotated too so they land in the right place. Combine it with *Landscape* orientation.
 - **Supersampling** (*Fonts → Supersampling*): the game is drawn 2× to 10× larger and scaled down for display, so text and graphics look sharp instead of blurry. *Auto* picks the factor from your screen and lowers it if memory runs out. Covers 3D too (M3G and Mascot Capsule). Taken from [J2ME-Loader-HD](https://github.com/fuyijian/J2ME-Loader-HD).
+- **Integer scaling** (*Screen → Scale type*): each game pixel becomes exactly N×N screen pixels; the sharpest image possible.
+- **Anti-flicker** (*Screen*): blends each frame with the previous one. Fixes games that fake transparency with alternating lines or dots, which flicker on a modern screen.
+- **Auto fit** (*Screen*): if a game only draws part of the screen (e.g. 176×208 inside 240×320), only that part is shown. It waits about 12 seconds so a logo does not fool it.
+- **Game speed 1×–4×** (in-game menu → *Game speed*): speeds the game up in real time. Games installed before this version must be reinstalled.
+- **On-screen gamepad** (in-game menu → keyboard → *Gamepad*): 8-way d-pad, A B X Y, L and R, Select and Start. Move, resize and remap it with the usual editor.
+- **Physical controllers work out of the box**: Xbox, PlayStation and generic pads need no setup (A = OK, B = 7, X = 9, Y = 0, L = \*, R = #, Select/Start = soft keys), and the left stick works like the d-pad.
+- **Install a folder** (main menu): installs every game in a folder and its subfolders at once.
+- **Silent in the background**: music pauses when you leave the game and resumes when you come back.
+- **Installs next to the original**: it has its own app id, so it does not replace J2ME Loader.
 - **Installs games built with modern Java**: ports compiled with a recent JDK no longer fail with `Dexing error`.
 - **Less invasive permissions**: no "All files access"; storage works like in the original J2ME Loader, and legacy storage and Bluetooth permissions are only declared on the Android versions that use them.
 
