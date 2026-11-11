@@ -316,4 +316,11 @@
     <string name="pref_vk_type_gamepad">गेमपैड</string>
     <string name="pref_screen_scale_type_integer">पूर्णांक स्केलिंग (सबसे साफ़)</string>
     <string name="pref_screen_scale_type_wide">16:9 (चौड़ा, थोड़ा विकृत)</string>
+    <string name="home_continue">खेलना जारी रखें</string>
+    <string name="home_play">खेलें</string>
+    <string name="home_all_games">सभी गेम (%d)</string>
+    <string name="nav_games">गेम</string>
+    <string name="action_install">इंस्टॉल करें</string>
+    <string name="pref_dynamic_colors">डायनामिक रंग</string>
+    <string name="pref_dynamic_colors_summary">ऐप के रंग वॉलपेपर से लें (Android 12+)</string>
 </resources>

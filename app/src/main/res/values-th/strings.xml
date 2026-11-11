@@ -202,4 +202,11 @@
     <string name="pref_vk_type_gamepad">จอยเกม</string>
     <string name="pref_screen_scale_type_integer">ขยายแบบจำนวนเต็ม (คมชัดที่สุด)</string>
     <string name="pref_screen_scale_type_wide">16:9 (กว้างขึ้น ผิดรูปเล็กน้อย)</string>
+    <string name="home_continue">เล่นต่อ</string>
+    <string name="home_play">เล่น</string>
+    <string name="home_all_games">เกมทั้งหมด (%d)</string>
+    <string name="nav_games">เกม</string>
+    <string name="action_install">ติดตั้ง</string>
+    <string name="pref_dynamic_colors">สีแบบไดนามิก</string>
+    <string name="pref_dynamic_colors_summary">ใช้สีแอปจากวอลเปเปอร์ (Android 12 ขึ้นไป)</string>
 </resources>

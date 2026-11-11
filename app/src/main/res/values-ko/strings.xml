@@ -268,4 +268,11 @@
     <string name="pref_vk_type_gamepad">게임패드</string>
     <string name="pref_screen_scale_type_integer">정수 배율(가장 선명)</string>
     <string name="pref_screen_scale_type_wide">16:9(더 넓게, 왜곡 적음)</string>
+    <string name="home_continue">이어서 플레이</string>
+    <string name="home_play">플레이</string>
+    <string name="home_all_games">모든 게임(%d)</string>
+    <string name="nav_games">게임</string>
+    <string name="action_install">설치</string>
+    <string name="pref_dynamic_colors">동적 색상</string>
+    <string name="pref_dynamic_colors_summary">배경화면에서 앱 색상 가져오기(Android 12 이상)</string>
 </resources>

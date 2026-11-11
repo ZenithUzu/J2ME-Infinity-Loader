@@ -316,4 +316,11 @@
     <string name="pref_vk_type_gamepad">Геймпад</string>
     <string name="pref_screen_scale_type_integer">Бүтін масштабтау (ең анық)</string>
     <string name="pref_screen_scale_type_wide">16:9 (кеңірек, аз бұрмалану)</string>
+    <string name="home_continue">Ойынды жалғастыру</string>
+    <string name="home_play">Ойнау</string>
+    <string name="home_all_games">Барлық ойындар (%d)</string>
+    <string name="nav_games">Ойындар</string>
+    <string name="action_install">Орнату</string>
+    <string name="pref_dynamic_colors">Динамикалық түстер</string>
+    <string name="pref_dynamic_colors_summary">Қолданба түстерін тұсқағаздан алу (Android 12+)</string>
 </resources>

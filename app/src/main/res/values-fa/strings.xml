@@ -235,4 +235,11 @@
     <string name="pref_vk_type_gamepad">دسته</string>
     <string name="pref_screen_scale_type_integer">مقیاس عدد صحیح (واضح‌ترین)</string>
     <string name="pref_screen_scale_type_wide">۱۶:۹ (پهن‌تر، کمی اعوجاج)</string>
+    <string name="home_continue">ادامهٔ بازی</string>
+    <string name="home_play">بازی</string>
+    <string name="home_all_games">همهٔ بازی‌ها (%d)</string>
+    <string name="nav_games">بازی‌ها</string>
+    <string name="action_install">نصب</string>
+    <string name="pref_dynamic_colors">رنگ‌های پویا</string>
+    <string name="pref_dynamic_colors_summary">رنگ‌های برنامه از کاغذدیواری (Android 12 به بالا)</string>
 </resources>

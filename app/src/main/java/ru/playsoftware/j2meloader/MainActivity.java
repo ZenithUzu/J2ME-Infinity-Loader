@@ -91,6 +91,23 @@ public class MainActivity extends BaseActivity {
 			preferences.edit().putBoolean(PREF_STORAGE_WARNING_SHOWN, true).apply();
 		}
 		setVolumeControlStream(AudioManager.STREAM_MUSIC);
+		setupBottomNav();
+	}
+
+	/** Games stays here; Collections opens the collections dialog; Settings opens Settings. */
+	private void setupBottomNav() {
+		com.google.android.material.bottomnavigation.BottomNavigationView nav = findViewById(R.id.bottom_nav);
+		nav.setSelectedItemId(R.id.nav_games);
+		nav.setOnItemSelectedListener(item -> {
+			int id = item.getItemId();
+			if (id == R.id.nav_collections) {
+				androidx.fragment.app.Fragment f = getSupportFragmentManager().findFragmentById(R.id.container);
+				if (f instanceof AppsListFragment) ((AppsListFragment) f).openCollections();
+			} else if (id == R.id.nav_settings) {
+				startActivity(new Intent(this, ru.playsoftware.j2meloader.settings.SettingsActivity.class));
+			}
+			return false; // "Games" stays selected
+		});
 	}
 
 	private void checkAndCreateDirs() {

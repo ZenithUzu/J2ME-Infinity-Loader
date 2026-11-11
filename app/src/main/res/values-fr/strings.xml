@@ -313,4 +313,11 @@
     <string name="pref_vk_type_gamepad">Manette</string>
     <string name="pref_screen_scale_type_integer">Mise à l\'échelle entière (la plus nette)</string>
     <string name="pref_screen_scale_type_wide">16:9 (plus large, peu déformé)</string>
+    <string name="home_continue">Continuer à jouer</string>
+    <string name="home_play">Jouer</string>
+    <string name="home_all_games">Tous les jeux (%d)</string>
+    <string name="nav_games">Jeux</string>
+    <string name="action_install">Installer</string>
+    <string name="pref_dynamic_colors">Couleurs dynamiques</string>
+    <string name="pref_dynamic_colors_summary">Couleurs de l\'appli tirées du fond d\'écran (Android 12+)</string>
 </resources>

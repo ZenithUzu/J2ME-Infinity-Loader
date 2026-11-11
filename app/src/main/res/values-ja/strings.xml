@@ -250,4 +250,11 @@
     <string name="pref_vk_type_gamepad">ゲームパッド</string>
     <string name="pref_screen_scale_type_integer">整数倍スケーリング（最もくっきり）</string>
     <string name="pref_screen_scale_type_wide">16:9（横に広げる、ゆがみ少なめ）</string>
+    <string name="home_continue">続きから遊ぶ</string>
+    <string name="home_play">プレイ</string>
+    <string name="home_all_games">すべてのゲーム（%d）</string>
+    <string name="nav_games">ゲーム</string>
+    <string name="action_install">インストール</string>
+    <string name="pref_dynamic_colors">ダイナミックカラー</string>
+    <string name="pref_dynamic_colors_summary">アプリの色を壁紙から取得（Android 12 以上）</string>
 </resources>

@@ -137,7 +137,10 @@ class AppsListAdapter extends ListAdapter<AppItem, AppsListAdapter.AppViewHolder
 			itemView.setOnClickListener(v -> {
 				AppsListAdapter adapter = (AppsListAdapter) getBindingAdapter();
 				if (adapter != null) {
-					AppItem item = adapter.getItem(getLayoutPosition());
+					// position inside this adapter (the home header comes before it)
+					int pos = getBindingAdapterPosition();
+					if (pos == RecyclerView.NO_POSITION) return;
+					AppItem item = adapter.getItem(pos);
 					new GameCollections(v.getContext()).addRecent(item.getPath());
 					Config.startApp(v.getContext(), item.getTitle(), item.getPathExt(), false);
 				}

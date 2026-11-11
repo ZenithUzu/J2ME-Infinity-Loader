@@ -316,4 +316,11 @@
     <string name="pref_vk_type_gamepad">ذراع التحكم</string>
     <string name="pref_screen_scale_type_integer">تكبير بعدد صحيح (الأوضح)</string>
     <string name="pref_screen_scale_type_wide">16:9 (أعرض، تشوه قليل)</string>
+    <string name="home_continue">متابعة اللعب</string>
+    <string name="home_play">العب</string>
+    <string name="home_all_games">كل الألعاب (%d)</string>
+    <string name="nav_games">الألعاب</string>
+    <string name="action_install">تثبيت</string>
+    <string name="pref_dynamic_colors">ألوان ديناميكية</string>
+    <string name="pref_dynamic_colors_summary">أخذ ألوان التطبيق من الخلفية (Android 12 وأحدث)</string>
 </resources>

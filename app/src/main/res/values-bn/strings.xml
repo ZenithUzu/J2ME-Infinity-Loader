@@ -219,4 +219,11 @@
     <string name="pref_vk_type_gamepad">গেমপ্যাড</string>
     <string name="pref_screen_scale_type_integer">পূর্ণসংখ্যা স্কেলিং (সবচেয়ে স্পষ্ট)</string>
     <string name="pref_screen_scale_type_wide">১৬:৯ (চওড়া, সামান্য বিকৃতি)</string>
+    <string name="home_continue">খেলা চালিয়ে যান</string>
+    <string name="home_play">খেলুন</string>
+    <string name="home_all_games">সব গেম (%d)</string>
+    <string name="nav_games">গেম</string>
+    <string name="action_install">ইনস্টল করুন</string>
+    <string name="pref_dynamic_colors">ডায়নামিক রং</string>
+    <string name="pref_dynamic_colors_summary">ওয়ালপেপার থেকে অ্যাপের রং নিন (Android 12+)</string>
 </resources>

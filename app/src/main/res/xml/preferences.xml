@@ -10,6 +10,12 @@
         android:key="pref_theme"
         app:useSimpleSummaryProvider="true"
         android:title="@string/pref_theme_title" />
+    <SwitchPreferenceCompat
+        android:defaultValue="true"
+        android:icon="@drawable/ic_setting_theme"
+        android:key="pref_dynamic_colors"
+        android:summary="@string/pref_dynamic_colors_summary"
+        android:title="@string/pref_dynamic_colors" />
     <ListPreference
         android:icon="@drawable/ic_setting_translate"
         android:key="pref_language"

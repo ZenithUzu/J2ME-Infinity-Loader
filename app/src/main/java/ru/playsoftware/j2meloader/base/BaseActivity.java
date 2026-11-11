@@ -20,19 +20,23 @@ import androidx.preference.PreferenceManager;
 import ru.playsoftware.j2meloader.R;
 
 public class BaseActivity extends AppCompatActivity {
+	public static final String PREF_DYNAMIC_COLORS = "pref_dynamic_colors";
 
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
 		SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+		// Material You: the app takes its colors from the wallpaper (Android 12+)
+		if (sp.getBoolean(PREF_DYNAMIC_COLORS, true)) {
+			com.google.android.material.color.DynamicColors.applyToActivityIfAvailable(this);
+		}
 		if (sp.getBoolean(PREF_BLACK_BACKGROUND, false)) {
 			getTheme().applyStyle(R.style.ThemeOverlay_App_Dark, true);
 		}
 		super.onCreate(savedInstanceState);
-		EdgeToEdge.enable(
-				this,
-				SystemBarStyle.dark(ContextCompat.getColor(this, R.color.primary)),
-				SystemBarStyle.dark(Color.BLACK)
-		);
+		// see-through bars over the app's own surface color, light or dark icons as needed
+		EdgeToEdge.enable(this,
+				SystemBarStyle.auto(Color.TRANSPARENT, Color.TRANSPARENT),
+				SystemBarStyle.auto(Color.TRANSPARENT, Color.TRANSPARENT));
 		View view = findViewById(android.R.id.content);
 		ViewCompat.setOnApplyWindowInsetsListener(view, (v, windowInsets) -> {
 			Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars() | WindowInsetsCompat.Type.displayCutout());

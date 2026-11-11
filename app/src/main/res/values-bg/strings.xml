@@ -283,4 +283,11 @@
     <string name="pref_vk_type_gamepad">Геймпад</string>
     <string name="pref_screen_scale_type_integer">Целочислено мащабиране (най-ясно)</string>
     <string name="pref_screen_scale_type_wide">16:9 (по-широко, малко изкривяване)</string>
+    <string name="home_continue">Продължи играта</string>
+    <string name="home_play">Играй</string>
+    <string name="home_all_games">Всички игри (%d)</string>
+    <string name="nav_games">Игри</string>
+    <string name="action_install">Инсталиране</string>
+    <string name="pref_dynamic_colors">Динамични цветове</string>
+    <string name="pref_dynamic_colors_summary">Цветовете на приложението от тапета (Android 12+)</string>
 </resources>

@@ -99,7 +99,8 @@ public final class GameCollections {
 		prefs.edit().putString(RECENT, android.text.TextUtils.join("\n", recent)).apply();
 	}
 
-	private List<String> recent() {
+	/** Last games opened, newest first. */
+	public List<String> recent() {
 		String s = prefs.getString(RECENT, "");
 		List<String> list = new ArrayList<>();
 		for (String p : s.split("\n")) {

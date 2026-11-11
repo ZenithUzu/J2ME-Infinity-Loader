@@ -316,4 +316,11 @@
     <string name="pref_vk_type_gamepad">Gamepad</string>
     <string name="pref_screen_scale_type_integer">Skala bilangan bulat (paling tajam)</string>
     <string name="pref_screen_scale_type_wide">16:9 (lebih lebar, sedikit distorsi)</string>
+    <string name="home_continue">Lanjutkan bermain</string>
+    <string name="home_play">Main</string>
+    <string name="home_all_games">Semua game (%d)</string>
+    <string name="nav_games">Game</string>
+    <string name="action_install">Pasang</string>
+    <string name="pref_dynamic_colors">Warna dinamis</string>
+    <string name="pref_dynamic_colors_summary">Ambil warna aplikasi dari wallpaper (Android 12+)</string>
 </resources>

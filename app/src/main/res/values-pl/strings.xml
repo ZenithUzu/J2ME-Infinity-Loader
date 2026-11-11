@@ -266,4 +266,11 @@
     <string name="pref_vk_type_gamepad">Pad</string>
     <string name="pref_screen_scale_type_integer">Skalowanie całkowite (najostrzejsze)</string>
     <string name="pref_screen_scale_type_wide">16:9 (szerzej, małe zniekształcenie)</string>
+    <string name="home_continue">Kontynuuj grę</string>
+    <string name="home_play">Graj</string>
+    <string name="home_all_games">Wszystkie gry (%d)</string>
+    <string name="nav_games">Gry</string>
+    <string name="action_install">Zainstaluj</string>
+    <string name="pref_dynamic_colors">Kolory dynamiczne</string>
+    <string name="pref_dynamic_colors_summary">Kolory aplikacji z tapety (Android 12+)</string>
 </resources>

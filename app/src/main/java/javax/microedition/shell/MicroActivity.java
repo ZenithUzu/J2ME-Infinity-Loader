@@ -129,6 +129,10 @@ public class MicroActivity extends AppCompatActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+		// in-game dialogs (quick settings...) in the same colors as the app
+		if (sp.getBoolean(ru.playsoftware.j2meloader.base.BaseActivity.PREF_DYNAMIC_COLORS, true)) {
+			com.google.android.material.color.DynamicColors.applyToActivityIfAvailable(this);
+		}
 		if (sp.getBoolean(PREF_BLACK_BACKGROUND, false)) {
 			getTheme().applyStyle(R.style.ThemeOverlay_App_Dark, true);
 		}

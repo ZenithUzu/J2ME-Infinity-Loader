@@ -108,6 +108,9 @@ public class AppsListFragment extends Fragment implements MenuProvider {
 			new androidx.activity.result.contract.ActivityResultContracts.OpenDocumentTree(),
 			this::onPickFolderResult);
 	private final AppsListAdapter adapter = new AppsListAdapter(this);
+	/** console style home on top of the games (option C) */
+	private final HomeHeaderAdapter header = new HomeHeaderAdapter(this);
+	private String searchText = "";
 	/** game being exported while the "save as" picker is open */
 	private AppItem exportItem;
 	/** game whose icon is being changed while the image picker is open */
@@ -183,8 +186,15 @@ public class AppsListFragment extends Fragment implements MenuProvider {
 				layoutManager.setSpanCount(gridColumns(configuration.screenWidthDp));
 			}
 		});
+		// the home header takes the whole width, the games follow in the grid
+		layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+			@Override
+			public int getSpanSize(int position) {
+				return position < header.getItemCount() ? layoutManager.getSpanCount() : 1;
+			}
+		});
 		binding.list.setLayoutManager(layoutManager);
-		binding.list.setAdapter(adapter);
+		binding.list.setAdapter(new androidx.recyclerview.widget.ConcatAdapter(header, adapter));
 		if (savedInstanceState == null) checkForUpdatesOnStart();
 		binding.floatingActionButton.setOnClickListener(v -> {
 			String path = preferences.getString(PREF_LAST_PATH, null);
@@ -393,9 +403,21 @@ public class AppsListFragment extends Fragment implements MenuProvider {
 		return Math.max(1, screenWidthDp / (AppsListAdapter.gridIconDp(requireContext()) + 42));
 	}
 
+	/** The home header shows on the whole library without a search (the rows change after playing). */
+	private void updateHeader() {
+		if (allItems == null) return;
+		header.update(allItems, collections(), collections().getCurrent() == null && searchText.isEmpty());
+	}
+
+	/** Bottom bar > Collections. */
+	public void openCollections() {
+		showCollectionsDialog();
+	}
+
 	@Override
 	public void onResume() {
 		super.onResume();
+		updateHeader();
 		// grid settings may have changed in Settings
 		if (layoutManager != null && adapter.getItemViewType(0) == AppsListAdapter.LAYOUT_TYPE_GRID) {
 			layoutManager.setSpanCount(gridColumns(getResources().getConfiguration().screenWidthDp));
@@ -411,6 +433,7 @@ public class AppsListFragment extends Fragment implements MenuProvider {
 	/** Shows only the games of the chosen collection, and its name under the title. */
 	private void showCollection() {
 		adapter.setItems(collections().filter(allItems));
+		updateHeader();
 		androidx.appcompat.app.ActionBar bar =
 				((androidx.appcompat.app.AppCompatActivity) requireActivity()).getSupportActionBar();
 		if (bar != null) bar.setSubtitle(collectionTitle(collections().getCurrent()));
@@ -775,7 +798,11 @@ public class AppsListFragment extends Fragment implements MenuProvider {
 				.map(String::toLowerCase)
 				.distinctUntilChanged()
 				.observeOn(AndroidSchedulers.mainThread())
-				.subscribe(charSequence -> adapter.getFilter().filter(charSequence));
+				.subscribe(charSequence -> {
+					searchText = charSequence;
+					adapter.getFilter().filter(charSequence);
+					updateHeader();
+				});
 		int type = preferences.getInt(PREF_APPS_VIEW, AppsListAdapter.LAYOUT_TYPE_GRID);
 		if (type == AppsListAdapter.LAYOUT_TYPE_LIST) {
 			menu.findItem(R.id.action_view).setIcon(R.drawable.ic_action_apps_view_grid);

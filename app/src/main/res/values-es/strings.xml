@@ -316,4 +316,11 @@
     <string name="default_label">"%s (por defecto)"</string>
     <string name="not_saved_exists">Ya existe</string>
     <string name="alert_rewrite_profile">Ya existe un perfil llamado “%1$s”.\n¿Quieres sobrescribirlo?</string>
+    <string name="home_continue">Seguir jugando</string>
+    <string name="home_play">Jugar</string>
+    <string name="home_all_games">Todos los juegos (%d)</string>
+    <string name="nav_games">Juegos</string>
+    <string name="action_install">Instalar</string>
+    <string name="pref_dynamic_colors">Colores dinámicos</string>
+    <string name="pref_dynamic_colors_summary">Toma los colores de la app de tu fondo de pantalla (Android 12+)</string>
 </resources>

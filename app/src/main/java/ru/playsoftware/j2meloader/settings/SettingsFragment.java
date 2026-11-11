@@ -156,6 +156,12 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 	@Override
 	public void onCreatePreferences(Bundle bundle, String s) {
 		addPreferencesFromResource(R.xml.preferences);
+		// new colors are seen at once
+		androidx.preference.Preference dyn = findPreference("pref_dynamic_colors");
+		if (dyn != null) dyn.setOnPreferenceChangeListener((p, v) -> {
+			requireView().post(() -> requireActivity().recreate());
+			return true;
+		});
 		initLanguages();
 		findPreference("pref_default_settings").setIntent(new Intent(requireActivity(), ProfilesActivity.class));
 		findPreference("pref_backup").setOnPreferenceClickListener(preference -> {

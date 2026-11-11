@@ -314,4 +314,11 @@
     <string name="pref_vk_type_gamepad">Oyun kolu</string>
     <string name="pref_screen_scale_type_integer">Tam sayı ölçekleme (en keskin)</string>
     <string name="pref_screen_scale_type_wide">16:9 (daha geniş, az bozulma)</string>
+    <string name="home_continue">Oynamaya devam et</string>
+    <string name="home_play">Oyna</string>
+    <string name="home_all_games">Tüm oyunlar (%d)</string>
+    <string name="nav_games">Oyunlar</string>
+    <string name="action_install">Yükle</string>
+    <string name="pref_dynamic_colors">Dinamik renkler</string>
+    <string name="pref_dynamic_colors_summary">Uygulama renklerini duvar kâğıdından al (Android 12+)</string>
 </resources>

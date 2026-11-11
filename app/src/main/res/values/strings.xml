@@ -409,4 +409,11 @@
     <string name="alert_rewrite_profile">A profile named \"%1$s\" already exists.\nDo you want to overwrite it?</string>
     <string name="msg_no_matches">No matches for \"%1$s\"</string>
     <string name="msg_unsupported_soundbank">Unsupported soundbank, default bank is used!</string>
+    <string name="home_continue">Continue playing</string>
+    <string name="home_play">Play</string>
+    <string name="home_all_games">All games (%d)</string>
+    <string name="nav_games">Games</string>
+    <string name="action_install">Install</string>
+    <string name="pref_dynamic_colors">Dynamic colors</string>
+    <string name="pref_dynamic_colors_summary">Take the app colors from your wallpaper (Android 12+)</string>
 </resources>

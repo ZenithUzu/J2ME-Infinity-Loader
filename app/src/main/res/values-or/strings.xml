@@ -216,4 +216,11 @@
     <string name="pref_vk_type_gamepad">ଗେମପ୍ୟାଡ</string>
     <string name="pref_screen_scale_type_integer">ପୂର୍ଣ୍ଣାଙ୍କ ସ୍କେଲିଂ (ସବୁଠାରୁ ସ୍ପଷ୍ଟ)</string>
     <string name="pref_screen_scale_type_wide">16:9 (ଚଉଡ଼ା, ଅଳ୍ପ ବିକୃତି)</string>
+    <string name="home_continue">ଖେଳ ଜାରି ରଖନ୍ତୁ</string>
+    <string name="home_play">ଖେଳନ୍ତୁ</string>
+    <string name="home_all_games">ସମସ୍ତ ଖେଳ (%d)</string>
+    <string name="nav_games">ଖେଳ</string>
+    <string name="action_install">ଇନଷ୍ଟଲ କରନ୍ତୁ</string>
+    <string name="pref_dynamic_colors">ଡାଇନାମିକ ରଙ୍ଗ</string>
+    <string name="pref_dynamic_colors_summary">ୱାଲପେପରରୁ ଆପ ରଙ୍ଗ ନିଅନ୍ତୁ (Android 12+)</string>
 </resources>

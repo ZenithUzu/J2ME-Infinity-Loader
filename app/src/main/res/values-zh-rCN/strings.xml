@@ -316,4 +316,11 @@
     <string name="pref_vk_type_gamepad">手柄</string>
     <string name="pref_screen_scale_type_integer">整数缩放（最清晰）</string>
     <string name="pref_screen_scale_type_wide">16:9（加宽，变形少）</string>
+    <string name="home_continue">继续游戏</string>
+    <string name="home_play">开始</string>
+    <string name="home_all_games">所有游戏（%d）</string>
+    <string name="nav_games">游戏</string>
+    <string name="action_install">安装</string>
+    <string name="pref_dynamic_colors">动态取色</string>
+    <string name="pref_dynamic_colors_summary">根据壁纸设置应用颜色（Android 12 及以上）</string>
 </resources>

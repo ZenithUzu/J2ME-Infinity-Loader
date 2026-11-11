@@ -308,4 +308,11 @@
     <string name="pref_vk_type_gamepad">Tay cầm</string>
     <string name="pref_screen_scale_type_integer">Phóng to số nguyên (sắc nét nhất)</string>
     <string name="pref_screen_scale_type_wide">16:9 (rộng hơn, ít méo)</string>
+    <string name="home_continue">Chơi tiếp</string>
+    <string name="home_play">Chơi</string>
+    <string name="home_all_games">Tất cả trò chơi (%d)</string>
+    <string name="nav_games">Trò chơi</string>
+    <string name="action_install">Cài đặt</string>
+    <string name="pref_dynamic_colors">Màu động</string>
+    <string name="pref_dynamic_colors_summary">Lấy màu ứng dụng từ hình nền (Android 12+)</string>
 </resources>

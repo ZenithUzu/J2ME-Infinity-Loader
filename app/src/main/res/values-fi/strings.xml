@@ -188,4 +188,11 @@
     <string name="pref_vk_type_gamepad">Ohjain</string>
     <string name="pref_screen_scale_type_integer">Kokonaislukuskaalaus (terävin)</string>
     <string name="pref_screen_scale_type_wide">16:9 (leveämpi, vähän vääristymää)</string>
+    <string name="home_continue">Jatka pelaamista</string>
+    <string name="home_play">Pelaa</string>
+    <string name="home_all_games">Kaikki pelit (%d)</string>
+    <string name="nav_games">Pelit</string>
+    <string name="action_install">Asenna</string>
+    <string name="pref_dynamic_colors">Dynaamiset värit</string>
+    <string name="pref_dynamic_colors_summary">Sovelluksen värit taustakuvasta (Android 12+)</string>
 </resources>

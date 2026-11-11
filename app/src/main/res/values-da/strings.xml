@@ -190,4 +190,11 @@
     <string name="pref_vk_type_gamepad">Gamepad</string>
     <string name="pref_screen_scale_type_integer">Heltalsskalering (skarpest)</string>
     <string name="pref_screen_scale_type_wide">16:9 (bredere, lidt forvrængning)</string>
+    <string name="home_continue">Fortsæt spillet</string>
+    <string name="home_play">Spil</string>
+    <string name="home_all_games">Alle spil (%d)</string>
+    <string name="nav_games">Spil</string>
+    <string name="action_install">Installér</string>
+    <string name="pref_dynamic_colors">Dynamiske farver</string>
+    <string name="pref_dynamic_colors_summary">Appens farver fra din baggrund (Android 12+)</string>
 </resources>
