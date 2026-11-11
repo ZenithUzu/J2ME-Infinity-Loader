@@ -79,6 +79,8 @@
     <string name="PREF_KEEP_ASPECT_RATIO">Keep aspect ratio</string>
     <string name="PREF_FILTER">Filter</string>
     <string name="PREF_IMMEDIATE">Immediate processing mode</string>
+    <string name="pref_check_updates_start">Check for updates on start</string>
+    <string name="pref_check_updates_start_summary">At most once a day; only tells you when there is a new version</string>
     <string name="pref_category_library">Library grid</string>
     <string name="pref_grid_icon_size">Icon size</string>
     <string name="pref_grid_portrait">3:4 icons</string>

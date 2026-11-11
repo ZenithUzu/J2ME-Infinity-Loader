@@ -61,6 +61,8 @@
     <string name="PREF_KEEP_ASPECT_RATIO">Mantener relación de aspecto</string>
     <string name="PREF_FILTER">Filtro</string>
     <string name="PREF_IMMEDIATE">Modo de procesamiento inmediato</string>
+    <string name="pref_check_updates_start">Buscar actualizaciones al abrir</string>
+    <string name="pref_check_updates_start_summary">Como mucho una vez al día; solo avisa si hay una versión nueva</string>
     <string name="pref_category_library">Rejilla de la biblioteca</string>
     <string name="pref_grid_icon_size">Tamaño de los iconos</string>
     <string name="pref_grid_portrait">Iconos 3:4</string>

@@ -34,7 +34,13 @@ Todas las opciones nuevas están en la **configuración de cada juego**, igual q
 - **Cambiar icono** (menú de cada juego): pon la imagen que quieras como icono del juego en la lista, o vuelve al original; el juego no se modifica.
 - **Mando físico completo**: L2/R2 (también como gatillos analógicos), L3/R3 y el stick derecho se pueden asignar en *Asignar teclas*, y una tecla del juego puede tener a la vez una tecla de teclado y un botón del mando. La vibración del juego también hace vibrar el mando.
 - **Botones de volumen**: dentro del juego cambian el volumen del juego, no el del timbre.
-- **Buscar actualizaciones** (menú principal): revisa las versiones publicadas en GitHub y abre la descarga.
+- **Buscar actualizaciones** (menú principal): revisa las versiones publicadas en GitHub y abre la descarga. También puede avisarte al abrir la app (como mucho una vez al día; se apaga en Ajustes).
+- **Instalar desde ZIP**: elige un .zip y se instalan los juegos que trae dentro. Al instalar varios, si un juego ya existe te pregunta si reemplazarlo u omitirlo (o todos).
+- **Rejilla de la biblioteca** (Ajustes): tamaño de los iconos, iconos 3:4 tipo portada y ocultar títulos.
+- **Sonido sin tirones**: los sonidos se preparan en su propio hilo, así el juego no se congela cada vez que suena un efecto.
+- **Límite de FPS exacto**: 30 FPS dan 30, no ~27.
+- **Toques con menos retraso** (Android 11+) y **fondo negro** por defecto en las zonas que el juego no dibuja.
+- **Teclas de LG**: además de Siemens, Motorola y Nokia E62, ya se pueden usar los códigos de teclas suaves de LG.
 - **Instalar una carpeta** (menú principal): instala todos los juegos de una carpeta y sus subcarpetas de una vez.
 - **Silencio en segundo plano**: al salir del juego la música se pausa y vuelve al regresar.
 - **Se instala junto al original**: tiene su propio identificador, así que no reemplaza al J2ME Loader.

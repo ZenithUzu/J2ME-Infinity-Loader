@@ -185,6 +185,7 @@ public class AppsListFragment extends Fragment implements MenuProvider {
 		});
 		binding.list.setLayoutManager(layoutManager);
 		binding.list.setAdapter(adapter);
+		if (savedInstanceState == null) checkForUpdatesOnStart();
 		binding.floatingActionButton.setOnClickListener(v -> {
 			String path = preferences.getString(PREF_LAST_PATH, null);
 			if (path == null) {
@@ -223,9 +224,22 @@ public class AppsListFragment extends Fragment implements MenuProvider {
 	 * Like JL-Mod Plus updates: asks GitHub for the latest release and, if it is newer,
 	 * offers to open its page to download the APK (nothing is installed silently).
 	 */
+	/** At startup (Settings > Check for updates on start): at most once a day, silent unless new. */
+	private void checkForUpdatesOnStart() {
+		if (!preferences.getBoolean("pref_check_updates_start", true)) return;
+		long now = System.currentTimeMillis();
+		if (now - preferences.getLong("update_last_check", 0) < 24L * 3600 * 1000) return;
+		preferences.edit().putLong("update_last_check", now).apply();
+		checkForUpdates(true);
+	}
+
 	private void checkForUpdates() {
+		checkForUpdates(false);
+	}
+
+	private void checkForUpdates(boolean silent) {
 		FragmentActivity activity = requireActivity();
-		Toast.makeText(activity, R.string.update_checking, Toast.LENGTH_SHORT).show();
+		if (!silent) Toast.makeText(activity, R.string.update_checking, Toast.LENGTH_SHORT).show();
 		new Thread(() -> {
 			String tag = null, url = null;
 			int code = -1;
@@ -250,7 +264,11 @@ public class AppsListFragment extends Fragment implements MenuProvider {
 			}
 			final String fTag = tag, fUrl = url;
 			final int fCode = code;
-			activity.runOnUiThread(() -> showUpdateResult(activity, fCode, fTag, fUrl));
+			activity.runOnUiThread(() -> {
+				boolean newer = fTag != null && fUrl != null && compareVersions(fTag,
+						ru.playsoftware.j2meloader.BuildConfig.VERSION_NAME) > 0;
+				if (!silent || newer) showUpdateResult(activity, fCode, fTag, fUrl);
+			});
 		}, "UpdateCheck").start();
 	}
 
