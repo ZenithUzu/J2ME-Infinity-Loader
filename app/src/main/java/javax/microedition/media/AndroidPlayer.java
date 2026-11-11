@@ -39,7 +39,7 @@ public class AndroidPlayer extends MediaPlayer {
 	}
 
 	@Override
-	public void seekTo(int msec) throws IllegalStateException {
+	public synchronized void seekTo(int msec) throws IllegalStateException {
 		if (loaded) {
 			super.seekTo(msec);
 		}
@@ -65,7 +65,7 @@ public class AndroidPlayer extends MediaPlayer {
 	}
 
 	@Override
-	public void setLooping(boolean looping) {
+	public synchronized void setLooping(boolean looping) {
 		if (loaded) {
 			super.setLooping(looping);
 		}
@@ -73,7 +73,7 @@ public class AndroidPlayer extends MediaPlayer {
 	}
 
 	@Override
-	public void setVolume(float leftVolume, float rightVolume) {
+	public synchronized void setVolume(float leftVolume, float rightVolume) {
 		if (loaded) {
 			super.setVolume(leftVolume, rightVolume);
 		}
@@ -82,21 +82,26 @@ public class AndroidPlayer extends MediaPlayer {
 	}
 
 	@Override
-	public void start() throws IllegalStateException {
+	public synchronized void start() throws IllegalStateException {
 		load();
 		timePos = 0;
 		super.start();
 	}
 
 	@Override
-	public void reset() {
+	public synchronized void reset() {
 		if (loaded) {
 			super.reset();
 			loaded = false;
 		}
 	}
 
-	private void load() {
+	/** Prepares the sound now (on the audio thread), so start() does not have to. */
+	void preload() {
+		load();
+	}
+
+	private synchronized void load() {
 		if (!loaded) {
 			try {
 				super.setDataSource(path);

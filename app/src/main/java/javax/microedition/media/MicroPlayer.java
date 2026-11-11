@@ -37,7 +37,29 @@ public class MicroPlayer extends BasePlayer implements MediaPlayer.OnCompletionL
 		BackgroundAware {
 	private static final String TAG = MicroPlayer.class.getSimpleName();
 
-	protected final MediaPlayer player = new AndroidPlayer();
+	protected final AndroidPlayer player = new AndroidPlayer();
+
+	/**
+	 * From JarNix: preparing an Android MediaPlayer takes tens of ms and used to freeze the
+	 * game every time a sound started. Start / pause / release / reset run on this audio
+	 * thread instead, one after another in the order the game asked for them.
+	 */
+	private static final java.util.concurrent.ExecutorService AUDIO =
+			java.util.concurrent.Executors.newSingleThreadExecutor(r -> {
+				Thread t = new Thread(r, "MicroPlayerAudio");
+				t.setDaemon(true);
+				return t;
+			});
+
+	private static void audio(Runnable task) {
+		AUDIO.execute(() -> {
+			try {
+				task.run();
+			} catch (Throwable e) {
+				Log.w(TAG, "audio: " + e);
+			}
+		});
+	}
 	protected final DataSource source;
 	private final InternalMetaData metadata;
 
@@ -75,6 +97,7 @@ public class MicroPlayer extends BasePlayer implements MediaPlayer.OnCompletionL
 
 	public void doPrefetch() throws IOException {
 		metadata.updateMetaData(source);
+		audio(player::preload); // ready before the game starts it
 	}
 
 	/** paused by the emulator when going to the background */
@@ -87,44 +110,40 @@ public class MicroPlayer extends BasePlayer implements MediaPlayer.OnCompletionL
 			pendingStart = true;
 			return;
 		}
-		player.start();
+		audio(player::start);
 	}
 
 	@Override
 	public void onBackgroundChanged(boolean background) {
 		if (background) {
 			if (state == STARTED) {
-				try {
-					player.pause();
-				} catch (Throwable ignored) {
-				}
+				audio(player::pause);
 				pausedByUs = true;
 			}
 		} else if (pausedByUs || pendingStart) {
 			pausedByUs = false;
 			pendingStart = false;
-			try {
-				player.start();
-			} catch (Throwable ignored) {
-			}
+			audio(player::start);
 		}
 	}
 
 	public void doStop() {
 		pausedByUs = false;
 		pendingStart = false;
-		player.pause();
+		audio(player::pause);
 	}
 
 	public void doClose() {
 		pausedByUs = false;
 		pendingStart = false;
-		player.release();
-		source.disconnect();
+		audio(() -> {
+			player.release();
+			source.disconnect();
+		});
 	}
 
 	public void doReset() {
-		player.reset();
+		audio(player::reset);
 	}
 
 	public void doSetMediaTime(long usec) {
