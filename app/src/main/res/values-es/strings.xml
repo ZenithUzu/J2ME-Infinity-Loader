@@ -61,6 +61,7 @@
     <string name="PREF_KEEP_ASPECT_RATIO">Mantener relación de aspecto</string>
     <string name="PREF_FILTER">Filtro</string>
     <string name="PREF_IMMEDIATE">Modo de procesamiento inmediato</string>
+    <string name="ask_show_keyboard">Este juego está hecho para pantalla táctil. ¿Mostrar el teclado en pantalla? Puedes cambiarlo después en la configuración del juego.</string>
     <string name="collections">Colecciones</string>
     <string name="collection_all_games">Todos los juegos</string>
     <string name="collection_new">Nueva colección</string>

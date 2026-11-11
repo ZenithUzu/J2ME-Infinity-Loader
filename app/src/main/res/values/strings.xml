@@ -79,6 +79,7 @@
     <string name="PREF_KEEP_ASPECT_RATIO">Keep aspect ratio</string>
     <string name="PREF_FILTER">Filter</string>
     <string name="PREF_IMMEDIATE">Immediate processing mode</string>
+    <string name="ask_show_keyboard">This game is made for touch screens. Show the on-screen keyboard? You can change it later in the game settings.</string>
     <string name="collections">Collections</string>
     <string name="collection_all_games">All games</string>
     <string name="collection_new">New collection</string>

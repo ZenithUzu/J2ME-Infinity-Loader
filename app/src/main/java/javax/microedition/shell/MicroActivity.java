@@ -191,6 +191,29 @@ public class MicroActivity extends AppCompatActivity {
 			return;
 		}
 		microLoader.applyConfiguration();
+		pauseDisabled = microLoader.isPauseDisabled();
+		menuKey = microLoader.getMenuKeyCode();
+		inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+		if (microLoader.shouldAskKeyboard()) {
+			new AlertDialog.Builder(this)
+					.setTitle(appName)
+					.setMessage(R.string.ask_show_keyboard)
+					.setCancelable(false)
+					.setPositiveButton(android.R.string.yes, (d, w) -> {
+						microLoader.setKeyboardChoice(true);
+						startGame();
+					})
+					.setNegativeButton(android.R.string.no, (d, w) -> {
+						microLoader.setKeyboardChoice(false);
+						startGame();
+					})
+					.show();
+		} else {
+			startGame();
+		}
+	}
+
+	private void startGame() {
 		VirtualKeyboard vk = ContextHolder.getVk();
 		int orientation = microLoader.getOrientation();
 		if (vk != null) {
@@ -201,9 +224,6 @@ public class MicroActivity extends AppCompatActivity {
 			}
 		}
 		setOrientation(orientation);
-		pauseDisabled = microLoader.isPauseDisabled();
-		menuKey = microLoader.getMenuKeyCode();
-		inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
 
 		try {
 			loadMIDlet();

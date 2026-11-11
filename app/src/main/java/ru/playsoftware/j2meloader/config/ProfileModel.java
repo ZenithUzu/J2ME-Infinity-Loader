@@ -133,6 +133,10 @@ public class ProfileModel {
 	@SerializedName("ShowKeyboard")
 	public boolean showKeyboard;
 
+	/** the "show on-screen keyboard?" question for touch games was answered */
+	@SerializedName("KeyboardAsked")
+	public boolean keyboardAsked;
+
 	@SerializedName("VirtualKeyboardType")
 	public int vkType;
 

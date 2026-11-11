@@ -225,6 +225,35 @@ public class MicroLoader {
 		System.setProperty("user.home", Config.getFsInternalDir());
 	}
 
+	/**
+	 * From JarNix: a game whose manifest says it needs no on-screen keypad
+	 * (Nokia-MIDlet-On-Screen-Keypad: no) or that it is made for touch
+	 * (MIDlet-Touch-Support: true) gets asked once whether to show the keyboard.
+	 */
+	boolean shouldAskKeyboard() {
+		if (params.keyboardAsked || !BuildConfig.FULL_EMULATOR) {
+			return false;
+		}
+		try {
+			Map<String, String> attrs = new Descriptor(new File(appDir, Config.MIDLET_MANIFEST_FILE), false)
+					.getAttrs();
+			String keypad = attrs.get("Nokia-MIDlet-On-Screen-Keypad");
+			String touch = attrs.get("MIDlet-Touch-Support");
+			return (keypad != null && keypad.trim().equalsIgnoreCase("no"))
+					|| (touch != null && touch.trim().equalsIgnoreCase("true"));
+		} catch (Throwable e) {
+			return false;
+		}
+	}
+
+	/** Saves the answer and creates or removes the keyboard. */
+	void setKeyboardChoice(boolean show) {
+		params.keyboardAsked = true;
+		params.showKeyboard = show;
+		ProfilesManager.saveConfig(params);
+		ContextHolder.setVk(show ? new VirtualKeyboard(params) : null);
+	}
+
 	public int getOrientation() {
 		return params.orientation;
 	}
