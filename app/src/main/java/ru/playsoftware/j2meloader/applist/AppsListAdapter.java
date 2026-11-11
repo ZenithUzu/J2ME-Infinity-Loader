@@ -128,6 +128,7 @@ class AppsListAdapter extends ListAdapter<AppItem, AppsListAdapter.AppViewHolder
 				AppsListAdapter adapter = (AppsListAdapter) getBindingAdapter();
 				if (adapter != null) {
 					AppItem item = adapter.getItem(getLayoutPosition());
+					new GameCollections(v.getContext()).addRecent(item.getPath());
 					Config.startApp(v.getContext(), item.getTitle(), item.getPathExt(), false);
 				}
 			});

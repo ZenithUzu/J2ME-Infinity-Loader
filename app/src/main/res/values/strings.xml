@@ -85,6 +85,10 @@
     <string name="collection_all_games">All games</string>
     <string name="collection_new">New collection</string>
     <string name="collection_delete">Delete “%s”</string>
+    <string name="collection_favorites">★ Favorites</string>
+    <string name="collection_recent">Recent</string>
+    <string name="favorite_add">Add to favorites</string>
+    <string name="favorite_remove">Remove from favorites</string>
     <string name="pref_pad_skin">Gamepad skin</string>
     <string name="pref_pad_skin_summary">Pictures for the on-screen gamepad (Citra skins work too)</string>
     <string name="pad_skin_choose">Choose a folder with the pictures</string>

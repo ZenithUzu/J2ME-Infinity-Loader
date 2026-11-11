@@ -210,19 +210,26 @@ public class AppsListFragment extends Fragment implements MenuProvider {
 
 	/** Shows only the games of the chosen collection, and its name under the title. */
 	private void showCollection() {
-		String current = collections().getCurrent();
 		adapter.setItems(collections().filter(allItems));
 		androidx.appcompat.app.ActionBar bar =
 				((androidx.appcompat.app.AppCompatActivity) requireActivity()).getSupportActionBar();
-		if (bar != null) bar.setSubtitle(current);
+		if (bar != null) bar.setSubtitle(collectionTitle(collections().getCurrent()));
+	}
+
+	private String collectionTitle(String name) {
+		if (GameCollections.FAVORITES.equals(name)) return getString(R.string.collection_favorites);
+		if (GameCollections.RECENT.equals(name)) return getString(R.string.collection_recent);
+		return name;
 	}
 
 	/** Main menu > Collections: pick which games to show, create or delete collections. */
 	private void showCollectionsDialog() {
 		List<String> names = collections().names();
+		names.add(0, GameCollections.RECENT);
+		names.add(0, GameCollections.FAVORITES);
 		String[] items = new String[names.size() + 2];
 		items[0] = getString(R.string.collection_all_games);
-		for (int i = 0; i < names.size(); i++) items[i + 1] = names.get(i);
+		for (int i = 0; i < names.size(); i++) items[i + 1] = collectionTitle(names.get(i));
 		items[items.length - 1] = getString(R.string.collection_new);
 		AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity())
 				.setTitle(R.string.collections)
@@ -241,7 +248,7 @@ public class AppsListFragment extends Fragment implements MenuProvider {
 					}
 				});
 		String current = collections().getCurrent();
-		if (current != null) {
+		if (current != null && !current.startsWith("\u0001")) {
 			builder.setNeutralButton(getString(R.string.collection_delete, current), (d, w) -> {
 				collections().delete(current);
 				showCollection();
@@ -410,6 +417,9 @@ public class AppsListFragment extends Fragment implements MenuProvider {
 		}
 
 		AppItem appItem = ((AppItemLayout.AppItemMenuInfo) menuInfo).appItem;
+		menu.findItem(R.id.action_context_favorite).setTitle(
+				collections().contains(GameCollections.FAVORITES, appItem.getPath())
+						? R.string.favorite_remove : R.string.favorite_add);
 		if (!new File(appItem.getPathExt() + Config.MIDLET_RES_FILE).exists()) {
 			menu.findItem(R.id.action_context_reinstall).setVisible(false);
 		}
@@ -425,6 +435,10 @@ public class AppsListFragment extends Fragment implements MenuProvider {
 			alertRename(appItem);
 		} else if (itemId == R.id.action_context_collections) {
 			showGameCollectionsDialog(appItem);
+		} else if (itemId == R.id.action_context_favorite) {
+			boolean fav = collections().contains(GameCollections.FAVORITES, appItem.getPath());
+			collections().setMember(GameCollections.FAVORITES, appItem.getPath(), !fav);
+			showCollection();
 		} else if (itemId == R.id.action_context_settings) {
 			Config.startApp(requireActivity(), appItem.getTitle(), appItem.getPathExt(), true);
 		} else if (itemId == R.id.action_context_reinstall) {

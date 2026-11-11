@@ -67,6 +67,10 @@
     <string name="collection_all_games">Todos los juegos</string>
     <string name="collection_new">Nueva colección</string>
     <string name="collection_delete">Borrar «%s»</string>
+    <string name="collection_favorites">★ Favoritos</string>
+    <string name="collection_recent">Recientes</string>
+    <string name="favorite_add">Añadir a favoritos</string>
+    <string name="favorite_remove">Quitar de favoritos</string>
     <string name="pref_pad_skin">Skin del mando</string>
     <string name="pref_pad_skin_summary">Imágenes del mando en pantalla (también sirven skins de Citra)</string>
     <string name="pad_skin_choose">Elegir una carpeta con las imágenes</string>

@@ -35,6 +35,10 @@ public final class GameCollections {
 	private static final String NAMES = "names";
 	private static final String PREFIX = "c:";
 	private static final String CURRENT = "current";
+	/** built-in lists, not in names(): Favorites (a collection) and Recent (last launched first) */
+	public static final String FAVORITES = "\u0001favorites";
+	public static final String RECENT = "\u0001recent";
+	private static final int RECENT_MAX = 20;
 
 	private final SharedPreferences prefs;
 
@@ -86,10 +90,37 @@ public final class GameCollections {
 		prefs.edit().putString(CURRENT, name).apply();
 	}
 
+	/** Remembers a launched game for Recent. */
+	public void addRecent(String gamePath) {
+		List<String> recent = recent();
+		recent.remove(gamePath);
+		recent.add(0, gamePath);
+		while (recent.size() > RECENT_MAX) recent.remove(recent.size() - 1);
+		prefs.edit().putString(RECENT, android.text.TextUtils.join("\n", recent)).apply();
+	}
+
+	private List<String> recent() {
+		String s = prefs.getString(RECENT, "");
+		List<String> list = new ArrayList<>();
+		for (String p : s.split("\n")) {
+			if (!p.isEmpty()) list.add(p);
+		}
+		return list;
+	}
+
 	/** Only the games of the current collection (all of them if there is none). */
 	public List<AppItem> filter(List<AppItem> items) {
 		String current = getCurrent();
 		if (current == null || items == null) return items;
+		if (RECENT.equals(current)) {
+			List<AppItem> out = new ArrayList<>();
+			for (String path : recent()) {
+				for (AppItem item : items) {
+					if (item.getPath().equals(path)) out.add(item);
+				}
+			}
+			return out;
+		}
 		Set<String> games = games(current);
 		List<AppItem> out = new ArrayList<>();
 		for (AppItem item : items) {
