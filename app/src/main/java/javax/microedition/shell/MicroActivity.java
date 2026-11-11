@@ -606,6 +606,8 @@ public class MicroActivity extends AppCompatActivity {
 			showLimitFpsDialog();
 		} else if (id == R.id.action_game_speed) {
 			showGameSpeedDialog();
+		} else if (id == R.id.action_memory_editor) {
+			MemoryEditor.show(this);
 		} else if (ContextHolder.getVk() != null) {
 			// Handled only when virtual keyboard is enabled
 			handleVkOptions(id);

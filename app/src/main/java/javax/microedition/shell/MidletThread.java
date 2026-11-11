@@ -63,6 +63,11 @@ public class MidletThread extends HandlerThread implements Handler.Callback {
 		handler.obtainMessage(INIT).sendToTarget();
 	}
 
+	/** The running MIDlet, or null (used by the memory editor). */
+	static MIDlet getMidlet() {
+		return instance != null ? instance.midlet : null;
+	}
+
 	static void create(MicroLoader microLoader, String mainClass) {
 		instance = new MidletThread(microLoader, mainClass);
 	}
