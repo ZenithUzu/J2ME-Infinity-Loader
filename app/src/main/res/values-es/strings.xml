@@ -138,6 +138,7 @@
     <string name="pref_screen_gravity_top">Parte superior</string>
     <string name="pref_screen_scale_type">Tipo de escala</string>
     <string name="pref_screen_scale_type_fill">Ajustar ventana (ignorar relación de aspecto)</string>
+    <string name="pref_screen_scale_type_integer">Escala entera (más nítida)</string>
     <string name="pref_screen_scale_type_fit">Ajustar a ventana</string>
     <string name="pref_screen_scale_type_none">Como es</string>
     <string name="pref_vk_hide_hint">desactivado</string>

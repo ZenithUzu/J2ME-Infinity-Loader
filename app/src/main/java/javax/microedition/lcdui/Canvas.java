@@ -500,6 +500,13 @@ protected int getSupersamplingFactor() {
 					scaleRatio = 100;
 				}
 				break;
+			case 3:
+				// integer scaling: each game pixel becomes exactly N x N screen pixels
+				int intFactor = Math.max(1, Math.min(displayWidth / imgWidth, scaledDisplayHeight / imgHeight));
+				onWidth = imgWidth * intFactor;
+				onHeight = imgHeight * intFactor;
+				scaleRatio = 100;
+				break;
 		}
 
 		onWidth = onWidth * scaleRatio / 100;

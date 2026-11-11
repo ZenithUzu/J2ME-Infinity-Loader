@@ -168,6 +168,7 @@
     <string name="pref_screen_gravity_top">Top</string>
     <string name="pref_screen_scale_type">Scale type</string>
     <string name="pref_screen_scale_type_fill">Fill window (ignore aspect ratio)</string>
+    <string name="pref_screen_scale_type_integer">Integer scaling (sharpest)</string>
     <string name="pref_screen_scale_type_fit">Fit to window</string>
     <string name="pref_screen_scale_type_none">As is</string>
     <string name="pref_vk_hide_hint">disabled</string>
