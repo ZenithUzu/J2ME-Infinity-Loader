@@ -79,6 +79,10 @@
     <string name="PREF_KEEP_ASPECT_RATIO">Keep aspect ratio</string>
     <string name="PREF_FILTER">Filter</string>
     <string name="PREF_IMMEDIATE">Immediate processing mode</string>
+    <string name="collections">Collections</string>
+    <string name="collection_all_games">All games</string>
+    <string name="collection_new">New collection</string>
+    <string name="collection_delete">Delete “%s”</string>
     <string name="pref_pad_skin">Gamepad skin</string>
     <string name="pref_pad_skin_summary">Pictures for the on-screen gamepad (Citra skins work too)</string>
     <string name="pad_skin_choose">Choose a folder with the pictures</string>

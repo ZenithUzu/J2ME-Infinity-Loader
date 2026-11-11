@@ -7,6 +7,9 @@
         android:id="@+id/action_context_rename"
         android:title="@string/action_context_rename" />
     <item
+        android:id="@+id/action_context_collections"
+        android:title="@string/collections" />
+    <item
         android:id="@+id/action_context_settings"
         android:title="@string/action_settings" />
     <item

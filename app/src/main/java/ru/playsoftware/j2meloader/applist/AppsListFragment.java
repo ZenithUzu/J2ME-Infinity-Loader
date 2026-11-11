@@ -108,6 +108,9 @@ public class AppsListFragment extends Fragment implements MenuProvider {
 			new androidx.activity.result.contract.ActivityResultContracts.OpenDocumentTree(),
 			this::onPickFolderResult);
 	private final AppsListAdapter adapter = new AppsListAdapter(this);
+	private GameCollections collections;
+	/** every installed game, before the collection filter */
+	private List<AppItem> allItems;
 	private Uri appUri;
 	private SharedPreferences preferences;
 	private AppRepository appRepository;
@@ -198,6 +201,105 @@ public class AppsListFragment extends Fragment implements MenuProvider {
 			String msg = activity.getString(R.string.error) + ": " + throwable.getMessage();
 			Toast.makeText(activity, msg, Toast.LENGTH_SHORT).show();
 		}
+	}
+
+	private GameCollections collections() {
+		if (collections == null) collections = new GameCollections(requireContext());
+		return collections;
+	}
+
+	/** Shows only the games of the chosen collection, and its name under the title. */
+	private void showCollection() {
+		String current = collections().getCurrent();
+		adapter.setItems(collections().filter(allItems));
+		androidx.appcompat.app.ActionBar bar =
+				((androidx.appcompat.app.AppCompatActivity) requireActivity()).getSupportActionBar();
+		if (bar != null) bar.setSubtitle(current);
+	}
+
+	/** Main menu > Collections: pick which games to show, create or delete collections. */
+	private void showCollectionsDialog() {
+		List<String> names = collections().names();
+		String[] items = new String[names.size() + 2];
+		items[0] = getString(R.string.collection_all_games);
+		for (int i = 0; i < names.size(); i++) items[i + 1] = names.get(i);
+		items[items.length - 1] = getString(R.string.collection_new);
+		AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity())
+				.setTitle(R.string.collections)
+				.setItems(items, (d, which) -> {
+					if (which == 0) {
+						collections().setCurrent(null);
+						showCollection();
+					} else if (which == items.length - 1) {
+						askCollectionName(name -> {
+							collections().setCurrent(name);
+							showCollection();
+						});
+					} else {
+						collections().setCurrent(names.get(which - 1));
+						showCollection();
+					}
+				});
+		String current = collections().getCurrent();
+		if (current != null) {
+			builder.setNeutralButton(getString(R.string.collection_delete, current), (d, w) -> {
+				collections().delete(current);
+				showCollection();
+			});
+		}
+		builder.show();
+	}
+
+	/** Game menu > Collections: tick the collections this game belongs to. */
+	private void showGameCollectionsDialog(AppItem item) {
+		List<String> names = collections().names();
+		if (names.isEmpty()) {
+			askCollectionName(name -> collections().setMember(name, item.getPath(), true));
+			return;
+		}
+		String[] items = names.toArray(new String[0]);
+		boolean[] checked = new boolean[items.length];
+		for (int i = 0; i < items.length; i++) {
+			checked[i] = collections().contains(items[i], item.getPath());
+		}
+		new AlertDialog.Builder(requireActivity())
+				.setTitle(item.getTitle())
+				.setMultiChoiceItems(items, checked, (d, which, isChecked) -> {
+					collections().setMember(items[which], item.getPath(), isChecked);
+					showCollection();
+				})
+				.setNeutralButton(R.string.collection_new, (d, w) -> askCollectionName(name -> {
+					collections().setMember(name, item.getPath(), true);
+					showCollection();
+				}))
+				.setPositiveButton(android.R.string.ok, null)
+				.show();
+	}
+
+	private interface NameCallback {
+		void accept(String name);
+	}
+
+	private void askCollectionName(NameCallback onCreated) {
+		FragmentActivity activity = requireActivity();
+		EditText editText = new EditText(activity);
+		editText.setSingleLine();
+		int pad = (int) (20 * getResources().getDisplayMetrics().density);
+		LinearLayout layout = new LinearLayout(activity);
+		layout.setPadding(pad, 0, pad, 0);
+		layout.addView(editText, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+				ViewGroup.LayoutParams.WRAP_CONTENT));
+		new AlertDialog.Builder(activity)
+				.setTitle(R.string.collection_new)
+				.setView(layout)
+				.setPositiveButton(android.R.string.ok, (d, w) -> {
+					String name = editText.getText().toString().trim();
+					if (name.isEmpty()) return;
+					collections().create(name);
+					onCreated.accept(name);
+				})
+				.setNegativeButton(android.R.string.cancel, null)
+				.show();
 	}
 
 	private void onPickFolderResult(Uri tree) {
@@ -321,6 +423,8 @@ public class AppsListFragment extends Fragment implements MenuProvider {
 			requestAddShortcut(appItem);
 		} else if (itemId == R.id.action_context_rename) {
 			alertRename(appItem);
+		} else if (itemId == R.id.action_context_collections) {
+			showGameCollectionsDialog(appItem);
 		} else if (itemId == R.id.action_context_settings) {
 			Config.startApp(requireActivity(), appItem.getTitle(), appItem.getPathExt(), true);
 		} else if (itemId == R.id.action_context_reinstall) {
@@ -405,7 +509,9 @@ public class AppsListFragment extends Fragment implements MenuProvider {
 	public boolean onMenuItemSelected(MenuItem item) {
 		FragmentActivity activity = requireActivity();
 		int itemId = item.getItemId();
-		if (itemId == R.id.action_install_folder) {
+		if (itemId == R.id.action_collections) {
+			showCollectionsDialog();
+		} else if (itemId == R.id.action_install_folder) {
 			openFolderLauncher.launch(null);
 		} else if (itemId == R.id.action_about) {
 			AboutDialogFragment aboutDialogFragment = new AboutDialogFragment();
@@ -478,7 +584,8 @@ public class AppsListFragment extends Fragment implements MenuProvider {
 	}
 
 	private void onDbUpdated(List<AppItem> items) {
-		adapter.setItems(items);
+		allItems = items;
+		showCollection();
 		if (appUri != null) {
 			InstallerDialog.newInstance(appUri).show(getParentFragmentManager(), "installer");
 			appUri = null;

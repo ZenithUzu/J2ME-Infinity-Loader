@@ -17,8 +17,11 @@ All new options live in **each game's settings**, just like the original J2ME Lo
 - **Anti-flicker** (*Screen*): blends each frame with the previous one. Fixes games that fake transparency with alternating lines or dots, which flicker on a modern screen.
 - **Auto fit** (*Screen*): if a game only draws part of the screen (e.g. 176×208 inside 240×320), only that part is shown. It waits about 12 seconds so a logo does not fool it.
 - **Game speed 1×–4×** (in-game menu → *Game speed*): speeds the game up in real time. Games installed before this version must be reinstalled.
-- **On-screen gamepad** (in-game menu → keyboard → *Gamepad*): 8-way d-pad, A B X Y, L and R, Select and Start. Move, resize and remap it with the usual editor. It is drawn with a PNG skin; pick your own in *Settings → Gamepad skin*, Citra skins work too.
-- **Physical controllers work out of the box**: Xbox, PlayStation and generic pads need no setup (A = OK, B = 7, X = 9, Y = 0, L = \*, R = #, Select/Start = soft keys), and the left stick works like the d-pad.
+- **On-screen gamepad** (in-game menu → keyboard → *Gamepad*): 8-way d-pad, stick, A B X Y, L and R, Select and Start. Move, resize and remap it with the usual editor. It is drawn with a PNG skin; pick your own folder or .zip in *Settings → Gamepad skin*, Citra skins work too.
+- **Physical controllers work out of the box**: Xbox, PlayStation and generic pads need no setup (A = OK, B = 7, X = 9, Y = 0, L = \*, R = #, Select/Start = soft keys), and the left stick works like the d-pad. Using a physical controller or keyboard hides the on-screen keys; touching the screen brings them back.
+- **Collections** (main menu and each game's menu): group your games and show only one collection. Removing a game from a collection does not uninstall it.
+- **Vibration you can feel**: on Android 12+ (HyperOS, One UI) vibration is marked as game use so the system does not mute it.
+- **Uses the notch area** by default (can be turned off in Settings).
 - **Install a folder** (main menu): installs every game in a folder and its subfolders at once.
 - **Silent in the background**: music pauses when you leave the game and resumes when you come back.
 - **Installs next to the original**: it has its own app id, so it does not replace J2ME Loader.

@@ -61,6 +61,10 @@
     <string name="PREF_KEEP_ASPECT_RATIO">Mantener relación de aspecto</string>
     <string name="PREF_FILTER">Filtro</string>
     <string name="PREF_IMMEDIATE">Modo de procesamiento inmediato</string>
+    <string name="collections">Colecciones</string>
+    <string name="collection_all_games">Todos los juegos</string>
+    <string name="collection_new">Nueva colección</string>
+    <string name="collection_delete">Borrar «%s»</string>
     <string name="pref_pad_skin">Skin del mando</string>
     <string name="pref_pad_skin_summary">Imágenes del mando en pantalla (también sirven skins de Citra)</string>
     <string name="pad_skin_choose">Elegir una carpeta con las imágenes</string>

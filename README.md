@@ -17,8 +17,11 @@ Todas las opciones nuevas están en la **configuración de cada juego**, igual q
 - **Anti-parpadeo** (*Pantalla*): mezcla cada fotograma con el anterior. Arregla los juegos que hacen transparencias con rayas o puntos que se alternan y en una pantalla moderna parpadean.
 - **Ajuste automático** (*Pantalla*): si el juego solo dibuja una parte de la pantalla (por ejemplo 176×208 dentro de 240×320), muestra solo esa parte. Espera unos 12 segundos para no confundirse con un logo.
 - **Velocidad 1×–4×** (menú del juego → *Velocidad del juego*): acelera el juego en tiempo real. Los juegos instalados antes de esta versión hay que volver a instalarlos.
-- **Mando en pantalla** (menú del juego → teclado → *Mando*): cruceta de 8 direcciones, A B X Y, L y R, Select y Start. Se puede mover, cambiar de tamaño y reasignar con el editor de siempre. Se dibuja con una skin de imágenes PNG; en *Ajustes → Skin del mando* puedes poner la tuya, también skins de Citra.
-- **Mandos físicos listos para usar**: Xbox, PlayStation y genéricos funcionan sin configurar (A = OK, B = 7, X = 9, Y = 0, L = \*, R = #, Select/Start = teclas suaves), y el stick izquierdo mueve como la cruceta.
+- **Mando en pantalla** (menú del juego → teclado → *Mando*): cruceta de 8 direcciones, joystick, A B X Y, L y R, Select y Start. Se puede mover, cambiar de tamaño y reasignar con el editor de siempre. Se dibuja con una skin de imágenes PNG; en *Ajustes → Skin del mando* puedes poner la tuya desde una carpeta o un .zip, también skins de Citra.
+- **Mandos físicos listos para usar**: Xbox, PlayStation y genéricos funcionan sin configurar (A = OK, B = 7, X = 9, Y = 0, L = \*, R = #, Select/Start = teclas suaves), y el stick izquierdo mueve como la cruceta. Al usar un mando o teclado físico, el teclado en pantalla se esconde y vuelve al tocar la pantalla.
+- **Colecciones** (menú principal y menú de cada juego): agrupa tus juegos y muestra solo los de una colección. Quitar un juego de una colección no lo desinstala.
+- **Vibración que sí se siente**: en Android 12 o más nuevo (HyperOS, One UI) la vibración se marca como de juego para que el sistema no la silencie.
+- **Usa la zona del notch** por defecto (se puede apagar en Ajustes).
 - **Instalar una carpeta** (menú principal): instala todos los juegos de una carpeta y sus subcarpetas de una vez.
 - **Silencio en segundo plano**: al salir del juego la música se pausa y vuelve al regresar.
 - **Se instala junto al original**: tiene su propio identificador, así que no reemplaza al J2ME Loader.
