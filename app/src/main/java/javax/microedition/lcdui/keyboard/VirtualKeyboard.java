@@ -117,13 +117,17 @@ public class VirtualKeyboard implements Overlay, Runnable {
 	private static final int KEY_A = 25;
 	private static final int KEY_B = 26;
 	private static final int KEY_MENU = 27;
-	private static final int KEYBOARD_SIZE = 28;
+	private static final int KEY_STICK = 28;
+	private static final int KEYBOARD_SIZE = 29;
+	/** not a real key code: identifies the on-screen stick in saved layouts */
+	private static final int STICK_KEY_CODE = -0x5354;
 
 	private static final float SCALE_SNAP_RADIUS = 0.05f;
 
 	private static final int FEEDBACK_DURATION = 50;
 
 	private final float[] keyScales = {
+			1, 1,
 			1, 1,
 			1, 1,
 			1, 1,
@@ -165,6 +169,8 @@ public class VirtualKeyboard implements Overlay, Runnable {
 			KEY_FIRE
 	}, {
 			KEY_MENU
+	}, {
+			KEY_STICK
 	}};
 	private final VirtualKey[] keypad = new VirtualKey[KEYBOARD_SIZE];
 	// the average user usually has no more than 10 fingers...
@@ -235,6 +241,7 @@ public class VirtualKeyboard implements Overlay, Runnable {
 
 		keypad[KEY_FIRE] = new VirtualKey(Canvas.KEY_FIRE, "F");
 		keypad[KEY_MENU] = new MenuKey();
+		keypad[KEY_STICK] = new StickKey();
 
 		layoutVariant = readLayoutType();
 
@@ -286,11 +293,14 @@ public class VirtualKeyboard implements Overlay, Runnable {
 
 	private void resetLayout(int variant) {
 		updateLabels(variant);
+		setSnap(KEY_STICK, SCREEN, RectSnap.INT_SOUTHWEST, false); // only the gamepad shows it
 		switch (variant) {
 			case TYPE_GAMEPAD:
-				// like a game controller: d-pad bottom left, A B X Y diamond bottom right,
-				// L and R above them, Select / menu / Start at the bottom center
+				// like a game controller: d-pad bottom left with the stick above it, A B X Y
+				// diamond bottom right, L and R in the top corners, Select / menu / Start bottom center
 				Arrays.fill(keyScales, 1);
+				keyScales[keyScales.length - 2] = 2; // stick: 2 x 2 keys
+				keyScales[keyScales.length - 1] = 2;
 
 				setSnap(KEY_DOWN_LEFT, SCREEN, RectSnap.INT_SOUTHWEST, true);
 				setSnap(KEY_DOWN, KEY_DOWN_LEFT, RectSnap.EXT_EAST, true);
@@ -300,14 +310,15 @@ public class VirtualKeyboard implements Overlay, Runnable {
 				setSnap(KEY_UP_RIGHT, KEY_RIGHT, RectSnap.EXT_NORTH, true);
 				setSnap(KEY_UP, KEY_UP_RIGHT, RectSnap.EXT_WEST, true);
 				setSnap(KEY_UP_LEFT, KEY_UP, RectSnap.EXT_WEST, true);
-				setSnap(KEY_STAR, KEY_UP_LEFT, RectSnap.EXT_NORTH, true);      // L
+				setSnap(KEY_STICK, KEY_UP, RectSnap.EXT_NORTH, true);
+				setSnap(KEY_STAR, SCREEN, RectSnap.INT_NORTHWEST, true);       // L
 
 				setSnap(KEY_D, SCREEN, RectSnap.INT_SOUTHEAST, false);         // hidden anchor
 				setSnap(KEY_NUM7, KEY_D, RectSnap.EXT_WEST, true);              // B (bottom)
 				setSnap(KEY_FIRE, KEY_D, RectSnap.EXT_NORTH, true);             // A (right)
 				setSnap(KEY_NUM9, KEY_NUM7, RectSnap.EXT_NORTHWEST, true);      // X (left)
 				setSnap(KEY_NUM0, KEY_FIRE, RectSnap.EXT_NORTHWEST, true);      // Y (top)
-				setSnap(KEY_POUND, KEY_NUM0, RectSnap.EXT_NORTHEAST, true);     // R
+				setSnap(KEY_POUND, SCREEN, RectSnap.INT_NORTHEAST, true);      // R
 
 				setSnap(KEY_MENU, SCREEN, RectSnap.INT_SOUTH, true);
 				setSnap(KEY_SOFT_LEFT, KEY_MENU, RectSnap.EXT_WEST, true);      // Select
@@ -1103,6 +1114,7 @@ public class VirtualKeyboard implements Overlay, Runnable {
 						vibrate();
 						associatedKeys[pointer] = key;
 						key.onDown();
+						if (key instanceof StickKey) ((StickKey) key).move(x, y);
 						overlayView.postInvalidate();
 						break;
 					}
@@ -1151,7 +1163,10 @@ public class VirtualKeyboard implements Overlay, Runnable {
 					return false;
 				}
 				VirtualKey aKey = associatedKeys[pointer];
-				if (aKey == null) {
+				if (aKey instanceof StickKey) {
+					((StickKey) aKey).move(x, y);
+					overlayView.postInvalidate();
+				} else if (aKey == null) {
 					pointerPressed(pointer, x, y);
 				} else if (!aKey.contains(x, y)) {
 					associatedKeys[pointer] = null;
@@ -1524,6 +1539,109 @@ public class VirtualKeyboard implements Overlay, Runnable {
 		@Override
 		public int hashCode() {
 			return hashCode;
+		}
+	}
+
+	/**
+	 * On-screen stick (idea from JarNix): the direction from its center to the finger presses
+	 * one of 8 directions, like the d-pad. Skin: "joystick" at rest, or Citra style
+	 * stick_main_range (plate, here joystick_base) + stick_main (knob) / stick_main_pressed.
+	 */
+	private class StickKey extends VirtualKey {
+		private int mask; // up 1, down 2, left 4, right 8
+		private float knobX = Float.NaN, knobY;
+
+		StickKey() {
+			super(STICK_KEY_CODE, "◎");
+		}
+
+		void move(float x, float y) {
+			float r = rect.width() / 2;
+			float dx = x - rect.centerX(), dy = y - rect.centerY();
+			float d = (float) Math.hypot(dx, dy);
+			float max = r * 0.5f; // the knob never leaves the plate
+			if (d > max) {
+				dx = dx * max / d;
+				dy = dy * max / d;
+			}
+			knobX = rect.centerX() + dx;
+			knobY = rect.centerY() + dy;
+			int m = 0;
+			if (d > r * 0.25f) { // dead zone in the middle
+				// 8 sectors of 45°: a direction counts when within 67.5° of its axis
+				double a = Math.toDegrees(Math.atan2(-(y - rect.centerY()), x - rect.centerX()));
+				if (a > 22.5 && a < 157.5) m |= 1;
+				if (a < -22.5 && a > -157.5) m |= 2;
+				if (a > 112.5 || a < -112.5) m |= 4;
+				if (a < 67.5 && a > -67.5) m |= 8;
+			}
+			setMask(m);
+		}
+
+		private void setMask(int m) {
+			int[] codes = {Canvas.KEY_UP, Canvas.KEY_DOWN, Canvas.KEY_LEFT, Canvas.KEY_RIGHT};
+			for (int i = 0; i < 4; i++) {
+				int bit = 1 << i;
+				if ((m & bit) != 0 && (mask & bit) == 0) target.postKeyPressed(codes[i]);
+				if ((m & bit) == 0 && (mask & bit) != 0) target.postKeyReleased(codes[i]);
+			}
+			mask = m;
+		}
+
+		@Override
+		protected void onDown() {
+			selected = true;
+		}
+
+		@Override
+		public void onUp() {
+			selected = false;
+			knobX = Float.NaN;
+			if (target != null) setMask(0);
+		}
+
+		@Override
+		public void onRepeat() {
+		}
+
+		@Override
+		void paint(CanvasWrapper g) {
+			int alpha = skinAlpha(this);
+			boolean held = !Float.isNaN(knobX);
+			Bitmap base = PadSkin.get("joystick_base");
+			Bitmap knob = held && PadSkin.get("joystick_pressed") != null
+					? PadSkin.get("joystick_pressed") : PadSkin.get("joystick_knob");
+			if (!held && PadSkin.get("joystick") != null && layoutEditMode == LAYOUT_EOF) {
+				fitSkin(PadSkin.get("joystick"), rect);
+				g.drawSkin(PadSkin.get("joystick"), skinRect, alpha, 0);
+				return;
+			}
+			if (base != null && knob != null && layoutEditMode == LAYOUT_EOF) {
+				fitSkin(base, rect);
+				g.drawSkin(base, skinRect, alpha, 0);
+				RectF k = new RectF(skinRect);
+				// finger travel (up to half the radius) -> stick travel whose edge reaches the rim
+				if (held) k.offset((knobX - rect.centerX()) * 0.68f, (knobY - rect.centerY()) * 0.68f);
+				// a Citra knob picture is smaller than the plate: keep its own proportion
+				if (knob.getWidth() < base.getWidth()) {
+					float s = k.width() / base.getWidth();
+					float w = knob.getWidth() * s / 2, h = knob.getHeight() * s / 2;
+					k.set(k.centerX() - w, k.centerY() - h, k.centerX() + w, k.centerY() + h);
+				}
+				g.drawSkin(knob, k, alpha, 0);
+				return;
+			}
+			// no skin: a plate and a knob in the keyboard colors
+			int a = (opaque || layoutEditMode != LAYOUT_EOF ? 0xFF : settings.vkAlpha) << 24;
+			g.setFillColor(a | settings.vkBgColor);
+			g.setDrawColor(a | settings.vkOutlineColor);
+			g.fillArc(rect, 0, 360);
+			g.drawArc(rect, 0, 360);
+			float kr = rect.width() * 0.22f;
+			float cx = held ? knobX : rect.centerX(), cy = held ? knobY : rect.centerY();
+			RectF k = new RectF(cx - kr, cy - kr, cx + kr, cy + kr);
+			g.setFillColor(a | (selected ? settings.vkBgColorSelected : settings.vkFgColor));
+			g.fillArc(k, 0, 360);
 		}
 	}
 

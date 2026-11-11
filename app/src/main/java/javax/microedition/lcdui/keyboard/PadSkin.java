@@ -91,6 +91,10 @@ public final class PadSkin {
 		if (n.startsWith("button_")) n = n.substring(7);
 		n = n.replace("_directions", "").replace("_direction", "");
 		if (n.equals("dpad_idle") || n.equals("dpad_standard")) n = "dpad";
+		// Citra stick: range = the plate, stick_main = the knob
+		if (n.equals("stick_main_range")) n = "joystick_base";
+		else if (n.equals("stick_main")) n = "joystick_knob";
+		else if (n.equals("stick_main_pressed")) n = "joystick_pressed";
 		return n;
 	}
 
