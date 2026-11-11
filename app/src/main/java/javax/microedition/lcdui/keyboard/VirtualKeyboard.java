@@ -187,6 +187,8 @@ public class VirtualKeyboard implements Overlay, Runnable {
 	private View overlayView;
 	private boolean obscuresVirtualScreen;
 	private boolean visible = true;
+	/** hidden because a game controller or physical keyboard is in use; a touch brings it back */
+	private boolean hiddenByController;
 	private int layoutEditMode = LAYOUT_EOF;
 	private int editedIndex;
 	private float offsetX;
@@ -985,9 +987,23 @@ public class VirtualKeyboard implements Overlay, Runnable {
 		return keySize;
 	}
 
+	/** Called when a physical game controller / keyboard is used. */
+	public void hideForController() {
+		if (!hiddenByController && layoutEditMode == LAYOUT_EOF) {
+			hiddenByController = true;
+			for (int i = 0; i < associatedKeys.length; i++) {
+				if (associatedKeys[i] != null) {
+					associatedKeys[i].onUp();
+					associatedKeys[i] = null;
+				}
+			}
+			if (overlayView != null) overlayView.postInvalidate();
+		}
+	}
+
 	@Override
 	public void paint(CanvasWrapper g) {
-		if (visible) {
+		if (visible && !hiddenByController) {
 			boolean skinDpad = padMode && layoutEditMode == LAYOUT_EOF && paintSkinDpad(g);
 			for (int i = 0; i < keypad.length; i++) {
 				VirtualKey key = keypad[i];
@@ -1074,6 +1090,11 @@ public class VirtualKeyboard implements Overlay, Runnable {
 	public boolean pointerPressed(int pointer, float x, float y) {
 		switch (layoutEditMode) {
 			case LAYOUT_EOF:
+				if (hiddenByController) { // first touch only shows the keys again
+					hiddenByController = false;
+					overlayView.postInvalidate();
+					return true;
+				}
 				if (pointer > associatedKeys.length) {
 					return false;
 				}

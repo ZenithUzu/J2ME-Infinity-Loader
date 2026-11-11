@@ -1313,6 +1313,7 @@ protected int getSupersamplingFactor() {
 			if (Math.abs(x) < 0.5f) x = event.getAxisValue(MotionEvent.AXIS_X);
 			if (Math.abs(y) < 0.5f) y = event.getAxisValue(MotionEvent.AXIS_Y);
 			boolean[] now = {x < -0.5f, x > 0.5f, y < -0.5f, y > 0.5f};
+			if (now[0] || now[1] || now[2] || now[3]) hideVirtualKeyboard();
 			for (int i = 0; i < 4; i++) {
 				if (now[i] != padDir[i]) {
 					padDir[i] = now[i];
@@ -1327,7 +1328,26 @@ protected int getSupersamplingFactor() {
 			return true;
 		}
 
+		/** A real game controller or physical keyboard (not the nav bar, not volume keys). */
+		private boolean isPhysicalController(KeyEvent event) {
+			InputDevice device = event.getDevice();
+			if (device == null || device.isVirtual()) return false;
+			int source = event.getSource();
+			if ((source & InputDevice.SOURCE_GAMEPAD) == InputDevice.SOURCE_GAMEPAD
+					|| (source & InputDevice.SOURCE_JOYSTICK) == InputDevice.SOURCE_JOYSTICK) {
+				return true;
+			}
+			return (source & InputDevice.SOURCE_KEYBOARD) == InputDevice.SOURCE_KEYBOARD
+					&& device.getKeyboardType() == InputDevice.KEYBOARD_TYPE_ALPHABETIC;
+		}
+
+		private void hideVirtualKeyboard() {
+			VirtualKeyboard vk = ContextHolder.getVk();
+			if (vk != null) vk.hideForController();
+		}
+
 		public boolean onKeyDown(int keyCode, KeyEvent event) {
+			if (isPhysicalController(event)) hideVirtualKeyboard();
 			keyCode = KeyMapper.convertAndroidKeyCode(keyCode, event);
 			if (keyCode == 0) {
 				return false;
