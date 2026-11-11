@@ -38,6 +38,10 @@
         <item>72</item>
         <item>96</item>
     </string-array>
+    <string-array name="filters_import_actions">
+        <item>@string/pad_skin_choose</item>
+        <item>@string/pad_skin_choose_zip</item>
+    </string-array>
     <string-array name="icon_actions">
         <item>@string/icon_choose</item>
         <item>@string/icon_original</item>

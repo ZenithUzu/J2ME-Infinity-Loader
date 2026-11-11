@@ -40,6 +40,12 @@ public class ShaderProgram {
 	public int uTexelDelta;
 	public int uSetting;
 	public int uPixelDelta;
+	// RetroArch shaders (.glsl): their own names for the same things, plus sizes and the matrix
+	public int uMvp = -1;
+	public int uTextureSize = -1;
+	public int uInputSize = -1;
+	public int uOutputSize = -1;
+	public int uFrameCount = -1;
 
 	public ShaderProgram(ShaderInfo shader) {
 		if (shader != null) {
@@ -48,6 +54,12 @@ public class ShaderProgram {
 			if (vertex != null && fragment != null) {
 				String vertexCode = FileUtils.getText(shader.dir + vertex);
 				String fragmentCode = FileUtils.getText(shader.dir + fragment);
+				if (shader.retroArch) {
+					// one file, compiled twice; GLES 2.0 is "#version 100", drop what the file asks for
+					String src = vertexCode.replaceAll("(?m)^\\s*#version.*$", "");
+					vertexCode = "#define VERTEX\n" + src;
+					fragmentCode = "#define FRAGMENT\n" + src;
+				}
 				if (createProgram(vertexCode, fragmentCode) != -1) {
 					glReleaseShaderCompiler();
 					return;
@@ -85,8 +97,16 @@ public class ShaderProgram {
 			Log.e(TAG, "init program: glError " + errorString);
 		}
 		aPosition = glGetAttribLocation(program, "a_position");
+		if (aPosition < 0) aPosition = glGetAttribLocation(program, "VertexCoord");
 		aTexCoord = glGetAttribLocation(program, "a_texcoord0");
+		if (aTexCoord < 0) aTexCoord = glGetAttribLocation(program, "TexCoord");
 		uTextureUnit = glGetUniformLocation(program, "sampler0");
+		if (uTextureUnit < 0) uTextureUnit = glGetUniformLocation(program, "Texture");
+		uMvp = glGetUniformLocation(program, "MVPMatrix");
+		uTextureSize = glGetUniformLocation(program, "TextureSize");
+		uInputSize = glGetUniformLocation(program, "InputSize");
+		uOutputSize = glGetUniformLocation(program, "OutputSize");
+		uFrameCount = glGetUniformLocation(program, "FrameCount");
 		uTexelDelta = glGetUniformLocation(program, "u_texelDelta");
 		uPixelDelta = glGetUniformLocation(program, "u_pixelDelta");
 		uSetting = glGetUniformLocation(program, "u_setting");
@@ -137,5 +157,18 @@ public class ShaderProgram {
 		if (uTexelDelta >= 0) {
 			glUniform2f(uTexelDelta, 1.0f / width, 1.0f / height);
 		}
+		if (uTextureSize >= 0) glUniform2f(uTextureSize, width, height);
+		if (uInputSize >= 0) glUniform2f(uInputSize, width, height);
+		if (uMvp >= 0) {
+			glUniformMatrix4fv(uMvp, 1, false, new float[]{1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1}, 0);
+		}
+	}
+
+	/** Size of the game image on screen, sent every frame (it changes with scaling). */
+	public void setOutputSize(float width, float height, int frame) {
+		if (width <= 0 || height <= 0) return;
+		if (uPixelDelta >= 0) glUniform2f(uPixelDelta, 1.0f / width, 1.0f / height);
+		if (uOutputSize >= 0) glUniform2f(uOutputSize, width, height);
+		if (uFrameCount >= 0) glUniform1i(uFrameCount, frame);
 	}
 }

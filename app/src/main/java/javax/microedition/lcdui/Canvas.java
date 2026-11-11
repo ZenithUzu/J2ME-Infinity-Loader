@@ -1113,6 +1113,7 @@ protected int getSupersamplingFactor() {
 		private final int[] bgTextureId = new int[1];
 		private ShaderProgram program;
 		private boolean isStarted;
+		private int frameNumber;
 
 		@Override
 		public void onSurfaceCreated(GL10 gl, EGLConfig config) {
@@ -1145,6 +1146,7 @@ protected int getSupersamplingFactor() {
 			synchronized (bufferLock) {
 				GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, offscreenCopy.getBitmap(), 0);
 			}
+			program.setOutputSize(onWidth, onHeight, frameNumber++);
 			glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 			if (fpsCounter != null) {
 				fpsCounter.increment();
@@ -1156,8 +1158,10 @@ protected int getSupersamplingFactor() {
 			glGenTextures(1, bgTextureId, 0);
 			glActiveTexture(GL_TEXTURE0);
 			glBindTexture(GL_TEXTURE_2D, bgTextureId[0]);
-			glTexParameteri(GLES20.GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filter ? GL_LINEAR : GL_NEAREST);
-			glTexParameteri(GLES20.GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filter ? GL_LINEAR : GL_NEAREST);
+			// a filter that needs smooth sampling ("Linear=true") gets it even if the option is off
+			boolean linear = filter || (shaderFilter != null && shaderFilter.linear);
+			glTexParameteri(GLES20.GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, linear ? GL_LINEAR : GL_NEAREST);
+			glTexParameteri(GLES20.GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, linear ? GL_LINEAR : GL_NEAREST);
 			glTexParameteri(GLES20.GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 			glTexParameteri(GLES20.GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 

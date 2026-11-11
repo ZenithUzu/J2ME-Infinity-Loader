@@ -90,6 +90,42 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 				: getString(R.string.pad_skin_empty), android.widget.Toast.LENGTH_LONG).show();
 	}
 
+	private final ActivityResultLauncher<Uri> openFiltersLauncher = registerForActivityResult(
+			new androidx.activity.result.contract.ActivityResultContracts.OpenDocumentTree(),
+			uri -> onPickFilters(uri, false));
+	private final ActivityResultLauncher<String[]> openFiltersZipLauncher = registerForActivityResult(
+			new androidx.activity.result.contract.ActivityResultContracts.OpenDocument(),
+			uri -> onPickFilters(uri, true));
+
+	private void onPickFilters(Uri uri, boolean zip) {
+		if (uri == null) return;
+		int count;
+		try {
+			count = zip ? ru.playsoftware.j2meloader.config.Filters.importZip(requireContext(), uri)
+					: ru.playsoftware.j2meloader.config.Filters.importFolder(requireContext(), uri);
+		} catch (Exception e) {
+			Log.e(TAG, "onPickFilters: ", e);
+			count = 0;
+		}
+		android.widget.Toast.makeText(requireContext(), count > 0
+				? getString(R.string.filters_imported, count)
+				: getString(R.string.filters_empty), android.widget.Toast.LENGTH_LONG).show();
+	}
+
+	private void showFiltersDialog() {
+		new AlertDialog.Builder(requireContext())
+				.setTitle(R.string.pref_import_filters)
+				.setItems(R.array.filters_import_actions, (d, which) -> {
+					if (which == 0) {
+						openFiltersLauncher.launch(null);
+					} else {
+						openFiltersZipLauncher.launch(new String[]{"application/zip",
+								"application/x-zip-compressed", "application/octet-stream"});
+					}
+				})
+				.show();
+	}
+
 	private void showSkinDialog() {
 		new AlertDialog.Builder(requireContext())
 				.setTitle(R.string.pref_pad_skin)
@@ -116,6 +152,10 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 		findPreference("pref_backup").setOnPreferenceClickListener(preference -> {
 			Intent intent = new Intent(requireActivity(), BackupActivity.class);
 			startActivity(intent);
+			return true;
+		});
+		findPreference("pref_import_filters").setOnPreferenceClickListener(preference -> {
+			showFiltersDialog();
 			return true;
 		});
 		findPreference("pref_pad_skin").setOnPreferenceClickListener(preference -> {

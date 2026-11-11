@@ -38,6 +38,12 @@ public class ShaderInfo implements Comparable<ShaderInfo>, Parcelable {
 	transient Setting[] settings = new Setting[4];
 	@SerializedName("Settings")
 	public float[] values;
+	/** the filter wants smooth (bilinear) texture sampling: "Linear=true" in the .ini */
+	@SerializedName("Linear")
+	public boolean linear;
+	/** a single-file RetroArch .glsl shader (fragment == vertex == the file) */
+	@SerializedName("RetroArch")
+	public boolean retroArch;
 
 
 	@SuppressWarnings("unused")    // used by Gson deserialization
@@ -57,6 +63,8 @@ public class ShaderInfo implements Comparable<ShaderInfo>, Parcelable {
 		outputResolution = in.readByte() != 0;
 		upscaling = in.readByte() != 0;
 		settings = (Setting[]) in.readParcelableArray(getClass().getClassLoader());
+		linear = in.readByte() != 0;
+		retroArch = in.readByte() != 0;
 	}
 
 	@Override
@@ -119,6 +127,9 @@ public class ShaderInfo implements Comparable<ShaderInfo>, Parcelable {
 				break;
 			case "OutputResolution":
 				outputResolution = Boolean.parseBoolean(value);
+				break;
+			case "Linear":
+				linear = Boolean.parseBoolean(value);
 				break;
 			case "Upscaling":
 				upscaling = Boolean.parseBoolean(value);
@@ -235,6 +246,8 @@ public class ShaderInfo implements Comparable<ShaderInfo>, Parcelable {
 		dest.writeByte((byte) (outputResolution ? 1 : 0));
 		dest.writeByte((byte) (upscaling ? 1 : 0));
 		dest.writeArray(settings);
+		dest.writeByte((byte) (linear ? 1 : 0));
+		dest.writeByte((byte) (retroArch ? 1 : 0));
 	}
 
 	static class Setting implements Parcelable {

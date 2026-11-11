@@ -79,6 +79,10 @@
     <string name="PREF_KEEP_ASPECT_RATIO">Keep aspect ratio</string>
     <string name="PREF_FILTER">Filter</string>
     <string name="PREF_IMMEDIATE">Immediate processing mode</string>
+    <string name="pref_import_filters">Import screen filters</string>
+    <string name="pref_import_filters_summary">PPSSPP (.ini + .fsh) or RetroArch (.glsl) shaders, for the OpenGL ES graphics mode</string>
+    <string name="filters_imported">Filters imported: %d files</string>
+    <string name="filters_empty">No filter files found</string>
     <string name="pref_check_updates_start">Check for updates on start</string>
     <string name="pref_check_updates_start_summary">At most once a day; only tells you when there is a new version</string>
     <string name="pref_category_library">Library grid</string>

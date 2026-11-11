@@ -35,6 +35,7 @@ All new options live in **each game's settings**, just like the original J2ME Lo
 - **Full controller mapping**: L2/R2 (also as analog triggers), L3/R3 and the right stick can be assigned in *Map keys*, and a game key can hold a keyboard key and a controller button at once. Game vibration also shakes the controller.
 - **Volume keys**: inside a game they change the game's volume, not the ringer.
 - **Check for updates** (main menu): looks at the versions published on GitHub and opens the download. It can also tell you on start (at most once a day; can be turned off in Settings).
+- **Bundled screen filters** (OpenGL ES graphics mode → *Filter*): xBR, MMPX, AANN, CRT Lottes, dot matrix (from RetroArch) and JarNix's sharp bilinear, CRT, scanlines, LCD, green LCD, vivid color and amber. For effects, *Suavizar efecto* lowers the strength. Besides PPSSPP shaders (.ini + .fsh), RetroArch .glsl files work too, and can be imported from *Settings → Import screen filters* (folder or .zip).
 - **Install from ZIP**: pick a .zip and the games inside are installed. When installing several, a game that already exists asks whether to replace or skip it (or all).
 - **Library grid** (Settings): icon size, 3:4 cover-like icons and hidden titles.
 - **Sound without stutter**: sounds are prepared on their own thread, so the game no longer freezes each time an effect plays.

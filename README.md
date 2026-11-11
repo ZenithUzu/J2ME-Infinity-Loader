@@ -35,6 +35,7 @@ Todas las opciones nuevas están en la **configuración de cada juego**, igual q
 - **Mando físico completo**: L2/R2 (también como gatillos analógicos), L3/R3 y el stick derecho se pueden asignar en *Asignar teclas*, y una tecla del juego puede tener a la vez una tecla de teclado y un botón del mando. La vibración del juego también hace vibrar el mando.
 - **Botones de volumen**: dentro del juego cambian el volumen del juego, no el del timbre.
 - **Buscar actualizaciones** (menú principal): revisa las versiones publicadas en GitHub y abre la descarga. También puede avisarte al abrir la app (como mucho una vez al día; se apaga en Ajustes).
+- **Filtros de pantalla incluidos** (modo gráfico OpenGL ES → *Filtro*): xBR, MMPX, AANN, CRT Lottes, matriz de puntos (de RetroArch) y los de JarNix: sharp bilinear, CRT, scanlines, LCD, LCD verde, color vivo y ámbar. En los efectos, *Suavizar efecto* baja su intensidad. Además de los shaders de PPSSPP (.ini + .fsh), ahora también se pueden usar los .glsl de RetroArch, y se importan desde *Ajustes → Importar filtros de pantalla* (carpeta o .zip).
 - **Instalar desde ZIP**: elige un .zip y se instalan los juegos que trae dentro. Al instalar varios, si un juego ya existe te pregunta si reemplazarlo u omitirlo (o todos).
 - **Rejilla de la biblioteca** (Ajustes): tamaño de los iconos, iconos 3:4 tipo portada y ocultar títulos.
 - **Sonido sin tirones**: los sonidos se preparan en su propio hilo, así el juego no se congela cada vez que suena un efecto.
