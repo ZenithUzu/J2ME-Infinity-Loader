@@ -122,6 +122,10 @@
     <string name="PREF_SYS_PROPS">System properties</string>
     <string name="PREF_SYS_PROPS_HINT" translatable="false">microedition.platform: Sony Ericsson C510i\nmicroedition.profiles: MIDP2.0</string>
     <string name="PREF_ORIENTATION">Screen orientation</string>
+    <string name="pref_supersampling">Supersampling</string>
+    <string name="pref_supersampling_auto">Auto</string>
+    <string name="pref_supersampling_off">Off</string>
+    <string name="pref_workdir_all_files_access">A custom working folder needs the \"All files access\" permission. Tap OK to open system settings and turn it on.</string>
     <string name="pref_orientation_default">Default</string>
     <string name="pref_orientation_auto">Auto</string>
     <string name="pref_orientation_port">Portrait</string>
