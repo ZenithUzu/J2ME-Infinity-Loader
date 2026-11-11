@@ -169,6 +169,15 @@ public abstract class Canvas extends Displayable {
 	private Image offscreen;
 	private Image offscreenCopy;
 	private static boolean frameBlend;
+	private static boolean autoFit;
+	/** auto fit: part of the game screen shown, in game pixels (null = everything) */
+	private volatile Rect fitArea;
+	private int shownL, shownT, shownW = 1, shownH = 1;
+	private boolean fitDecided;
+	private long fitStart, fitLastScan;
+	private Rect fitLastBox;
+	private int fitStable;
+	private int[] fitRow;
 	/** anti-flicker: last raw frame, spare buffer and the paint that mixes them 50/50 */
 	private Bitmap blendLast, blendRaw;
 	private android.graphics.Canvas blendLastCanvas, blendRawCanvas, blendOutCanvas;
@@ -205,6 +214,58 @@ public abstract class Canvas extends Displayable {
 
 	public static void setShaderFilter(ShaderInfo shader) {
 		Canvas.shaderFilter = shader;
+	}
+
+	public static void setAutoFit(boolean enable) {
+		Canvas.autoFit = enable;
+	}
+
+	/**
+	 * Auto fit (idea from JarNix): many games were made for one fixed screen (e.g. 176x208)
+	 * and only draw that part of a bigger one. Pixels the game never touched stay transparent,
+	 * so once the drawn area has been stable for a while, show only that area.
+	 * Waits 12 s first, so a logo or a transition is not taken as the game screen.
+	 * Call under bufferLock after a frame was written to offscreenCopy.
+	 */
+	private void autoFitCheck() {
+		if (!autoFit || fitDecided) return;
+		long now = System.currentTimeMillis();
+		if (fitStart == 0) fitStart = now;
+		if (now - fitStart > 120_000) {
+			fitDecided = true; // undecided after 2 minutes: keep the whole screen
+			return;
+		}
+		if (now - fitStart < 12_000 || now - fitLastScan < 1000) return;
+		fitLastScan = now;
+		Bitmap bm = offscreenCopy.getBitmap();
+		int s = offscreenCopy.getPixelScale();
+		int bw = bm.getWidth();
+		int w = Math.min(width, bw / s), h = Math.min(height, bm.getHeight() / s);
+		if (fitRow == null || fitRow.length != bw) fitRow = new int[bw];
+		int l = w, t = h, r = -1, b = -1;
+		for (int y = 0; y < h; y++) {
+			bm.getPixels(fitRow, 0, bw, 0, y * s, bw, 1);
+			for (int x = 0; x < w; x++) {
+				if ((fitRow[x * s] >>> 24) != 0) {
+					if (x < l) l = x;
+					if (x > r) r = x;
+					if (y < t) t = y;
+					b = y;
+				}
+			}
+		}
+		if (r < 0) return; // nothing drawn yet
+		Rect box = new Rect(l, t, r + 1, b + 1);
+		fitStable = box.equals(fitLastBox) ? fitStable + 1 : 0;
+		fitLastBox = box;
+		if (fitStable < 5) return; // the drawn area must stay the same for ~5 s
+		fitDecided = true;
+		boolean smaller = box.width() <= width - 4 || box.height() <= height - 4;
+		if (smaller && box.width() >= 96 && box.height() >= 64) {
+			fitArea = box;
+			android.app.Activity activity = ContextHolder.getActivity();
+			if (activity != null) activity.runOnUiThread(this::updateSize);
+		}
 	}
 
 	public static void setFrameBlend(boolean enable) {
@@ -509,8 +570,21 @@ protected int getSupersamplingFactor() {
 		 * that will be displayed on the screen of the device.
 		 */
 		int scaleRatio = Canvas.scaleRatio;
-		int imgWidth = rotated ? height : width;
-		int imgHeight = rotated ? width : height;
+		Rect fa = fitArea;
+		if (fa != null && fa.right <= width && fa.bottom <= height) {
+			shownL = fa.left;
+			shownT = fa.top;
+			shownW = fa.width();
+			shownH = fa.height();
+		} else {
+			fa = null;
+			shownL = 0;
+			shownT = 0;
+			shownW = width;
+			shownH = height;
+		}
+		int imgWidth = rotated ? shownH : shownW;
+		int imgHeight = rotated ? shownW : shownH;
 		switch (scaleType) {
 			case 0:
 				// without scaling
@@ -585,7 +659,7 @@ protected int getSupersamplingFactor() {
 		 * calculate the current height
 		 */
 		float softBarHeight = softBar.bounds.height();
-		if (softBarHeight > 0 && !rotated) {
+		if (softBarHeight > 0 && !rotated && fa == null) {
 			float scaleY = (float) onHeight / height;
 			height = (int) (height - softBarHeight / scaleY);
 			onHeight -= softBarHeight;
@@ -636,9 +710,12 @@ protected int getSupersamplingFactor() {
 			float gt = 1.0f - 2.0f * virtualScreen.top / displayHeight;
 			float gr = 2.0f * virtualScreen.right / displayWidth - 1.0f;
 			float gb = 1.0f - 2.0f * virtualScreen.bottom / displayHeight;
-			float th = (float) height * supersamplingFactor / offscreen.getBitmap().getHeight();
-			float tw = (float) width * supersamplingFactor / offscreen.getBitmap().getWidth();
-			renderer.updateSize(gl, gt, gr, gb, th, tw);
+			float bh = offscreen.getBitmap().getHeight(), bw = offscreen.getBitmap().getWidth();
+			float tx = shownL * supersamplingFactor / bw;
+			float ty = shownT * supersamplingFactor / bh;
+			float th = (float) (shownT + shownH) * supersamplingFactor / bh;
+			float tw = (float) (shownL + shownW) * supersamplingFactor / bw;
+			renderer.updateSize(gl, gt, gr, gb, th, tw, tx, ty);
 		}
 		repaintInternal();
 	}
@@ -650,9 +727,9 @@ protected int getSupersamplingFactor() {
 	 * @return the corresponding pointer coordinate on the virtual screen
 	 */
 	private float convertPointerX(float x, float y) {
-		if (screenRotation == 90) return (y - onY) * width / onHeight;
-		if (screenRotation == 270) return (1 - (y - onY) / onHeight) * width;
-		return (x - onX) * width / onWidth;
+		if (screenRotation == 90) return shownL + (y - onY) * shownW / onHeight;
+		if (screenRotation == 270) return shownL + (1 - (y - onY) / onHeight) * shownW;
+		return shownL + (x - onX) * shownW / onWidth;
 	}
 
 	/**
@@ -662,9 +739,9 @@ protected int getSupersamplingFactor() {
 	 * @return the corresponding pointer coordinate on the virtual screen
 	 */
 	private float convertPointerY(float x, float y) {
-		if (screenRotation == 90) return (1 - (x - onX) / onWidth) * height;
-		if (screenRotation == 270) return (x - onX) * height / onWidth;
-		return (y - onY) * height / onHeight;
+		if (screenRotation == 90) return shownT + (1 - (x - onX) / onWidth) * shownH;
+		if (screenRotation == 270) return shownT + (x - onX) * shownH / onWidth;
+		return shownT + (y - onY) * shownH / onHeight;
 	}
 
 	@SuppressLint("ClickableViewAccessibility")
@@ -791,6 +868,7 @@ protected int getSupersamplingFactor() {
 			}
 			offscreenCopy.getSingleGraphics().flush(image, x, y, width, height);
 			blendFrame();
+			autoFitCheck();
 		}
 		requestFlushToScreen();
 	}
@@ -801,6 +879,7 @@ protected int getSupersamplingFactor() {
 		synchronized (bufferLock) {
 			image.copyTo(offscreenCopy, x, y);
 			blendFrame();
+			autoFitCheck();
 		}
 		requestFlushToScreen();
 	}
@@ -816,16 +895,27 @@ protected int getSupersamplingFactor() {
 		lastFrameTime = System.currentTimeMillis();
 	}
 
+	private final Rect shownSrc = new Rect();
+
 	private void drawScreen(CanvasWrapper g, android.graphics.Canvas canvas) {
-		if (screenRotation == 0) {
-			g.drawImage(offscreenCopy, virtualScreen);
-			return;
+		RectF dst = virtualScreen;
+		if (screenRotation != 0) {
+			canvas.save();
+			canvas.rotate(screenRotation, virtualScreen.centerX(), virtualScreen.centerY());
+			dst = rotatedScreen;
 		}
-		canvas.save();
-		canvas.rotate(screenRotation, virtualScreen.centerX(), virtualScreen.centerY());
-		g.drawImage(offscreenCopy, rotatedScreen);
-		canvas.restore();
+		if (fitArea == null) {
+			g.drawImage(offscreenCopy, dst);
+		} else {
+			int s = offscreenCopy.getPixelScale();
+			shownSrc.set(shownL * s, shownT * s, (shownL + shownW) * s, (shownT + shownH) * s);
+			g.drawBitmap(offscreenCopy.getBitmap(), shownSrc, dst);
+		}
+		if (screenRotation != 0) {
+			canvas.restore();
+		}
 	}
+
 
 	@SuppressLint("NewApi")
 	private boolean repaintScreen() {
@@ -999,12 +1089,12 @@ protected int getSupersamplingFactor() {
 			glUniform1i(program.uTextureUnit, 0);
 		}
 
-		public void updateSize(float gl, float gt, float gr, float gb, float th, float tw) {
+		public void updateSize(float gl, float gt, float gr, float gb, float th, float tw, float tx, float ty) {
 			synchronized (vbo) {
 				FloatBuffer vertex_bg = vbo;
 				vertex_bg.rewind();
 				// texture corners of the game image: lt, lb, rt, rb
-				float[][] t = {{0.0f, 0.0f}, {0.0f, th}, {tw, 0.0f}, {tw, th}};
+				float[][] t = {{tx, ty}, {tx, th}, {tw, ty}, {tw, th}};
 				int[] o;
 				if (screenRotation == 90) {
 					o = new int[]{1, 3, 0, 2}; // screen lt shows game lb, ...
@@ -1109,6 +1199,7 @@ protected int getSupersamplingFactor() {
 			synchronized (bufferLock) {
 				offscreen.copyTo(offscreenCopy);
 				blendFrame();
+				autoFitCheck();
 			}
 			if (surface == null || !surface.isValid()) {
 				return;

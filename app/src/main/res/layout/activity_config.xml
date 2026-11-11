@@ -301,6 +301,17 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/immediate_processing_toggle" />
 
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/auto_fit_toggle"
+                style="@style/SwitchStyle"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/height_config_row"
+                android:checked="false"
+                android:text="@string/PREF_AUTO_FIT"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/frame_blend_toggle" />
+
             <TextView
                 android:id="@+id/graphical_mode_hint"
                 android:layout_width="0dp"
@@ -313,7 +324,7 @@
                 android:textSize="15sp"
                 app:layout_constraintEnd_toStartOf="@+id/barrier_screen_config"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/frame_blend_toggle"
+                app:layout_constraintTop_toBottomOf="@+id/auto_fit_toggle"
                 app:layout_constraintWidth_min="wrap" />
 
             <Spinner
@@ -326,7 +337,7 @@
                 android:textSize="15sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/barrier_screen_config"
-                app:layout_constraintTop_toBottomOf="@+id/frame_blend_toggle" />
+                app:layout_constraintTop_toBottomOf="@+id/auto_fit_toggle" />
 
             <LinearLayout
                 android:id="@+id/shader_root"

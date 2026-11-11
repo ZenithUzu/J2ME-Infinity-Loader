@@ -75,6 +75,9 @@ public class ProfileModel {
 	@SerializedName("ImmediateMode")
 	public boolean immediateMode;
 
+	@SerializedName("AutoFit")
+	public boolean autoFit;
+
 	@SerializedName("FrameBlend")
 	public boolean frameBlend;
 
