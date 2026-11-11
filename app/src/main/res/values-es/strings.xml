@@ -122,6 +122,7 @@
     <string name="message_clear_data">¿Realmente quieres borrar los datos de la aplicación?</string>
     <string name="PREF_VK_TYPE">Tipo de teclado</string>
     <string name="pref_vk_type_arrows">Flechas</string>
+    <string name="pref_vk_type_gamepad">Mando</string>
     <string name="pref_vk_type_arrows_numbers">Flechas &amp; números</string>
     <string name="pref_vk_type_custom">Personalizado</string>
     <string name="pref_vk_type_numbers">Números</string>

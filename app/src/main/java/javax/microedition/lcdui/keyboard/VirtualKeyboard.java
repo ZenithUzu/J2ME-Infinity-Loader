@@ -80,6 +80,7 @@ public class VirtualKeyboard implements Overlay, Runnable {
 	private static final int TYPE_ARR_NUM = 4;
 	private static final int TYPE_NUMBERS = 5;
 	private static final int TYPE_ARROWS = 6;
+	private static final int TYPE_GAMEPAD = 7;
 
 	private static final float PHONE_KEY_ROWS = 5;
 	private static final float PHONE_KEY_SCALE_X = 2.0f;
@@ -171,6 +172,8 @@ public class VirtualKeyboard implements Overlay, Runnable {
 
 	private final Handler handler;
 	private final File saveFile;
+	/** exists while the layout is (or was edited from) the gamepad layout */
+	private final File padLabelsFile;
 	private final ProfileModel settings;
 	private final RectF virtualScreen = new RectF();
 
@@ -193,6 +196,7 @@ public class VirtualKeyboard implements Overlay, Runnable {
 	public VirtualKeyboard(ProfileModel settings) {
 		this.settings = settings;
 		this.saveFile = new File(settings.dir + Config.MIDLET_KEY_LAYOUT_FILE);
+		this.padLabelsFile = new File(saveFile.getPath() + ".gamepad");
 
 		for (int i = KEY_NUM1; i < 9; i++) {
 			keypad[i] = new VirtualKey(Canvas.KEY_NUM1 + i, Integer.toString(1 + i));
@@ -273,7 +277,45 @@ public class VirtualKeyboard implements Overlay, Runnable {
 	}
 
 	private void resetLayout(int variant) {
+		updateLabels(variant);
 		switch (variant) {
+			case TYPE_GAMEPAD:
+				// like a game controller: d-pad bottom left, A B X Y diamond bottom right,
+				// L and R above them, Select / menu / Start at the bottom center
+				Arrays.fill(keyScales, 1);
+
+				setSnap(KEY_DOWN_LEFT, SCREEN, RectSnap.INT_SOUTHWEST, true);
+				setSnap(KEY_DOWN, KEY_DOWN_LEFT, RectSnap.EXT_EAST, true);
+				setSnap(KEY_DOWN_RIGHT, KEY_DOWN, RectSnap.EXT_EAST, true);
+				setSnap(KEY_LEFT, KEY_DOWN_LEFT, RectSnap.EXT_NORTH, true);
+				setSnap(KEY_RIGHT, KEY_DOWN_RIGHT, RectSnap.EXT_NORTH, true);
+				setSnap(KEY_UP_RIGHT, KEY_RIGHT, RectSnap.EXT_NORTH, true);
+				setSnap(KEY_UP, KEY_UP_RIGHT, RectSnap.EXT_WEST, true);
+				setSnap(KEY_UP_LEFT, KEY_UP, RectSnap.EXT_WEST, true);
+				setSnap(KEY_STAR, KEY_UP_LEFT, RectSnap.EXT_NORTH, true);      // L
+
+				setSnap(KEY_D, SCREEN, RectSnap.INT_SOUTHEAST, false);         // hidden anchor
+				setSnap(KEY_NUM7, KEY_D, RectSnap.EXT_WEST, true);              // B (bottom)
+				setSnap(KEY_FIRE, KEY_D, RectSnap.EXT_NORTH, true);             // A (right)
+				setSnap(KEY_NUM9, KEY_NUM7, RectSnap.EXT_NORTHWEST, true);      // X (left)
+				setSnap(KEY_NUM0, KEY_FIRE, RectSnap.EXT_NORTHWEST, true);      // Y (top)
+				setSnap(KEY_POUND, KEY_NUM0, RectSnap.EXT_NORTHEAST, true);     // R
+
+				setSnap(KEY_MENU, SCREEN, RectSnap.INT_SOUTH, true);
+				setSnap(KEY_SOFT_LEFT, KEY_MENU, RectSnap.EXT_WEST, true);      // Select
+				setSnap(KEY_SOFT_RIGHT, KEY_MENU, RectSnap.EXT_EAST, true);     // Start
+
+				setSnap(KEY_NUM2, SCREEN, RectSnap.INT_NORTH, false);
+				setSnap(KEY_NUM1, KEY_NUM2, RectSnap.EXT_WEST, false);
+				setSnap(KEY_NUM3, KEY_NUM2, RectSnap.EXT_EAST, false);
+				setSnap(KEY_NUM4, KEY_NUM1, RectSnap.EXT_SOUTH, false);
+				setSnap(KEY_NUM5, KEY_NUM2, RectSnap.EXT_SOUTH, false);
+				setSnap(KEY_NUM6, KEY_NUM3, RectSnap.EXT_SOUTH, false);
+				setSnap(KEY_NUM8, KEY_NUM5, RectSnap.EXT_SOUTH, false);
+				setSnap(KEY_A, KEY_NUM4, RectSnap.EXT_SOUTH, false);
+				setSnap(KEY_B, KEY_NUM6, RectSnap.EXT_SOUTH, false);
+				setSnap(KEY_C, KEY_NUM8, RectSnap.EXT_SOUTH, false);
+				break;
 			case TYPE_PHONE:
 				for (int j = 0, len = keyScales.length; j < len;) {
 					keyScales[j++] = PHONE_KEY_SCALE_X;
@@ -479,6 +521,38 @@ public class VirtualKeyboard implements Overlay, Runnable {
 				setSnap(KEY_D, KEY_DOWN_RIGHT, RectSnap.EXT_EAST, false);
 				setSnap(KEY_MENU, SCREEN, RectSnap.INT_NORTHEAST, false);
 				break;
+		}
+	}
+
+	/**
+	 * Gamepad labels (JarNix defaults: A = OK, B = 7, X = 9, Y = 0, L = *, R = #,
+	 * Select/Start = soft keys). Also kept when a gamepad layout was edited (custom).
+	 */
+	private void updateLabels(int variant) {
+		if (variant != TYPE_CUSTOM) {
+			// remember it, so an edited (custom) gamepad keeps its labels after a restart
+			boolean isPad = variant == TYPE_GAMEPAD;
+			if (isPad != padLabelsFile.exists()) {
+				try {
+					if (isPad) padLabelsFile.createNewFile(); else padLabelsFile.delete();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		boolean pad = variant == TYPE_GAMEPAD || (variant == TYPE_CUSTOM && padLabelsFile.exists());
+		for (VirtualKey key : keypad) {
+			key.label = key.defaultLabel;
+		}
+		if (pad) {
+			keypad[KEY_FIRE].label = "A";
+			keypad[KEY_NUM7].label = "B";
+			keypad[KEY_NUM9].label = "X";
+			keypad[KEY_NUM0].label = "Y";
+			keypad[KEY_STAR].label = "L";
+			keypad[KEY_POUND].label = "R";
+			keypad[KEY_SOFT_LEFT].label = "SEL";
+			keypad[KEY_SOFT_RIGHT].label = "START";
 		}
 	}
 
@@ -1203,7 +1277,8 @@ public class VirtualKeyboard implements Overlay, Runnable {
 	}
 
 	private class VirtualKey implements Runnable {
-		final String label;
+		final String defaultLabel;
+		String label;
 		final int keyCode;
 		final RectF rect = new RectF();
 		final PointF snapOffset = new PointF();
@@ -1220,6 +1295,7 @@ public class VirtualKeyboard implements Overlay, Runnable {
 		VirtualKey(int keyCode, String label) {
 			this.keyCode = keyCode;
 			this.label = label;
+			this.defaultLabel = label;
 			hashCode = 31 * (31 + this.keyCode);
 		}
 
