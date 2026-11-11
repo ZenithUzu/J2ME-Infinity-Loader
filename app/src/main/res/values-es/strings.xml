@@ -129,7 +129,7 @@
     <string name="pad_skin_default">Quitar la skin (volver a los botones Portemon)</string>
     <string name="pad_skin_imported">Skin importada: %d imágenes</string>
     <string name="pad_skin_empty">No se encontraron imágenes PNG</string>
-    <string name="pad_skin_reset">Se volvió a la skin incluida</string>
+    <string name="pad_skin_reset">Skin quitada: se usan los botones Portemon</string>
     <string name="action_install_folder">Instalar una carpeta</string>
     <string name="install_folder_empty">No hay juegos (.jar, .jad, .kjx) en esa carpeta</string>
     <string name="PREF_AUTO_FIT">Ajuste automático (mostrar solo lo que dibuja el juego)</string>

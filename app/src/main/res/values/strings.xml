@@ -147,7 +147,7 @@
     <string name="pad_skin_default">Remove the skin (back to Portemon buttons)</string>
     <string name="pad_skin_imported">Skin imported: %d pictures</string>
     <string name="pad_skin_empty">No PNG pictures found</string>
-    <string name="pad_skin_reset">Back to the built-in skin</string>
+    <string name="pad_skin_reset">Skin removed: back to Portemon buttons</string>
     <string name="action_install_folder">Install a folder</string>
     <string name="install_folder_empty">No games (.jar, .jad, .kjx) found in that folder</string>
     <string name="PREF_AUTO_FIT">Auto fit (show only the area the game draws)</string>
