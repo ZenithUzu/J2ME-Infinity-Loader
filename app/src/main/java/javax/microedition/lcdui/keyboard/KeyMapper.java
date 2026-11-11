@@ -38,6 +38,10 @@ public class KeyMapper {
 	private static final int MOTOROLA_LAYOUT = 2;
 	private static final int CUSTOM_LAYOUT = 3;
 	private static final int NOKIA_E62_LAYOUT = 4;
+	/** from JarNix: LG phones use -202 / -203 for the soft keys */
+	private static final int LG_LAYOUT = 5;
+	private static final int LG_KEY_SOFT_LEFT = -202;
+	private static final int LG_KEY_SOFT_RIGHT = -203;
 
 	private static final int SIEMENS_KEY_UP = -59;
 	private static final int SIEMENS_KEY_DOWN = -60;
@@ -149,6 +153,12 @@ public class KeyMapper {
 			mapKeyCode(MOTOROLA_KEY_FIRE, FIRE, "SELECT");
 			mapKeyCode(MOTOROLA_KEY_SOFT_LEFT, 0, "SOFT1");
 			mapKeyCode(MOTOROLA_KEY_SOFT_RIGHT, 0, "SOFT2");
+		} else if (layoutType == LG_LAYOUT) {
+			keyCodeToCustom.put(KEY_SOFT_LEFT, LG_KEY_SOFT_LEFT);
+			keyCodeToCustom.put(KEY_SOFT_RIGHT, LG_KEY_SOFT_RIGHT);
+
+			mapKeyCode(LG_KEY_SOFT_LEFT, 0, "SOFT1");
+			mapKeyCode(LG_KEY_SOFT_RIGHT, 0, "SOFT2");
 		} else if (layoutType == NOKIA_E62_LAYOUT) {
 			keyCodeToCustom.put(KEY_NUM0, NOKIA_E62_KEY_NUM0);
 			keyCodeToCustom.put(KEY_NUM1, NOKIA_E62_KEY_NUM1);
