@@ -214,14 +214,17 @@ public class ContextHolder {
 			vibrator = (Vibrator) getAppContext().getSystemService(Context.VIBRATOR_SERVICE);
 		}
 		if (vibrator == null || !vibrator.hasVibrator()) {
+			if (duration >= 0) controllerVibrate(duration); // a tablet may still have a controller
 			return false;
 		}
 		if (duration > 0) {
 			gameVibrate(duration);
+			controllerVibrate(duration);
 		} else if (duration < 0) {
 			throw new IllegalStateException();
 		} else {
 			vibrator.cancel();
+			controllerVibrate(0);
 		}
 		return true;
 	}
@@ -268,6 +271,33 @@ public class ContextHolder {
 					GAME_ATTRIBUTES);
 		} else {
 			vibrator.vibrate(ms);
+		}
+	}
+
+	/** The game's vibration also shakes connected game controllers that have a motor. */
+	@SuppressWarnings("deprecation")
+	private static void controllerVibrate(int duration) {
+		for (int id : android.view.InputDevice.getDeviceIds()) {
+			android.view.InputDevice device = android.view.InputDevice.getDevice(id);
+			if (device == null || device.isVirtual()) continue;
+			int s = device.getSources();
+			if ((s & android.view.InputDevice.SOURCE_GAMEPAD) != android.view.InputDevice.SOURCE_GAMEPAD
+					&& (s & android.view.InputDevice.SOURCE_JOYSTICK) != android.view.InputDevice.SOURCE_JOYSTICK) {
+				continue;
+			}
+			try {
+				Vibrator v = device.getVibrator();
+				if (!v.hasVibrator()) continue;
+				if (duration <= 0) {
+					v.cancel();
+				} else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+					v.vibrate(VibrationEffect.createOneShot(Math.max(40, duration),
+							VibrationEffect.DEFAULT_AMPLITUDE));
+				} else {
+					v.vibrate(Math.max(40, duration));
+				}
+			} catch (Throwable ignored) {
+			}
 		}
 	}
 
