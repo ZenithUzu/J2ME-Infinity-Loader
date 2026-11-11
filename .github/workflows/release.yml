@@ -1,9 +1,8 @@
 name: Automated CI builds
 
+# Needs the SIGNING_KEY and KEYSTORE_PROPERTIES secrets; run it by hand from the Actions tab.
+# Test APKs without secrets come from build-apk.yml.
 on:
-  push:
-    branches:
-      - master
   workflow_dispatch:
 
 permissions:
