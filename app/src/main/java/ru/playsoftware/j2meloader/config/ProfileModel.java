@@ -113,6 +113,9 @@ public class ProfileModel {
 	@SerializedName("TouchInput")
 	public boolean touchInput;
 
+	@SerializedName("ForceMultiTouch")
+	public boolean forceMultiTouch;
+
 	@SerializedName("ShowKeyboard")
 	public boolean showKeyboard;
 

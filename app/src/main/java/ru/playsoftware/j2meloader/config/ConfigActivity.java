@@ -661,6 +661,7 @@ public class ConfigActivity extends BaseActivity implements View.OnClickListener
 		binding.enableHapticFeedbackToggle.setChecked(params.vkFeedback);
 		binding.forceOpacityForOffscreenKeysToggle.setChecked(params.vkForceOpacity);
 		binding.enableTouchInputToggle.setChecked(params.touchInput);
+		binding.forceMultitouchToggle.setChecked(params.forceMultiTouch);
 		int fpsLimit = params.fpsLimit;
 		binding.fpsLimit.setText(fpsLimit > 0 ? Integer.toString(fpsLimit) : "");
 
@@ -740,6 +741,7 @@ public class ConfigActivity extends BaseActivity implements View.OnClickListener
 			params.vkFeedback = binding.enableHapticFeedbackToggle.isChecked();
 			params.vkForceOpacity = binding.forceOpacityForOffscreenKeysToggle.isChecked();
 			params.touchInput = binding.enableTouchInputToggle.isChecked();
+			params.forceMultiTouch = binding.forceMultitouchToggle.isChecked();
 
 			params.keyCodesLayout = binding.buttonsLayoutSelector.getSelectedItemPosition();
 			params.vkButtonShape = binding.buttonShapeSelector.getSelectedItemPosition();
