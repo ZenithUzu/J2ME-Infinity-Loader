@@ -1,11 +1,17 @@
-# Publishes a signed Release when a version tag (v1.9.0, v1.10.0...) is pushed,
-# or by hand from the Actions tab (Run workflow, then type the tag).
+# Publishes a signed Release:
+# - by itself when versionName in app/build.gradle changes (the tag v<version> is created),
+# - when a version tag (v1.9.0...) is pushed,
+# - or by hand from the Actions tab (Run workflow, then type the tag).
 # Needs the repository secrets SIGNING_KEY (base64 keystore) and KEYSTORE_PROPERTIES
 # (base64 keystore.properties). Always sign with the same key, or updates cannot be installed.
 name: Release
 
 on:
   push:
+    branches: [master, main]
+    paths:
+      - 'app/build.gradle'
+      - '.github/workflows/release.yml'
     tags:
       - 'v*'
   workflow_dispatch:
@@ -27,14 +33,37 @@ jobs:
         uses: actions/checkout@v4
         with:
           submodules: 'true'
+          fetch-depth: 0
+
+      - name: Choose the version tag
+        id: version
+        env:
+          INPUT_TAG: ${{ github.event.inputs.tag }}
+        run: |
+          if [ -n "$INPUT_TAG" ]; then
+            tag="$INPUT_TAG"
+          elif [ "$GITHUB_REF_TYPE" = "tag" ]; then
+            tag="$GITHUB_REF_NAME"
+          else
+            tag="v$(sed -n 's/.*versionName "\(.*\)".*/\1/p' app/build.gradle | head -1)"
+            # a push to the branch only publishes a version that has no release yet
+            if git rev-parse -q --verify "refs/tags/$tag" >/dev/null; then
+              echo "$tag already published, nothing to do"
+              echo "skip=true" >> "$GITHUB_OUTPUT"
+            fi
+          fi
+          echo "tag=$tag" >> "$GITHUB_OUTPUT"
+          echo "Version: $tag"
 
       - name: Set up JDK 21
+        if: steps.version.outputs.skip != 'true'
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: '21'
 
       - name: Cache Gradle
+        if: steps.version.outputs.skip != 'true'
         uses: actions/cache@v4
         with:
           path: |
@@ -44,6 +73,7 @@ jobs:
           restore-keys: ${{ runner.os }}-gradle-
 
       - name: Decode signing key
+        if: steps.version.outputs.skip != 'true'
         env:
           ENCODED_KEYSTORE: ${{ secrets.SIGNING_KEY }}
           ENCODED_PROPS: ${{ secrets.KEYSTORE_PROPERTIES }}
@@ -56,24 +86,27 @@ jobs:
           printf '%s' "$ENCODED_PROPS" | base64 -d > keystore.properties
 
       - name: Build signed APK
+        if: steps.version.outputs.skip != 'true'
         run: |
           chmod +x gradlew
           ./gradlew assembleOpenRelease --stacktrace
 
       - name: Collect APK
+        if: steps.version.outputs.skip != 'true'
         env:
-          TAG: ${{ github.event.inputs.tag || github.ref_name }}
+          TAG: ${{ steps.version.outputs.tag }}
         run: |
           mkdir -p dist
           cp app/build/outputs/apk/open/release/*.apk "dist/J2ME-Infinity-Loader-$TAG.apk"
           rm -f app/keystore.jks keystore.properties
 
       - name: Publish release
+        if: steps.version.outputs.skip != 'true'
         uses: ncipollo/release-action@v1
         with:
-          tag: ${{ github.event.inputs.tag || github.ref_name }}
+          tag: ${{ steps.version.outputs.tag }}
           commit: ${{ github.sha }}
-          name: J2ME Infinity Loader ${{ github.event.inputs.tag || github.ref_name }}
+          name: J2ME Infinity Loader ${{ steps.version.outputs.tag }}
           generateReleaseNotes: true
           allowUpdates: true
           artifacts: dist/*.apk
