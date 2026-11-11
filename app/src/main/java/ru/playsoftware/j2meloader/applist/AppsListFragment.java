@@ -203,6 +203,79 @@ public class AppsListFragment extends Fragment implements MenuProvider {
 		}
 	}
 
+	private static final String RELEASES_API =
+			"https://api.github.com/repos/ZenithUzu/J2ME-Infinity-Loader/releases/latest";
+
+	/**
+	 * Like JL-Mod Plus updates: asks GitHub for the latest release and, if it is newer,
+	 * offers to open its page to download the APK (nothing is installed silently).
+	 */
+	private void checkForUpdates() {
+		FragmentActivity activity = requireActivity();
+		Toast.makeText(activity, R.string.update_checking, Toast.LENGTH_SHORT).show();
+		new Thread(() -> {
+			String tag = null, url = null;
+			int code = -1;
+			try {
+				java.net.HttpURLConnection c = (java.net.HttpURLConnection) new java.net.URL(RELEASES_API)
+						.openConnection();
+				c.setRequestProperty("Accept", "application/vnd.github+json");
+				c.setConnectTimeout(10000);
+				c.setReadTimeout(10000);
+				code = c.getResponseCode();
+				if (code == 200) {
+					try (java.io.InputStream in = c.getInputStream()) {
+						org.json.JSONObject json = new org.json.JSONObject(
+								new String(ru.playsoftware.j2meloader.util.IOUtils.toByteArray(in), "UTF-8"));
+						tag = json.optString("tag_name", null);
+						url = json.optString("html_url", null);
+					}
+				}
+				c.disconnect();
+			} catch (Exception e) {
+				Log.w(TAG, "checkForUpdates: " + e);
+			}
+			final String fTag = tag, fUrl = url;
+			final int fCode = code;
+			activity.runOnUiThread(() -> showUpdateResult(activity, fCode, fTag, fUrl));
+		}, "UpdateCheck").start();
+	}
+
+	private void showUpdateResult(FragmentActivity activity, int code, String tag, String url) {
+		if (activity.isFinishing()) return;
+		String current = ru.playsoftware.j2meloader.BuildConfig.VERSION_NAME;
+		AlertDialog.Builder b = new AlertDialog.Builder(activity).setTitle(R.string.update_title);
+		if (code == 404) {
+			b.setMessage(R.string.update_no_releases);
+		} else if (tag == null || url == null) {
+			b.setMessage(R.string.update_error);
+		} else if (compareVersions(tag, current) > 0) {
+			b.setMessage(getString(R.string.update_available, tag, current))
+					.setPositiveButton(R.string.update_open, (d, w) -> {
+						try {
+							startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+						} catch (Exception e) {
+							Toast.makeText(activity, R.string.error, Toast.LENGTH_SHORT).show();
+						}
+					});
+		} else {
+			b.setMessage(getString(R.string.update_latest, current));
+		}
+		b.setNegativeButton(android.R.string.cancel, null).show();
+	}
+
+	/** "v1.10.0" vs "1.9.2-open": compares the numbers only. */
+	static int compareVersions(String a, String b) {
+		String[] x = a.replaceAll("^[^0-9]*", "").split("[^0-9]+");
+		String[] y = b.replaceAll("^[^0-9]*", "").split("[^0-9]+");
+		for (int i = 0; i < Math.max(x.length, y.length); i++) {
+			int p = i < x.length && !x[i].isEmpty() ? Integer.parseInt(x[i]) : 0;
+			int q = i < y.length && !y[i].isEmpty() ? Integer.parseInt(y[i]) : 0;
+			if (p != q) return Integer.compare(p, q);
+		}
+		return 0;
+	}
+
 	private GameCollections collections() {
 		if (collections == null) collections = new GameCollections(requireContext());
 		return collections;
@@ -523,7 +596,9 @@ public class AppsListFragment extends Fragment implements MenuProvider {
 	public boolean onMenuItemSelected(MenuItem item) {
 		FragmentActivity activity = requireActivity();
 		int itemId = item.getItemId();
-		if (itemId == R.id.action_collections) {
+		if (itemId == R.id.action_check_updates) {
+			checkForUpdates();
+		} else if (itemId == R.id.action_collections) {
 			showCollectionsDialog();
 		} else if (itemId == R.id.action_install_folder) {
 			openFolderLauncher.launch(null);

@@ -79,6 +79,13 @@
     <string name="PREF_KEEP_ASPECT_RATIO">Keep aspect ratio</string>
     <string name="PREF_FILTER">Filter</string>
     <string name="PREF_IMMEDIATE">Immediate processing mode</string>
+    <string name="update_title">Check for updates</string>
+    <string name="update_checking">Checking for updates…</string>
+    <string name="update_available">There is a new version: %1$s (you have %2$s).</string>
+    <string name="update_open">Open download page</string>
+    <string name="update_latest">You have the latest version (%1$s).</string>
+    <string name="update_no_releases">No versions have been published on GitHub yet.</string>
+    <string name="update_error">Could not check for updates. Check your connection.</string>
     <string name="game_thread_error">Error in game thread %1$s: %2$s</string>
     <string name="ask_show_keyboard">This game is made for touch screens. Show the on-screen keyboard? You can change it later in the game settings.</string>
     <string name="collections">Collections</string>

@@ -61,6 +61,13 @@
     <string name="PREF_KEEP_ASPECT_RATIO">Mantener relación de aspecto</string>
     <string name="PREF_FILTER">Filtro</string>
     <string name="PREF_IMMEDIATE">Modo de procesamiento inmediato</string>
+    <string name="update_title">Buscar actualizaciones</string>
+    <string name="update_checking">Buscando actualizaciones…</string>
+    <string name="update_available">Hay una versión nueva: %1$s (tienes la %2$s).</string>
+    <string name="update_open">Abrir la página de descarga</string>
+    <string name="update_latest">Tienes la última versión (%1$s).</string>
+    <string name="update_no_releases">Todavía no hay versiones publicadas en GitHub.</string>
+    <string name="update_error">No se pudo buscar actualizaciones. Revisa tu conexión.</string>
     <string name="game_thread_error">Error en el hilo del juego %1$s: %2$s</string>
     <string name="ask_show_keyboard">Este juego está hecho para pantalla táctil. ¿Mostrar el teclado en pantalla? Puedes cambiarlo después en la configuración del juego.</string>
     <string name="collections">Colecciones</string>
