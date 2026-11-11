@@ -788,6 +788,10 @@ protected int getSupersamplingFactor() {
 			innerView.setOnTouchListener(callback);
 			innerView.setOnKeyListener(callback);
 			innerView.setOnGenericMotionListener(callback);
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+				// from JarNix: touches reach the game as they happen, not batched per frame
+				innerView.requestUnbufferedDispatch(InputDevice.SOURCE_CLASS_POINTER);
+			}
 			innerView.setFocusableInTouchMode(true);
 			layout.addView(innerView);
 			innerView.requestFocus();
