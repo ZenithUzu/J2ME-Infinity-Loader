@@ -82,9 +82,10 @@
     <string name="pref_pad_skin">Gamepad skin</string>
     <string name="pref_pad_skin_summary">Pictures for the on-screen gamepad (Citra skins work too)</string>
     <string name="pad_skin_choose">Choose a folder with the pictures</string>
+    <string name="pad_skin_choose_zip">Choose a .zip file</string>
     <string name="pad_skin_default">Use the built-in skin</string>
     <string name="pad_skin_imported">Skin imported: %d pictures</string>
-    <string name="pad_skin_empty">No PNG pictures in that folder</string>
+    <string name="pad_skin_empty">No PNG pictures found</string>
     <string name="pad_skin_reset">Back to the built-in skin</string>
     <string name="action_install_folder">Install a folder</string>
     <string name="install_folder_empty">No games (.jar, .jad, .kjx) found in that folder</string>

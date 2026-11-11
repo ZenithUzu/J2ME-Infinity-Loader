@@ -65,13 +65,22 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 			new androidx.activity.result.contract.ActivityResultContracts.OpenDocumentTree(),
 			this::onPickSkinResult);
 
+	private final ActivityResultLauncher<String[]> openSkinZipLauncher = registerForActivityResult(
+			new androidx.activity.result.contract.ActivityResultContracts.OpenDocument(),
+			zip -> onPickSkinResult(zip, true));
+
 	private void onPickSkinResult(Uri tree) {
-		if (tree == null) {
+		onPickSkinResult(tree, false);
+	}
+
+	private void onPickSkinResult(Uri uri, boolean zip) {
+		if (uri == null) {
 			return;
 		}
 		int count;
 		try {
-			count = javax.microedition.lcdui.keyboard.PadSkin.importFrom(tree);
+			count = zip ? javax.microedition.lcdui.keyboard.PadSkin.importZip(uri)
+					: javax.microedition.lcdui.keyboard.PadSkin.importFrom(uri);
 		} catch (Exception e) {
 			Log.e(TAG, "onPickSkinResult: ", e);
 			count = 0;
@@ -87,6 +96,9 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 				.setItems(R.array.pad_skin_actions, (d, which) -> {
 					if (which == 0) {
 						openSkinLauncher.launch(null);
+					} else if (which == 1) {
+						openSkinZipLauncher.launch(new String[]{"application/zip",
+								"application/x-zip-compressed", "application/octet-stream"});
 					} else {
 						javax.microedition.lcdui.keyboard.PadSkin.reset();
 						android.widget.Toast.makeText(requireContext(), R.string.pad_skin_reset,

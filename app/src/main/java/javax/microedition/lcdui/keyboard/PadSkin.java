@@ -29,6 +29,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 import javax.microedition.util.ContextHolder;
 
@@ -110,14 +112,46 @@ public final class PadSkin {
 				String name = c.getString(1) == null ? null : normalize(c.getString(1));
 				if (name == null) continue;
 				Uri doc = DocumentsContract.buildDocumentUriUsingTree(tree, c.getString(0));
-				try (InputStream in = context().getContentResolver().openInputStream(doc);
-					 OutputStream out = new FileOutputStream(new File(tmp, name + ".png"))) {
-					byte[] buf = new byte[16384];
-					for (int r; (r = in.read(buf)) > 0; ) out.write(buf, 0, r);
+				try (InputStream in = context().getContentResolver().openInputStream(doc)) {
+					copy(in, new File(tmp, name + ".png"));
 				}
 				count++;
 			}
 		}
+		return finish(tmp, count);
+	}
+
+	/**
+	 * Copies the PNG files inside a .zip skin (folders inside it are ignored, only file names count).
+	 * @return how many pictures were copied
+	 */
+	public static synchronized int importZip(Uri zip) throws Exception {
+		File tmp = new File(context().getFilesDir(), DIR + ".tmp");
+		deleteDir(tmp);
+		tmp.mkdirs();
+		int count = 0;
+		try (ZipInputStream in = new ZipInputStream(context().getContentResolver().openInputStream(zip))) {
+			for (ZipEntry e; (e = in.getNextEntry()) != null; ) {
+				if (e.isDirectory()) continue;
+				String entry = e.getName();
+				String name = normalize(entry.substring(entry.lastIndexOf('/') + 1));
+				if (name == null || name.startsWith(".")) continue;
+				copy(in, new File(tmp, name + ".png"));
+				count++;
+			}
+		}
+		return finish(tmp, count);
+	}
+
+	private static void copy(InputStream in, File to) throws Exception {
+		try (OutputStream out = new FileOutputStream(to)) {
+			byte[] buf = new byte[16384];
+			for (int r; (r = in.read(buf)) > 0; ) out.write(buf, 0, r);
+		}
+	}
+
+	/** Replaces the current skin with the pictures in tmp (if there are any). */
+	private static int finish(File tmp, int count) {
 		if (count == 0) {
 			deleteDir(tmp);
 			return 0;
