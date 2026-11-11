@@ -1229,7 +1229,7 @@ protected int getSupersamplingFactor() {
 				offscreen.copyTo(offscreenCopy);
 				blendFrame();
 				autoFitCheck();
-				AutoRotate.frameShown(this);
+				AutoRotate.frameShown(Canvas.this);
 			}
 			if (surface == null || !surface.isValid()) {
 				return;

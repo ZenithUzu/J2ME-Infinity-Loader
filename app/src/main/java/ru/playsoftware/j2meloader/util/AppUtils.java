@@ -78,7 +78,7 @@ public class AppUtils {
 	/** An icon the user picked (Change icon); it wins over the game's own icon. */
 	public static final String CUSTOM_ICON_FILE = "/icon_custom.png";
 
-	private static void applyIcon(AppItem item, File appDir, Descriptor params) {
+	private static void applyIcon(AppItem item, File appDir, Descriptor params) throws IOException {
 		if (new File(appDir, CUSTOM_ICON_FILE).exists()) {
 			item.setImagePathExt(CUSTOM_ICON_FILE);
 			return;
