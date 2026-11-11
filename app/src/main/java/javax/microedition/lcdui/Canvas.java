@@ -28,7 +28,6 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
-import android.opengl.GLU;
 import android.opengl.GLUtils;
 import android.os.Build;
 import android.os.Handler;
@@ -54,9 +53,7 @@ import androidx.core.content.ContextCompat;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
-import java.nio.IntBuffer;
 import java.util.Arrays;
-import java.util.concurrent.TimeUnit;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -78,7 +75,6 @@ import javax.microedition.shell.MicroActivity;
 import javax.microedition.util.ContextHolder;
 
 import io.reactivex.Single;
-import io.reactivex.schedulers.Schedulers;
 import ru.playsoftware.j2meloader.R;
 import ru.playsoftware.j2meloader.config.ShaderInfo;
 
@@ -453,31 +449,30 @@ protected int getSupersamplingFactor() {
 		frameRateTick();
 	}
 
+	/**
+	 * Screenshot of what is shown (from JarNix): only the auto fit area, turned like the screen,
+	 * and enlarged by a whole number with sharp pixels (no blur) to about the size on screen.
+	 * "Raw" mode keeps the game's own resolution.
+	 */
 	public Single<Bitmap> getScreenShot() {
-		if (renderer != null && !screenshotRawMode) {
-			return renderer.takeScreenShot();
-		}
 		return Single.create(emitter -> {
 			Bitmap bitmap;
-			if (screenshotRawMode) {
-				synchronized (bufferLock) {
-					int scale = supersamplingFactor;
-					int w = offscreenCopy.getWidth();
-					int h = offscreenCopy.getHeight();
-					Bitmap raw = Bitmap.createBitmap(offscreenCopy.getBitmap(), 0, 0,
-							w * scale, h * scale);
-					bitmap = scale > 1 ? Bitmap.createScaledBitmap(raw, w, h, true) : raw;
-				}
-			} else {
-				bitmap = Bitmap.createBitmap(onWidth, onHeight, Bitmap.Config.ARGB_8888);
-				canvasWrapper.bind(new android.graphics.Canvas(bitmap));
-				synchronized (bufferLock) {
-					canvasWrapper.drawImage(offscreenCopy, new RectF(0, 0, onWidth, onHeight));
-				}
+			synchronized (bufferLock) {
+				int s = offscreenCopy.getPixelScale();
+				Bitmap src = Bitmap.createBitmap(offscreenCopy.getBitmap(),
+						shownL * s, shownT * s, shownW * s, shownH * s);
+				int k = screenshotRawMode ? 1 : Math.max(1, Math.round(
+						Math.max(onWidth, onHeight) / (float) Math.max(shownW, shownH)));
+				android.graphics.Matrix m = new android.graphics.Matrix();
+				m.postScale((float) k / s, (float) k / s);
+				m.postRotate(screenRotation);
+				// supersampled: smooth downscale keeps text sharp; otherwise exact pixel blocks
+				bitmap = Bitmap.createBitmap(src, 0, 0, src.getWidth(), src.getHeight(), m, s > 1);
 			}
 			emitter.onSuccess(bitmap);
 		});
 	}
+
 
 	/**
 	 * 选择超采样倍率：AUTO 模式按"显示区是逻辑尺寸的几倍"来定，做到接近 1:1 映射。
@@ -1197,34 +1192,6 @@ protected int getSupersamplingFactor() {
 			mView.onResume();
 		}
 
-		private Single<Bitmap> takeScreenShot() {
-			return Single.<int[]>create(emitter -> {
-						IntBuffer buf = IntBuffer.allocate(onWidth * onHeight * 4);
-						mView.requestRender();
-						mView.queueEvent(() -> {
-							try {
-								glReadPixels(displayWidth - onWidth - onX, displayHeight - onHeight - onY, onWidth, onHeight, GL_RGBA, GL_UNSIGNED_BYTE, buf);
-								int error = glGetError();
-								if (error != GL_NO_ERROR) {
-									emitter.onError(new RuntimeException(GLU.gluErrorString(error)));
-								} else {
-									emitter.onSuccess(buf.array());
-								}
-							} catch (Throwable e) {
-								emitter.onError(e);
-							}
-						});
-					}).timeout(3, TimeUnit.SECONDS)
-					.subscribeOn(Schedulers.computation())
-					.observeOn(Schedulers.computation())
-					.map(pixels -> {
-						for (int i = 0, len = pixels.length; i < len; i++) {
-							int p = pixels[i];
-							pixels[i] = (p & 0xff00ff00) | ((p & 0xff0000) >> 16) | ((p & 0xff) << 16);
-						}
-						return Bitmap.createBitmap(pixels, onWidth * (onHeight - 1), -onWidth, onWidth, onHeight, Bitmap.Config.ARGB_8888);
-					});
-		}
 	}
 
 	private class PaintEvent extends Event implements EventFilter {
