@@ -140,7 +140,7 @@ public class MicroActivity extends AppCompatActivity {
 
 		actionBarEnabled = sp.getBoolean(PREF_TOOLBAR, false);
 		statusBarEnabled = sp.getBoolean(PREF_STATUSBAR, false);
-		cutoutsEnabled = sp.getBoolean(PREF_ADD_CUTOUT_AREA, false) &&
+		cutoutsEnabled = sp.getBoolean(PREF_ADD_CUTOUT_AREA, true) &&
 				Build.VERSION.SDK_INT >= Build.VERSION_CODES.P;
 		setupInsets();
 		if (sp.getBoolean(PREF_KEEP_SCREEN, false)) {
