@@ -79,6 +79,11 @@
     <string name="PREF_KEEP_ASPECT_RATIO">Keep aspect ratio</string>
     <string name="PREF_FILTER">Filter</string>
     <string name="PREF_IMMEDIATE">Immediate processing mode</string>
+    <string name="action_export_game">Export game (with settings and saves)</string>
+    <string name="action_import_game">Import an exported game</string>
+    <string name="game_exported">Game exported</string>
+    <string name="game_imported">Game imported</string>
+    <string name="game_import_invalid">That file is not an exported game</string>
     <string name="update_title">Check for updates</string>
     <string name="update_checking">Checking for updates…</string>
     <string name="update_available">There is a new version: %1$s (you have %2$s).</string>

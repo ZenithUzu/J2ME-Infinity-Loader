@@ -61,6 +61,11 @@
     <string name="PREF_KEEP_ASPECT_RATIO">Mantener relación de aspecto</string>
     <string name="PREF_FILTER">Filtro</string>
     <string name="PREF_IMMEDIATE">Modo de procesamiento inmediato</string>
+    <string name="action_export_game">Exportar juego (con ajustes y partidas)</string>
+    <string name="action_import_game">Importar un juego exportado</string>
+    <string name="game_exported">Juego exportado</string>
+    <string name="game_imported">Juego importado</string>
+    <string name="game_import_invalid">Ese archivo no es un juego exportado</string>
     <string name="update_title">Buscar actualizaciones</string>
     <string name="update_checking">Buscando actualizaciones…</string>
     <string name="update_available">Hay una versión nueva: %1$s (tienes la %2$s).</string>

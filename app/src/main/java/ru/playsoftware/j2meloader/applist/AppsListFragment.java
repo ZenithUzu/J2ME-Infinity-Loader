@@ -108,6 +108,14 @@ public class AppsListFragment extends Fragment implements MenuProvider {
 			new androidx.activity.result.contract.ActivityResultContracts.OpenDocumentTree(),
 			this::onPickFolderResult);
 	private final AppsListAdapter adapter = new AppsListAdapter(this);
+	/** game being exported while the "save as" picker is open */
+	private AppItem exportItem;
+	private final ActivityResultLauncher<String> exportGameLauncher = registerForActivityResult(
+			new androidx.activity.result.contract.ActivityResultContracts.CreateDocument("application/zip"),
+			this::onExportGame);
+	private final ActivityResultLauncher<String[]> importGameLauncher = registerForActivityResult(
+			new androidx.activity.result.contract.ActivityResultContracts.OpenDocument(),
+			this::onImportGame);
 	private GameCollections collections;
 	/** every installed game, before the collection filter */
 	private List<AppItem> allItems;
@@ -274,6 +282,45 @@ public class AppsListFragment extends Fragment implements MenuProvider {
 			if (p != q) return Integer.compare(p, q);
 		}
 		return 0;
+	}
+
+	private void onExportGame(Uri target) {
+		AppItem item = exportItem;
+		exportItem = null;
+		if (target == null || item == null) return;
+		FragmentActivity activity = requireActivity();
+		new Thread(() -> {
+			boolean ok;
+			try {
+				GamePackage.export(activity, item, target);
+				ok = true;
+			} catch (Exception e) {
+				Log.e(TAG, "onExportGame: ", e);
+				ok = false;
+			}
+			boolean done = ok;
+			activity.runOnUiThread(() -> Toast.makeText(activity,
+					done ? R.string.game_exported : R.string.error, Toast.LENGTH_SHORT).show());
+		}, "ExportGame").start();
+	}
+
+	private void onImportGame(Uri source) {
+		if (source == null) return;
+		FragmentActivity activity = requireActivity();
+		List<AppItem> current = allItems == null ? new java.util.ArrayList<>() : new java.util.ArrayList<>(allItems);
+		new Thread(() -> {
+			String name;
+			try {
+				name = GamePackage.importFrom(activity, source);
+				if (name != null) ru.playsoftware.j2meloader.util.AppUtils.updateDb(appRepository, current);
+			} catch (Exception e) {
+				Log.e(TAG, "onImportGame: ", e);
+				name = null;
+			}
+			boolean ok = name != null;
+			activity.runOnUiThread(() -> Toast.makeText(activity,
+					ok ? R.string.game_imported : R.string.game_import_invalid, Toast.LENGTH_LONG).show());
+		}, "ImportGame").start();
 	}
 
 	private GameCollections collections() {
@@ -506,6 +553,10 @@ public class AppsListFragment extends Fragment implements MenuProvider {
 			requestAddShortcut(appItem);
 		} else if (itemId == R.id.action_context_rename) {
 			alertRename(appItem);
+		} else if (itemId == R.id.action_context_export) {
+			exportItem = appItem;
+			exportGameLauncher.launch(appItem.getTitle().replaceAll(
+					ru.playsoftware.j2meloader.util.FileUtils.ILLEGAL_FILENAME_CHARS, "") + ".zip");
 		} else if (itemId == R.id.action_context_collections) {
 			showGameCollectionsDialog(appItem);
 		} else if (itemId == R.id.action_context_favorite) {
@@ -596,7 +647,10 @@ public class AppsListFragment extends Fragment implements MenuProvider {
 	public boolean onMenuItemSelected(MenuItem item) {
 		FragmentActivity activity = requireActivity();
 		int itemId = item.getItemId();
-		if (itemId == R.id.action_check_updates) {
+		if (itemId == R.id.action_import_game) {
+			importGameLauncher.launch(new String[]{"application/zip",
+					"application/x-zip-compressed", "application/octet-stream"});
+		} else if (itemId == R.id.action_check_updates) {
 			checkForUpdates();
 		} else if (itemId == R.id.action_collections) {
 			showCollectionsDialog();

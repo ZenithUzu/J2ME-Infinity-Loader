@@ -29,6 +29,11 @@
         app:showAsAction="never"
         android:orderInCategory="3" />
     <item
+        android:id="@+id/action_import_game"
+        android:title="@string/action_import_game"
+        app:showAsAction="never"
+        android:orderInCategory="3" />
+    <item
         android:id="@+id/action_install_folder"
         android:title="@string/action_install_folder"
         app:showAsAction="never"
