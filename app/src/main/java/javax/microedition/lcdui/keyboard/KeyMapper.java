@@ -174,6 +174,59 @@ public class KeyMapper {
 		gameActionToKeyCode.put(gameAction, keyCode);
 	}
 
+	/**
+	 * Right stick directions of a game controller. Android has no key codes for them, so these
+	 * values (outside Android's range) are used in key maps like any other key.
+	 */
+	public static final int KEYCODE_RSTICK_UP = 0x10001;
+	public static final int KEYCODE_RSTICK_DOWN = 0x10002;
+	public static final int KEYCODE_RSTICK_LEFT = 0x10003;
+	public static final int KEYCODE_RSTICK_RIGHT = 0x10004;
+
+	/** Keys produced by controller axes, in the order of axesToKeys(). */
+	public static final int[] AXIS_KEYS = {
+			KeyEvent.KEYCODE_DPAD_LEFT, KeyEvent.KEYCODE_DPAD_RIGHT,
+			KeyEvent.KEYCODE_DPAD_UP, KeyEvent.KEYCODE_DPAD_DOWN,
+			KEYCODE_RSTICK_LEFT, KEYCODE_RSTICK_RIGHT, KEYCODE_RSTICK_UP, KEYCODE_RSTICK_DOWN,
+			KeyEvent.KEYCODE_BUTTON_L2, KeyEvent.KEYCODE_BUTTON_R2};
+
+	/**
+	 * Which of AXIS_KEYS a controller motion holds: left stick or hat = d-pad, right stick
+	 * (Z / RZ) = right stick keys, analog triggers = L2 / R2 (unless they come as key presses).
+	 */
+	public static boolean[] axesToKeys(android.view.MotionEvent e, boolean triggerKeys) {
+		float x = e.getAxisValue(android.view.MotionEvent.AXIS_HAT_X);
+		float y = e.getAxisValue(android.view.MotionEvent.AXIS_HAT_Y);
+		if (Math.abs(x) < 0.5f) x = e.getAxisValue(android.view.MotionEvent.AXIS_X);
+		if (Math.abs(y) < 0.5f) y = e.getAxisValue(android.view.MotionEvent.AXIS_Y);
+		float rx = e.getAxisValue(android.view.MotionEvent.AXIS_Z);
+		float ry = e.getAxisValue(android.view.MotionEvent.AXIS_RZ);
+		float lt = Math.max(e.getAxisValue(android.view.MotionEvent.AXIS_LTRIGGER),
+				e.getAxisValue(android.view.MotionEvent.AXIS_BRAKE));
+		float rt = Math.max(e.getAxisValue(android.view.MotionEvent.AXIS_RTRIGGER),
+				e.getAxisValue(android.view.MotionEvent.AXIS_GAS));
+		return new boolean[]{x < -0.5f, x > 0.5f, y < -0.5f, y > 0.5f,
+				rx < -0.5f, rx > 0.5f, ry < -0.5f, ry > 0.5f,
+				!triggerKeys && lt > 0.5f, !triggerKeys && rt > 0.5f};
+	}
+
+	/** Name of a key for the key mapper (also the right stick directions). */
+	public static String keyName(int keyCode) {
+		switch (keyCode) {
+			case KEYCODE_RSTICK_UP: return "RIGHT_STICK_UP";
+			case KEYCODE_RSTICK_DOWN: return "RIGHT_STICK_DOWN";
+			case KEYCODE_RSTICK_LEFT: return "RIGHT_STICK_LEFT";
+			case KEYCODE_RSTICK_RIGHT: return "RIGHT_STICK_RIGHT";
+			default: return KeyEvent.keyCodeToString(keyCode);
+		}
+	}
+
+	/** Game controller buttons and the right stick, apart from keyboard keys and the d-pad. */
+	public static boolean isControllerKey(int keyCode) {
+		return KeyEvent.isGamepadButton(keyCode)
+				|| (keyCode >= KEYCODE_RSTICK_UP && keyCode <= KEYCODE_RSTICK_RIGHT);
+	}
+
 	public static int convertAndroidKeyCode(int keyCode, KeyEvent event) {
 		if (!event.isShiftPressed()) {
 			int map = androidToMIDP.get(keyCode, 0);
@@ -259,6 +312,10 @@ public class KeyMapper {
 		map.put(KeyEvent.KEYCODE_BUTTON_SELECT, KEY_SOFT_LEFT);
 		map.put(KeyEvent.KEYCODE_BUTTON_START, KEY_SOFT_RIGHT);
 		map.put(KeyEvent.KEYCODE_BUTTON_THUMBL, KEY_NUM5);
+		// L2 / R2 (buttons or analog triggers, see Canvas.onGenericMotion); R3 and the right
+		// stick have no default and can be assigned in the key mapper
+		map.put(KeyEvent.KEYCODE_BUTTON_L2, KEY_NUM1);
+		map.put(KeyEvent.KEYCODE_BUTTON_R2, KEY_NUM3);
 		return map;
 	}
 }

@@ -177,24 +177,54 @@ public class KeyMapperActivity extends BaseActivity implements View.OnClickListe
 	private void showMappingDialog(int canvasKey) {
 		this.canvasKey = canvasKey;
 		SparseIntArray androidToMIDP = this.androidToMIDP;
-		int idx = androidToMIDP.indexOfValue(canvasKey);
-		String keyName;
-		if (idx < 0) {
-			keyName = getString(R.string.mapping_dialog_key_not_specified);
-		} else {
-			keyName = KeyEvent.keyCodeToString(androidToMIDP.keyAt(idx));
+		// a game key can have one keyboard key and one controller button at the same time
+		StringBuilder names = new StringBuilder();
+		for (int i = 0; i < androidToMIDP.size(); i++) {
+			if (androidToMIDP.valueAt(i) == canvasKey) {
+				if (names.length() > 0) names.append(" + ");
+				names.append(KeyMapper.keyName(androidToMIDP.keyAt(i)));
+			}
 		}
+		String keyName = names.length() == 0
+				? getString(R.string.mapping_dialog_key_not_specified) : names.toString();
 		binding.keyMapperPopupMsg.setText(getString(R.string.mapping_dialog_message, keyName));
 		binding.keyMapperLayer.setVisibility(View.VISIBLE);
 	}
 
-	private void deleteDuplicates(int value) {
+	/** Removes the keys of the same kind (controller or keyboard) already on this game key. */
+	private void deleteDuplicates(int value, int newKey) {
 		SparseIntArray androidToMIDP = this.androidToMIDP;
+		boolean controller = KeyMapper.isControllerKey(newKey);
 		for (int i = androidToMIDP.size() - 1; i >= 0; i--) {
-			if (androidToMIDP.valueAt(i) == value) {
+			if (androidToMIDP.valueAt(i) == value
+					&& KeyMapper.isControllerKey(androidToMIDP.keyAt(i)) == controller) {
 				androidToMIDP.removeAt(i);
 			}
 		}
+	}
+
+	private void assign(int keyCode) {
+		deleteDuplicates(canvasKey, keyCode);
+		androidToMIDP.put(keyCode, canvasKey);
+		binding.keyMapperLayer.setVisibility(View.GONE);
+	}
+
+	/** Right stick, analog triggers and left stick can be assigned too. */
+	@Override
+	public boolean dispatchGenericMotionEvent(MotionEvent event) {
+		if (binding.keyMapperLayer.getVisibility() == View.VISIBLE
+				&& (event.getSource() & android.view.InputDevice.SOURCE_JOYSTICK)
+				== android.view.InputDevice.SOURCE_JOYSTICK) {
+			boolean[] held = KeyMapper.axesToKeys(event, false);
+			for (int i = 0; i < held.length; i++) {
+				if (held[i]) {
+					assign(KeyMapper.AXIS_KEYS[i]);
+					return true;
+				}
+			}
+			return true;
+		}
+		return super.dispatchGenericMotionEvent(event);
 	}
 
 	@Override
@@ -276,9 +306,7 @@ public class KeyMapperActivity extends BaseActivity implements View.OnClickListe
 				case KeyEvent.KEYCODE_VOLUME_DOWN:
 					break;
 				default:
-					deleteDuplicates(canvasKey);
-					androidToMIDP.put(keyCode, canvasKey);
-					binding.keyMapperLayer.setVisibility(View.GONE);
+					assign(keyCode);
 					return true;
 			}
 		}

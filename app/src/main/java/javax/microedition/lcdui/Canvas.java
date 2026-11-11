@@ -1322,9 +1322,10 @@ protected int getSupersamplingFactor() {
 		}
 
 		/** directions currently held by the controller's stick/hat: left, right, up, down */
-		private final boolean[] padDir = new boolean[4];
-		private final int[] padKeys = {KeyEvent.KEYCODE_DPAD_LEFT, KeyEvent.KEYCODE_DPAD_RIGHT,
-				KeyEvent.KEYCODE_DPAD_UP, KeyEvent.KEYCODE_DPAD_DOWN};
+		private final int[] padKeys = KeyMapper.AXIS_KEYS;
+		private final boolean[] padDir = new boolean[padKeys.length];
+		/** the controller sends L2/R2 as key presses: do not also read its trigger axes */
+		private boolean triggerKeysSeen;
 
 		/**
 		 * Game controller left stick and hat (d-pad reported as axes) become d-pad key presses,
@@ -1336,13 +1337,14 @@ protected int getSupersamplingFactor() {
 					|| event.getActionMasked() != MotionEvent.ACTION_MOVE) {
 				return false;
 			}
-			float x = event.getAxisValue(MotionEvent.AXIS_HAT_X);
-			float y = event.getAxisValue(MotionEvent.AXIS_HAT_Y);
-			if (Math.abs(x) < 0.5f) x = event.getAxisValue(MotionEvent.AXIS_X);
-			if (Math.abs(y) < 0.5f) y = event.getAxisValue(MotionEvent.AXIS_Y);
-			boolean[] now = {x < -0.5f, x > 0.5f, y < -0.5f, y > 0.5f};
-			if (now[0] || now[1] || now[2] || now[3]) hideVirtualKeyboard();
-			for (int i = 0; i < 4; i++) {
+			boolean[] now = KeyMapper.axesToKeys(event, triggerKeysSeen);
+			for (boolean b : now) {
+				if (b) {
+					hideVirtualKeyboard();
+					break;
+				}
+			}
+			for (int i = 0; i < padKeys.length; i++) {
 				if (now[i] != padDir[i]) {
 					padDir[i] = now[i];
 					KeyEvent key = new KeyEvent(now[i] ? KeyEvent.ACTION_DOWN : KeyEvent.ACTION_UP, padKeys[i]);
@@ -1376,6 +1378,10 @@ protected int getSupersamplingFactor() {
 
 		public boolean onKeyDown(int keyCode, KeyEvent event) {
 			if (isPhysicalController(event)) hideVirtualKeyboard();
+			if ((keyCode == KeyEvent.KEYCODE_BUTTON_L2 || keyCode == KeyEvent.KEYCODE_BUTTON_R2)
+					&& event.getDevice() != null) {
+				triggerKeysSeen = true;
+			}
 			keyCode = KeyMapper.convertAndroidKeyCode(keyCode, event);
 			if (keyCode == 0) {
 				return false;
