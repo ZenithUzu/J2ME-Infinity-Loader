@@ -510,7 +510,7 @@ public class AppsListFragment extends Fragment implements MenuProvider {
 					if (depth < 3) collectGames(tree, id, out, depth + 1);
 				} else if (name != null) {
 					String n = name.toLowerCase(java.util.Locale.ROOT);
-					if (n.endsWith(".jar") || n.endsWith(".jad") || n.endsWith(".kjx")) {
+					if (n.endsWith(".jar") || n.endsWith(".jad") || n.endsWith(".kjx") || n.endsWith(".zip")) {
 						out.add(android.provider.DocumentsContract.buildDocumentUriUsingTree(tree, id));
 					}
 				}
@@ -518,13 +518,71 @@ public class AppsListFragment extends Fragment implements MenuProvider {
 		}
 	}
 
-	private void onPickFileResult(List<Uri> uris) {
-		if (uris == null || uris.isEmpty()) {
+	/**
+	 * Install from ZIP (like JL-Mod Plus): the .jar / .jad / .kjx files inside a .zip are
+	 * unpacked to the cache and installed like files picked one by one.
+	 * A .zip that is itself a game (a renamed .jar, it has META-INF/MANIFEST.MF) stays as is.
+	 */
+	private static List<Uri> expandZips(android.content.Context context, List<Uri> uris) {
+		List<Uri> out = new java.util.ArrayList<>();
+		File base = new File(context.getCacheDir(), "zip-games");
+		ru.playsoftware.j2meloader.util.FileUtils.deleteDirectory(base);
+		int n = 0;
+		for (Uri uri : uris) {
+			String name = ru.playsoftware.j2meloader.util.FileUtils.getDisplayName(context, uri);
+			if (name == null || !name.toLowerCase(java.util.Locale.ROOT).endsWith(".zip")) {
+				out.add(uri);
+				continue;
+			}
+			File dir = new File(base, String.valueOf(n++));
+			List<Uri> games = new java.util.ArrayList<>();
+			boolean isJar = false;
+			try (java.util.zip.ZipInputStream zip = new java.util.zip.ZipInputStream(
+					context.getContentResolver().openInputStream(uri))) {
+				for (java.util.zip.ZipEntry e; (e = zip.getNextEntry()) != null; ) {
+					String entry = e.getName();
+					if (entry.equalsIgnoreCase("META-INF/MANIFEST.MF")) isJar = true;
+					String file = entry.substring(entry.lastIndexOf('/') + 1);
+					String low = file.toLowerCase(java.util.Locale.ROOT);
+					if (e.isDirectory() || file.startsWith(".")
+							|| !(low.endsWith(".jar") || low.endsWith(".jad") || low.endsWith(".kjx"))) {
+						continue;
+					}
+					dir.mkdirs();
+					File target = new File(dir, file);
+					try (java.io.OutputStream os = new java.io.FileOutputStream(target)) {
+						byte[] buf = new byte[65536];
+						for (int r; (r = zip.read(buf)) > 0; ) os.write(buf, 0, r);
+					}
+					games.add(Uri.fromFile(target));
+				}
+			} catch (Exception e) {
+				Log.w(TAG, "expandZips: " + uri, e);
+			}
+			if (isJar || games.isEmpty()) out.add(uri); else out.addAll(games);
+		}
+		return out;
+	}
+
+	private void onPickFileResult(List<Uri> picked) {
+		if (picked == null || picked.isEmpty()) {
 			return;
 		}
 		preferences.edit()
-				.putString(PREF_LAST_PATH, uris.get(0).getPath())
+				.putString(PREF_LAST_PATH, picked.get(0).getPath())
 				.apply();
+		android.content.Context context = requireContext().getApplicationContext();
+		new Thread(() -> {
+			List<Uri> uris = expandZips(context, picked);
+			FragmentActivity activity = getActivity();
+			if (activity != null && !uris.isEmpty()) activity.runOnUiThread(() -> installUris(uris));
+		}, "ExpandZips").start();
+	}
+
+	private void installUris(List<Uri> uris) {
+		if (!isAdded()) {
+			return;
+		}
 		if (uris.size() == 1) {
 			InstallerDialog.newInstance(uris.get(0)).show(getParentFragmentManager(), "installer");
 		} else {
