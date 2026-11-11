@@ -191,6 +191,8 @@ public class MicroActivity extends AppCompatActivity {
 			return;
 		}
 		microLoader.applyConfiguration();
+		// from JarNix: the volume keys change the game's sound, not the ringer
+		setVolumeControlStream(android.media.AudioManager.STREAM_MUSIC);
 		pauseDisabled = microLoader.isPauseDisabled();
 		menuKey = microLoader.getMenuKeyCode();
 		inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
@@ -730,9 +732,10 @@ public class MicroActivity extends AppCompatActivity {
 	}
 
 	private void showGameSpeedDialog() {
-		final int[] speeds = {1, 2, 3, 4};
-		final String[] labels = {"1×", "2×", "3×", "4×"};
-		int checked = 0;
+		// like JL-Mod Plus: slow motion too
+		final double[] speeds = {0.25, 0.5, 1, 2, 3, 4, 8, 16};
+		final String[] labels = {"0.25×", "0.5×", "1×", "2×", "3×", "4×", "8×", "16×"};
+		int checked = 2;
 		for (int i = 0; i < speeds.length; i++) {
 			if (speeds[i] == VirtualClock.getSpeed()) {
 				checked = i;
@@ -743,7 +746,7 @@ public class MicroActivity extends AppCompatActivity {
 				.setSingleChoiceItems(labels, checked, (dialog, which) -> {
 					VirtualClock.setSpeed(speeds[which]);
 					dialog.dismiss();
-					if (speeds[which] > 1) {
+					if (speeds[which] != 1) {
 						Toast.makeText(this, R.string.game_speed_hint, Toast.LENGTH_LONG).show();
 					}
 				})
