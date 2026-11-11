@@ -57,6 +57,11 @@ public class CanvasWrapper {
 		this.canvas = canvas;
 	}
 
+	/** For keys drawn with their own paints (PortemonStyle). */
+	public Canvas getCanvas() {
+		return canvas;
+	}
+
 	public void clear(int color) {
 		canvas.drawColor(color, PorterDuff.Mode.SRC);
 	}

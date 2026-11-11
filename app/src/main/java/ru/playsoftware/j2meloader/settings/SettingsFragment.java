@@ -85,6 +85,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 			Log.e(TAG, "onPickSkinResult: ", e);
 			count = 0;
 		}
+		if (count > 0) setButtonStyle(javax.microedition.lcdui.keyboard.VirtualKeyboard.STYLE_SKIN);
 		android.widget.Toast.makeText(requireContext(), count > 0
 				? getString(R.string.pad_skin_imported, count)
 				: getString(R.string.pad_skin_empty), android.widget.Toast.LENGTH_LONG).show();
@@ -126,6 +127,13 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 				.show();
 	}
 
+	/** An imported skin is used right away; going back to default returns to the Portemon look. */
+	private void setButtonStyle(int style) {
+		androidx.preference.ListPreference p = findPreference(
+				javax.microedition.lcdui.keyboard.VirtualKeyboard.PREF_BUTTON_STYLE);
+		if (p != null) p.setValue(String.valueOf(style));
+	}
+
 	private void showSkinDialog() {
 		new AlertDialog.Builder(requireContext())
 				.setTitle(R.string.pref_pad_skin)
@@ -137,6 +145,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 								"application/x-zip-compressed", "application/octet-stream"});
 					} else {
 						javax.microedition.lcdui.keyboard.PadSkin.reset();
+						setButtonStyle(javax.microedition.lcdui.keyboard.VirtualKeyboard.STYLE_MODERN);
 						android.widget.Toast.makeText(requireContext(), R.string.pad_skin_reset,
 								android.widget.Toast.LENGTH_SHORT).show();
 					}

@@ -94,6 +94,14 @@
         android:icon="@drawable/ic_setting_folder"
         android:summary="@string/pref_import_filters_summary"
         android:title="@string/pref_import_filters" />
+    <ListPreference
+        android:defaultValue="0"
+        android:entries="@array/button_style_entries"
+        android:entryValues="@array/button_style_values"
+        android:icon="@drawable/ic_setting_button_shape"
+        android:key="pref_button_style"
+        app:useSimpleSummaryProvider="true"
+        android:title="@string/pref_button_style" />
     <Preference
         android:key="pref_pad_skin"
         android:icon="@drawable/ic_setting_folder"

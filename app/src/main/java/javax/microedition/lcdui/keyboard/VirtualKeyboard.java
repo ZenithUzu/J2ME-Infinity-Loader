@@ -211,6 +211,14 @@ public class VirtualKeyboard implements Overlay, Runnable {
 	private boolean hiddenByController;
 	/** hidden from the quick settings: no keys at all until shown again (remembered per game) */
 	private boolean userHidden;
+	/** Button look (Settings / quick settings): Portemon modern or outline, game colors, or skin pictures. */
+	public static final String PREF_BUTTON_STYLE = "pref_button_style";
+	public static final int STYLE_MODERN = PortemonStyle.MODERN;
+	public static final int STYLE_OUTLINE = PortemonStyle.OUTLINE;
+	public static final int STYLE_CLASSIC = 2;
+	public static final int STYLE_SKIN = 3;
+	private int buttonStyle;
+	private PortemonStyle portemon;
 	private final File hiddenFile;
 	private int layoutEditMode = LAYOUT_EOF;
 	private int editedIndex;
@@ -230,6 +238,7 @@ public class VirtualKeyboard implements Overlay, Runnable {
 		this.padLabelsFile = new File(saveFile.getPath() + ".gamepad");
 		this.hiddenFile = new File(saveFile.getPath() + ".hidden");
 		this.userHidden = hiddenFile.exists();
+		setButtonStyle(readButtonStyle());
 
 		for (int i = KEY_NUM1; i < 9; i++) {
 			keypad[i] = new VirtualKey(Canvas.KEY_NUM1 + i, Integer.toString(1 + i));
@@ -919,6 +928,44 @@ public class VirtualKeyboard implements Overlay, Runnable {
 		return names;
 	}
 
+	/**
+	 * The keys that belong to what is on screen now, for the hide/show list: the gamepad's
+	 * buttons in gamepad mode, the phone keys (without the stick) otherwise.
+	 */
+	public int[] getModeKeys() {
+		int[] pad = {KEY_UP, KEY_DOWN, KEY_LEFT, KEY_RIGHT, KEY_UP_LEFT, KEY_UP_RIGHT, KEY_DOWN_LEFT,
+				KEY_DOWN_RIGHT, KEY_FIRE, KEY_NUM7, KEY_NUM9, KEY_NUM0, KEY_STAR, KEY_POUND, KEY_STICK,
+				KEY_SOFT_LEFT, KEY_SOFT_RIGHT, KEY_MENU, KEY_TOGGLE};
+		if (padMode) return pad;
+		int[] keys = new int[KEYBOARD_SIZE - 1];
+		for (int i = 0, n = 0; i < KEYBOARD_SIZE; i++) {
+			if (i != KEY_STICK) keys[n++] = i;
+		}
+		return keys;
+	}
+
+	/** Name of a key in the hide/show list. */
+	public String getKeyName(int index) {
+		if (index == KEY_STICK) return "Stick";
+		if (index == KEY_MENU) return "\u22EE";
+		return keypad[index].label;
+	}
+
+	public int getAlpha() {
+		return settings.vkAlpha;
+	}
+
+	/** Opacity over the game, shown at once (saved with the game's settings by the caller). */
+	public void setAlpha(int alpha) {
+		settings.vkAlpha = alpha;
+		if (overlayView != null) overlayView.postInvalidate();
+	}
+
+	/** Back to the default gamepad or keypad layout (the edited one is lost). */
+	public void resetModeLayout() {
+		setLayout(padMode ? TYPE_GAMEPAD : TYPE_JARNIX);
+	}
+
 	public boolean[] getKeysVisibility() {
 		boolean[] states = new boolean[KEYBOARD_SIZE];
 		for (int i = 0; i < KEYBOARD_SIZE; i++) {
@@ -1110,6 +1157,55 @@ public class VirtualKeyboard implements Overlay, Runnable {
 		return keySize;
 	}
 
+	private static int readButtonStyle() {
+		try {
+			return Integer.parseInt(androidx.preference.PreferenceManager
+					.getDefaultSharedPreferences(ContextHolder.getAppContext())
+					.getString(PREF_BUTTON_STYLE, String.valueOf(STYLE_MODERN)));
+		} catch (Exception e) {
+			return STYLE_MODERN;
+		}
+	}
+
+	public int getButtonStyle() {
+		return buttonStyle;
+	}
+
+	/** Changes the look right away (skin pictures without an imported skin fall back to modern). */
+	public void setButtonStyle(int style) {
+		if (style == STYLE_SKIN && !PadSkin.hasUserSkin()) style = STYLE_MODERN;
+		buttonStyle = style;
+		portemon = style <= STYLE_OUTLINE ? new PortemonStyle(ContextHolder.getAppContext(), style) : null;
+		if (overlayView != null) overlayView.postInvalidate();
+	}
+
+	/** Shape of a key in the Portemon look. */
+	private int shapeOf(VirtualKey key) {
+		if (key == keypad[KEY_SOFT_LEFT] || key == keypad[KEY_SOFT_RIGHT] || key == keypad[KEY_MENU]
+				|| key == keypad[KEY_TOGGLE]) return PortemonStyle.PILL;
+		if (!padMode) return PortemonStyle.ROUND;
+		if (key == keypad[KEY_STAR] || key == keypad[KEY_POUND]) return PortemonStyle.PILL;
+		if (key == keypad[KEY_FIRE] || key == keypad[KEY_NUM7] || key == keypad[KEY_NUM9]
+				|| key == keypad[KEY_NUM0]) return PortemonStyle.CIRCLE;
+		return PortemonStyle.ROUND;
+	}
+
+	/** Portemon cross over the 8 direction keys of the gamepad. */
+	private boolean paintPortemonDpad(CanvasWrapper g) {
+		RectF area = new RectF(keypad[KEY_UP_LEFT].rect);
+		for (int k : DPAD_KEYS) {
+			if (!keypad[k].visible) return false;
+			area.union(keypad[k].rect);
+		}
+		int dirs = 0;
+		if (keypad[KEY_UP_LEFT].selected || keypad[KEY_UP].selected || keypad[KEY_UP_RIGHT].selected) dirs |= 1;
+		if (keypad[KEY_DOWN_LEFT].selected || keypad[KEY_DOWN].selected || keypad[KEY_DOWN_RIGHT].selected) dirs |= 2;
+		if (keypad[KEY_UP_LEFT].selected || keypad[KEY_LEFT].selected || keypad[KEY_DOWN_LEFT].selected) dirs |= 4;
+		if (keypad[KEY_UP_RIGHT].selected || keypad[KEY_RIGHT].selected || keypad[KEY_DOWN_RIGHT].selected) dirs |= 8;
+		portemon.dpad(g.getCanvas(), area, dirs, skinAlpha(keypad[KEY_UP]));
+		return true;
+	}
+
 	/** Keys on screen right now (the game is centered when there are none). */
 	public boolean isShown() {
 		return !userHidden && !hiddenByController;
@@ -1165,7 +1261,8 @@ public class VirtualKeyboard implements Overlay, Runnable {
 	@Override
 	public void paint(CanvasWrapper g) {
 		if (visible && !hiddenByController && !userHidden) {
-			boolean skinDpad = padMode && layoutEditMode == LAYOUT_EOF && paintSkinDpad(g);
+			boolean skinDpad = padMode && layoutEditMode == LAYOUT_EOF
+					&& (buttonStyle == STYLE_SKIN ? paintSkinDpad(g) : portemon != null && paintPortemonDpad(g));
 			for (int i = 0; i < keypad.length; i++) {
 				VirtualKey key = keypad[i];
 				if (key.visible && !(skinDpad && isDpadKey(i))) {
@@ -1579,7 +1676,11 @@ public class VirtualKeyboard implements Overlay, Runnable {
 		}
 
 		void paint(CanvasWrapper g) {
-			String skin = padMode && layoutEditMode == LAYOUT_EOF ? skinName(this) : null;
+			if (portemon != null) {
+				portemon.key(g.getCanvas(), rect, label, selected, skinAlpha(this), shapeOf(this));
+				return;
+			}
+			String skin = buttonStyle == STYLE_SKIN && padMode && layoutEditMode == LAYOUT_EOF ? skinName(this) : null;
 			Bitmap bm = skin == null ? null : PadSkin.get(selected ? skin + "_pressed" : skin);
 			if (bm == null && skin != null) bm = PadSkin.get(skin);
 			if (bm != null) {
@@ -1761,6 +1862,14 @@ public class VirtualKeyboard implements Overlay, Runnable {
 		void paint(CanvasWrapper g) {
 			int alpha = skinAlpha(this);
 			boolean held = !Float.isNaN(knobX);
+			if (portemon != null) {
+				portemon.stick(g.getCanvas(), rect, knobX, knobY, held, alpha);
+				return;
+			}
+			if (buttonStyle != STYLE_SKIN) {
+				paintPlain(g, held);
+				return;
+			}
 			Bitmap base = PadSkin.get("joystick_base");
 			Bitmap knob = held && PadSkin.get("joystick_pressed") != null
 					? PadSkin.get("joystick_pressed") : PadSkin.get("joystick_knob");
@@ -1784,7 +1893,11 @@ public class VirtualKeyboard implements Overlay, Runnable {
 				g.drawSkin(knob, k, alpha, 0);
 				return;
 			}
-			// no skin: a plate and a knob in the keyboard colors
+			paintPlain(g, held);
+		}
+
+		/** No skin: a plate and a knob in the keyboard colors. */
+		private void paintPlain(CanvasWrapper g, boolean held) {
 			int a = (opaque || layoutEditMode != LAYOUT_EOF ? 0xFF : settings.vkAlpha) << 24;
 			g.setFillColor(a | settings.vkBgColor);
 			g.setDrawColor(a | settings.vkOutlineColor);

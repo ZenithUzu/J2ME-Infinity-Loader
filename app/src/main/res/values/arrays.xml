@@ -46,6 +46,18 @@
         <item>@string/icon_choose</item>
         <item>@string/icon_original</item>
     </string-array>
+    <string-array name="button_style_entries">
+        <item>@string/button_style_modern</item>
+        <item>@string/button_style_outline</item>
+        <item>@string/button_style_classic</item>
+        <item>@string/button_style_skin</item>
+    </string-array>
+    <string-array name="button_style_values" translatable="false">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
     <string-array name="pad_skin_actions">
         <item>@string/pad_skin_choose</item>
         <item>@string/pad_skin_choose_zip</item>

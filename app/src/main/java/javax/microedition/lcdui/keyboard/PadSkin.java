@@ -43,8 +43,8 @@ import javax.microedition.util.ContextHolder;
  * dpad_pressed_two = up + left), which is turned for the other directions.
  * Citra file names (button_a.png, dpad_pressed_one_direction.png...) are renamed on import.
  * <p>
- * Imported skins live in the app's private files/skin folder; without one,
- * the skin bundled in assets/skin is used.
+ * Imported skins live in the app's private files/skin folder and are used with the
+ * "Skin pictures" button style; without one the keys are drawn in the Portemon look.
  */
 public final class PadSkin {
 	private static final String DIR = "skin";
@@ -70,15 +70,8 @@ public final class PadSkin {
 	public static synchronized Bitmap get(String name) {
 		if (cache.containsKey(name)) return cache.get(name);
 		Bitmap b = null;
-		if (hasUserSkin()) {
-			File f = new File(userDir(), name + ".png");
-			if (f.isFile()) b = BitmapFactory.decodeFile(f.getPath());
-		} else {
-			try (InputStream in = context().getAssets().open(DIR + "/" + name + ".png")) {
-				b = BitmapFactory.decodeStream(in);
-			} catch (Exception ignored) {
-			}
-		}
+		File f = new File(userDir(), name + ".png");
+		if (f.isFile()) b = BitmapFactory.decodeFile(f.getPath());
 		cache.put(name, b);
 		return b;
 	}

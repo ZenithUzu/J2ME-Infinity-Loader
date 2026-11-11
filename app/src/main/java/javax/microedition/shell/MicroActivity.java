@@ -682,9 +682,17 @@ public class MicroActivity extends AppCompatActivity {
 		final VirtualKeyboard vk = ContextHolder.getVk();
 		boolean[] states = vk.getKeysVisibility();
 		boolean[] changed = states.clone();
+		// only the keys of what is on screen (gamepad or keypad), each mode keeps its own
+		int[] keys = vk.getModeKeys();
+		String[] names = new String[keys.length];
+		boolean[] checked = new boolean[keys.length];
+		for (int i = 0; i < keys.length; i++) {
+			names[i] = vk.getKeyName(keys[i]);
+			checked[i] = states[keys[i]];
+		}
 		new AlertDialog.Builder(this)
 				.setTitle(R.string.hide_buttons)
-				.setMultiChoiceItems(vk.getKeyNames(), changed, (dialog, which, isChecked) -> {})
+				.setMultiChoiceItems(names, checked, (dialog, which, isChecked) -> changed[keys[which]] = isChecked)
 				.setPositiveButton(android.R.string.ok, (dialog, which) -> {
 					if (!Arrays.equals(states, changed)) {
 						vk.setKeysVisibility(changed);
@@ -733,6 +741,10 @@ public class MicroActivity extends AppCompatActivity {
 		VirtualKeyboard vk = ContextHolder.getVk();
 		java.util.ArrayList<String> names = new java.util.ArrayList<>();
 		java.util.ArrayList<Runnable> actions = new java.util.ArrayList<>();
+		if (vk != null && vk.getLayoutEditMode() != VirtualKeyboard.LAYOUT_EOF) {
+			names.add(getString(R.string.quick_edit_done));
+			actions.add(() -> handleVkOptions(R.id.action_layout_edit_finish));
+		}
 		if (vk == null || vk.isUserHidden()) {
 			names.add(getString(R.string.quick_keyboard_show));
 			actions.add(this::showKeyboardNow);
@@ -746,6 +758,8 @@ public class MicroActivity extends AppCompatActivity {
 				vk.setUserHidden(false);
 				vk.togglePad();
 			});
+			names.add(getString(R.string.quick_controls));
+			actions.add(this::showControlsMenu);
 		}
 		names.add(getString(R.string.quick_scale));
 		actions.add(this::showQuickScale);
@@ -762,6 +776,77 @@ public class MicroActivity extends AppCompatActivity {
 		new AlertDialog.Builder(this)
 				.setTitle(R.string.quick_settings)
 				.setItems(names.toArray(new String[0]), (d, w) -> actions.get(w).run())
+				.show();
+	}
+
+	/** Like JarNix: everything about the on-screen controls from inside the game. */
+	private void showControlsMenu() {
+		VirtualKeyboard vk = ContextHolder.getVk();
+		if (vk == null) return;
+		vk.setUserHidden(false);
+		String[] items = {getString(R.string.quick_move_controls), getString(R.string.quick_resize_controls),
+				getString(R.string.hide_buttons), getString(R.string.quick_opacity),
+				getString(R.string.pref_button_style), getString(R.string.quick_reset_layout)};
+		new AlertDialog.Builder(this)
+				.setTitle(R.string.quick_controls)
+				.setItems(items, (d, w) -> {
+					switch (w) {
+						case 0: handleVkOptions(R.id.action_layout_edit_mode); toastEditDone(); break;
+						case 1: handleVkOptions(R.id.action_layout_scale_mode); toastEditDone(); break;
+						case 2: showHideButtonDialog(); break;
+						case 3: showOpacityDialog(vk); break;
+						case 4: showButtonStyleDialog(vk); break;
+						default: vk.resetModeLayout(); break;
+					}
+				})
+				.show();
+	}
+
+	private void toastEditDone() {
+		Toast.makeText(this, R.string.quick_edit_hint, Toast.LENGTH_LONG).show();
+	}
+
+	private void showOpacityDialog(VirtualKeyboard vk) {
+		android.widget.SeekBar bar = new android.widget.SeekBar(this);
+		bar.setMax(255);
+		bar.setProgress(vk.getAlpha());
+		int pad = (int) (24 * getResources().getDisplayMetrics().density);
+		bar.setPadding(pad, pad, pad, pad);
+		int old = vk.getAlpha();
+		bar.setOnSeekBarChangeListener(new android.widget.SeekBar.OnSeekBarChangeListener() {
+			@Override
+			public void onProgressChanged(android.widget.SeekBar s, int progress, boolean user) {
+				vk.setAlpha(progress);
+			}
+
+			@Override
+			public void onStartTrackingTouch(android.widget.SeekBar s) {
+			}
+
+			@Override
+			public void onStopTrackingTouch(android.widget.SeekBar s) {
+			}
+		});
+		new AlertDialog.Builder(this)
+				.setTitle(R.string.quick_opacity)
+				.setView(bar)
+				.setPositiveButton(android.R.string.ok, (d, w) -> ProfilesManager.saveConfig(microLoader.params))
+				.setNegativeButton(android.R.string.cancel, (d, w) -> vk.setAlpha(old))
+				.show();
+	}
+
+	private void showButtonStyleDialog(VirtualKeyboard vk) {
+		new AlertDialog.Builder(this)
+				.setTitle(R.string.pref_button_style)
+				.setSingleChoiceItems(R.array.button_style_entries, vk.getButtonStyle(), (d, w) -> {
+					vk.setButtonStyle(w);
+					if (vk.getButtonStyle() != w) {
+						Toast.makeText(this, R.string.button_style_no_skin, Toast.LENGTH_LONG).show();
+					}
+					PreferenceManager.getDefaultSharedPreferences(this).edit()
+							.putString(VirtualKeyboard.PREF_BUTTON_STYLE, String.valueOf(vk.getButtonStyle())).apply();
+					d.dismiss();
+				})
 				.show();
 	}
 
