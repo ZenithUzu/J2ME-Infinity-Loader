@@ -348,4 +348,6 @@
     <string name="quick_hide_piece">إخفاء</string>
     <string name="quick_reset_short">إعادة ضبط</string>
     <string name="quick_done">تم</string>
+    <string name="quick_move_piece">النقل: قطعة</string>
+    <string name="quick_move_free">النقل: حر</string>
 </resources>

@@ -222,4 +222,6 @@
     <string name="quick_hide_piece">Skjul</string>
     <string name="quick_reset_short">Nulstil</string>
     <string name="quick_done">Færdig</string>
+    <string name="quick_move_piece">Flyt: del</string>
+    <string name="quick_move_free">Flyt: frit</string>
 </resources>

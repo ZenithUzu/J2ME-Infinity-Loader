@@ -248,4 +248,6 @@
     <string name="quick_hide_piece">ଲୁଚାନ୍ତୁ</string>
     <string name="quick_reset_short">ରିସେଟ</string>
     <string name="quick_done">ହେଲା</string>
+    <string name="quick_move_piece">ଘୁଞ୍ଚାନ୍ତୁ: ଅଂଶ</string>
+    <string name="quick_move_free">ଘୁଞ୍ଚାନ୍ତୁ: ମୁକ୍ତ</string>
 </resources>

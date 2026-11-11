@@ -298,4 +298,6 @@
     <string name="quick_hide_piece">Ukryj</string>
     <string name="quick_reset_short">Przywróć</string>
     <string name="quick_done">Gotowe</string>
+    <string name="quick_move_piece">Przesuń: część</string>
+    <string name="quick_move_free">Przesuń: swobodnie</string>
 </resources>

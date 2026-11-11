@@ -234,4 +234,6 @@
     <string name="quick_hide_piece">ซ่อน</string>
     <string name="quick_reset_short">รีเซ็ต</string>
     <string name="quick_done">เสร็จ</string>
+    <string name="quick_move_piece">ย้าย: ทั้งชุด</string>
+    <string name="quick_move_free">ย้าย: อิสระ</string>
 </resources>

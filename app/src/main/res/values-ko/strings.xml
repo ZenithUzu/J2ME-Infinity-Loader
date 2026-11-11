@@ -300,4 +300,6 @@
     <string name="quick_hide_piece">숨기기</string>
     <string name="quick_reset_short">초기화</string>
     <string name="quick_done">완료</string>
+    <string name="quick_move_piece">이동: 부품</string>
+    <string name="quick_move_free">이동: 자유</string>
 </resources>

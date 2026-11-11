@@ -253,4 +253,6 @@
     <string name="quick_hide_piece">隱藏</string>
     <string name="quick_reset_short">重設</string>
     <string name="quick_done">完成</string>
+    <string name="quick_move_piece">移動：整組</string>
+    <string name="quick_move_free">移動：自由</string>
 </resources>

@@ -346,4 +346,6 @@
     <string name="quick_hide_piece">Gizle</string>
     <string name="quick_reset_short">Sıfırla</string>
     <string name="quick_done">Bitti</string>
+    <string name="quick_move_piece">Taşı: parça</string>
+    <string name="quick_move_free">Taşı: serbest</string>
 </resources>

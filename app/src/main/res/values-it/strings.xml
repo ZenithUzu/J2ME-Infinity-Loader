@@ -287,4 +287,6 @@
     <string name="quick_hide_piece">Nascondi</string>
     <string name="quick_reset_short">Ripristina</string>
     <string name="quick_done">Fatto</string>
+    <string name="quick_move_piece">Sposta: blocco</string>
+    <string name="quick_move_free">Sposta: libero</string>
 </resources>

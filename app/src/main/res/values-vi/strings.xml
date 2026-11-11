@@ -340,4 +340,6 @@
     <string name="quick_hide_piece">Ẩn</string>
     <string name="quick_reset_short">Đặt lại</string>
     <string name="quick_done">Xong</string>
+    <string name="quick_move_piece">Di chuyển: cụm</string>
+    <string name="quick_move_free">Di chuyển: tự do</string>
 </resources>

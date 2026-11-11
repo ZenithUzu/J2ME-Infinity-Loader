@@ -252,4 +252,6 @@
     <string name="quick_hide_piece">Ascunde</string>
     <string name="quick_reset_short">Resetează</string>
     <string name="quick_done">Gata</string>
+    <string name="quick_move_piece">Mută: piesă</string>
+    <string name="quick_move_free">Mută: liber</string>
 </resources>

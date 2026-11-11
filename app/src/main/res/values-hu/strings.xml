@@ -291,4 +291,6 @@
     <string name="quick_hide_piece">Elrejtés</string>
     <string name="quick_reset_short">Visszaállítás</string>
     <string name="quick_done">Kész</string>
+    <string name="quick_move_piece">Mozgatás: rész</string>
+    <string name="quick_move_free">Mozgatás: szabad</string>
 </resources>

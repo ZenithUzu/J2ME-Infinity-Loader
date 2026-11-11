@@ -1102,6 +1102,13 @@ public class MicroActivity extends AppCompatActivity {
 				return true;
 			}
 		});
+		// Piece: moves the whole d-pad / the 4 buttons...; Free: moves one button on its own
+		com.google.android.material.button.MaterialButton mode = editorButton(bar,
+				getString(vk.isFreeMove() ? R.string.quick_move_free : R.string.quick_move_piece), dp, null);
+		mode.setOnClickListener(v -> {
+			vk.setFreeMove(!vk.isFreeMove());
+			mode.setText(vk.isFreeMove() ? R.string.quick_move_free : R.string.quick_move_piece);
+		});
 		editorButton(bar, "−", dp, () -> vk.scaleEditedGroup(-0.1f));
 		editorButton(bar, "+", dp, () -> vk.scaleEditedGroup(0.1f));
 		editorButton(bar, getString(R.string.quick_hide_piece), dp, vk::hideEditedGroup);
@@ -1130,7 +1137,7 @@ public class MicroActivity extends AppCompatActivity {
 		b.setMinWidth(0);
 		b.setMinimumWidth((int) (44 * dp));
 		b.setPadding((int) (12 * dp), 0, (int) (12 * dp), 0);
-		b.setOnClickListener(v -> action.run());
+		if (action != null) b.setOnClickListener(v -> action.run());
 		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
 				(int) (44 * dp));
 		lp.leftMargin = lp.rightMargin = (int) (3 * dp);

@@ -348,4 +348,6 @@
     <string name="quick_hide_piece">Ocultar</string>
     <string name="quick_reset_short">Restablecer</string>
     <string name="quick_done">Listo</string>
+    <string name="quick_move_piece">Mover: pieza</string>
+    <string name="quick_move_free">Mover: libre</string>
 </resources>

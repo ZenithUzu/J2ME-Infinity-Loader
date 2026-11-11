@@ -282,4 +282,6 @@
     <string name="quick_hide_piece">隠す</string>
     <string name="quick_reset_short">リセット</string>
     <string name="quick_done">完了</string>
+    <string name="quick_move_piece">移動：パーツ</string>
+    <string name="quick_move_free">移動：自由</string>
 </resources>

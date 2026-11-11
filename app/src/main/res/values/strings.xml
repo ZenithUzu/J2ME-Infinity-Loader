@@ -441,4 +441,6 @@
     <string name="quick_hide_piece">Hide</string>
     <string name="quick_reset_short">Reset</string>
     <string name="quick_done">Done</string>
+    <string name="quick_move_piece">Move: piece</string>
+    <string name="quick_move_free">Move: free</string>
 </resources>

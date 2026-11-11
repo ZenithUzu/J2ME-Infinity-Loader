@@ -267,4 +267,6 @@
     <string name="quick_hide_piece">پنهان</string>
     <string name="quick_reset_short">بازنشانی</string>
     <string name="quick_done">تمام</string>
+    <string name="quick_move_piece">جابه‌جایی: بخش</string>
+    <string name="quick_move_free">جابه‌جایی: آزاد</string>
 </resources>

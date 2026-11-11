@@ -332,4 +332,6 @@
     <string name="quick_hide_piece">Ausblenden</string>
     <string name="quick_reset_short">Zurücksetzen</string>
     <string name="quick_done">Fertig</string>
+    <string name="quick_move_piece">Verschieben: Teil</string>
+    <string name="quick_move_free">Verschieben: frei</string>
 </resources>

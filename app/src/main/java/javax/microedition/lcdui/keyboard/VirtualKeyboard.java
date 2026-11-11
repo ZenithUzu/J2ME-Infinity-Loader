@@ -162,7 +162,8 @@ public class VirtualKeyboard implements Overlay, Runnable {
 			KEY_DOWN_RIGHT
 	}, {
 			KEY_SOFT_LEFT,
-			KEY_SOFT_RIGHT
+			KEY_SOFT_RIGHT,
+			KEY_TOGGLE
 	}, {
 			KEY_A,
 			KEY_B,
@@ -184,8 +185,7 @@ public class VirtualKeyboard implements Overlay, Runnable {
 	}, {
 			KEY_FIRE
 	}, {
-			KEY_MENU,
-			KEY_TOGGLE
+			KEY_MENU
 	}, {
 			KEY_STICK
 	}, {
@@ -435,9 +435,9 @@ public class VirtualKeyboard implements Overlay, Runnable {
 				setSnap(KEY_NUM1, KEY_NUM4, RectSnap.EXT_NORTH, true);
 				setSnap(KEY_NUM2, KEY_NUM1, RectSnap.EXT_EAST, true);
 				setSnap(KEY_NUM3, KEY_NUM2, RectSnap.EXT_EAST, true);
-				setSnap(KEY_SOFT_LEFT, KEY_UP_LEFT, RectSnap.EXT_NORTH, true);
 				setSnap(KEY_TOGGLE, KEY_UP, RectSnap.EXT_NORTH, true);
-				setSnap(KEY_SOFT_RIGHT, KEY_NUM3, RectSnap.EXT_NORTH, true);
+				setSnap(KEY_SOFT_LEFT, KEY_TOGGLE, RectSnap.EXT_WEST, true);
+				setSnap(KEY_SOFT_RIGHT, KEY_TOGGLE, RectSnap.EXT_EAST, true);
 
 				setSnap(KEY_D, KEY_NUM1, RectSnap.EXT_NORTH, false);
 				setSnap(KEY_C, KEY_NUM2, RectSnap.EXT_NORTH, false);
@@ -1191,31 +1191,57 @@ public class VirtualKeyboard implements Overlay, Runnable {
 		k.snapValid = false;
 	}
 
-	/** The group of the visible key under the finger, or -1. */
-	private int groupAt(float x, float y) {
-		int[][] g = groups();
-		for (int group = 0; group < g.length; group++) {
-			for (int key : g[group]) {
-				if (keypad[key].contains(x, y)) return group;
-			}
+	private boolean moved;
+	private int editedKey = -1;
+	/** Editor: move one button on its own instead of its whole piece. */
+	private boolean freeMove;
+
+	public boolean isFreeMove() {
+		return freeMove;
+	}
+
+	public void setFreeMove(boolean free) {
+		freeMove = free;
+		highlightEdited();
+		if (overlayView != null) overlayView.postInvalidate();
+	}
+
+	/** The visible key under the finger, or -1. */
+	private int keyAt(float x, float y) {
+		for (int i = 0; i < keypad.length; i++) {
+			if (keypad[i].contains(x, y)) return i;
 		}
 		return -1;
 	}
 
-	/**
-	 * Moves a whole group: only its keys that hang from something outside the group get a new
-	 * place on the screen; the others keep following them, so the piece keeps its shape.
-	 */
-	private void moveGroup(int group, float dx, float dy) {
-		int[] keys = groups()[group];
-		for (int key : keys) {
-			keypad[key].rect.offset(dx, dy);
+	private int groupOf(int key) {
+		int[][] g = groups();
+		for (int group = 0; group < g.length; group++) {
+			if (contains(g[group], key)) return group;
 		}
+		return -1;
+	}
+
+	/** The picked button (free) or its whole piece is shown highlighted. */
+	private void highlightEdited() {
+		if (freeMove && editedKey >= 0) {
+			highlightGroup(-1);
+			keypad[editedKey].selected = true;
+		} else {
+			highlightGroup(editedIndex);
+		}
+	}
+
+	/**
+	 * Moves keys by dx, dy. Each key stays attached to what it was attached to (another key or
+	 * a screen edge), only its distance changes; keys that hang from a moved key follow it.
+	 * So nothing drifts away when the screen size changes (top bar, turning the phone).
+	 */
+	private void moveKeys(int[] keys, float dx, float dy) {
 		for (int key : keys) {
 			VirtualKey k = keypad[key];
-			if (k.snapOrigin != SCREEN && contains(keys, k.snapOrigin)) continue;
-			k.snapMode = RectSnap.getSnap(k.rect, screen, k.snapOffset);
-			k.snapOrigin = SCREEN;
+			if (k.snapOrigin != SCREEN && contains(keys, k.snapOrigin)) continue; // follows its piece
+			k.snapOffset.offset(dx, dy);
 		}
 		snapKeys();
 		overlayView.postInvalidate();
@@ -1228,7 +1254,7 @@ public class VirtualKeyboard implements Overlay, Runnable {
 
 	/** Editor - / +: bigger or smaller picked piece (from half to triple size). */
 	public void scaleEditedGroup(float step) {
-		if (layoutEditMode != LAYOUT_GROUPS || editedIndex < 0) return;
+		if (layoutEditMode != LAYOUT_GROUPS || editedIndex < 0 || editedIndex >= groups().length) return;
 		int i = editedIndex * 2;
 		keyScales[i] = Math.max(0.5f, Math.min(3f, keyScales[i] + step));
 		keyScales[i + 1] = Math.max(0.5f, Math.min(3f, keyScales[i + 1] + step));
@@ -1239,10 +1265,12 @@ public class VirtualKeyboard implements Overlay, Runnable {
 
 	/** Editor "Hide": hides the picked piece (Hide buttons shows it again). */
 	public void hideEditedGroup() {
-		if (layoutEditMode != LAYOUT_GROUPS || editedIndex < 0) return;
-		for (int key : groups()[editedIndex]) keypad[key].visible = false;
+		if (layoutEditMode != LAYOUT_GROUPS || editedKey < 0) return;
+		if (freeMove) keypad[editedKey].visible = false;
+		else for (int key : groups()[editedIndex]) keypad[key].visible = false;
 		highlightGroup(-1);
 		editedIndex = -1;
+		editedKey = -1;
 		overlayView.postInvalidate();
 	}
 
@@ -1271,6 +1299,7 @@ public class VirtualKeyboard implements Overlay, Runnable {
 		layoutEditMode = mode;
 		int group = -1;
 		editedIndex = -1;
+		editedKey = -1;
 		if (mode == LAYOUT_SCALES) {
 			editedIndex = 0;
 			group = 0;
@@ -1575,15 +1604,17 @@ public class VirtualKeyboard implements Overlay, Runnable {
 				}
 				break;
 			case LAYOUT_GROUPS: {
-				int found = groupAt(x, y);
-				if (found >= 0) {
-					editedIndex = found;
-					highlightGroup(found);
+				int key = keyAt(x, y);
+				if (key >= 0) {
+					editedKey = key;
+					editedIndex = groupOf(key);
+					highlightEdited();
 					overlayView.postInvalidate();
 				}
 				offsetX = x;
 				offsetY = y;
-				dragging = found >= 0;
+				dragging = key >= 0;
+				moved = false;
 				break;
 			}
 			case LAYOUT_SCALES:
@@ -1655,8 +1686,12 @@ public class VirtualKeyboard implements Overlay, Runnable {
 				}
 				break;
 			case LAYOUT_GROUPS:
-				if (dragging && editedIndex >= 0) {
-					moveGroup(editedIndex, x - offsetX, y - offsetY);
+				if (dragging && editedKey >= 0) {
+					float dx = x - offsetX, dy = y - offsetY;
+					// a touch that hardly moves only picks the piece
+					if (!moved && Math.hypot(dx, dy) < keySize / 6) break;
+					moved = true;
+					moveKeys(freeMove ? new int[]{editedKey} : groups()[editedIndex], dx, dy);
 					offsetX = x;
 					offsetY = y;
 				}

@@ -348,4 +348,6 @@
     <string name="quick_hide_piece">छिपाएँ</string>
     <string name="quick_reset_short">रीसेट</string>
     <string name="quick_done">हो गया</string>
+    <string name="quick_move_piece">खिसकाएँ: हिस्सा</string>
+    <string name="quick_move_free">खिसकाएँ: मुक्त</string>
 </resources>

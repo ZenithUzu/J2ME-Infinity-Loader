@@ -300,4 +300,6 @@
     <string name="quick_hide_piece">Ocultar</string>
     <string name="quick_reset_short">Repor</string>
     <string name="quick_done">Pronto</string>
+    <string name="quick_move_piece">Mover: peça</string>
+    <string name="quick_move_free">Mover: livre</string>
 </resources>

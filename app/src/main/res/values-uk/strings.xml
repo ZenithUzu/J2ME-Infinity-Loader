@@ -348,4 +348,6 @@
     <string name="quick_hide_piece">Приховати</string>
     <string name="quick_reset_short">Скинути</string>
     <string name="quick_done">Готово</string>
+    <string name="quick_move_piece">Рухати: блок</string>
+    <string name="quick_move_free">Рухати: вільно</string>
 </resources>

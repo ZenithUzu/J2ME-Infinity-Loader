@@ -300,4 +300,6 @@
     <string name="quick_hide_piece">Verbergen</string>
     <string name="quick_reset_short">Herstellen</string>
     <string name="quick_done">Klaar</string>
+    <string name="quick_move_piece">Verplaatsen: deel</string>
+    <string name="quick_move_free">Verplaatsen: vrij</string>
 </resources>

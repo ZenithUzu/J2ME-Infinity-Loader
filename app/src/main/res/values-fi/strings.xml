@@ -220,4 +220,6 @@
     <string name="quick_hide_piece">Piilota</string>
     <string name="quick_reset_short">Palauta</string>
     <string name="quick_done">Valmis</string>
+    <string name="quick_move_piece">Siirrä: osa</string>
+    <string name="quick_move_free">Siirrä: vapaasti</string>
 </resources>
