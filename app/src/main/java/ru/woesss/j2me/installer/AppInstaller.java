@@ -137,7 +137,7 @@ public class AppInstaller {
 			String scheme = uri.getScheme();
 			String host = uri.getHost();
 			if (isLocal && scheme == null && host == null) {
-				if (isContentUri && !FileUtils.isExternalStorageLegacy()) {
+				if (isContentUri && !FileUtils.usesOldPicker()) {
 					emitter.onSuccess(STATUS_NEED_JAD);
 					return;
 				} else if (!checkJarFile(srcFile)) {

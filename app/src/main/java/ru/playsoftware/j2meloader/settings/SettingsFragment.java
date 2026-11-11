@@ -189,7 +189,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 		prefFolder = findPreference(PREF_EMULATOR_DIR);
 		prefFolder.setSummary(Config.getEmulatorDir());
 		prefFolder.setOnPreferenceClickListener(preference -> {
-			if (FileUtils.isExternalStorageLegacy()) {
+			if (FileUtils.usesOldPicker()) {
 				openDirLauncher.launch(null);
 			} else {
 				openPicker();

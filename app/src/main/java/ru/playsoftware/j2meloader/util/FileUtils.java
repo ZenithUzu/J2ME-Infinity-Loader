@@ -233,13 +233,21 @@ public class FileUtils {
 				|| hasAllFilesAccess();
 	}
 
+	/**
+	 * The old built-in file picker needs the storage permission, which Android 11+ does not
+	 * have any more (even with "all files access"): there the system picker is used.
+	 */
+	public static boolean usesOldPicker() {
+		return Build.VERSION.SDK_INT < Build.VERSION_CODES.Q || Environment.isExternalStorageLegacy();
+	}
+
 	/** Android 11+: the user gave "all files access" to use the public data folder. */
 	public static boolean hasAllFilesAccess() {
 		return Build.VERSION.SDK_INT >= Build.VERSION_CODES.R && Environment.isExternalStorageManager();
 	}
 
 	public static ActivityResultContract<String, List<Uri>> getFilePicker() {
-		if (isExternalStorageLegacy()) {
+		if (usesOldPicker()) {
 			return new PickFileResultContract();
 		} else {
 			return new SAFFileResultContract();
