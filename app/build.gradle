@@ -12,7 +12,7 @@ android {
     namespace 'ru.playsoftware.j2meloader'
 
     defaultConfig {
-        applicationId "ru.playsoftware.j2meloader"
+        applicationId "io.github.zenithuzu.j2meinfinity"
         minSdk MIN_SDK
         targetSdk TARGET_SDK
         versionCode 101

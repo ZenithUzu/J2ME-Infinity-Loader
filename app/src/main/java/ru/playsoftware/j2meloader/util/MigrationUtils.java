@@ -45,7 +45,7 @@ public class MigrationUtils {
 		File srcConfDir = new File(context.getApplicationInfo().dataDir, "/shared_prefs");
 		for (File srcConf : srcConfDir.listFiles()) {
 			String fileName = srcConf.getName().replace(".xml", "");
-			if (fileName.equals("ru.playsoftware.j2meloader_preferences")) {
+			if (fileName.equals(context.getPackageName() + "_preferences")) {
 				continue;
 			}
 			File dstConf = new File(Config.getConfigsDir(), fileName + Config.MIDLET_CONFIG_FILE);
