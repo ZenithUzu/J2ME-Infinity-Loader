@@ -225,6 +225,8 @@ public class MicroActivity extends AppCompatActivity {
 	public void onResume() {
 		super.onResume();
 		visible = true;
+		// clear first: games often restart their music inside resumeApp()
+		javax.microedition.media.Manager.setBackground(false);
 		if (!pauseSuppressed) {
 			MidletThread.resumeApp();
 		}
@@ -236,6 +238,8 @@ public class MicroActivity extends AppCompatActivity {
 		if (!pauseSuppressed && !pauseDisabled) {
 			visible = false;
 			MidletThread.pauseApp();
+			// some games ignore pauseApp() and keep playing: silence them here
+			javax.microedition.media.Manager.setBackground(true);
 		}
 		super.onPause();
 	}

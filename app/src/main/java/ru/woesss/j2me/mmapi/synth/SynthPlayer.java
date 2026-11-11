@@ -31,10 +31,12 @@ import java.util.concurrent.Executors;
 
 import javax.microedition.amms.control.PanControl;
 import javax.microedition.amms.control.audioeffect.EqualizerControl;
+import javax.microedition.media.BackgroundAware;
 import javax.microedition.media.BasePlayer2;
 import javax.microedition.media.Control;
 import javax.microedition.media.InternalEqualizer;
 import javax.microedition.media.InternalMetaData;
+import javax.microedition.media.Manager;
 import javax.microedition.media.MediaException;
 import javax.microedition.media.PlayerListener;
 import javax.microedition.media.control.MIDIControl;
@@ -47,7 +49,8 @@ import javax.microedition.media.tone.ToneSequence;
 import ru.woesss.j2me.mmapi.control.MIDIControlImpl;
 import ru.woesss.j2me.mmapi.protocol.device.DeviceMetaData;
 
-class SynthPlayer extends BasePlayer2 implements VolumeControl, PanControl, ToneControl {
+class SynthPlayer extends BasePlayer2 implements VolumeControl, PanControl, ToneControl,
+		BackgroundAware {
 	private static final String TAG = SynthPlayer.class.getSimpleName();
 
 	private final ExecutorService callbackExecutor = Executors.newSingleThreadExecutor(r -> {
@@ -64,6 +67,10 @@ class SynthPlayer extends BasePlayer2 implements VolumeControl, PanControl, Tone
 
 	private Map<String, Control> controls;
 	private int state = UNREALIZED;
+	/** paused by the emulator when going to the background */
+	private boolean pausedByUs;
+	/** the game started it while in the background: start it on return */
+	private boolean pendingStart;
 	private int volume = 100;
 	private boolean mute;
 	private int pan;
@@ -126,7 +133,11 @@ class SynthPlayer extends BasePlayer2 implements VolumeControl, PanControl, Tone
 		prefetch();
 
 		if (state == PREFETCHED) {
-			library.start(handle);
+			if (Manager.isBackground()) {
+				pendingStart = true;
+			} else {
+				library.start(handle);
+			}
 
 			state = STARTED;
 			postEvent(PlayerListener.STARTED, getMediaTime());
@@ -140,7 +151,27 @@ class SynthPlayer extends BasePlayer2 implements VolumeControl, PanControl, Tone
 			library.pause(handle);
 
 			state = PREFETCHED;
+			pausedByUs = false;
+			pendingStart = false;
 			postEvent(PlayerListener.STOPPED, getMediaTime());
+		}
+	}
+
+	@Override
+	public synchronized void onBackgroundChanged(boolean background) {
+		if (state == CLOSED) {
+			return;
+		}
+		if (background) {
+			if (state == STARTED && !pendingStart) {
+				library.pause(handle);
+				pausedByUs = true;
+			}
+		} else if (pausedByUs || pendingStart) {
+			pausedByUs = false;
+			pendingStart = false;
+			library.start(handle);
+			updateVolume(); // native start may reset the gain
 		}
 	}
 

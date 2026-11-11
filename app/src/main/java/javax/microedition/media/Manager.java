@@ -47,6 +47,37 @@ public class Manager {
 	private static final String CAPTURE_IMAGE_LOCATOR = "capture://image";
 	private static final TimeBase DEFAULT_TIMEBASE = () -> System.nanoTime() / 1000L;
 	private static final List<Plugin> PLUGINS = new ArrayList<>();
+	/** Every player created, held weakly so closed ones are collected. */
+	private static final java.util.WeakHashMap<Player, Boolean> TRACKED = new java.util.WeakHashMap<>();
+	private static volatile boolean inBackground;
+
+	private static Player track(Player player) {
+		if (player instanceof BackgroundAware) {
+			synchronized (TRACKED) {
+				TRACKED.put(player, Boolean.TRUE);
+			}
+		}
+		return player;
+	}
+
+	public static boolean isBackground() {
+		return inBackground;
+	}
+
+	/** Called by the activity: silence every playing player in the background, resume on return. */
+	public static void setBackground(boolean background) {
+		inBackground = background;
+		ArrayList<Player> players;
+		synchronized (TRACKED) {
+			players = new ArrayList<>(TRACKED.keySet());
+		}
+		for (Player player : players) {
+			try {
+				((BackgroundAware) player).onBackgroundChanged(background);
+			} catch (Throwable ignored) {
+			}
+		}
+	}
 
 	public static Player createPlayer(String locator) throws IOException, MediaException {
 		if (locator == null) {
@@ -56,10 +87,10 @@ public class Manager {
 			for (Plugin plugin : PLUGINS) {
 				Player player = plugin.createPlayer(locator);
 				if (player != null) {
-					return player;
+					return track(player);
 				}
 			}
-			return new MicroPlayer(locator);
+			return track(new MicroPlayer(locator));
 		} else if (locator.startsWith(FILE_LOCATOR) || locator.startsWith(RESOURCE_LOCATOR)) {
 			InputStream stream = Connector.openInputStream(locator);
 			String extension = locator.substring(locator.lastIndexOf('.') + 1);
@@ -67,12 +98,12 @@ public class Manager {
 			return createPlayer(stream, type);
 		} else if (locator.startsWith(CAPTURE_AUDIO_LOCATOR) &&
 				ContextHolder.requestPermission(Manifest.permission.RECORD_AUDIO)) {
-			return new RecordPlayer();
+			return track(new RecordPlayer());
 		} else if ((locator.startsWith(CAPTURE_IMAGE_LOCATOR) || locator.startsWith(CAPTURE_VIDEO_LOCATOR)) &&
 				ContextHolder.requestPermission(Manifest.permission.CAMERA)) {
-			return new CameraPlayer();
+			return track(new CameraPlayer());
 		} else {
-			return new BasePlayer();
+			return track(new BasePlayer());
 		}
 	}
 
@@ -91,9 +122,9 @@ public class Manager {
 			SourceStream sourceStream = sourceStreams[0];
 			InputStream stream = new InternalSourceStream(sourceStream);
 			InternalDataSource datasource = new InternalDataSource(stream, type);
-			return new MicroPlayer(datasource);
+			return track(new MicroPlayer(datasource));
 		} else {
-			return new BasePlayer();
+			return track(new BasePlayer());
 		}
 	}
 
@@ -106,14 +137,14 @@ public class Manager {
 		for (Plugin plugin : PLUGINS) {
 			Player player = plugin.createPlayer(datasource);
 			if (player != null) {
-				return player;
+				return track(player);
 			}
 		}
 		String[] supportedTypes = getSupportedContentTypes(null);
 		if (type != null && Arrays.asList(supportedTypes).contains(type.toLowerCase())) {
-			return new MicroPlayer(datasource);
+			return track(new MicroPlayer(datasource));
 		} else {
-			return new BasePlayer();
+			return track(new BasePlayer());
 		}
 	}
 

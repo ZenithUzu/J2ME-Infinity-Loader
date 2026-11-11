@@ -33,7 +33,8 @@ import kotlin.io.FilesKt;
 import ru.woesss.j2me.mmapi.FileCacheDataSource;
 import ru.woesss.j2me.mmapi.protocol.device.DeviceMetaData;
 
-public class MicroPlayer extends BasePlayer implements MediaPlayer.OnCompletionListener, ToneControl {
+public class MicroPlayer extends BasePlayer implements MediaPlayer.OnCompletionListener, ToneControl,
+		BackgroundAware {
 	private static final String TAG = MicroPlayer.class.getSimpleName();
 
 	protected final MediaPlayer player = new AndroidPlayer();
@@ -76,15 +77,48 @@ public class MicroPlayer extends BasePlayer implements MediaPlayer.OnCompletionL
 		metadata.updateMetaData(source);
 	}
 
+	/** paused by the emulator when going to the background */
+	private boolean pausedByUs;
+	/** the game started it while in the background: start it on return */
+	private boolean pendingStart;
+
 	public void doStart() {
+		if (Manager.isBackground()) {
+			pendingStart = true;
+			return;
+		}
 		player.start();
 	}
 
+	@Override
+	public void onBackgroundChanged(boolean background) {
+		if (background) {
+			if (state == STARTED) {
+				try {
+					player.pause();
+				} catch (Throwable ignored) {
+				}
+				pausedByUs = true;
+			}
+		} else if (pausedByUs || pendingStart) {
+			pausedByUs = false;
+			pendingStart = false;
+			try {
+				player.start();
+			} catch (Throwable ignored) {
+			}
+		}
+	}
+
 	public void doStop() {
+		pausedByUs = false;
+		pendingStart = false;
 		player.pause();
 	}
 
 	public void doClose() {
+		pausedByUs = false;
+		pendingStart = false;
 		player.release();
 		source.disconnect();
 	}
