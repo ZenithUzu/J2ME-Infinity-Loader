@@ -201,7 +201,7 @@ public class ProfileModel {
 		version = VERSION;
 		screenWidth = 240;
 		screenHeight = 320;
-		screenBackgroundColor = 0xD0D0D0;
+		screenBackgroundColor = 0x000000; // from JarNix: areas the game never draws look black
 		screenScaleType = 1;
 		screenGravity = 1;
 		screenScaleRatio = 100;

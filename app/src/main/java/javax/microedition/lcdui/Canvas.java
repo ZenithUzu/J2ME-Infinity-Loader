@@ -182,7 +182,6 @@ public abstract class Canvas extends Displayable {
 	private Bitmap blendOut;
 	private final android.graphics.Paint blendPaint = new android.graphics.Paint();
 	private int onX, onY, onWidth, onHeight;
-	private long lastFrameTime = System.currentTimeMillis();
 	private Handler uiHandler;
 	private Overlay overlay;
 	private FpsCounter fpsCounter;
@@ -907,15 +906,31 @@ protected int getSupersamplingFactor() {
 		requestFlushToScreen();
 	}
 
+	/** when the next frame may start (nanoTime), for a fixed cadence */
+	private long nextFrameNs;
+
+	/**
+	 * Fixed-cadence FPS limit (from JarNix): 30 gives 30, not ~27. Each frame has its own
+	 * deadline, so rounding and sleep overshoot do not add up; a frame that is late by more
+	 * than one period resets the schedule instead of rushing to catch up.
+	 * At 2x-16x game speed the limit rises with it.
+	 */
 	private void limitFps() {
 		if (fpsLimit <= 0) return;
-		try {
-			long millis = (1000 / fpsLimit) - (System.currentTimeMillis() - lastFrameTime);
-			if (millis > 0) Thread.sleep(millis);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
+		long period = (long) (1_000_000_000L / (fpsLimit * javax.microedition.util.VirtualClock.getSpeed()));
+		long now = System.nanoTime();
+		if (nextFrameNs == 0 || now - nextFrameNs > period) {
+			nextFrameNs = now;
 		}
-		lastFrameTime = System.currentTimeMillis();
+		long wait = nextFrameNs - now;
+		if (wait > 0) {
+			try {
+				Thread.sleep(wait / 1_000_000, (int) (wait % 1_000_000));
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		nextFrameNs += period;
 	}
 
 	private final Rect shownSrc = new Rect();
