@@ -71,6 +71,18 @@ public class AppUtils {
 		AppItem item = new AppItem(appDir.getName(), params.getName(),
 				params.getVendor(),
 				params.getVersion());
+		applyIcon(item, appDir, params);
+		return item;
+	}
+
+	/** An icon the user picked (Change icon); it wins over the game's own icon. */
+	public static final String CUSTOM_ICON_FILE = "/icon_custom.png";
+
+	private static void applyIcon(AppItem item, File appDir, Descriptor params) {
+		if (new File(appDir, CUSTOM_ICON_FILE).exists()) {
+			item.setImagePathExt(CUSTOM_ICON_FILE);
+			return;
+		}
 		File icon = new File(appDir, Config.MIDLET_ICON_FILE);
 		if (icon.exists()) {
 			item.setImagePathExt(Config.MIDLET_ICON_FILE);
@@ -79,9 +91,30 @@ public class AppUtils {
 			icon = new File(appDir, iconPath);
 			if (icon.exists()) {
 				item.setImagePathExt(iconPath);
+			} else {
+				item.setImagePath(null);
 			}
 		}
-		return item;
+	}
+
+	/**
+	 * Saves a picture (scaled to at most 192 px) as the game's own icon in the list,
+	 * or with picture == null goes back to the game's original icon.
+	 */
+	public static void setCustomIcon(AppItem item, Bitmap picture) throws IOException {
+		File appDir = new File(item.getPathExt());
+		File custom = new File(appDir, CUSTOM_ICON_FILE);
+		if (picture == null) {
+			custom.delete();
+		} else {
+			float s = Math.min(1f, 192f / Math.max(picture.getWidth(), picture.getHeight()));
+			Bitmap scaled = Bitmap.createScaledBitmap(picture, Math.max(1, Math.round(picture.getWidth() * s)),
+					Math.max(1, Math.round(picture.getHeight() * s)), true);
+			try (java.io.FileOutputStream out = new java.io.FileOutputStream(custom)) {
+				scaled.compress(Bitmap.CompressFormat.PNG, 100, out);
+			}
+		}
+		applyIcon(item, appDir, new Descriptor(new File(appDir, Config.MIDLET_MANIFEST_FILE), false));
 	}
 
 	public static AppItem findApp(String name, String vendor, String uid) throws IOException {

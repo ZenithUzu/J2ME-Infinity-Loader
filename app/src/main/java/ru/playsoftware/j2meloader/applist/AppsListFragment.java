@@ -110,6 +110,11 @@ public class AppsListFragment extends Fragment implements MenuProvider {
 	private final AppsListAdapter adapter = new AppsListAdapter(this);
 	/** game being exported while the "save as" picker is open */
 	private AppItem exportItem;
+	/** game whose icon is being changed while the image picker is open */
+	private AppItem iconItem;
+	private final ActivityResultLauncher<String[]> pickIconLauncher = registerForActivityResult(
+			new androidx.activity.result.contract.ActivityResultContracts.OpenDocument(),
+			this::onPickIcon);
 	private final ActivityResultLauncher<String> exportGameLauncher = registerForActivityResult(
 			new androidx.activity.result.contract.ActivityResultContracts.CreateDocument("application/zip"),
 			this::onExportGame);
@@ -282,6 +287,48 @@ public class AppsListFragment extends Fragment implements MenuProvider {
 			if (p != q) return Integer.compare(p, q);
 		}
 		return 0;
+	}
+
+	/** Like JL-Mod Plus metadata editing: the list icon changes, the game's JAR does not. */
+	private void showIconDialog(AppItem item) {
+		new AlertDialog.Builder(requireActivity())
+				.setTitle(item.getTitle())
+				.setItems(R.array.icon_actions, (d, which) -> {
+					if (which == 0) {
+						iconItem = item;
+						pickIconLauncher.launch(new String[]{"image/*"});
+					} else {
+						saveIcon(item, null);
+					}
+				})
+				.show();
+	}
+
+	private void onPickIcon(Uri uri) {
+		AppItem item = iconItem;
+		iconItem = null;
+		if (uri == null || item == null) return;
+		android.graphics.Bitmap picture = null;
+		try (java.io.InputStream in = requireContext().getContentResolver().openInputStream(uri)) {
+			picture = android.graphics.BitmapFactory.decodeStream(in);
+		} catch (Exception e) {
+			Log.e(TAG, "onPickIcon: ", e);
+		}
+		if (picture == null) {
+			Toast.makeText(requireContext(), R.string.error, Toast.LENGTH_SHORT).show();
+			return;
+		}
+		saveIcon(item, picture);
+	}
+
+	private void saveIcon(AppItem item, android.graphics.Bitmap picture) {
+		try {
+			ru.playsoftware.j2meloader.util.AppUtils.setCustomIcon(item, picture);
+			appRepository.update(item);
+		} catch (Exception e) {
+			Log.e(TAG, "saveIcon: ", e);
+			Toast.makeText(requireContext(), R.string.error, Toast.LENGTH_SHORT).show();
+		}
 	}
 
 	private void onExportGame(Uri target) {
@@ -553,6 +600,8 @@ public class AppsListFragment extends Fragment implements MenuProvider {
 			requestAddShortcut(appItem);
 		} else if (itemId == R.id.action_context_rename) {
 			alertRename(appItem);
+		} else if (itemId == R.id.action_context_icon) {
+			showIconDialog(appItem);
 		} else if (itemId == R.id.action_context_export) {
 			exportItem = appItem;
 			exportGameLauncher.launch(appItem.getTitle().replaceAll(

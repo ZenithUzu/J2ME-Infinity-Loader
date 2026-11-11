@@ -7,6 +7,9 @@
         android:id="@+id/action_context_rename"
         android:title="@string/action_context_rename" />
     <item
+        android:id="@+id/action_context_icon"
+        android:title="@string/action_change_icon" />
+    <item
         android:id="@+id/action_context_favorite"
         android:title="@string/favorite_add" />
     <item

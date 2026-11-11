@@ -31,6 +31,9 @@ All new options live in **each game's settings**, just like the original J2ME Lo
 - **Errors without closing the app**: if a game thread fails, a message is shown instead of closing everything.
 - **Ask for the keyboard**: games made for touch ask once whether to show the on-screen keyboard.
 - **Export and import a game** (game menu / main menu): one .zip with the game, its settings and saves, to move it to another phone.
+- **Change icon** (each game's menu): use any picture as the game's icon in the list, or go back to the original; the game is not modified.
+- **Full controller mapping**: L2/R2 (also as analog triggers), L3/R3 and the right stick can be assigned in *Map keys*, and a game key can hold a keyboard key and a controller button at once. Game vibration also shakes the controller.
+- **Volume keys**: inside a game they change the game's volume, not the ringer.
 - **Check for updates** (main menu): looks at the versions published on GitHub and opens the download.
 - **Install a folder** (main menu): installs every game in a folder and its subfolders at once.
 - **Silent in the background**: music pauses when you leave the game and resumes when you come back.
@@ -54,6 +57,10 @@ The original project's tested game lists are still a good reference:
 - Image flickering can be fixed by enabling the "Immediate processing mode" option.
 - If a touch game ignores a second finger, enable *Force multitouch* in its settings.
 - Supersampling uses more memory. If a game is slow or closes, lower it or set it to *Off*.
+
+## Download the test APK
+
+Every change pushed to GitHub builds a test APK: open the repository's **Actions** tab, open the latest *Build test APK* run and download **J2ME-Infinity-Loader-debug** under *Artifacts*.
 
 ## Building
 

@@ -31,6 +31,9 @@ Todas las opciones nuevas están en la **configuración de cada juego**, igual q
 - **Errores sin cerrar la app**: si un hilo del juego falla, se avisa en pantalla en vez de cerrar todo.
 - **Preguntar teclado**: en juegos hechos para pantalla táctil, la primera vez pregunta si mostrar el teclado en pantalla.
 - **Exportar e importar un juego** (menú del juego / menú principal): un .zip con el juego, sus ajustes y sus partidas guardadas, para pasarlo a otro teléfono.
+- **Cambiar icono** (menú de cada juego): pon la imagen que quieras como icono del juego en la lista, o vuelve al original; el juego no se modifica.
+- **Mando físico completo**: L2/R2 (también como gatillos analógicos), L3/R3 y el stick derecho se pueden asignar en *Asignar teclas*, y una tecla del juego puede tener a la vez una tecla de teclado y un botón del mando. La vibración del juego también hace vibrar el mando.
+- **Botones de volumen**: dentro del juego cambian el volumen del juego, no el del timbre.
 - **Buscar actualizaciones** (menú principal): revisa las versiones publicadas en GitHub y abre la descarga.
 - **Instalar una carpeta** (menú principal): instala todos los juegos de una carpeta y sus subcarpetas de una vez.
 - **Silencio en segundo plano**: al salir del juego la música se pausa y vuelve al regresar.
@@ -54,6 +57,10 @@ Las listas de juegos probados del proyecto original siguen sirviendo como refere
 - Si la imagen parpadea, prueba a activar la opción "Modo de procesamiento inmediato".
 - Si un juego táctil no reacciona a dos dedos, activa *Forzar multitáctil* en su configuración.
 - La superresolución usa más memoria. Si un juego va lento o se cierra, bájala o ponla en *No*.
+
+## Descargar el APK de prueba
+
+Cada cambio que se sube a GitHub genera un APK de prueba: entra en la pestaña **Actions** del repositorio, abre la última ejecución de *Build test APK* y descarga **J2ME-Infinity-Loader-debug** en *Artifacts*.
 
 ## Compilar
 

@@ -28,6 +28,10 @@
         <item>@string/pref_orientation_port</item>
         <item>@string/pref_orientation_land</item>
     </string-array>
+    <string-array name="icon_actions">
+        <item>@string/icon_choose</item>
+        <item>@string/icon_original</item>
+    </string-array>
     <string-array name="pad_skin_actions">
         <item>@string/pad_skin_choose</item>
         <item>@string/pad_skin_choose_zip</item>

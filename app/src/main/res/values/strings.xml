@@ -79,6 +79,9 @@
     <string name="PREF_KEEP_ASPECT_RATIO">Keep aspect ratio</string>
     <string name="PREF_FILTER">Filter</string>
     <string name="PREF_IMMEDIATE">Immediate processing mode</string>
+    <string name="action_change_icon">Change icon</string>
+    <string name="icon_choose">Choose a picture</string>
+    <string name="icon_original">Back to the original icon</string>
     <string name="widescreen">Widescreen</string>
     <string name="widescreen_this_phone">This phone</string>
     <string name="widescreen_need_size">Type the game\'s original width and height first.</string>
