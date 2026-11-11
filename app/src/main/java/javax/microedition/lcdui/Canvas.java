@@ -447,6 +447,7 @@ protected int getSupersamplingFactor() {
 		if (fpsCounter != null) {
 			fpsCounter.increment();
 		}
+		frameRateTick();
 	}
 
 	public Single<Bitmap> getScreenShot() {
@@ -938,6 +939,38 @@ protected int getSupersamplingFactor() {
 	}
 
 
+	private int rateFrames;
+	private long rateWindowStart;
+	private float screenRate;
+
+	/**
+	 * Dynamic refresh rate (from JarNix, Android 11+): ask the display for 60, 90 or 120 Hz
+	 * depending on the game's FPS (never below 60). A 30 FPS game on a 120 Hz phone no longer
+	 * keeps the screen at 120 Hz, which saves battery; a fast game gets the higher rate.
+	 */
+	private void frameRateTick() {
+		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) return;
+		rateFrames++;
+		long now = android.os.SystemClock.uptimeMillis();
+		if (rateWindowStart == 0) {
+			rateWindowStart = now;
+			return;
+		}
+		long dt = now - rateWindowStart;
+		if (dt < 2000) return;
+		float fps = rateFrames * 1000f / dt;
+		rateFrames = 0;
+		rateWindowStart = now;
+		float rate = fps > 95 ? 120 : fps > 65 ? 90 : 60;
+		Surface s = surface;
+		if (rate == screenRate || s == null || !s.isValid()) return;
+		try {
+			s.setFrameRate(rate, Surface.FRAME_RATE_COMPATIBILITY_DEFAULT);
+			screenRate = rate;
+		} catch (Throwable ignored) {
+		}
+	}
+
 	@SuppressLint("NewApi")
 	private boolean repaintScreen() {
 		Surface surface = this.surface;
@@ -962,6 +995,7 @@ protected int getSupersamplingFactor() {
 			if (fpsCounter != null) {
 				fpsCounter.increment();
 			}
+			frameRateTick();
 			if (parallelRedraw) uiHandler.removeMessages(0);
 		} catch (Exception e) {
 			Log.w(TAG, "repaintScreen: " + e);
@@ -1095,6 +1129,7 @@ protected int getSupersamplingFactor() {
 			if (fpsCounter != null) {
 				fpsCounter.increment();
 			}
+			frameRateTick();
 		}
 
 		private void initTex() {
@@ -1544,6 +1579,7 @@ protected int getSupersamplingFactor() {
 				renderer.start();
 			}
 			surface = holder.getSurface();
+			screenRate = 0;
 			Display.postEvent(CanvasEvent.getInstance(Canvas.this, CanvasEvent.SHOW_NOTIFY));
 			repaintInternal();
 			if (showFps) {
