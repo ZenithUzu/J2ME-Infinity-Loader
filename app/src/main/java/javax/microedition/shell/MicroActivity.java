@@ -213,6 +213,26 @@ public class MicroActivity extends AppCompatActivity {
 		}
 	}
 
+	/**
+	 * From JarNix: on a phone, an exception in a game thread only ends that thread.
+	 * Here it closed the whole app; now the thread ends and the error is shown on screen,
+	 * so an endless "loading" is not left unexplained. Errors on the UI thread still crash.
+	 */
+	private void installThreadErrorHandler() {
+		Thread.UncaughtExceptionHandler crash = Thread.getDefaultUncaughtExceptionHandler();
+		Thread uiThread = android.os.Looper.getMainLooper().getThread();
+		Thread.setDefaultUncaughtExceptionHandler((t, e) -> {
+			if (t == uiThread && crash != null) {
+				crash.uncaughtException(t, e);
+				return;
+			}
+			android.util.Log.e("MicroActivity", "Error in game thread \"" + t.getName() + "\"", e);
+			runOnUiThread(() -> Toast.makeText(this,
+					getString(R.string.game_thread_error, t.getName(), String.valueOf(e)),
+					Toast.LENGTH_LONG).show());
+		});
+	}
+
 	private void startGame() {
 		VirtualKeyboard vk = ContextHolder.getVk();
 		int orientation = microLoader.getOrientation();
@@ -224,6 +244,7 @@ public class MicroActivity extends AppCompatActivity {
 			}
 		}
 		setOrientation(orientation);
+		installThreadErrorHandler();
 
 		try {
 			loadMIDlet();
