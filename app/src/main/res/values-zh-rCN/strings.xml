@@ -376,4 +376,25 @@
     <string name="quick_restart_now">立即重启</string>
     <string name="quick_restart_later">稍后</string>
     <string name="memory_snapshot">已记住所有数值。现在在游戏里改变它（掉一条命、拿金币…），然后点“增加”“减少”“变化”或“不变”，直到结果很少。</string>
+    <string name="pad_map_title">手柄和键盘</string>
+    <string name="pad_map_auto">自动分配（同 JarNix）</string>
+    <string name="pad_tab_buttons">按键</string>
+    <string name="pad_tab_sticks">摇杆和方向键</string>
+    <string name="pad_tab_keyboard">键盘</string>
+    <string name="pad_map_hint">点按一个按键，选择它发送的游戏键。</string>
+    <string name="pad_detect">检测其他输入</string>
+    <string name="pad_detecting">请按手柄按键或键盘按键…</string>
+    <string name="pad_unassigned">未分配</string>
+    <string name="pad_stick_note">左摇杆与方向键相同。</string>
+    <string name="pad_choose_key">%s 的游戏键</string>
+    <string name="pad_keyboard_empty">没有已分配的键。请使用“检测其他输入”。</string>
+    <string name="key_soft_left">左软键</string>
+    <string name="key_soft_right">右软键</string>
+    <string name="key_clear">清除</string>
+    <string name="key_send">拨号</string>
+    <string name="key_end">挂断</string>
+    <string name="key_menu">菜单</string>
+    <string name="memory_undo">撤销</string>
+    <string name="memory_set_all">全部设置</string>
+    <string name="memory_freeze_all">全部冻结</string>
 </resources>

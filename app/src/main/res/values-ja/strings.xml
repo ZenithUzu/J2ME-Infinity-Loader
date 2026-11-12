@@ -310,4 +310,25 @@
     <string name="quick_restart_now">今すぐ再起動</string>
     <string name="quick_restart_later">あとで</string>
     <string name="memory_snapshot">すべての値を記録しました。ゲーム内で値を変えて（ライフを減らす、コインを集める…）、結果が少なくなるまで「増えた」「減った」「変わった」「同じ」をタップします。</string>
+    <string name="pad_map_title">コントローラーとキーボード</string>
+    <string name="pad_map_auto">自動で割り当て（JarNix と同じ）</string>
+    <string name="pad_tab_buttons">ボタン</string>
+    <string name="pad_tab_sticks">スティックと十字キー</string>
+    <string name="pad_tab_keyboard">キーボード</string>
+    <string name="pad_map_hint">ボタンをタップして送るゲームのキーを選びます。</string>
+    <string name="pad_detect">ほかの入力を検出</string>
+    <string name="pad_detecting">コントローラーのボタンかキーを押してください…</string>
+    <string name="pad_unassigned">未割り当て</string>
+    <string name="pad_stick_note">左スティックは十字キーと同じです。</string>
+    <string name="pad_choose_key">%s のゲームキー</string>
+    <string name="pad_keyboard_empty">割り当てたキーはありません。「ほかの入力を検出」を使います。</string>
+    <string name="key_soft_left">左ソフト</string>
+    <string name="key_soft_right">右ソフト</string>
+    <string name="key_clear">クリア</string>
+    <string name="key_send">発信</string>
+    <string name="key_end">終話</string>
+    <string name="key_menu">メニュー</string>
+    <string name="memory_undo">元に戻す</string>
+    <string name="memory_set_all">すべて変更</string>
+    <string name="memory_freeze_all">すべて固定</string>
 </resources>

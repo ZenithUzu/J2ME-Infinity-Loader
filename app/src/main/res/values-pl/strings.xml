@@ -326,4 +326,25 @@
     <string name="quick_restart_now">Uruchom ponownie</string>
     <string name="quick_restart_later">Później</string>
     <string name="memory_snapshot">Wszystkie wartości zapamiętane. Teraz zmień ją w grze (strać życie, zbierz monety…) i stukaj Wzrosło, Spadło, Zmieniło się lub Bez zmian, aż zostanie mało wyników.</string>
+    <string name="pad_map_title">Pad i klawiatura</string>
+    <string name="pad_map_auto">Przypisz automatycznie (jak JarNix)</string>
+    <string name="pad_tab_buttons">Przyciski</string>
+    <string name="pad_tab_sticks">Gałki i krzyżak</string>
+    <string name="pad_tab_keyboard">Klawiatura</string>
+    <string name="pad_map_hint">Dotknij przycisku, by wybrać, jaki klawisz gry wysyła.</string>
+    <string name="pad_detect">Wykryj inne wejście</string>
+    <string name="pad_detecting">Naciśnij przycisk pada lub klawisz…</string>
+    <string name="pad_unassigned">Nieprzypisany</string>
+    <string name="pad_stick_note">Lewa gałka działa jak krzyżak.</string>
+    <string name="pad_choose_key">Klawisz gry dla %s</string>
+    <string name="pad_keyboard_empty">Brak przypisanych klawiszy. Użyj Wykryj inne wejście.</string>
+    <string name="key_soft_left">Lewy soft</string>
+    <string name="key_soft_right">Prawy soft</string>
+    <string name="key_clear">Kasuj</string>
+    <string name="key_send">Połącz</string>
+    <string name="key_end">Rozłącz</string>
+    <string name="key_menu">Menu</string>
+    <string name="memory_undo">Cofnij</string>
+    <string name="memory_set_all">Ustaw wszystkie</string>
+    <string name="memory_freeze_all">Zamroź wszystkie</string>
 </resources>

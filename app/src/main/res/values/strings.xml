@@ -466,4 +466,25 @@
     <string name="quick_restart_now">Restart now</string>
     <string name="quick_restart_later">Later</string>
     <string name="memory_snapshot">Every value was remembered. Now change it in the game (lose a life, earn coins…) and tap Went up, Went down, Changed or Same until few results are left.</string>
+    <string name="pad_map_title">Controller and keyboard</string>
+    <string name="pad_map_auto">Assign automatically (like JarNix)</string>
+    <string name="pad_tab_buttons">Buttons</string>
+    <string name="pad_tab_sticks">Sticks and d-pad</string>
+    <string name="pad_tab_keyboard">Keyboard</string>
+    <string name="pad_map_hint">Touch a button to choose which game key it sends.</string>
+    <string name="pad_detect">Detect another input</string>
+    <string name="pad_detecting">Press a controller button or a key…</string>
+    <string name="pad_unassigned">Not assigned</string>
+    <string name="pad_stick_note">The left stick works like the d-pad.</string>
+    <string name="pad_choose_key">Game key for %s</string>
+    <string name="pad_keyboard_empty">No keys assigned. Use Detect another input.</string>
+    <string name="key_soft_left">Left soft</string>
+    <string name="key_soft_right">Right soft</string>
+    <string name="key_clear">Clear</string>
+    <string name="key_send">Call</string>
+    <string name="key_end">End</string>
+    <string name="key_menu">Menu</string>
+    <string name="memory_undo">Undo</string>
+    <string name="memory_set_all">Set all</string>
+    <string name="memory_freeze_all">Freeze all</string>
 </resources>

@@ -295,4 +295,25 @@
     <string name="quick_restart_now">راه‌اندازی دوباره</string>
     <string name="quick_restart_later">بعداً</string>
     <string name="memory_snapshot">همه مقدارها به خاطر سپرده شد. حالا آن را در بازی تغییر دهید (یک جان از دست بدهید، سکه جمع کنید…) و تا وقتی نتایج کم شوند، بیشتر شد، کمتر شد، تغییر کرد یا همان را بزنید.</string>
+    <string name="pad_map_title">دسته و صفحه‌کلید</string>
+    <string name="pad_map_auto">تنظیم خودکار (مثل JarNix)</string>
+    <string name="pad_tab_buttons">دکمه‌ها</string>
+    <string name="pad_tab_sticks">استیک‌ها و جهت‌نما</string>
+    <string name="pad_tab_keyboard">صفحه‌کلید</string>
+    <string name="pad_map_hint">روی یک دکمه بزنید تا انتخاب کنید کدام کلید بازی را بفرستد.</string>
+    <string name="pad_detect">تشخیص ورودی دیگر</string>
+    <string name="pad_detecting">یک دکمه دسته یا کلید را فشار دهید…</string>
+    <string name="pad_unassigned">تنظیم نشده</string>
+    <string name="pad_stick_note">استیک چپ مثل جهت‌نما کار می‌کند.</string>
+    <string name="pad_choose_key">کلید بازی برای %s</string>
+    <string name="pad_keyboard_empty">کلیدی تنظیم نشده. از تشخیص ورودی دیگر استفاده کنید.</string>
+    <string name="key_soft_left">سافت چپ</string>
+    <string name="key_soft_right">سافت راست</string>
+    <string name="key_clear">پاک کردن</string>
+    <string name="key_send">تماس</string>
+    <string name="key_end">قطع</string>
+    <string name="key_menu">منو</string>
+    <string name="memory_undo">واگرد</string>
+    <string name="memory_set_all">تنظیم همه</string>
+    <string name="memory_freeze_all">قفل همه</string>
 </resources>

@@ -378,4 +378,25 @@
     <string name="quick_restart_now">Перезапустить</string>
     <string name="quick_restart_later">Позже</string>
     <string name="memory_snapshot">Все значения запомнены. Теперь измените значение в игре (потеряйте жизнь, соберите монеты…) и нажимайте «Выросло», «Уменьшилось», «Изменилось» или «Не изменилось», пока не останется мало результатов.</string>
+    <string name="pad_map_title">Геймпад и клавиатура</string>
+    <string name="pad_map_auto">Назначить автоматически (как в JarNix)</string>
+    <string name="pad_tab_buttons">Кнопки</string>
+    <string name="pad_tab_sticks">Стики и крестовина</string>
+    <string name="pad_tab_keyboard">Клавиатура</string>
+    <string name="pad_map_hint">Нажмите кнопку, чтобы выбрать, какую клавишу игры она отправляет.</string>
+    <string name="pad_detect">Найти другую кнопку</string>
+    <string name="pad_detecting">Нажмите кнопку геймпада или клавишу…</string>
+    <string name="pad_unassigned">Не назначено</string>
+    <string name="pad_stick_note">Левый стик работает как крестовина.</string>
+    <string name="pad_choose_key">Клавиша игры для %s</string>
+    <string name="pad_keyboard_empty">Клавиши не назначены. Используйте «Найти другую кнопку».</string>
+    <string name="key_soft_left">Левая софт</string>
+    <string name="key_soft_right">Правая софт</string>
+    <string name="key_clear">Стереть</string>
+    <string name="key_send">Вызов</string>
+    <string name="key_end">Отбой</string>
+    <string name="key_menu">Меню</string>
+    <string name="memory_undo">Отменить</string>
+    <string name="memory_set_all">Задать всем</string>
+    <string name="memory_freeze_all">Заморозить все</string>
 </resources>

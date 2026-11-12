@@ -376,4 +376,25 @@
     <string name="quick_restart_now">إعادة التشغيل الآن</string>
     <string name="quick_restart_later">لاحقًا</string>
     <string name="memory_snapshot">تم حفظ كل القيم. غيّرها الآن في اللعبة (اخسر حياة، اجمع عملات…) ثم اضغط زادت أو نقصت أو تغيّرت أو كما هي حتى تبقى نتائج قليلة.</string>
+    <string name="pad_map_title">الذراع ولوحة المفاتيح</string>
+    <string name="pad_map_auto">تعيين تلقائي (مثل JarNix)</string>
+    <string name="pad_tab_buttons">الأزرار</string>
+    <string name="pad_tab_sticks">العصي والأسهم</string>
+    <string name="pad_tab_keyboard">لوحة المفاتيح</string>
+    <string name="pad_map_hint">المس زرًا لتختار مفتاح اللعبة الذي يرسله.</string>
+    <string name="pad_detect">اكتشاف إدخال آخر</string>
+    <string name="pad_detecting">اضغط زر الذراع أو مفتاحًا…</string>
+    <string name="pad_unassigned">غير معيّن</string>
+    <string name="pad_stick_note">العصا اليسرى تعمل مثل الأسهم.</string>
+    <string name="pad_choose_key">مفتاح اللعبة لـ %s</string>
+    <string name="pad_keyboard_empty">لا توجد مفاتيح معيّنة. استخدم اكتشاف إدخال آخر.</string>
+    <string name="key_soft_left">المفتاح الأيسر</string>
+    <string name="key_soft_right">المفتاح الأيمن</string>
+    <string name="key_clear">مسح</string>
+    <string name="key_send">اتصال</string>
+    <string name="key_end">إنهاء</string>
+    <string name="key_menu">القائمة</string>
+    <string name="memory_undo">تراجع</string>
+    <string name="memory_set_all">تعيين الكل</string>
+    <string name="memory_freeze_all">تجميد الكل</string>
 </resources>

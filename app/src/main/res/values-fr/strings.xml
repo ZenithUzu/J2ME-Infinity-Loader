@@ -373,4 +373,25 @@
     <string name="quick_restart_now">Relancer maintenant</string>
     <string name="quick_restart_later">Plus tard</string>
     <string name="memory_snapshot">Toutes les valeurs sont mémorisées. Change-la maintenant dans le jeu (perds une vie, gagne des pièces…) et touche A monté, A baissé, A changé ou Identique jusqu\'à ce qu\'il reste peu de résultats.</string>
+    <string name="pad_map_title">Manette et clavier</string>
+    <string name="pad_map_auto">Attribuer automatiquement (comme JarNix)</string>
+    <string name="pad_tab_buttons">Boutons</string>
+    <string name="pad_tab_sticks">Sticks et croix</string>
+    <string name="pad_tab_keyboard">Clavier</string>
+    <string name="pad_map_hint">Touchez un bouton pour choisir la touche du jeu qu\'il envoie.</string>
+    <string name="pad_detect">Détecter une autre entrée</string>
+    <string name="pad_detecting">Appuyez sur un bouton de la manette ou une touche…</string>
+    <string name="pad_unassigned">Non attribué</string>
+    <string name="pad_stick_note">Le stick gauche fonctionne comme la croix.</string>
+    <string name="pad_choose_key">Touche du jeu pour %s</string>
+    <string name="pad_keyboard_empty">Aucune touche attribuée. Utilisez Détecter une autre entrée.</string>
+    <string name="key_soft_left">Soft gauche</string>
+    <string name="key_soft_right">Soft droite</string>
+    <string name="key_clear">Effacer</string>
+    <string name="key_send">Appeler</string>
+    <string name="key_end">Raccrocher</string>
+    <string name="key_menu">Menu</string>
+    <string name="memory_undo">Annuler</string>
+    <string name="memory_set_all">Tout changer</string>
+    <string name="memory_freeze_all">Tout geler</string>
 </resources>

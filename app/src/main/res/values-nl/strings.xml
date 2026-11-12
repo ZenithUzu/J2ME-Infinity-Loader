@@ -328,4 +328,25 @@
     <string name="quick_restart_now">Nu herstarten</string>
     <string name="quick_restart_later">Later</string>
     <string name="memory_snapshot">Alle waarden zijn onthouden. Verander hem nu in de game (verlies een leven, verdien munten…) en tik Gestegen, Gedaald, Veranderd of Gelijk tot er weinig resultaten over zijn.</string>
+    <string name="pad_map_title">Controller en toetsenbord</string>
+    <string name="pad_map_auto">Automatisch toewijzen (zoals JarNix)</string>
+    <string name="pad_tab_buttons">Knoppen</string>
+    <string name="pad_tab_sticks">Sticks en kruis</string>
+    <string name="pad_tab_keyboard">Toetsenbord</string>
+    <string name="pad_map_hint">Tik op een knop om te kiezen welke spieltoets hij stuurt.</string>
+    <string name="pad_detect">Andere invoer herkennen</string>
+    <string name="pad_detecting">Druk op een controllerknop of toets…</string>
+    <string name="pad_unassigned">Niet toegewezen</string>
+    <string name="pad_stick_note">De linkerstick werkt als het kruis.</string>
+    <string name="pad_choose_key">Speltoets voor %s</string>
+    <string name="pad_keyboard_empty">Geen toetsen toegewezen. Gebruik Andere invoer herkennen.</string>
+    <string name="key_soft_left">Linker softkey</string>
+    <string name="key_soft_right">Rechter softkey</string>
+    <string name="key_clear">Wissen</string>
+    <string name="key_send">Bellen</string>
+    <string name="key_end">Ophangen</string>
+    <string name="key_menu">Menu</string>
+    <string name="memory_undo">Ongedaan maken</string>
+    <string name="memory_set_all">Alles instellen</string>
+    <string name="memory_freeze_all">Alles bevriezen</string>
 </resources>

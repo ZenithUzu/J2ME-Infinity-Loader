@@ -376,4 +376,25 @@
     <string name="quick_restart_now">Перезапустити</string>
     <string name="quick_restart_later">Пізніше</string>
     <string name="memory_snapshot">Усі значення запам\'ятовано. Тепер змініть значення в грі (втратьте життя, зберіть монети…) і натискайте «Зросло», «Зменшилось», «Змінилось» або «Без змін», доки не лишиться мало результатів.</string>
+    <string name="pad_map_title">Геймпад і клавіатура</string>
+    <string name="pad_map_auto">Призначити автоматично (як у JarNix)</string>
+    <string name="pad_tab_buttons">Кнопки</string>
+    <string name="pad_tab_sticks">Стіки та хрестовина</string>
+    <string name="pad_tab_keyboard">Клавіатура</string>
+    <string name="pad_map_hint">Торкніться кнопки, щоб вибрати, яку клавішу гри вона надсилає.</string>
+    <string name="pad_detect">Знайти іншу кнопку</string>
+    <string name="pad_detecting">Натисніть кнопку геймпада або клавішу…</string>
+    <string name="pad_unassigned">Не призначено</string>
+    <string name="pad_stick_note">Лівий стік працює як хрестовина.</string>
+    <string name="pad_choose_key">Клавіша гри для %s</string>
+    <string name="pad_keyboard_empty">Клавіші не призначено. Скористайтеся «Знайти іншу кнопку».</string>
+    <string name="key_soft_left">Ліва софт</string>
+    <string name="key_soft_right">Права софт</string>
+    <string name="key_clear">Стерти</string>
+    <string name="key_send">Виклик</string>
+    <string name="key_end">Відбій</string>
+    <string name="key_menu">Меню</string>
+    <string name="memory_undo">Скасувати</string>
+    <string name="memory_set_all">Задати всім</string>
+    <string name="memory_freeze_all">Заморозити всі</string>
 </resources>

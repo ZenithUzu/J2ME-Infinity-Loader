@@ -328,4 +328,25 @@
     <string name="quick_restart_now">Reiniciar agora</string>
     <string name="quick_restart_later">Mais tarde</string>
     <string name="memory_snapshot">Todos os valores foram guardados. Agora muda-o no jogo (perde uma vida, ganha moedas…) e toca em Subiu, Desceu, Mudou ou Igual até sobrarem poucos resultados.</string>
+    <string name="pad_map_title">Comando e teclado</string>
+    <string name="pad_map_auto">Atribuir automaticamente (como o JarNix)</string>
+    <string name="pad_tab_buttons">Botões</string>
+    <string name="pad_tab_sticks">Analógicos e direcional</string>
+    <string name="pad_tab_keyboard">Teclado</string>
+    <string name="pad_map_hint">Toque num botão para escolher que tecla do jogo envia.</string>
+    <string name="pad_detect">Detetar outra entrada</string>
+    <string name="pad_detecting">Prima um botão do comando ou uma tecla…</string>
+    <string name="pad_unassigned">Sem atribuição</string>
+    <string name="pad_stick_note">O analógico esquerdo funciona como o direcional.</string>
+    <string name="pad_choose_key">Tecla do jogo para %s</string>
+    <string name="pad_keyboard_empty">Nenhuma tecla atribuída. Use Detetar outra entrada.</string>
+    <string name="key_soft_left">Soft esq.</string>
+    <string name="key_soft_right">Soft dir.</string>
+    <string name="key_clear">Apagar</string>
+    <string name="key_send">Ligar</string>
+    <string name="key_end">Desligar</string>
+    <string name="key_menu">Menu</string>
+    <string name="memory_undo">Desfazer</string>
+    <string name="memory_set_all">Mudar todos</string>
+    <string name="memory_freeze_all">Congelar todos</string>
 </resources>

@@ -376,4 +376,25 @@
     <string name="quick_restart_now">Restartovat</string>
     <string name="quick_restart_later">Později</string>
     <string name="memory_snapshot">Všechny hodnoty jsou zapamatované. Teď ji ve hře změň (ztrať život, seber mince…) a klepej Vzrostlo, Kleslo, Změnilo se nebo Stejné, dokud nezbude málo výsledků.</string>
+    <string name="pad_map_title">Ovladač a klávesnice</string>
+    <string name="pad_map_auto">Přiřadit automaticky (jako JarNix)</string>
+    <string name="pad_tab_buttons">Tlačítka</string>
+    <string name="pad_tab_sticks">Páčky a kříž</string>
+    <string name="pad_tab_keyboard">Klávesnice</string>
+    <string name="pad_map_hint">Klepnutím na tlačítko vyberete, jakou klávesu hry posílá.</string>
+    <string name="pad_detect">Rozpoznat jiný vstup</string>
+    <string name="pad_detecting">Stiskni tlačítko ovladače nebo klávesu…</string>
+    <string name="pad_unassigned">Nepřiřazeno</string>
+    <string name="pad_stick_note">Levá páčka funguje jako kříž.</string>
+    <string name="pad_choose_key">Klávesa hry pro %s</string>
+    <string name="pad_keyboard_empty">Žádné klávesy. Použij Rozpoznat jiný vstup.</string>
+    <string name="key_soft_left">Levý soft</string>
+    <string name="key_soft_right">Pravý soft</string>
+    <string name="key_clear">Smazat</string>
+    <string name="key_send">Volat</string>
+    <string name="key_end">Zavěsit</string>
+    <string name="key_menu">Menu</string>
+    <string name="memory_undo">Zpět</string>
+    <string name="memory_set_all">Nastavit vše</string>
+    <string name="memory_freeze_all">Zmrazit vše</string>
 </resources>

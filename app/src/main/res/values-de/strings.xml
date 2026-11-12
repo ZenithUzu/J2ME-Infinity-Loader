@@ -360,4 +360,25 @@
     <string name="quick_restart_now">Jetzt neu starten</string>
     <string name="quick_restart_later">Später</string>
     <string name="memory_snapshot">Alle Werte wurden gemerkt. Ändere ihn jetzt im Spiel (Leben verlieren, Münzen sammeln…) und tippe Gestiegen, Gesunken, Geändert oder Gleich, bis nur wenige Ergebnisse übrig sind.</string>
+    <string name="pad_map_title">Controller und Tastatur</string>
+    <string name="pad_map_auto">Automatisch zuweisen (wie JarNix)</string>
+    <string name="pad_tab_buttons">Tasten</string>
+    <string name="pad_tab_sticks">Sticks und Steuerkreuz</string>
+    <string name="pad_tab_keyboard">Tastatur</string>
+    <string name="pad_map_hint">Tippe auf eine Taste, um zu wählen, welche Spieltaste sie sendet.</string>
+    <string name="pad_detect">Andere Eingabe erkennen</string>
+    <string name="pad_detecting">Drücke eine Controller-Taste oder eine Taste…</string>
+    <string name="pad_unassigned">Nicht zugewiesen</string>
+    <string name="pad_stick_note">Der linke Stick funktioniert wie das Steuerkreuz.</string>
+    <string name="pad_choose_key">Spieltaste für %s</string>
+    <string name="pad_keyboard_empty">Keine Tasten zugewiesen. Nutze Andere Eingabe erkennen.</string>
+    <string name="key_soft_left">Softkey links</string>
+    <string name="key_soft_right">Softkey rechts</string>
+    <string name="key_clear">Löschen</string>
+    <string name="key_send">Anruf</string>
+    <string name="key_end">Auflegen</string>
+    <string name="key_menu">Menü</string>
+    <string name="memory_undo">Rückgängig</string>
+    <string name="memory_set_all">Alle setzen</string>
+    <string name="memory_freeze_all">Alle einfrieren</string>
 </resources>

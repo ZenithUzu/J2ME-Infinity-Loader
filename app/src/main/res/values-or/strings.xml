@@ -276,4 +276,25 @@
     <string name="quick_restart_now">ଏବେ ପୁଣି ଆରମ୍ଭ କରନ୍ତୁ</string>
     <string name="quick_restart_later">ପରେ</string>
     <string name="memory_snapshot">ସବୁ ମୂଲ୍ୟ ମନେ ରଖାଗଲା। ଏବେ ଖେଳରେ ଏହାକୁ ବଦଳାନ୍ତୁ (ଗୋଟେ ଜୀବନ ହରାନ୍ତୁ, ମୁଦ୍ରା ଆଣନ୍ତୁ…) ଏବଂ କମ୍ ଫଳାଫଳ ରହିବା ପର୍ଯ୍ୟନ୍ତ ବଢ଼ିଲା, କମିଲା, ବଦଳିଲା କିମ୍ବା ସମାନ ଦବାନ୍ତୁ।</string>
+    <string name="pad_map_title">କଣ୍ଟ୍ରୋଲର ଓ କୀବୋର୍ଡ</string>
+    <string name="pad_map_auto">ସ୍ୱୟଂଚାଳିତ (JarNix ପରି)</string>
+    <string name="pad_tab_buttons">ବଟନ</string>
+    <string name="pad_tab_sticks">ଷ୍ଟିକ ଓ ଡି-ପ୍ୟାଡ୍</string>
+    <string name="pad_tab_keyboard">କୀବୋର୍ଡ</string>
+    <string name="pad_map_hint">ଏକ ବଟନ ଛୁଇଁ ବାଛନ୍ତୁ ଏହା ଖେଳର କେଉଁ କୀ ପଠାଇବ।</string>
+    <string name="pad_detect">ଅନ୍ୟ ଇନପୁଟ୍ ଚିହ୍ନଟ</string>
+    <string name="pad_detecting">କଣ୍ଟ୍ରୋଲର ବଟନ କିମ୍ବା କୀ ଦବାନ୍ତୁ…</string>
+    <string name="pad_unassigned">ସେଟ୍ ନାହିଁ</string>
+    <string name="pad_stick_note">ବାମ ଷ୍ଟିକ ଡି-ପ୍ୟାଡ୍ ପରି କାମ କରେ।</string>
+    <string name="pad_choose_key">%s ପାଇଁ ଖେଳ କୀ</string>
+    <string name="pad_keyboard_empty">କୌଣସି କୀ ସେଟ୍ ନାହିଁ। ଅନ୍ୟ ଇନପୁଟ୍ ଚିହ୍ନଟ ବ୍ୟବହାର କରନ୍ତୁ।</string>
+    <string name="key_soft_left">ବାମ ସଫ୍ଟ</string>
+    <string name="key_soft_right">ଡାହାଣ ସଫ୍ଟ</string>
+    <string name="key_clear">ଲିଭାନ୍ତୁ</string>
+    <string name="key_send">କଲ୍</string>
+    <string name="key_end">ଶେଷ</string>
+    <string name="key_menu">ମେନୁ</string>
+    <string name="memory_undo">ପୂର୍ବବତ୍</string>
+    <string name="memory_set_all">ସବୁ ସେଟ୍</string>
+    <string name="memory_freeze_all">ସବୁ ଫ୍ରିଜ୍</string>
 </resources>

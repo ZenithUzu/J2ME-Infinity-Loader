@@ -160,6 +160,15 @@ public class AppClassLoader extends DexClassLoader {
 		return null;
 	}
 
+	/** The game's own classes loaded so far (the memory editor reads their static fields). */
+	private static final java.util.List<Class<?>> GAME_CLASSES = new java.util.ArrayList<>();
+
+	public static java.util.List<Class<?>> gameClasses() {
+		synchronized (GAME_CLASSES) {
+			return new java.util.ArrayList<>(GAME_CLASSES);
+		}
+	}
+
 	public static AppClassLoader getInstance() {
 		return instance;
 	}
@@ -175,6 +184,9 @@ public class AppClassLoader extends DexClassLoader {
 		try {
 			// Try to load the class from the URLs of this classloader
 			Class<?> localClass = findClass(name);
+			synchronized (GAME_CLASSES) {
+				GAME_CLASSES.add(localClass);
+			}
 			if (resolve) {
 				resolveClass(localClass);
 			}

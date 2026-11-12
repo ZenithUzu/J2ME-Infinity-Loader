@@ -26,7 +26,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:imeOptions="actionSearch"
-                android:inputType="numberSigned"
+                android:digits="0123456789+-"
+                android:inputType="phone"
                 android:maxLines="1" />
         </com.google.android.material.textfield.TextInputLayout>
 

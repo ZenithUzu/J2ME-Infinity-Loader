@@ -328,4 +328,25 @@
     <string name="quick_restart_now">지금 다시 시작</string>
     <string name="quick_restart_later">나중에</string>
     <string name="memory_snapshot">모든 값을 기억했습니다. 이제 게임에서 값을 바꾸고(목숨 잃기, 코인 모으기…) 결과가 적게 남을 때까지 증가, 감소, 변경됨, 같음을 누르세요.</string>
+    <string name="pad_map_title">컨트롤러와 키보드</string>
+    <string name="pad_map_auto">자동 할당 (JarNix처럼)</string>
+    <string name="pad_tab_buttons">버튼</string>
+    <string name="pad_tab_sticks">스틱과 방향키</string>
+    <string name="pad_tab_keyboard">키보드</string>
+    <string name="pad_map_hint">버튼을 눌러 어떤 게임 키를 보낼지 고르세요.</string>
+    <string name="pad_detect">다른 입력 감지</string>
+    <string name="pad_detecting">컨트롤러 버튼이나 키를 누르세요…</string>
+    <string name="pad_unassigned">할당 안 됨</string>
+    <string name="pad_stick_note">왼쪽 스틱은 방향키처럼 작동합니다.</string>
+    <string name="pad_choose_key">%s의 게임 키</string>
+    <string name="pad_keyboard_empty">할당된 키가 없습니다. 다른 입력 감지를 사용하세요.</string>
+    <string name="key_soft_left">왼쪽 소프트</string>
+    <string name="key_soft_right">오른쪽 소프트</string>
+    <string name="key_clear">지우기</string>
+    <string name="key_send">통화</string>
+    <string name="key_end">종료</string>
+    <string name="key_menu">메뉴</string>
+    <string name="memory_undo">실행 취소</string>
+    <string name="memory_set_all">모두 설정</string>
+    <string name="memory_freeze_all">모두 고정</string>
 </resources>

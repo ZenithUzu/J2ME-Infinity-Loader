@@ -504,6 +504,12 @@ public class MicroActivity extends AppCompatActivity {
 
 	@Override
 	public boolean dispatchKeyEvent(KeyEvent event) {
+		// the controller mapper waits for a button, or Back closes it
+		if (padMapper != null && padMapper.onKey(event)) return true;
+		if (padSheet != null && event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
+			if (event.getAction() == KeyEvent.ACTION_UP) closePadMapper();
+			return true;
+		}
 		if (event.getKeyCode() == KeyEvent.KEYCODE_MENU)
 			if (current instanceof Canvas && binding.displayableContainer.dispatchKeyEvent(event)) {
 				return true;
@@ -521,11 +527,86 @@ public class MicroActivity extends AppCompatActivity {
 	}
 
 	@Override
+	public boolean dispatchGenericMotionEvent(android.view.MotionEvent event) {
+		if (padMapper != null && padMapper.onMotion(event)) return true;
+		return super.dispatchGenericMotionEvent(event);
+	}
+
+	/** The old options menu is now the quick menu (also the "M" key of the keypad). */
+	@Override
 	public void openOptionsMenu() {
-		if (!actionBarEnabled && current instanceof Canvas) {
-			showSystemUI();
-		}
-		super.openOptionsMenu();
+		showQuickPanel();
+	}
+
+	private ru.playsoftware.j2meloader.settings.PadMapper padMapper;
+	private View padSheet;
+
+	/** Controller and keyboard mapping (Portemon style), over the game; applied at once. */
+	private void showPadMapper() {
+		closeQuickPanel();
+		ViewGroup host = findViewById(android.R.id.content);
+		float dp = getResources().getDisplayMetrics().density;
+		boolean portrait = host.getHeight() >= host.getWidth();
+		FrameLayout veil = new FrameLayout(this);
+		veil.setBackgroundColor(0x33000000);
+		veil.setOnClickListener(v -> closePadMapper());
+		LinearLayout panel = new LinearLayout(this);
+		panel.setOrientation(LinearLayout.VERTICAL);
+		panel.setClickable(true);
+		panel.setElevation(8 * dp);
+		float r = 28 * dp;
+		android.graphics.drawable.GradientDrawable bg = new android.graphics.drawable.GradientDrawable();
+		bg.setColor(themeColor(com.google.android.material.R.attr.colorSurfaceContainer));
+		bg.setCornerRadii(portrait ? new float[]{r, r, r, r, 0, 0, 0, 0} : new float[]{r, r, 0, 0, 0, 0, r, r});
+		panel.setBackground(bg);
+		int pad = (int) (16 * dp);
+		panel.setPadding(pad, pad, pad, 0);
+		FrameLayout.LayoutParams plp = portrait
+				? new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+				(int) (host.getHeight() * 0.75f), android.view.Gravity.BOTTOM)
+				: new FrameLayout.LayoutParams((int) Math.min(440 * dp, host.getWidth() * 0.6f),
+				ViewGroup.LayoutParams.MATCH_PARENT, android.view.Gravity.END);
+		veil.addView(panel, plp);
+
+		LinearLayout header = new LinearLayout(this);
+		header.setGravity(android.view.Gravity.CENTER_VERTICAL);
+		TextView title = new TextView(this);
+		title.setText(R.string.pad_map_title);
+		title.setTextAppearance(com.google.android.material.R.style.TextAppearance_Material3_TitleLarge);
+		title.setTextColor(themeColor(com.google.android.material.R.attr.colorOnSurface));
+		header.addView(title, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
+		com.google.android.material.button.MaterialButton done = new com.google.android.material.button.MaterialButton(this);
+		done.setText(R.string.quick_done);
+		done.setOnClickListener(v -> closePadMapper());
+		header.addView(done);
+		LinearLayout.LayoutParams hlp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+				ViewGroup.LayoutParams.WRAP_CONTENT);
+		hlp.bottomMargin = (int) (8 * dp);
+		panel.addView(header, hlp);
+
+		ProfileModel p = microLoader.params;
+		padMapper = new ru.playsoftware.j2meloader.settings.PadMapper(this, p.keyMappings, map -> {
+			p.keyMappings = map;
+			javax.microedition.lcdui.keyboard.KeyMapper.setKeyMapping(p);
+			menuKey = microLoader.getMenuKeyCode();
+			ProfilesManager.saveConfig(p);
+		});
+		panel.addView(padMapper.view(), new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 1));
+		padSheet = veil;
+		host.addView(veil, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+				ViewGroup.LayoutParams.MATCH_PARENT));
+		if (portrait) panel.setTranslationY(plp.height);
+		else panel.setTranslationX(plp.width);
+		panel.animate().translationX(0).translationY(0).setDuration(220)
+				.setInterpolator(new android.view.animation.DecelerateInterpolator(2)).start();
+	}
+
+	private void closePadMapper() {
+		if (padSheet == null) return;
+		ViewGroup parent = (ViewGroup) padSheet.getParent();
+		if (parent != null) parent.removeView(padSheet);
+		padSheet = null;
+		padMapper = null;
 	}
 
 	@Override
@@ -1087,6 +1168,7 @@ public class MicroActivity extends AppCompatActivity {
 					showSetLayoutDialog();
 				});
 			}
+			rowAction(g, R.string.pad_map_title, dp, this::showPadMapper);
 			if (inputMethodManager != null) {
 				rowAction(g, R.string.action_keyboard_ime, dp, () -> {
 					closeQuickPanel();

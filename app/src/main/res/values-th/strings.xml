@@ -262,4 +262,25 @@
     <string name="quick_restart_now">เริ่มใหม่ตอนนี้</string>
     <string name="quick_restart_later">ภายหลัง</string>
     <string name="memory_snapshot">จำค่าทั้งหมดแล้ว ตอนนี้ทำให้ค่าเปลี่ยนในเกม (เสียชีวิต เก็บเหรียญ…) แล้วแตะ เพิ่มขึ้น ลดลง เปลี่ยน หรือ เท่าเดิม จนเหลือผลลัพธ์น้อย</string>
+    <string name="pad_map_title">จอยและคีย์บอร์ด</string>
+    <string name="pad_map_auto">กำหนดอัตโนมัติ (แบบ JarNix)</string>
+    <string name="pad_tab_buttons">ปุ่ม</string>
+    <string name="pad_tab_sticks">อนาล็อกและปุ่มทิศทาง</string>
+    <string name="pad_tab_keyboard">คีย์บอร์ด</string>
+    <string name="pad_map_hint">แตะปุ่มเพื่อเลือกว่าจะส่งปุ่มใดของเกม</string>
+    <string name="pad_detect">ตรวจหาอินพุตอื่น</string>
+    <string name="pad_detecting">กดปุ่มจอยหรือปุ่มคีย์บอร์ด…</string>
+    <string name="pad_unassigned">ยังไม่กำหนด</string>
+    <string name="pad_stick_note">อนาล็อกซ้ายทำงานเหมือนปุ่มทิศทาง</string>
+    <string name="pad_choose_key">ปุ่มเกมสำหรับ %s</string>
+    <string name="pad_keyboard_empty">ยังไม่มีปุ่มที่กำหนด ใช้ตรวจหาอินพุตอื่น</string>
+    <string name="key_soft_left">ซอฟต์ซ้าย</string>
+    <string name="key_soft_right">ซอฟต์ขวา</string>
+    <string name="key_clear">ลบ</string>
+    <string name="key_send">โทร</string>
+    <string name="key_end">วางสาย</string>
+    <string name="key_menu">เมนู</string>
+    <string name="memory_undo">เลิกทำ</string>
+    <string name="memory_set_all">ตั้งทั้งหมด</string>
+    <string name="memory_freeze_all">ล็อกทั้งหมด</string>
 </resources>

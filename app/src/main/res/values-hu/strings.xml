@@ -319,4 +319,25 @@
     <string name="quick_restart_now">Újraindítás most</string>
     <string name="quick_restart_later">Később</string>
     <string name="memory_snapshot">Minden értéket megjegyzett. Most változtasd meg a játékban (veszíts életet, gyűjts érmét…), és koppints a Nőtt, Csökkent, Változott vagy Ugyanaz gombra, amíg kevés találat marad.</string>
+    <string name="pad_map_title">Kontroller és billentyűzet</string>
+    <string name="pad_map_auto">Automatikus (mint a JarNix)</string>
+    <string name="pad_tab_buttons">Gombok</string>
+    <string name="pad_tab_sticks">Karok és iránykereszt</string>
+    <string name="pad_tab_keyboard">Billentyűzet</string>
+    <string name="pad_map_hint">Koppints egy gombra, és válaszd ki, melyik játékgombot küldi.</string>
+    <string name="pad_detect">Másik bemenet felismerése</string>
+    <string name="pad_detecting">Nyomj meg egy kontrollergombot vagy billentyűt…</string>
+    <string name="pad_unassigned">Nincs hozzárendelve</string>
+    <string name="pad_stick_note">A bal kar az iránykeresztként működik.</string>
+    <string name="pad_choose_key">Játékgomb ehhez: %s</string>
+    <string name="pad_keyboard_empty">Nincs hozzárendelt billentyű. Használd a Másik bemenet felismerését.</string>
+    <string name="key_soft_left">Bal soft</string>
+    <string name="key_soft_right">Jobb soft</string>
+    <string name="key_clear">Törlés</string>
+    <string name="key_send">Hívás</string>
+    <string name="key_end">Bontás</string>
+    <string name="key_menu">Menü</string>
+    <string name="memory_undo">Visszavonás</string>
+    <string name="memory_set_all">Mind beállítása</string>
+    <string name="memory_freeze_all">Mind fagyasztása</string>
 </resources>

@@ -374,4 +374,25 @@
     <string name="quick_restart_now">Şimdi yeniden başlat</string>
     <string name="quick_restart_later">Sonra</string>
     <string name="memory_snapshot">Tüm değerler hatırlandı. Şimdi oyunda değiştir (can kaybet, para topla…) ve az sonuç kalana kadar Arttı, Azaldı, Değişti veya Aynı\'ya dokun.</string>
+    <string name="pad_map_title">Kumanda ve klavye</string>
+    <string name="pad_map_auto">Otomatik ata (JarNix gibi)</string>
+    <string name="pad_tab_buttons">Düğmeler</string>
+    <string name="pad_tab_sticks">Analoglar ve yön tuşu</string>
+    <string name="pad_tab_keyboard">Klavye</string>
+    <string name="pad_map_hint">Hangi oyun tuşunu göndereceğini seçmek için bir düğmeye dokun.</string>
+    <string name="pad_detect">Başka girişi algıla</string>
+    <string name="pad_detecting">Bir kumanda düğmesine veya tuşa bas…</string>
+    <string name="pad_unassigned">Atanmadı</string>
+    <string name="pad_stick_note">Sol analog yön tuşu gibi çalışır.</string>
+    <string name="pad_choose_key">%s için oyun tuşu</string>
+    <string name="pad_keyboard_empty">Atanmış tuş yok. Başka girişi algıla\'yı kullan.</string>
+    <string name="key_soft_left">Sol soft</string>
+    <string name="key_soft_right">Sağ soft</string>
+    <string name="key_clear">Sil</string>
+    <string name="key_send">Ara</string>
+    <string name="key_end">Kapat</string>
+    <string name="key_menu">Menü</string>
+    <string name="memory_undo">Geri al</string>
+    <string name="memory_set_all">Hepsini ayarla</string>
+    <string name="memory_freeze_all">Hepsini dondur</string>
 </resources>

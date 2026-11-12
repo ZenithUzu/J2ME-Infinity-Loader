@@ -376,4 +376,25 @@
     <string name="quick_restart_now">Reiniciar ahora</string>
     <string name="quick_restart_later">Después</string>
     <string name="memory_snapshot">Se recordaron todos los valores. Ahora cámbialo en el juego (pierde una vida, gana monedas…) y toca Subió, Bajó, Cambió o Igual hasta que queden pocos resultados.</string>
+    <string name="pad_map_title">Mando y teclado</string>
+    <string name="pad_map_auto">Asignar automáticamente (como JarNix)</string>
+    <string name="pad_tab_buttons">Botones</string>
+    <string name="pad_tab_sticks">Sticks y cruceta</string>
+    <string name="pad_tab_keyboard">Teclado</string>
+    <string name="pad_map_hint">Toca un botón para elegir qué tecla del juego envía.</string>
+    <string name="pad_detect">Detectar otra entrada</string>
+    <string name="pad_detecting">Pulsa un botón del mando o una tecla…</string>
+    <string name="pad_unassigned">Sin asignar</string>
+    <string name="pad_stick_note">El stick izquierdo funciona como la cruceta.</string>
+    <string name="pad_choose_key">Tecla del juego para %s</string>
+    <string name="pad_keyboard_empty">No hay teclas asignadas. Usa Detectar otra entrada.</string>
+    <string name="key_soft_left">Tecla izq.</string>
+    <string name="key_soft_right">Tecla der.</string>
+    <string name="key_clear">Borrar</string>
+    <string name="key_send">Llamar</string>
+    <string name="key_end">Colgar</string>
+    <string name="key_menu">Menú</string>
+    <string name="memory_undo">Deshacer</string>
+    <string name="memory_set_all">Cambiar todos</string>
+    <string name="memory_freeze_all">Congelar todos</string>
 </resources>

@@ -376,4 +376,25 @@
     <string name="quick_restart_now">Mulai ulang sekarang</string>
     <string name="quick_restart_later">Nanti</string>
     <string name="memory_snapshot">Semua nilai sudah diingat. Sekarang ubah di game (kehilangan nyawa, kumpulkan koin…) lalu ketuk Naik, Turun, Berubah atau Sama sampai hasilnya tinggal sedikit.</string>
+    <string name="pad_map_title">Kontroler dan keyboard</string>
+    <string name="pad_map_auto">Tetapkan otomatis (seperti JarNix)</string>
+    <string name="pad_tab_buttons">Tombol</string>
+    <string name="pad_tab_sticks">Stik dan d-pad</string>
+    <string name="pad_tab_keyboard">Keyboard</string>
+    <string name="pad_map_hint">Ketuk tombol untuk memilih tombol game yang dikirimnya.</string>
+    <string name="pad_detect">Deteksi input lain</string>
+    <string name="pad_detecting">Tekan tombol kontroler atau tombol keyboard…</string>
+    <string name="pad_unassigned">Belum ditetapkan</string>
+    <string name="pad_stick_note">Stik kiri bekerja seperti d-pad.</string>
+    <string name="pad_choose_key">Tombol game untuk %s</string>
+    <string name="pad_keyboard_empty">Belum ada tombol. Pakai Deteksi input lain.</string>
+    <string name="key_soft_left">Soft kiri</string>
+    <string name="key_soft_right">Soft kanan</string>
+    <string name="key_clear">Hapus</string>
+    <string name="key_send">Panggil</string>
+    <string name="key_end">Akhiri</string>
+    <string name="key_menu">Menu</string>
+    <string name="memory_undo">Urungkan</string>
+    <string name="memory_set_all">Ubah semua</string>
+    <string name="memory_freeze_all">Bekukan semua</string>
 </resources>

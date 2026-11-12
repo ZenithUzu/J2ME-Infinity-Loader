@@ -257,14 +257,10 @@ public class KeyMapper {
 
 	public static void setKeyMapping(ProfileModel params) {
 		layoutType = params.keyCodesLayout;
-		SparseIntArray map = getDefaultKeyMap();
+		// a saved map is the whole map (the mapper starts from the defaults), so a button set
+		// to "not assigned" stays without a key instead of getting its default back
 		SparseIntArray customKeyMap = params.keyMappings;
-		if (customKeyMap != null) {
-			for (int i = 0, size = customKeyMap.size(); i < size; i++) {
-				map.put(customKeyMap.keyAt(i), customKeyMap.valueAt(i));
-			}
-		}
-		androidToMIDP = map;
+		androidToMIDP = customKeyMap != null ? customKeyMap.clone() : getDefaultKeyMap();
 		remapKeys();
 	}
 
@@ -322,6 +318,22 @@ public class KeyMapper {
 		map.put(KeyEvent.KEYCODE_BUTTON_SELECT, KEY_SOFT_LEFT);
 		map.put(KeyEvent.KEYCODE_BUTTON_START, KEY_SOFT_RIGHT);
 		map.put(KeyEvent.KEYCODE_BUTTON_THUMBL, KEY_NUM5);
+		map.put(KeyEvent.KEYCODE_BUTTON_THUMBR, KEY_NUM0);
+		// right stick = 2 / 8 / 4 / 6 (JarNix), the left stick works as the d-pad
+		map.put(KEYCODE_RSTICK_UP, KEY_NUM2);
+		map.put(KEYCODE_RSTICK_DOWN, KEY_NUM8);
+		map.put(KEYCODE_RSTICK_LEFT, KEY_NUM4);
+		map.put(KEYCODE_RSTICK_RIGHT, KEY_NUM6);
+		// PC keyboard like JarNix: WASD, Enter / Space = OK, Q / E = soft keys
+		map.put(KeyEvent.KEYCODE_W, KEY_UP);
+		map.put(KeyEvent.KEYCODE_S, KEY_DOWN);
+		map.put(KeyEvent.KEYCODE_A, KEY_LEFT);
+		map.put(KeyEvent.KEYCODE_D, KEY_RIGHT);
+		map.put(KeyEvent.KEYCODE_SPACE, KEY_FIRE);
+		map.put(KeyEvent.KEYCODE_DPAD_CENTER, KEY_FIRE);
+		map.put(KeyEvent.KEYCODE_NUMPAD_ENTER, KEY_FIRE);
+		map.put(KeyEvent.KEYCODE_Q, KEY_SOFT_LEFT);
+		map.put(KeyEvent.KEYCODE_E, KEY_SOFT_RIGHT);
 		// L2 / R2 (buttons or analog triggers, see Canvas.onGenericMotion); R3 and the right
 		// stick have no default and can be assigned in the key mapper
 		map.put(KeyEvent.KEYCODE_BUTTON_L2, KEY_NUM1);

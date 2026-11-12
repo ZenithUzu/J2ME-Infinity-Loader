@@ -368,4 +368,25 @@
     <string name="quick_restart_now">Khởi động lại ngay</string>
     <string name="quick_restart_later">Để sau</string>
     <string name="memory_snapshot">Đã ghi nhớ mọi giá trị. Giờ hãy thay đổi nó trong trò chơi (mất một mạng, nhặt xu…) rồi chạm Tăng, Giảm, Đã đổi hoặc Không đổi cho đến khi còn ít kết quả.</string>
+    <string name="pad_map_title">Tay cầm và bàn phím</string>
+    <string name="pad_map_auto">Gán tự động (như JarNix)</string>
+    <string name="pad_tab_buttons">Nút</string>
+    <string name="pad_tab_sticks">Cần và phím hướng</string>
+    <string name="pad_tab_keyboard">Bàn phím</string>
+    <string name="pad_map_hint">Chạm một nút để chọn phím trò chơi mà nó gửi.</string>
+    <string name="pad_detect">Nhận dạng đầu vào khác</string>
+    <string name="pad_detecting">Nhấn một nút tay cầm hoặc một phím…</string>
+    <string name="pad_unassigned">Chưa gán</string>
+    <string name="pad_stick_note">Cần trái hoạt động như phím hướng.</string>
+    <string name="pad_choose_key">Phím trò chơi cho %s</string>
+    <string name="pad_keyboard_empty">Chưa gán phím nào. Dùng Nhận dạng đầu vào khác.</string>
+    <string name="key_soft_left">Soft trái</string>
+    <string name="key_soft_right">Soft phải</string>
+    <string name="key_clear">Xóa</string>
+    <string name="key_send">Gọi</string>
+    <string name="key_end">Kết thúc</string>
+    <string name="key_menu">Menu</string>
+    <string name="memory_undo">Hoàn tác</string>
+    <string name="memory_set_all">Đặt tất cả</string>
+    <string name="memory_freeze_all">Đóng băng tất cả</string>
 </resources>

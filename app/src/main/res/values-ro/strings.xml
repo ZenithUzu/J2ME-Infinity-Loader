@@ -280,4 +280,25 @@
     <string name="quick_restart_now">Repornește acum</string>
     <string name="quick_restart_later">Mai târziu</string>
     <string name="memory_snapshot">Toate valorile au fost reținute. Acum schimb-o în joc (pierde o viață, adună monede…) și apasă A crescut, A scăzut, S-a schimbat sau La fel până rămân puține rezultate.</string>
+    <string name="pad_map_title">Controler și tastatură</string>
+    <string name="pad_map_auto">Atribuie automat (ca JarNix)</string>
+    <string name="pad_tab_buttons">Butoane</string>
+    <string name="pad_tab_sticks">Stickuri și cruce</string>
+    <string name="pad_tab_keyboard">Tastatură</string>
+    <string name="pad_map_hint">Atinge un buton ca să alegi ce tastă a jocului trimite.</string>
+    <string name="pad_detect">Detectează altă intrare</string>
+    <string name="pad_detecting">Apasă un buton al controlerului sau o tastă…</string>
+    <string name="pad_unassigned">Neatribuit</string>
+    <string name="pad_stick_note">Stickul stâng merge ca crucea.</string>
+    <string name="pad_choose_key">Tasta jocului pentru %s</string>
+    <string name="pad_keyboard_empty">Nicio tastă atribuită. Folosește Detectează altă intrare.</string>
+    <string name="key_soft_left">Soft stânga</string>
+    <string name="key_soft_right">Soft dreapta</string>
+    <string name="key_clear">Șterge</string>
+    <string name="key_send">Apel</string>
+    <string name="key_end">Închide</string>
+    <string name="key_menu">Meniu</string>
+    <string name="memory_undo">Anulează</string>
+    <string name="memory_set_all">Setează tot</string>
+    <string name="memory_freeze_all">Îngheață tot</string>
 </resources>

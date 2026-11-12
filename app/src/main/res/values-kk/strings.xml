@@ -376,4 +376,25 @@
     <string name="quick_restart_now">Қазір қайта қосу</string>
     <string name="quick_restart_later">Кейінірек</string>
     <string name="memory_snapshot">Барлық мәндер есте сақталды. Енді оны ойында өзгертіңіз (өмір жоғалтыңыз, тиын жинаңыз…) және нәтиже аз қалғанша Өсті, Азайды, Өзгерді немесе Өзгермеді түймесін басыңыз.</string>
+    <string name="pad_map_title">Геймпад пен пернетақта</string>
+    <string name="pad_map_auto">Автоматты түрде (JarNix сияқты)</string>
+    <string name="pad_tab_buttons">Түймелер</string>
+    <string name="pad_tab_sticks">Стиктер мен крестовина</string>
+    <string name="pad_tab_keyboard">Пернетақта</string>
+    <string name="pad_map_hint">Ойынның қай пернесін жіберетінін таңдау үшін түймені түртіңіз.</string>
+    <string name="pad_detect">Басқа енгізуді анықтау</string>
+    <string name="pad_detecting">Геймпад түймесін не пернені басыңыз…</string>
+    <string name="pad_unassigned">Тағайындалмаған</string>
+    <string name="pad_stick_note">Сол стик крестовина сияқты жұмыс істейді.</string>
+    <string name="pad_choose_key">%s үшін ойын пернесі</string>
+    <string name="pad_keyboard_empty">Перне тағайындалмаған. «Басқа енгізуді анықтау» қолданыңыз.</string>
+    <string name="key_soft_left">Сол софт</string>
+    <string name="key_soft_right">Оң софт</string>
+    <string name="key_clear">Өшіру</string>
+    <string name="key_send">Қоңырау</string>
+    <string name="key_end">Аяқтау</string>
+    <string name="key_menu">Мәзір</string>
+    <string name="memory_undo">Болдырмау</string>
+    <string name="memory_set_all">Барлығына қою</string>
+    <string name="memory_freeze_all">Барлығын қатыру</string>
 </resources>

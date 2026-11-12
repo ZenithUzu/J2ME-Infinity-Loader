@@ -85,6 +85,8 @@ final class MemoryEditor {
 	}
 
 	private static List<Slot> results;
+	/** the results before the last search, for Undo */
+	private static List<Slot> previous;
 	private static final List<Slot> frozen = new ArrayList<>();
 	private static Thread freezer;
 
@@ -104,6 +106,23 @@ final class MemoryEditor {
 		ArrayDeque<Object> queue = new ArrayDeque<>();
 		queue.add(midlet);
 		seen.put(midlet, Boolean.TRUE);
+		// static fields of every game class loaded so far: many J2ME games keep lives, money...
+		// in classes that only have static fields, never reached from an object
+		for (Class<?> k : AppClassLoader.gameClasses()) {
+			if (k.getClassLoader() != game || statics.put(k, Boolean.TRUE) != null) continue;
+			for (Field f : k.getDeclaredFields()) {
+				if (!Modifier.isStatic(f.getModifiers())) continue;
+				try {
+					f.setAccessible(true);
+					if (isNumber(f.getType())) {
+						if (!Modifier.isFinal(f.getModifiers())) slots.add(new Slot(null, f, -1));
+					} else if (!f.getType().isPrimitive()) {
+						enqueue(f.get(null), game, seen, queue);
+					}
+				} catch (Throwable ignored) {
+				}
+			}
+		}
 		while (!queue.isEmpty() && seen.size() < MAX_OBJECTS && slots.size() < MAX_SLOTS) {
 			Object o = queue.poll();
 			Class<?> c = o.getClass();
@@ -161,6 +180,7 @@ final class MemoryEditor {
 
 	/** First search over everything, or a refinement of the previous results. */
 	private static void search(MIDlet midlet, Test test) {
+		previous = results;
 		List<Slot> from = results != null ? results : collect(midlet);
 		List<Slot> out = new ArrayList<>();
 		for (Slot s : from) {
@@ -278,10 +298,57 @@ final class MemoryEditor {
 		});
 		addChip(activity, compareRow, R.string.memory_changed, v -> compare.run((now, before) -> now != before));
 		addChip(activity, compareRow, R.string.memory_unchanged, v -> compare.run((now, before) -> now == before));
-		addChip(activity, compareRow, R.string.memory_increased, v -> compare.run((now, before) -> now > before));
-		addChip(activity, compareRow, R.string.memory_decreased, v -> compare.run((now, before) -> now < before));
+		// with "+N" typed: went up / down by exactly N (e.g. "+10" coins); a plain number is
+		// the value for Find, so it is not used here
+		addChip(activity, compareRow, R.string.memory_increased, v -> {
+			Long by = delta(value);
+			compare.run(by == null ? (now, before) -> now > before : (now, before) -> now - before == by);
+		});
+		addChip(activity, compareRow, R.string.memory_decreased, v -> {
+			Long by = delta(value);
+			compare.run(by == null ? (now, before) -> now < before : (now, before) -> before - now == by);
+		});
+		addChip(activity, compareRow, R.string.memory_undo, v -> {
+			results = previous;
+			previous = null;
+			refresh.run();
+		});
+		addChip(activity, compareRow, R.string.memory_set_all, v -> {
+			if (results == null || results.isEmpty() || results.size() > SHOWN) return;
+			Long n = number(value);
+			if (n == null) {
+				value.requestFocus();
+				return;
+			}
+			for (Slot s : results) {
+				try {
+					s.write(n);
+					s.frozenValue = n;
+				} catch (Throwable ignored) {
+				}
+			}
+			refresh.run();
+		});
+		addChip(activity, compareRow, R.string.memory_freeze_all, v -> {
+			if (results == null || results.isEmpty() || results.size() > SHOWN) return;
+			synchronized (frozen) {
+				for (Slot s : results) {
+					if (s.frozen) continue;
+					try {
+						s.frozenValue = s.read();
+					} catch (Throwable e) {
+						continue;
+					}
+					s.frozen = true;
+					frozen.add(s);
+				}
+			}
+			startFreezer();
+			refresh.run();
+		});
 		addChip(activity, compareRow, R.string.memory_new, v -> {
 			results = null;
+			previous = null;
 			refresh.run();
 		});
 		list.setOnItemClickListener((p, v, pos, id) -> editSlot(activity, rows.get(pos), refresh));
@@ -302,6 +369,23 @@ final class MemoryEditor {
 				.setPositiveButton(R.string.quick_done, null)
 				.setOnDismissListener(d -> ticker.removeCallbacks(tick))
 				.show();
+	}
+
+	private static Long delta(EditText value) {
+		String t = value.getText().toString().trim();
+		return t.startsWith("+") ? number(t.substring(1)) : null;
+	}
+
+	private static Long number(EditText value) {
+		return number(value.getText().toString().trim());
+	}
+
+	private static Long number(String t) {
+		try {
+			return Long.parseLong(t);
+		} catch (NumberFormatException e) {
+			return null;
+		}
 	}
 
 	private static void addChip(Activity a, com.google.android.material.chip.ChipGroup row, int text,

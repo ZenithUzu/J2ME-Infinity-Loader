@@ -315,4 +315,25 @@
     <string name="quick_restart_now">Riavvia ora</string>
     <string name="quick_restart_later">Più tardi</string>
     <string name="memory_snapshot">Tutti i valori sono stati memorizzati. Ora cambialo nel gioco (perdi una vita, prendi monete…) e tocca Aumentato, Diminuito, Cambiato o Uguale finché restano pochi risultati.</string>
+    <string name="pad_map_title">Controller e tastiera</string>
+    <string name="pad_map_auto">Assegna automaticamente (come JarNix)</string>
+    <string name="pad_tab_buttons">Pulsanti</string>
+    <string name="pad_tab_sticks">Stick e croce</string>
+    <string name="pad_tab_keyboard">Tastiera</string>
+    <string name="pad_map_hint">Tocca un pulsante per scegliere quale tasto del gioco invia.</string>
+    <string name="pad_detect">Rileva un altro input</string>
+    <string name="pad_detecting">Premi un pulsante del controller o un tasto…</string>
+    <string name="pad_unassigned">Non assegnato</string>
+    <string name="pad_stick_note">Lo stick sinistro funziona come la croce.</string>
+    <string name="pad_choose_key">Tasto del gioco per %s</string>
+    <string name="pad_keyboard_empty">Nessun tasto assegnato. Usa Rileva un altro input.</string>
+    <string name="key_soft_left">Soft sinistro</string>
+    <string name="key_soft_right">Soft destro</string>
+    <string name="key_clear">Cancella</string>
+    <string name="key_send">Chiama</string>
+    <string name="key_end">Chiudi</string>
+    <string name="key_menu">Menu</string>
+    <string name="memory_undo">Annulla</string>
+    <string name="memory_set_all">Imposta tutti</string>
+    <string name="memory_freeze_all">Congela tutti</string>
 </resources>

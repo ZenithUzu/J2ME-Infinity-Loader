@@ -250,4 +250,25 @@
     <string name="quick_restart_now">Genstart nu</string>
     <string name="quick_restart_later">Senere</string>
     <string name="memory_snapshot">Alle værdier er husket. Ændr den nu i spillet (mist et liv, tjen mønter…) og tryk Steg, Faldt, Ændret eller Uændret, indtil der er få resultater tilbage.</string>
+    <string name="pad_map_title">Controller og tastatur</string>
+    <string name="pad_map_auto">Tildel automatisk (som JarNix)</string>
+    <string name="pad_tab_buttons">Knapper</string>
+    <string name="pad_tab_sticks">Sticks og kryds</string>
+    <string name="pad_tab_keyboard">Tastatur</string>
+    <string name="pad_map_hint">Tryk på en knap for at vælge, hvilken spiltast den sender.</string>
+    <string name="pad_detect">Find et andet input</string>
+    <string name="pad_detecting">Tryk på en controllerknap eller tast…</string>
+    <string name="pad_unassigned">Ikke tildelt</string>
+    <string name="pad_stick_note">Venstre stick virker som krydset.</string>
+    <string name="pad_choose_key">Spiltast for %s</string>
+    <string name="pad_keyboard_empty">Ingen taster tildelt. Brug Find et andet input.</string>
+    <string name="key_soft_left">Venstre soft</string>
+    <string name="key_soft_right">Højre soft</string>
+    <string name="key_clear">Slet</string>
+    <string name="key_send">Ring</string>
+    <string name="key_end">Læg på</string>
+    <string name="key_menu">Menu</string>
+    <string name="memory_undo">Fortryd</string>
+    <string name="memory_set_all">Sæt alle</string>
+    <string name="memory_freeze_all">Frys alle</string>
 </resources>

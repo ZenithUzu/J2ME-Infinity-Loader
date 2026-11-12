@@ -376,4 +376,25 @@
     <string name="quick_restart_now">अभी दोबारा शुरू करें</string>
     <string name="quick_restart_later">बाद में</string>
     <string name="memory_snapshot">सारे मान याद कर लिए गए। अब गेम में इसे बदलें (एक जान खोएँ, सिक्के कमाएँ…) और जब तक कुछ ही नतीजे बचें, बढ़ा, घटा, बदला या वही दबाएँ।</string>
+    <string name="pad_map_title">कंट्रोलर और कीबोर्ड</string>
+    <string name="pad_map_auto">अपने-आप असाइन करें (JarNix जैसा)</string>
+    <string name="pad_tab_buttons">बटन</string>
+    <string name="pad_tab_sticks">स्टिक और डी-पैड</string>
+    <string name="pad_tab_keyboard">कीबोर्ड</string>
+    <string name="pad_map_hint">कोई बटन छुएँ और चुनें कि वह गेम की कौन-सी कुंजी भेजे।</string>
+    <string name="pad_detect">दूसरा इनपुट पहचानें</string>
+    <string name="pad_detecting">कंट्रोलर का बटन या कोई कुंजी दबाएँ…</string>
+    <string name="pad_unassigned">असाइन नहीं</string>
+    <string name="pad_stick_note">बायाँ स्टिक डी-पैड की तरह काम करता है।</string>
+    <string name="pad_choose_key">%s के लिए गेम कुंजी</string>
+    <string name="pad_keyboard_empty">कोई कुंजी असाइन नहीं। दूसरा इनपुट पहचानें इस्तेमाल करें।</string>
+    <string name="key_soft_left">बायाँ सॉफ्ट</string>
+    <string name="key_soft_right">दायाँ सॉफ्ट</string>
+    <string name="key_clear">मिटाएँ</string>
+    <string name="key_send">कॉल</string>
+    <string name="key_end">काटें</string>
+    <string name="key_menu">मेन्यू</string>
+    <string name="memory_undo">पूर्ववत</string>
+    <string name="memory_set_all">सबको बदलें</string>
+    <string name="memory_freeze_all">सबको जमाएँ</string>
 </resources>

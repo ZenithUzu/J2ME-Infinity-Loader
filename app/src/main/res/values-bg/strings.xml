@@ -343,4 +343,25 @@
     <string name="quick_restart_now">Рестартирай</string>
     <string name="quick_restart_later">По-късно</string>
     <string name="memory_snapshot">Всички стойности са запомнени. Сега я промени в играта (загуби живот, събери монети…) и натискай Нарасна, Намаля, Промени се или Същото, докато останат малко резултати.</string>
+    <string name="pad_map_title">Контролер и клавиатура</string>
+    <string name="pad_map_auto">Автоматично (като JarNix)</string>
+    <string name="pad_tab_buttons">Бутони</string>
+    <string name="pad_tab_sticks">Стикове и кръстачка</string>
+    <string name="pad_tab_keyboard">Клавиатура</string>
+    <string name="pad_map_hint">Докосни бутон, за да избереш кой клавиш на играта изпраща.</string>
+    <string name="pad_detect">Засечи друг бутон</string>
+    <string name="pad_detecting">Натисни бутон на контролера или клавиш…</string>
+    <string name="pad_unassigned">Не е зададен</string>
+    <string name="pad_stick_note">Левият стик работи като кръстачката.</string>
+    <string name="pad_choose_key">Клавиш на играта за %s</string>
+    <string name="pad_keyboard_empty">Няма зададени клавиши. Използвай Засечи друг бутон.</string>
+    <string name="key_soft_left">Ляв софт</string>
+    <string name="key_soft_right">Десен софт</string>
+    <string name="key_clear">Изтрий</string>
+    <string name="key_send">Обаждане</string>
+    <string name="key_end">Край</string>
+    <string name="key_menu">Меню</string>
+    <string name="memory_undo">Отмени</string>
+    <string name="memory_set_all">Задай на всички</string>
+    <string name="memory_freeze_all">Замрази всички</string>
 </resources>

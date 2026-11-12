@@ -359,4 +359,25 @@
     <string name="quick_restart_now">Επανεκκίνηση τώρα</string>
     <string name="quick_restart_later">Αργότερα</string>
     <string name="memory_snapshot">Όλες οι τιμές απομνημονεύτηκαν. Τώρα άλλαξέ την στο παιχνίδι (χάσε μια ζωή, μάζεψε νομίσματα…) και πάτα Αυξήθηκε, Μειώθηκε, Άλλαξε ή Ίδιο μέχρι να μείνουν λίγα αποτελέσματα.</string>
+    <string name="pad_map_title">Χειριστήριο και πληκτρολόγιο</string>
+    <string name="pad_map_auto">Αυτόματη ανάθεση (όπως JarNix)</string>
+    <string name="pad_tab_buttons">Κουμπιά</string>
+    <string name="pad_tab_sticks">Μοχλοί και σταυρός</string>
+    <string name="pad_tab_keyboard">Πληκτρολόγιο</string>
+    <string name="pad_map_hint">Άγγιξε ένα κουμπί για να διαλέξεις ποιο πλήκτρο του παιχνιδιού στέλνει.</string>
+    <string name="pad_detect">Εντοπισμός άλλης εισόδου</string>
+    <string name="pad_detecting">Πάτα ένα κουμπί χειριστηρίου ή πλήκτρο…</string>
+    <string name="pad_unassigned">Χωρίς ανάθεση</string>
+    <string name="pad_stick_note">Ο αριστερός μοχλός λειτουργεί σαν τον σταυρό.</string>
+    <string name="pad_choose_key">Πλήκτρο παιχνιδιού για %s</string>
+    <string name="pad_keyboard_empty">Δεν υπάρχουν πλήκτρα. Χρησιμοποίησε Εντοπισμό άλλης εισόδου.</string>
+    <string name="key_soft_left">Αριστ. soft</string>
+    <string name="key_soft_right">Δεξί soft</string>
+    <string name="key_clear">Διαγραφή</string>
+    <string name="key_send">Κλήση</string>
+    <string name="key_end">Τερματισμός</string>
+    <string name="key_menu">Μενού</string>
+    <string name="memory_undo">Αναίρεση</string>
+    <string name="memory_set_all">Ορισμός σε όλα</string>
+    <string name="memory_freeze_all">Πάγωμα όλων</string>
 </resources>

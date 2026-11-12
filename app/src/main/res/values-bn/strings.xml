@@ -279,4 +279,25 @@
     <string name="quick_restart_now">এখনই আবার চালু করুন</string>
     <string name="quick_restart_later">পরে</string>
     <string name="memory_snapshot">সব মান মনে রাখা হয়েছে। এখন গেমে এটি বদলান (একটি জীবন হারান, কয়েন জমান…) আর অল্প ফল না থাকা পর্যন্ত বেড়েছে, কমেছে, বদলেছে বা একই চাপুন।</string>
+    <string name="pad_map_title">কন্ট্রোলার ও কীবোর্ড</string>
+    <string name="pad_map_auto">স্বয়ংক্রিয়ভাবে সেট (JarNix-এর মতো)</string>
+    <string name="pad_tab_buttons">বোতাম</string>
+    <string name="pad_tab_sticks">স্টিক ও ডি-প্যাড</string>
+    <string name="pad_tab_keyboard">কীবোর্ড</string>
+    <string name="pad_map_hint">একটি বোতাম ছুঁয়ে বাছুন সেটি গেমের কোন কী পাঠাবে।</string>
+    <string name="pad_detect">অন্য ইনপুট শনাক্ত</string>
+    <string name="pad_detecting">কন্ট্রোলারের বোতাম বা একটি কী চাপুন…</string>
+    <string name="pad_unassigned">সেট নেই</string>
+    <string name="pad_stick_note">বাম স্টিক ডি-প্যাডের মতো কাজ করে।</string>
+    <string name="pad_choose_key">%s-এর গেম কী</string>
+    <string name="pad_keyboard_empty">কোনো কী সেট নেই। অন্য ইনপুট শনাক্ত ব্যবহার করুন।</string>
+    <string name="key_soft_left">বাম সফট</string>
+    <string name="key_soft_right">ডান সফট</string>
+    <string name="key_clear">মুছুন</string>
+    <string name="key_send">কল</string>
+    <string name="key_end">শেষ</string>
+    <string name="key_menu">মেনু</string>
+    <string name="memory_undo">পূর্বাবস্থা</string>
+    <string name="memory_set_all">সব সেট</string>
+    <string name="memory_freeze_all">সব জমান</string>
 </resources>
