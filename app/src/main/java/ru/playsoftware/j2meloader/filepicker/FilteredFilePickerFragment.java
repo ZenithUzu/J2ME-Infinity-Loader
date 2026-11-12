@@ -131,6 +131,13 @@ public class FilteredFilePickerFragment extends FilePickerFragment {
 		return true;
 	}
 
+	/** ".." stops at the storage folder; "/" above it can't be read and looked empty. */
+	@NonNull
+	@Override
+	public File getRoot() {
+		return Environment.getExternalStorageDirectory();
+	}
+
 	@Override
 	public void goToDir(@NonNull File file) {
 		history.add(mCurrentPath);

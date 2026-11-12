@@ -11,7 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:background="?attr/colorSurface"
+        android:layout_marginTop="8dp"
+        android:background="@android:color/transparent"
         android:minHeight="?attr/actionBarSize">
 
         <TextView
@@ -40,7 +41,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="?attr/colorSurfaceContainer"
         android:padding="12dp">
 
         <LinearLayout

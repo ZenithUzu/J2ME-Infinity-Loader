@@ -21,18 +21,12 @@ import static ru.playsoftware.j2meloader.util.Constants.PREF_BLACK_BACKGROUND;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.View;
+import android.view.ViewGroup;
 
-import androidx.activity.EdgeToEdge;
-import androidx.activity.SystemBarStyle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.preference.PreferenceManager;
 
 import com.nononsenseapps.filepicker.AbstractFilePickerActivity;
@@ -56,22 +50,24 @@ public class FilteredFilePickerActivity extends AbstractFilePickerActivity<File>
 			getTheme().applyStyle(R.style.ThemeOverlay_App_Dark, true);
 		}
 		super.onCreate(savedInstanceState);
-		EdgeToEdge.enable(
-				this,
-				SystemBarStyle.auto(Color.TRANSPARENT, Color.TRANSPARENT),
-				SystemBarStyle.auto(Color.TRANSPARENT, Color.TRANSPARENT)
-		);
-		View view = findViewById(android.R.id.content);
-		ViewCompat.setOnApplyWindowInsetsListener(view, (v, windowInsets) -> {
-			Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars() | WindowInsetsCompat.Type.displayCutout());
-			v.setPadding(insets.left, insets.top, insets.right, insets.bottom);
-			return WindowInsetsCompat.CONSUMED;
-		});
+		// a sheet from the bottom (like the quick menu): the games stay visible behind it
+		android.util.DisplayMetrics dm = getResources().getDisplayMetrics();
+		boolean portrait = dm.heightPixels >= dm.widthPixels;
+		getWindow().setLayout(portrait ? ViewGroup.LayoutParams.MATCH_PARENT : (int) (dm.widthPixels * 0.6f),
+				(int) (dm.heightPixels * (portrait ? 0.62f : 0.9f)));
+		getWindow().setGravity(android.view.Gravity.BOTTOM | android.view.Gravity.CENTER_HORIZONTAL);
 	}
 
 	@Override
 	protected AbstractFilePickerFragment<File> getFragment(@Nullable String startPath, int mode, boolean allowMultiple,
 														   boolean allowCreateDir, boolean allowExistingFile, boolean singleClick) {
+		// a missing or unreadable start (e.g. "/") showed an empty list: start in the storage
+		File start = startPath == null ? null : new File(startPath);
+		if (start != null && start.isFile()) start = start.getParentFile();
+		if (start == null || !start.isDirectory() || !start.canRead()) {
+			start = android.os.Environment.getExternalStorageDirectory();
+		}
+		startPath = start.getPath();
 		FilteredFilePickerFragment fragment = new FilteredFilePickerFragment();
 		fragment.setArgs(startPath, mode, allowMultiple, allowCreateDir, allowExistingFile, singleClick);
 		return fragment;

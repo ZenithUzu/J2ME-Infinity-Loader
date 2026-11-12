@@ -50,6 +50,13 @@
         <item name="nnf_separator_color">?attr/colorOutlineVariant</item>
         <item name="nnf_save_icon_color">?attr/colorPrimary</item>
         <item name="nnf_dir_icon_color">?attr/colorPrimary</item>
+        <!-- floating sheet over the games (size and place set in FilteredFilePickerActivity) -->
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowBackground">@drawable/bg_picker_sheet</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:backgroundDimAmount">0.3</item>
+        <item name="android:windowCloseOnTouchOutside">true</item>
+        <item name="android:windowAnimationStyle">@style/Animation.Design.BottomSheetDialog</item>
     </style>
 
     <style name="FilePickerAlertDialogTheme" parent="Theme.AppCompat.DayNight.Dialog.Alert">
