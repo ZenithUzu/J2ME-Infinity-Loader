@@ -1314,6 +1314,15 @@ public class MicroActivity extends AppCompatActivity {
 		host.addView(bar, lp);
 	}
 
+	/** Filled button in the secondary container color (Material 3 "tonal"). */
+	private com.google.android.material.button.MaterialButton tonalButton() {
+		com.google.android.material.button.MaterialButton b = new com.google.android.material.button.MaterialButton(this);
+		b.setBackgroundTintList(android.content.res.ColorStateList.valueOf(
+				themeColor(com.google.android.material.R.attr.colorSecondaryContainer)));
+		b.setTextColor(themeColor(com.google.android.material.R.attr.colorOnSecondaryContainer));
+		return b;
+	}
+
 	private com.google.android.material.button.MaterialButton editorButton(LinearLayout bar, String text,
 																			  float dp, Runnable action) {
 		com.google.android.material.button.MaterialButton b = tonalButton();
