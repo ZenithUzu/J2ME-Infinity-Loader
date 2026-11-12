@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- A game in the Recent / Favorites rows: a 3:4 tile with the icon, and the name below. -->
+<!-- A game in the Recent / Favorites rows: a square tile with the icon (like the grid), and the name below. -->
 <ru.playsoftware.j2meloader.applist.AppItemLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="104dp"
+    android:layout_width="96dp"
     android:layout_height="wrap_content"
     android:background="?attr/selectableItemBackgroundBorderless"
     android:focusable="true"
@@ -11,16 +11,16 @@
 
     <com.google.android.material.card.MaterialCardView
         style="@style/Widget.Material3.CardView.Filled"
-        android:layout_width="96dp"
-        android:layout_height="128dp"
+        android:layout_width="88dp"
+        android:layout_height="88dp"
         android:clickable="false"
         app:cardBackgroundColor="?attr/colorSecondaryContainer"
         app:cardCornerRadius="16dp">
 
         <ImageView
             android:id="@+id/cover_icon"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:layout_gravity="center"
             android:importantForAccessibility="no"
             android:scaleType="fitCenter" />
@@ -28,7 +28,7 @@
 
     <TextView
         android:id="@+id/cover_title"
-        android:layout_width="96dp"
+        android:layout_width="88dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="6dp"
         android:ellipsize="end"
