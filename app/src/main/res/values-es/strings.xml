@@ -375,4 +375,5 @@
     <string name="quick_resolution_restart">Los juegos leen el tamaño de pantalla al iniciar, así que la nueva resolución se usa al reiniciar el juego.</string>
     <string name="quick_restart_now">Reiniciar ahora</string>
     <string name="quick_restart_later">Después</string>
+    <string name="memory_snapshot">Se recordaron todos los valores. Ahora cámbialo en el juego (pierde una vida, gana monedas…) y toca Subió, Bajó, Cambió o Igual hasta que queden pocos resultados.</string>
 </resources>

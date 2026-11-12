@@ -342,4 +342,5 @@
     <string name="quick_resolution_restart">Игрите четат размера на екрана при стартиране, затова новата резолюция важи след рестарт на играта.</string>
     <string name="quick_restart_now">Рестартирай</string>
     <string name="quick_restart_later">По-късно</string>
+    <string name="memory_snapshot">Всички стойности са запомнени. Сега я промени в играта (загуби живот, събери монети…) и натискай Нарасна, Намаля, Промени се или Същото, докато останат малко резултати.</string>
 </resources>

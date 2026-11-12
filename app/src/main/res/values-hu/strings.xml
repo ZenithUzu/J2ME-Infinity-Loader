@@ -318,4 +318,5 @@
     <string name="quick_resolution_restart">A játékok induláskor olvassák be a képernyő méretét, ezért az új felbontás a játék újraindítása után érvényes.</string>
     <string name="quick_restart_now">Újraindítás most</string>
     <string name="quick_restart_later">Később</string>
+    <string name="memory_snapshot">Minden értéket megjegyzett. Most változtasd meg a játékban (veszíts életet, gyűjts érmét…), és koppints a Nőtt, Csökkent, Változott vagy Ugyanaz gombra, amíg kevés találat marad.</string>
 </resources>

@@ -359,4 +359,5 @@
     <string name="quick_resolution_restart">Spiele lesen die Bildschirmgröße beim Start, daher gilt die neue Auflösung nach einem Neustart des Spiels.</string>
     <string name="quick_restart_now">Jetzt neu starten</string>
     <string name="quick_restart_later">Später</string>
+    <string name="memory_snapshot">Alle Werte wurden gemerkt. Ändere ihn jetzt im Spiel (Leben verlieren, Münzen sammeln…) und tippe Gestiegen, Gesunken, Geändert oder Gleich, bis nur wenige Ergebnisse übrig sind.</string>
 </resources>

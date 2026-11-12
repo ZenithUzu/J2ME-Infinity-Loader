@@ -309,4 +309,5 @@
     <string name="quick_resolution_restart">ゲームは起動時に画面サイズを読み込むため、新しい解像度はゲームを再起動すると使われます。</string>
     <string name="quick_restart_now">今すぐ再起動</string>
     <string name="quick_restart_later">あとで</string>
+    <string name="memory_snapshot">すべての値を記録しました。ゲーム内で値を変えて（ライフを減らす、コインを集める…）、結果が少なくなるまで「増えた」「減った」「変わった」「同じ」をタップします。</string>
 </resources>

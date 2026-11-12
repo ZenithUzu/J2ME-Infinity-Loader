@@ -261,4 +261,5 @@
     <string name="quick_resolution_restart">เกมอ่านขนาดหน้าจอตอนเริ่ม ความละเอียดใหม่จึงใช้หลังจากเริ่มเกมใหม่</string>
     <string name="quick_restart_now">เริ่มใหม่ตอนนี้</string>
     <string name="quick_restart_later">ภายหลัง</string>
+    <string name="memory_snapshot">จำค่าทั้งหมดแล้ว ตอนนี้ทำให้ค่าเปลี่ยนในเกม (เสียชีวิต เก็บเหรียญ…) แล้วแตะ เพิ่มขึ้น ลดลง เปลี่ยน หรือ เท่าเดิม จนเหลือผลลัพธ์น้อย</string>
 </resources>

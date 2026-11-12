@@ -375,4 +375,5 @@
     <string name="quick_resolution_restart">Game membaca ukuran layar saat dimulai, jadi resolusi baru berlaku setelah game dimulai ulang.</string>
     <string name="quick_restart_now">Mulai ulang sekarang</string>
     <string name="quick_restart_later">Nanti</string>
+    <string name="memory_snapshot">Semua nilai sudah diingat. Sekarang ubah di game (kehilangan nyawa, kumpulkan koin…) lalu ketuk Naik, Turun, Berubah atau Sama sampai hasilnya tinggal sedikit.</string>
 </resources>

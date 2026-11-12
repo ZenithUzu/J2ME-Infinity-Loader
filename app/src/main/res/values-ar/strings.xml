@@ -375,4 +375,5 @@
     <string name="quick_resolution_restart">تقرأ الألعاب حجم الشاشة عند بدئها، لذا تُطبَّق الدقة الجديدة بعد إعادة تشغيل اللعبة.</string>
     <string name="quick_restart_now">إعادة التشغيل الآن</string>
     <string name="quick_restart_later">لاحقًا</string>
+    <string name="memory_snapshot">تم حفظ كل القيم. غيّرها الآن في اللعبة (اخسر حياة، اجمع عملات…) ثم اضغط زادت أو نقصت أو تغيّرت أو كما هي حتى تبقى نتائج قليلة.</string>
 </resources>

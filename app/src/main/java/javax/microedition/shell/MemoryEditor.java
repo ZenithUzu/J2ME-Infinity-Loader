@@ -20,9 +20,7 @@ import android.app.Activity;
 import android.text.InputType;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -199,57 +197,72 @@ final class MemoryEditor {
 		freezer.start();
 	}
 
+	/** What the list shows: the frozen numbers first, then the results (if few enough). */
+	private static List<Slot> shown() {
+		List<Slot> out;
+		synchronized (frozen) {
+			out = new ArrayList<>(frozen);
+		}
+		if (results != null && results.size() <= SHOWN) {
+			for (Slot s : results) if (!s.frozen) out.add(s);
+		}
+		return out;
+	}
+
 	static void show(Activity activity) {
 		MIDlet midlet = MidletThread.getMidlet();
 		if (midlet == null) return;
-		float dp = activity.getResources().getDisplayMetrics().density;
-		LinearLayout root = new LinearLayout(activity);
-		root.setOrientation(LinearLayout.VERTICAL);
-		int pad = (int) (16 * dp);
-		root.setPadding(pad, pad / 2, pad, 0);
-		EditText value = new EditText(activity);
-		value.setHint(R.string.memory_value);
-		value.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED);
-		root.addView(value);
-		TextView status = new TextView(activity);
-		root.addView(status);
-		LinearLayout row1 = new LinearLayout(activity), row2 = new LinearLayout(activity);
-		root.addView(row1);
-		root.addView(row2);
-		ListView list = new ListView(activity);
-		root.addView(list, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) (260 * dp)));
-		ArrayAdapter<String> adapter = new ArrayAdapter<>(activity, android.R.layout.simple_list_item_1);
+		android.view.View root = activity.getLayoutInflater().inflate(R.layout.memory_editor, null);
+		EditText value = root.findViewById(R.id.memory_value);
+		TextView status = root.findViewById(R.id.memory_status);
+		ListView list = root.findViewById(R.id.memory_list);
+		com.google.android.material.chip.ChipGroup compareRow = root.findViewById(R.id.memory_compare);
+		List<Slot> rows = new ArrayList<>();
+		ArrayAdapter<Slot> adapter = new ArrayAdapter<Slot>(activity, R.layout.item_memory_slot, rows) {
+			@Override
+			public android.view.View getView(int pos, android.view.View v, ViewGroup parent) {
+				if (v == null) v = activity.getLayoutInflater().inflate(R.layout.item_memory_slot, parent, false);
+				Slot s = rows.get(pos);
+				((TextView) v.findViewById(R.id.slot_name)).setText(s.name());
+				String n;
+				try {
+					n = String.valueOf(s.read());
+				} catch (Throwable e) {
+					n = "?";
+				}
+				((TextView) v.findViewById(R.id.slot_value)).setText(n);
+				v.findViewById(R.id.slot_frozen).setVisibility(s.frozen ? android.view.View.VISIBLE : android.view.View.GONE);
+				return v;
+			}
+		};
 		list.setAdapter(adapter);
 
 		Runnable refresh = () -> {
-			adapter.clear();
+			rows.clear();
+			rows.addAll(shown());
+			adapter.notifyDataSetChanged();
 			if (results == null) {
 				status.setText(R.string.memory_hint);
-				return;
-			}
-			status.setText(activity.getString(R.string.memory_count, results.size()));
-			if (results.size() > SHOWN) return;
-			for (Slot s : results) {
-				String v;
-				try {
-					v = String.valueOf(s.read());
-				} catch (Throwable e) {
-					v = "?";
-				}
-				adapter.add(s.name() + " = " + v + (s.frozen ? "  ❄" : ""));
+			} else {
+				status.setText(activity.getString(R.string.memory_count, results.size()));
 			}
 		};
 		// runs a search away from the screen thread, then shows the results
 		Search run = test -> {
 			status.setText(R.string.memory_searching);
+			boolean first = results == null && test == SNAPSHOT;
 			new Thread(() -> {
 				search(midlet, test);
-				activity.runOnUiThread(refresh);
+				activity.runOnUiThread(() -> {
+					refresh.run();
+					// unknown value: everything was remembered, now compare as the game changes it
+					if (first) status.setText(R.string.memory_snapshot);
+				});
 			}, "MemorySearch").start();
 		};
 		// changed / unchanged / up / down: the first time, remember every value
 		Search compare = test -> run.run(results == null ? SNAPSHOT : test);
-		addButton(activity, row1, R.string.memory_find, v -> {
+		Runnable find = () -> {
 			long n;
 			try {
 				n = Long.parseLong(value.getText().toString().trim());
@@ -257,30 +270,46 @@ final class MemoryEditor {
 				return;
 			}
 			run.run((now, before) -> now == n);
+		};
+		root.findViewById(R.id.memory_find).setOnClickListener(v -> find.run());
+		value.setOnEditorActionListener((v, id, e) -> {
+			find.run();
+			return true;
 		});
-		addButton(activity, row1, R.string.memory_changed, v -> compare.run((now, before) -> now != before));
-		addButton(activity, row1, R.string.memory_unchanged, v -> compare.run((now, before) -> now == before));
-		addButton(activity, row2, R.string.memory_increased, v -> compare.run((now, before) -> now > before));
-		addButton(activity, row2, R.string.memory_decreased, v -> compare.run((now, before) -> now < before));
-		addButton(activity, row2, R.string.memory_new, v -> {
+		addChip(activity, compareRow, R.string.memory_changed, v -> compare.run((now, before) -> now != before));
+		addChip(activity, compareRow, R.string.memory_unchanged, v -> compare.run((now, before) -> now == before));
+		addChip(activity, compareRow, R.string.memory_increased, v -> compare.run((now, before) -> now > before));
+		addChip(activity, compareRow, R.string.memory_decreased, v -> compare.run((now, before) -> now < before));
+		addChip(activity, compareRow, R.string.memory_new, v -> {
 			results = null;
 			refresh.run();
 		});
-		list.setOnItemClickListener((p, v, pos, id) -> editSlot(activity, results.get(pos), refresh));
+		list.setOnItemClickListener((p, v, pos, id) -> editSlot(activity, rows.get(pos), refresh));
 		refresh.run();
-		new AlertDialog.Builder(activity)
+		// the values in the list follow the game live while the editor is open
+		android.os.Handler ticker = new android.os.Handler(android.os.Looper.getMainLooper());
+		Runnable tick = new Runnable() {
+			@Override
+			public void run() {
+				adapter.notifyDataSetChanged();
+				ticker.postDelayed(this, 500);
+			}
+		};
+		ticker.postDelayed(tick, 500);
+		new com.google.android.material.dialog.MaterialAlertDialogBuilder(activity)
 				.setTitle(R.string.memory_editor)
 				.setView(root)
-				.setPositiveButton(android.R.string.ok, null)
+				.setPositiveButton(R.string.quick_done, null)
+				.setOnDismissListener(d -> ticker.removeCallbacks(tick))
 				.show();
 	}
 
-	private static void addButton(Activity a, LinearLayout row, int text, android.view.View.OnClickListener l) {
-		Button b = new Button(a);
-		b.setText(text);
-		b.setAllCaps(false);
-		b.setOnClickListener(l);
-		row.addView(b, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
+	private static void addChip(Activity a, com.google.android.material.chip.ChipGroup row, int text,
+								android.view.View.OnClickListener l) {
+		com.google.android.material.chip.Chip c = new com.google.android.material.chip.Chip(a);
+		c.setText(text);
+		c.setOnClickListener(l);
+		row.addView(c);
 	}
 
 	private static void editSlot(Activity activity, Slot s, Runnable refresh) {

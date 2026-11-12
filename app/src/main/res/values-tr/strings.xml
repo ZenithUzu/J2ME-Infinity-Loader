@@ -373,4 +373,5 @@
     <string name="quick_resolution_restart">Oyunlar ekran boyutunu açılışta okur; yeni çözünürlük oyun yeniden başlatılınca geçerli olur.</string>
     <string name="quick_restart_now">Şimdi yeniden başlat</string>
     <string name="quick_restart_later">Sonra</string>
+    <string name="memory_snapshot">Tüm değerler hatırlandı. Şimdi oyunda değiştir (can kaybet, para topla…) ve az sonuç kalana kadar Arttı, Azaldı, Değişti veya Aynı\'ya dokun.</string>
 </resources>

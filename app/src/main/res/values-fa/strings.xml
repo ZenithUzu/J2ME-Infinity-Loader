@@ -294,4 +294,5 @@
     <string name="quick_resolution_restart">بازی‌ها اندازه صفحه را هنگام شروع می‌خوانند، پس وضوح جدید پس از راه‌اندازی دوباره بازی اعمال می‌شود.</string>
     <string name="quick_restart_now">راه‌اندازی دوباره</string>
     <string name="quick_restart_later">بعداً</string>
+    <string name="memory_snapshot">همه مقدارها به خاطر سپرده شد. حالا آن را در بازی تغییر دهید (یک جان از دست بدهید، سکه جمع کنید…) و تا وقتی نتایج کم شوند، بیشتر شد، کمتر شد، تغییر کرد یا همان را بزنید.</string>
 </resources>

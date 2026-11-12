@@ -280,4 +280,5 @@
     <string name="quick_resolution_restart">遊戲在啟動時讀取螢幕尺寸，所以新解析度會在重新啟動遊戲後生效。</string>
     <string name="quick_restart_now">立即重新啟動</string>
     <string name="quick_restart_later">稍後</string>
+    <string name="memory_snapshot">已記住所有數值。現在在遊戲裡改變它（失去一條命、拿金幣…），然後點「增加」「減少」「改變」或「不變」，直到結果很少。</string>
 </resources>

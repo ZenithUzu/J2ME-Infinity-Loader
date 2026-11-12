@@ -367,4 +367,5 @@
     <string name="quick_resolution_restart">Trò chơi đọc kích thước màn hình khi khởi động, nên độ phân giải mới có hiệu lực sau khi khởi động lại trò chơi.</string>
     <string name="quick_restart_now">Khởi động lại ngay</string>
     <string name="quick_restart_later">Để sau</string>
+    <string name="memory_snapshot">Đã ghi nhớ mọi giá trị. Giờ hãy thay đổi nó trong trò chơi (mất một mạng, nhặt xu…) rồi chạm Tăng, Giảm, Đã đổi hoặc Không đổi cho đến khi còn ít kết quả.</string>
 </resources>

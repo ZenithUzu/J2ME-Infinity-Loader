@@ -327,4 +327,5 @@
     <string name="quick_resolution_restart">게임은 시작할 때 화면 크기를 읽으므로 새 해상도는 게임을 다시 시작하면 적용됩니다.</string>
     <string name="quick_restart_now">지금 다시 시작</string>
     <string name="quick_restart_later">나중에</string>
+    <string name="memory_snapshot">모든 값을 기억했습니다. 이제 게임에서 값을 바꾸고(목숨 잃기, 코인 모으기…) 결과가 적게 남을 때까지 증가, 감소, 변경됨, 같음을 누르세요.</string>
 </resources>

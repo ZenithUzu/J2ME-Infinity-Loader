@@ -279,4 +279,5 @@
     <string name="quick_resolution_restart">Jocurile citesc mărimea ecranului la pornire, așa că noua rezoluție se aplică după repornirea jocului.</string>
     <string name="quick_restart_now">Repornește acum</string>
     <string name="quick_restart_later">Mai târziu</string>
+    <string name="memory_snapshot">Toate valorile au fost reținute. Acum schimb-o în joc (pierde o viață, adună monede…) și apasă A crescut, A scăzut, S-a schimbat sau La fel până rămân puține rezultate.</string>
 </resources>

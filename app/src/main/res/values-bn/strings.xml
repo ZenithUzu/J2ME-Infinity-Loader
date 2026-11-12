@@ -278,4 +278,5 @@
     <string name="quick_resolution_restart">গেম চালু হওয়ার সময় স্ক্রিনের আকার পড়ে, তাই নতুন রেজোলিউশন গেম আবার চালু করলে কাজ করবে।</string>
     <string name="quick_restart_now">এখনই আবার চালু করুন</string>
     <string name="quick_restart_later">পরে</string>
+    <string name="memory_snapshot">সব মান মনে রাখা হয়েছে। এখন গেমে এটি বদলান (একটি জীবন হারান, কয়েন জমান…) আর অল্প ফল না থাকা পর্যন্ত বেড়েছে, কমেছে, বদলেছে বা একই চাপুন।</string>
 </resources>

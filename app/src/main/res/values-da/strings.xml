@@ -249,4 +249,5 @@
     <string name="quick_resolution_restart">Spil læser skærmstørrelsen ved start, så den nye opløsning bruges, når spillet genstartes.</string>
     <string name="quick_restart_now">Genstart nu</string>
     <string name="quick_restart_later">Senere</string>
+    <string name="memory_snapshot">Alle værdier er husket. Ændr den nu i spillet (mist et liv, tjen mønter…) og tryk Steg, Faldt, Ændret eller Uændret, indtil der er få resultater tilbage.</string>
 </resources>

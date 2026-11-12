@@ -375,4 +375,5 @@
     <string name="quick_resolution_restart">游戏在启动时读取屏幕尺寸，所以新分辨率会在重新启动游戏后生效。</string>
     <string name="quick_restart_now">立即重启</string>
     <string name="quick_restart_later">稍后</string>
+    <string name="memory_snapshot">已记住所有数值。现在在游戏里改变它（掉一条命、拿金币…），然后点“增加”“减少”“变化”或“不变”，直到结果很少。</string>
 </resources>

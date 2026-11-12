@@ -375,4 +375,5 @@
     <string name="quick_resolution_restart">Os jogos leem o tamanho da tela ao iniciar, então a nova resolução vale depois de reiniciar o jogo.</string>
     <string name="quick_restart_now">Reiniciar agora</string>
     <string name="quick_restart_later">Depois</string>
+    <string name="memory_snapshot">Todos os valores foram guardados. Agora mude-o no jogo (perca uma vida, ganhe moedas…) e toque em Subiu, Desceu, Mudou ou Igual até sobrarem poucos resultados.</string>
 </resources>

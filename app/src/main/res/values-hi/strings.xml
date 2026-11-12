@@ -375,4 +375,5 @@
     <string name="quick_resolution_restart">गेम शुरू होते समय स्क्रीन का आकार पढ़ते हैं, इसलिए नया रिज़ॉल्यूशन गेम दोबारा शुरू करने पर लागू होगा।</string>
     <string name="quick_restart_now">अभी दोबारा शुरू करें</string>
     <string name="quick_restart_later">बाद में</string>
+    <string name="memory_snapshot">सारे मान याद कर लिए गए। अब गेम में इसे बदलें (एक जान खोएँ, सिक्के कमाएँ…) और जब तक कुछ ही नतीजे बचें, बढ़ा, घटा, बदला या वही दबाएँ।</string>
 </resources>

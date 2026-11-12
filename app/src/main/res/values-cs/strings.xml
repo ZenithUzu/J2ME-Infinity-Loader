@@ -375,4 +375,5 @@
     <string name="quick_resolution_restart">Hry čtou velikost obrazovky při spuštění, nové rozlišení se proto použije po restartu hry.</string>
     <string name="quick_restart_now">Restartovat</string>
     <string name="quick_restart_later">Později</string>
+    <string name="memory_snapshot">Všechny hodnoty jsou zapamatované. Teď ji ve hře změň (ztrať život, seber mince…) a klepej Vzrostlo, Kleslo, Změnilo se nebo Stejné, dokud nezbude málo výsledků.</string>
 </resources>
