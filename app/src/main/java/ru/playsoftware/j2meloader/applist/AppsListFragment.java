@@ -74,7 +74,6 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.GridLayoutManager;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -86,14 +85,9 @@ import ru.playsoftware.j2meloader.R;
 import ru.playsoftware.j2meloader.appsdb.AppRepository;
 import ru.playsoftware.j2meloader.config.Config;
 import ru.playsoftware.j2meloader.config.ConfigActivity;
-import ru.playsoftware.j2meloader.config.ProfilesActivity;
 import ru.playsoftware.j2meloader.databinding.FragmentAppsListBinding;
-import ru.playsoftware.j2meloader.info.AboutDialogFragment;
-import ru.playsoftware.j2meloader.info.HelpDialogFragment;
-import ru.playsoftware.j2meloader.settings.SettingsActivity;
 import ru.playsoftware.j2meloader.util.AppUtils;
 import ru.playsoftware.j2meloader.util.FileUtils;
-import ru.playsoftware.j2meloader.util.LogUtils;
 import ru.woesss.j2me.installer.BatchInstallerDialog;
 import ru.woesss.j2me.installer.InstallerDialog;
 
@@ -102,6 +96,10 @@ public class AppsListFragment extends Fragment implements MenuProvider {
 
 	private final ActivityResultLauncher<String> openFileLauncher = registerForActivityResult(
 			FileUtils.getFilePicker(),
+			this::onPickFileResult);
+	/** Android 11+ without "all files access": the system picker (several files at once) */
+	private final ActivityResultLauncher<String> systemPickerLauncher = registerForActivityResult(
+			new ru.playsoftware.j2meloader.util.SAFFileResultContract(),
 			this::onPickFileResult);
 	/** install every game in a folder (and its subfolders), like JL-Mod Plus */
 	private final ActivityResultLauncher<Uri> openFolderLauncher = registerForActivityResult(
@@ -197,6 +195,10 @@ public class AppsListFragment extends Fragment implements MenuProvider {
 		binding.list.setAdapter(new androidx.recyclerview.widget.ConcatAdapter(header, adapter));
 		if (savedInstanceState == null) checkForUpdatesOnStart();
 		binding.floatingActionButton.setOnClickListener(v -> {
+			if (!FileUtils.canBrowseFiles()) {
+				askFilesAccess();
+				return;
+			}
 			String path = preferences.getString(PREF_LAST_PATH, null);
 			if (path == null) {
 				File dir = Environment.getExternalStorageDirectory();
@@ -212,6 +214,44 @@ public class AppsListFragment extends Fragment implements MenuProvider {
 			}
 		});
 	}
+
+	/**
+	 * Android 11+: the games picker (folders with only .jar/.jad/.zip, several at once, like
+	 * JL-Mod) needs "all files access"; with it the data also moves to the public folder.
+	 * Or the system picker, where several files can be chosen too.
+	 */
+	private void askFilesAccess() {
+		new AlertDialog.Builder(requireContext())
+				.setTitle(R.string.picker_access_title)
+				.setMessage(getString(R.string.picker_access_message,
+						ru.playsoftware.j2meloader.util.StorageChoice.publicDir().getPath()))
+				.setPositiveButton(R.string.picker_access_allow,
+						(d, w) -> ru.playsoftware.j2meloader.util.StorageChoice.request(requireActivity()))
+				.setNegativeButton(R.string.picker_access_system, (d, w) -> {
+					try {
+						systemPickerLauncher.launch(null);
+					} catch (ActivityNotFoundException e) {
+						Toast.makeText(getContext(), R.string.error_no_picker, Toast.LENGTH_SHORT).show();
+					}
+				})
+				.show();
+	}
+
+	/** Actions moved from the old ⋮ menu to Settings, run here where their pickers live. */
+	public void runAction(String action) {
+		if (ACTION_IMPORT_GAME.equals(action)) {
+			importGameLauncher.launch(new String[]{"application/zip",
+					"application/x-zip-compressed", "application/octet-stream"});
+		} else if (ACTION_INSTALL_FOLDER.equals(action)) {
+			openFolderLauncher.launch(null);
+		} else if (ACTION_CHECK_UPDATES.equals(action)) {
+			checkForUpdates();
+		}
+	}
+
+	public static final String ACTION_IMPORT_GAME = "import_game";
+	public static final String ACTION_INSTALL_FOLDER = "install_folder";
+	public static final String ACTION_CHECK_UPDATES = "check_updates";
 
 	private void alertDbError(Throwable throwable) {
 		Activity activity = getActivity();
@@ -625,7 +665,8 @@ public class AppsListFragment extends Fragment implements MenuProvider {
 			return;
 		}
 		preferences.edit()
-				.putString(PREF_LAST_PATH, picked.get(0).getPath())
+				.putString(PREF_LAST_PATH, "file".equals(picked.get(0).getScheme())
+						? new File(picked.get(0).getPath()).getParent() : picked.get(0).getPath())
 				.apply();
 		android.content.Context context = requireContext().getApplicationContext();
 		new Thread(() -> {
@@ -812,39 +853,8 @@ public class AppsListFragment extends Fragment implements MenuProvider {
 	@SuppressLint("NotifyDataSetChanged")
 	@Override
 	public boolean onMenuItemSelected(MenuItem item) {
-		FragmentActivity activity = requireActivity();
 		int itemId = item.getItemId();
-		if (itemId == R.id.action_import_game) {
-			importGameLauncher.launch(new String[]{"application/zip",
-					"application/x-zip-compressed", "application/octet-stream"});
-		} else if (itemId == R.id.action_check_updates) {
-			checkForUpdates();
-		} else if (itemId == R.id.action_collections) {
-			showCollectionsDialog();
-		} else if (itemId == R.id.action_install_folder) {
-			openFolderLauncher.launch(null);
-		} else if (itemId == R.id.action_about) {
-			AboutDialogFragment aboutDialogFragment = new AboutDialogFragment();
-			aboutDialogFragment.show(getChildFragmentManager(), "about");
-		} else if (itemId == R.id.action_profiles) {
-			Intent intentProfiles = new Intent(activity, ProfilesActivity.class);
-			startActivity(intentProfiles);
-		} else if (item.getItemId() == R.id.action_settings) {
-			startActivity(new Intent(activity, SettingsActivity.class));
-		} else if (itemId == R.id.action_help) {
-			HelpDialogFragment helpDialogFragment = new HelpDialogFragment();
-			helpDialogFragment.show(getChildFragmentManager(), "help");
-		} else if (itemId == R.id.action_save_log) {
-			try {
-				LogUtils.writeLog();
-				Toast.makeText(activity, R.string.log_saved, Toast.LENGTH_SHORT).show();
-			} catch (IOException e) {
-				e.printStackTrace();
-				Toast.makeText(activity, R.string.error, Toast.LENGTH_SHORT).show();
-			}
-		} else if (itemId == R.id.action_exit_app) {
-			activity.finish();
-		} else if (itemId == R.id.action_sort) {
+		if (itemId == R.id.action_sort) {
 			showSortDialog();
 		} else if (itemId == R.id.action_view) {
 			int viewType = adapter.getItemViewType(0);

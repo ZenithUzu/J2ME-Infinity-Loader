@@ -245,4 +245,16 @@
     <string name="quick_group_speed">ความเร็ว</string>
     <string name="quick_group_tools">เครื่องมือ</string>
     <string name="quick_other">อื่นๆ…</string>
+    <string name="pref_category_appearance">รูปลักษณ์</string>
+    <string name="pref_category_game">ขณะเล่น</string>
+    <string name="pref_category_controls">การควบคุม</string>
+    <string name="pref_category_files">ไฟล์และข้อมูล</string>
+    <string name="pref_category_app">แอป</string>
+    <string name="picker_access_title">เกมของคุณ</string>
+    <string name="picker_access_message">เพื่อแสดงโฟลเดอร์ที่มีแต่เกม (.jar, .jad, .zip) และเลือกหลายเกมพร้อมกันแบบ JL-Mod แอปต้องได้สิทธิ์เข้าถึงไฟล์ทั้งหมด เกมและเซฟจะย้ายไปที่ %s ซึ่งยังอยู่แม้ถอนการติดตั้งแอป</string>
+    <string name="picker_access_allow">อนุญาต</string>
+    <string name="picker_access_system">ใช้ตัวเลือกของระบบ</string>
+    <string name="pref_black_background_title">พื้นหลังสีดำ</string>
+    <string name="pref_black_background_summary">สำหรับธีมมืด</string>
+    <string name="pref_add_cutout_area_title">ใช้พื้นที่รอยบาก</string>
 </resources>

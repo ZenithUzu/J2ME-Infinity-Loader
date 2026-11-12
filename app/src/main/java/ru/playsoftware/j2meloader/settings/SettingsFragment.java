@@ -153,6 +153,61 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 				.show();
 	}
 
+	/** Minimal look: every icon in the same neutral color instead of its own colors. */
+	private static void tintIcons(androidx.preference.PreferenceGroup group, int color) {
+		for (int i = 0; i < group.getPreferenceCount(); i++) {
+			Preference p = group.getPreference(i);
+			android.graphics.drawable.Drawable icon = p.getIcon();
+			if (icon != null) {
+				icon = icon.mutate();
+				icon.setTint(color);
+				p.setIcon(icon);
+			}
+			if (p instanceof androidx.preference.PreferenceGroup) {
+				tintIcons((androidx.preference.PreferenceGroup) p, color);
+			}
+		}
+	}
+
+	/** What was in the ⋮ menu of the library (Collections has its own tab). */
+	private void initAppActions() {
+		onClick("pref_import_game", () -> runInLibrary(
+				ru.playsoftware.j2meloader.applist.AppsListFragment.ACTION_IMPORT_GAME));
+		onClick("pref_install_folder", () -> runInLibrary(
+				ru.playsoftware.j2meloader.applist.AppsListFragment.ACTION_INSTALL_FOLDER));
+		onClick("pref_check_updates_now", () -> runInLibrary(
+				ru.playsoftware.j2meloader.applist.AppsListFragment.ACTION_CHECK_UPDATES));
+		onClick("pref_help", () -> new ru.playsoftware.j2meloader.info.HelpDialogFragment()
+				.show(getChildFragmentManager(), "help"));
+		onClick("pref_about", () -> new ru.playsoftware.j2meloader.info.AboutDialogFragment()
+				.show(getChildFragmentManager(), "about"));
+		onClick("pref_save_log", () -> {
+			try {
+				ru.playsoftware.j2meloader.util.LogUtils.writeLog();
+				android.widget.Toast.makeText(requireContext(), R.string.log_saved, android.widget.Toast.LENGTH_SHORT).show();
+			} catch (java.io.IOException e) {
+				Log.e(TAG, "save log: ", e);
+				android.widget.Toast.makeText(requireContext(), R.string.error, android.widget.Toast.LENGTH_SHORT).show();
+			}
+		});
+		onClick("pref_exit", () -> requireActivity().finishAffinity());
+	}
+
+	private void onClick(String key, Runnable action) {
+		Preference p = findPreference(key);
+		if (p != null) p.setOnPreferenceClickListener(x -> {
+			action.run();
+			return true;
+		});
+	}
+
+	/** Back to the games screen, which runs the action (its pickers and dialogs live there). */
+	private void runInLibrary(String action) {
+		startActivity(new Intent(requireContext(), ru.playsoftware.j2meloader.MainActivity.class)
+				.putExtra(ru.playsoftware.j2meloader.MainActivity.EXTRA_RUN, action));
+		requireActivity().finish();
+	}
+
 	@Override
 	public void onCreatePreferences(Bundle bundle, String s) {
 		addPreferencesFromResource(R.xml.preferences);
@@ -172,6 +227,9 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 			return true;
 		});
 		initLanguages();
+		initAppActions();
+		tintIcons(getPreferenceScreen(), com.google.android.material.color.MaterialColors.getColor(
+				requireContext(), com.google.android.material.R.attr.colorOnSurfaceVariant, 0xFF606060));
 		findPreference("pref_default_settings").setIntent(new Intent(requireActivity(), ProfilesActivity.class));
 		findPreference("pref_backup").setOnPreferenceClickListener(preference -> {
 			Intent intent = new Intent(requireActivity(), BackupActivity.class);

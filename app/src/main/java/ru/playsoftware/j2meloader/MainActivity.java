@@ -99,6 +99,9 @@ public class MainActivity extends BaseActivity {
 	}
 
 	/** Games stays here; Collections opens the collections dialog; Settings opens Settings. */
+	/** Settings asks the games screen to run one of these (AppsListFragment.ACTION_*) */
+	public static final String EXTRA_RUN = "run_action";
+
 	private void setupBottomNav() {
 		com.google.android.material.bottomnavigation.BottomNavigationView nav = findViewById(R.id.bottom_nav);
 		nav.setSelectedItemId(R.id.nav_games);
@@ -210,6 +213,13 @@ public class MainActivity extends BaseActivity {
 	@Override
 	protected void onNewIntent(Intent intent) {
 		super.onNewIntent(intent);
+		String action = intent.getStringExtra(EXTRA_RUN);
+		if (action != null) {
+			// an action of the old ⋮ menu, now in Settings, that needs the games screen
+			androidx.fragment.app.Fragment f = getSupportFragmentManager().findFragmentById(R.id.container);
+			if (f instanceof AppsListFragment) ((AppsListFragment) f).runAction(action);
+			return;
+		}
 		Uri uri = intent.getData();
 		if (uri != null) {
 			InstallerDialog.newInstance(uri).show(getSupportFragmentManager(), "installer");

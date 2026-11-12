@@ -311,4 +311,16 @@
     <string name="quick_group_speed">Snelheid</string>
     <string name="quick_group_tools">Hulpmiddelen</string>
     <string name="quick_other">Anders…</string>
+    <string name="pref_category_appearance">Uiterlijk</string>
+    <string name="pref_category_game">Tijdens het spelen</string>
+    <string name="pref_category_controls">Bediening</string>
+    <string name="pref_category_files">Bestanden en gegevens</string>
+    <string name="pref_category_app">App</string>
+    <string name="picker_access_title">Je games</string>
+    <string name="picker_access_message">Om mappen met alleen games (.jar, .jad, .zip) te tonen en er meerdere tegelijk te kiezen, zoals in JL-Mod, heeft de app toegang tot alle bestanden nodig. Je games en opslag verhuizen naar %s, dat blijft bestaan als je de app verwijdert.</string>
+    <string name="picker_access_allow">Toestaan</string>
+    <string name="picker_access_system">Systeemkiezer gebruiken</string>
+    <string name="pref_black_background_title">Zwarte achtergrond</string>
+    <string name="pref_black_background_summary">Voor het donkere thema</string>
+    <string name="pref_add_cutout_area_title">Uitsparing gebruiken</string>
 </resources>

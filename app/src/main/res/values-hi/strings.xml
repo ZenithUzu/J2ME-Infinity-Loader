@@ -359,4 +359,16 @@
     <string name="quick_group_speed">गति</string>
     <string name="quick_group_tools">टूल</string>
     <string name="quick_other">अन्य…</string>
+    <string name="pref_category_appearance">रूप</string>
+    <string name="pref_category_game">खेलते समय</string>
+    <string name="pref_category_controls">कंट्रोल</string>
+    <string name="pref_category_files">फ़ाइलें और डेटा</string>
+    <string name="pref_category_app">ऐप</string>
+    <string name="picker_access_title">आपके गेम</string>
+    <string name="picker_access_message">JL-Mod की तरह सिर्फ़ गेम (.jar, .jad, .zip) वाले फ़ोल्डर दिखाने और कई एक साथ चुनने के लिए ऐप को सभी फ़ाइलों की अनुमति चाहिए। आपके गेम और सेव %s में चले जाएँगे, जो ऐप हटाने पर भी रहेगा।</string>
+    <string name="picker_access_allow">अनुमति दें</string>
+    <string name="picker_access_system">सिस्टम पिकर इस्तेमाल करें</string>
+    <string name="pref_black_background_title">काला बैकग्राउंड</string>
+    <string name="pref_black_background_summary">डार्क थीम के लिए</string>
+    <string name="pref_add_cutout_area_title">कटआउट क्षेत्र इस्तेमाल करें</string>
 </resources>

@@ -231,4 +231,16 @@
     <string name="quick_group_speed">Nopeus</string>
     <string name="quick_group_tools">Työkalut</string>
     <string name="quick_other">Muu…</string>
+    <string name="pref_category_appearance">Ulkoasu</string>
+    <string name="pref_category_game">Pelatessa</string>
+    <string name="pref_category_controls">Ohjaimet</string>
+    <string name="pref_category_files">Tiedostot ja tiedot</string>
+    <string name="pref_category_app">Sovellus</string>
+    <string name="picker_access_title">Pelisi</string>
+    <string name="picker_access_message">Jotta kansiot näytetään vain pelien kanssa (.jar, .jad, .zip) ja voit valita monta kerralla, kuten JL-Modissa, sovellus tarvitsee pääsyn kaikkiin tiedostoihin. Pelit ja tallennukset siirtyvät kansioon %s, joka säilyy, jos poistat sovelluksen.</string>
+    <string name="picker_access_allow">Salli</string>
+    <string name="picker_access_system">Käytä järjestelmän valitsinta</string>
+    <string name="pref_black_background_title">Musta tausta</string>
+    <string name="pref_black_background_summary">Tummaan teemaan</string>
+    <string name="pref_add_cutout_area_title">Käytä kameran loven aluetta</string>
 </resources>

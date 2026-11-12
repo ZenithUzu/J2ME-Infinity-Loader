@@ -359,4 +359,16 @@
     <string name="quick_group_speed">السرعة</string>
     <string name="quick_group_tools">الأدوات</string>
     <string name="quick_other">أخرى…</string>
+    <string name="pref_category_appearance">المظهر</string>
+    <string name="pref_category_game">أثناء اللعب</string>
+    <string name="pref_category_controls">التحكم</string>
+    <string name="pref_category_files">الملفات والبيانات</string>
+    <string name="pref_category_app">التطبيق</string>
+    <string name="picker_access_title">ألعابك</string>
+    <string name="picker_access_message">لعرض مجلداتك بالألعاب فقط (.jar و.jad و.zip) واختيار عدة ألعاب معًا كما في JL-Mod، يحتاج التطبيق إلى الوصول إلى كل الملفات. ستنتقل ألعابك وحفظاتك إلى %s، ويبقى إذا أزلت التطبيق.</string>
+    <string name="picker_access_allow">سماح</string>
+    <string name="picker_access_system">استخدام منتقي النظام</string>
+    <string name="pref_black_background_title">خلفية سوداء</string>
+    <string name="pref_black_background_summary">للمظهر الداكن</string>
+    <string name="pref_add_cutout_area_title">استخدام منطقة القطع</string>
 </resources>

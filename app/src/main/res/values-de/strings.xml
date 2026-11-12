@@ -343,4 +343,16 @@
     <string name="quick_group_speed">Tempo</string>
     <string name="quick_group_tools">Werkzeuge</string>
     <string name="quick_other">Andere…</string>
+    <string name="pref_category_appearance">Aussehen</string>
+    <string name="pref_category_game">Beim Spielen</string>
+    <string name="pref_category_controls">Steuerung</string>
+    <string name="pref_category_files">Dateien und Daten</string>
+    <string name="pref_category_app">App</string>
+    <string name="picker_access_title">Deine Spiele</string>
+    <string name="picker_access_message">Um Ordner nur mit Spielen (.jar, .jad, .zip) zu zeigen und mehrere auf einmal zu wählen, wie in JL-Mod, braucht die App Zugriff auf alle Dateien. Spiele und Spielstände ziehen nach %s um, das beim Deinstallieren erhalten bleibt.</string>
+    <string name="picker_access_allow">Erlauben</string>
+    <string name="picker_access_system">System-Auswahl nutzen</string>
+    <string name="pref_black_background_title">Schwarzer Hintergrund</string>
+    <string name="pref_black_background_summary">Für das dunkle Design</string>
+    <string name="pref_add_cutout_area_title">Kamera-Aussparung nutzen</string>
 </resources>

@@ -96,6 +96,41 @@ public class FilteredFilePickerFragment extends FilePickerFragment {
 		return ext != null && extList.contains(ext);
 	}
 
+	/**
+	 * Android 11+: with "all files access" the folders can be read without the old storage
+	 * permission (which those versions never give, the picker said "permission denied").
+	 */
+	@Override
+	protected boolean hasPermission(@NonNull File path) {
+		return ru.playsoftware.j2meloader.util.FileUtils.hasAllFilesAccess() || super.hasPermission(path);
+	}
+
+	private static final int MENU_SELECT_ALL = 0x5A11;
+
+	/** "Select all": every game in this folder, to install them all at once. */
+	@Override
+	public void onCreateOptionsMenu(@NonNull android.view.Menu menu, @NonNull android.view.MenuInflater inflater) {
+		super.onCreateOptionsMenu(menu, inflater);
+		if (allowMultiple) {
+			menu.add(0, MENU_SELECT_ALL, 0, android.R.string.selectAll)
+					.setIcon(R.drawable.ic_select_all)
+					.setShowAsAction(android.view.MenuItem.SHOW_AS_ACTION_ALWAYS);
+		}
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(@NonNull android.view.MenuItem item) {
+		if (item.getItemId() != MENU_SELECT_ALL) return super.onOptionsItemSelected(item);
+		if (mFiles != null) {
+			for (int i = 0; i < mFiles.size(); i++) {
+				File f = mFiles.get(i);
+				if (!isDir(f)) mCheckedItems.add(f);
+			}
+			if (mAdapter != null) mAdapter.notifyDataSetChanged();
+		}
+		return true;
+	}
+
 	@Override
 	public void goToDir(@NonNull File file) {
 		history.add(mCurrentPath);

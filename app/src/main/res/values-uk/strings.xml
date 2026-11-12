@@ -359,4 +359,16 @@
     <string name="quick_group_speed">Швидкість</string>
     <string name="quick_group_tools">Інструменти</string>
     <string name="quick_other">Інше…</string>
+    <string name="pref_category_appearance">Вигляд</string>
+    <string name="pref_category_game">Під час гри</string>
+    <string name="pref_category_controls">Керування</string>
+    <string name="pref_category_files">Файли й дані</string>
+    <string name="pref_category_app">Застосунок</string>
+    <string name="picker_access_title">Ваші ігри</string>
+    <string name="picker_access_message">Щоб показувати теки лише з іграми (.jar, .jad, .zip) і вибирати кілька одразу, як у JL-Mod, потрібен доступ до всіх файлів. Ігри та збереження переїдуть до %s — ця тека лишиться після видалення застосунку.</string>
+    <string name="picker_access_allow">Дозволити</string>
+    <string name="picker_access_system">Системний вибір файлів</string>
+    <string name="pref_black_background_title">Чорне тло</string>
+    <string name="pref_black_background_summary">Для темної теми</string>
+    <string name="pref_add_cutout_area_title">Використовувати область вирізу</string>
 </resources>

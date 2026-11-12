@@ -342,4 +342,16 @@
     <string name="quick_group_speed">Ταχύτητα</string>
     <string name="quick_group_tools">Εργαλεία</string>
     <string name="quick_other">Άλλο…</string>
+    <string name="pref_category_appearance">Εμφάνιση</string>
+    <string name="pref_category_game">Κατά το παιχνίδι</string>
+    <string name="pref_category_controls">Χειρισμοί</string>
+    <string name="pref_category_files">Αρχεία και δεδομένα</string>
+    <string name="pref_category_app">Εφαρμογή</string>
+    <string name="picker_access_title">Τα παιχνίδια σου</string>
+    <string name="picker_access_message">Για να εμφανίζονται φάκελοι μόνο με παιχνίδια (.jar, .jad, .zip) και να επιλέγεις πολλά μαζί, όπως στο JL-Mod, η εφαρμογή χρειάζεται πρόσβαση σε όλα τα αρχεία. Τα παιχνίδια και οι αποθηκεύσεις θα μεταφερθούν στο %s, που μένει αν απεγκαταστήσεις την εφαρμογή.</string>
+    <string name="picker_access_allow">Να επιτρέπεται</string>
+    <string name="picker_access_system">Επιλογέας συστήματος</string>
+    <string name="pref_black_background_title">Μαύρο φόντο</string>
+    <string name="pref_black_background_summary">Για το σκούρο θέμα</string>
+    <string name="pref_add_cutout_area_title">Χρήση περιοχής εγκοπής</string>
 </resources>

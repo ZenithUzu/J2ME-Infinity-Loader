@@ -311,4 +311,16 @@
     <string name="quick_group_speed">속도</string>
     <string name="quick_group_tools">도구</string>
     <string name="quick_other">기타…</string>
+    <string name="pref_category_appearance">모양</string>
+    <string name="pref_category_game">게임 중</string>
+    <string name="pref_category_controls">조작</string>
+    <string name="pref_category_files">파일 및 데이터</string>
+    <string name="pref_category_app">앱</string>
+    <string name="picker_access_title">내 게임</string>
+    <string name="picker_access_message">JL-Mod처럼 게임(.jar, .jad, .zip)만 있는 폴더를 보여 주고 여러 개를 한꺼번에 고르려면 모든 파일 접근 권한이 필요합니다. 게임과 저장 데이터는 %s(으)로 옮겨지며 앱을 삭제해도 남습니다.</string>
+    <string name="picker_access_allow">허용</string>
+    <string name="picker_access_system">시스템 선택기 사용</string>
+    <string name="pref_black_background_title">검은 배경</string>
+    <string name="pref_black_background_summary">어두운 테마용</string>
+    <string name="pref_add_cutout_area_title">컷아웃 영역 사용</string>
 </resources>

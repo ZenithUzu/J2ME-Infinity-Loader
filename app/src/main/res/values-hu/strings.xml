@@ -302,4 +302,16 @@
     <string name="quick_group_speed">Sebesség</string>
     <string name="quick_group_tools">Eszközök</string>
     <string name="quick_other">Egyéb…</string>
+    <string name="pref_category_appearance">Megjelenés</string>
+    <string name="pref_category_game">Játék közben</string>
+    <string name="pref_category_controls">Irányítás</string>
+    <string name="pref_category_files">Fájlok és adatok</string>
+    <string name="pref_category_app">Alkalmazás</string>
+    <string name="picker_access_title">Játékaid</string>
+    <string name="picker_access_message">Hogy csak a játékokat (.jar, .jad, .zip) mutassa a mappákban, és egyszerre többet is választhass, mint a JL-Modban, az appnak hozzá kell férnie minden fájlhoz. A játékok és mentések ide kerülnek: %s, ami az app törlése után is megmarad.</string>
+    <string name="picker_access_allow">Engedélyezés</string>
+    <string name="picker_access_system">Rendszer fájlválasztó</string>
+    <string name="pref_black_background_title">Fekete háttér</string>
+    <string name="pref_black_background_summary">A sötét témához</string>
+    <string name="pref_add_cutout_area_title">Kivágás területének használata</string>
 </resources>

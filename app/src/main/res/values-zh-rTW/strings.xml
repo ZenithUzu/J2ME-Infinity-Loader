@@ -264,4 +264,16 @@
     <string name="quick_group_speed">速度</string>
     <string name="quick_group_tools">工具</string>
     <string name="quick_other">其他…</string>
+    <string name="pref_category_appearance">外觀</string>
+    <string name="pref_category_game">遊戲時</string>
+    <string name="pref_category_controls">按鍵</string>
+    <string name="pref_category_files">檔案與資料</string>
+    <string name="pref_category_app">應用程式</string>
+    <string name="picker_access_title">你的遊戲</string>
+    <string name="picker_access_message">若要像 JL-Mod 一樣只顯示遊戲（.jar、.jad、.zip）所在的資料夾並一次選取多個，應用程式需要「所有檔案存取權」。遊戲和存檔會移到 %s，解除安裝後仍會保留。</string>
+    <string name="picker_access_allow">允許</string>
+    <string name="picker_access_system">使用系統選擇器</string>
+    <string name="pref_black_background_title">黑色背景</string>
+    <string name="pref_black_background_summary">用於深色主題</string>
+    <string name="pref_add_cutout_area_title">使用挖孔區域</string>
 </resources>

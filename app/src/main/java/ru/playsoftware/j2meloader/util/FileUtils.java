@@ -246,8 +246,13 @@ public class FileUtils {
 		return Build.VERSION.SDK_INT >= Build.VERSION_CODES.R && Environment.isExternalStorageManager();
 	}
 
+	/** The game picker like JL-Mod's (only games, several at once) when the folders can be read. */
+	public static boolean canBrowseFiles() {
+		return usesOldPicker() || hasAllFilesAccess();
+	}
+
 	public static ActivityResultContract<String, List<Uri>> getFilePicker() {
-		if (usesOldPicker()) {
+		if (canBrowseFiles()) {
 			return new PickFileResultContract();
 		} else {
 			return new SAFFileResultContract();

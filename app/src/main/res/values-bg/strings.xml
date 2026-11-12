@@ -326,4 +326,16 @@
     <string name="quick_group_speed">Скорост</string>
     <string name="quick_group_tools">Инструменти</string>
     <string name="quick_other">Друго…</string>
+    <string name="pref_category_appearance">Изглед</string>
+    <string name="pref_category_game">По време на игра</string>
+    <string name="pref_category_controls">Управление</string>
+    <string name="pref_category_files">Файлове и данни</string>
+    <string name="pref_category_app">Приложение</string>
+    <string name="picker_access_title">Твоите игри</string>
+    <string name="picker_access_message">За да показва папки само с игри (.jar, .jad, .zip) и да избираш няколко наведнъж, като в JL-Mod, приложението има нужда от достъп до всички файлове. Игрите и записите ще се преместят в %s, която остава при деинсталиране.</string>
+    <string name="picker_access_allow">Разреши</string>
+    <string name="picker_access_system">Системен избор на файлове</string>
+    <string name="pref_black_background_title">Черен фон</string>
+    <string name="pref_black_background_summary">За тъмната тема</string>
+    <string name="pref_add_cutout_area_title">Използвай зоната на изреза</string>
 </resources>

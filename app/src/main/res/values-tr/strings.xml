@@ -357,4 +357,16 @@
     <string name="quick_group_speed">Hız</string>
     <string name="quick_group_tools">Araçlar</string>
     <string name="quick_other">Diğer…</string>
+    <string name="pref_category_appearance">Görünüm</string>
+    <string name="pref_category_game">Oynarken</string>
+    <string name="pref_category_controls">Kontroller</string>
+    <string name="pref_category_files">Dosyalar ve veriler</string>
+    <string name="pref_category_app">Uygulama</string>
+    <string name="picker_access_title">Oyunların</string>
+    <string name="picker_access_message">Klasörleri yalnızca oyunlarla (.jar, .jad, .zip) göstermek ve JL-Mod\'daki gibi birden çok oyunu birlikte seçmek için uygulamanın tüm dosyalara erişmesi gerekir. Oyunların ve kayıtların %s klasörüne taşınır; uygulamayı kaldırsan da kalır.</string>
+    <string name="picker_access_allow">İzin ver</string>
+    <string name="picker_access_system">Sistem seçicisini kullan</string>
+    <string name="pref_black_background_title">Siyah arka plan</string>
+    <string name="pref_black_background_summary">Koyu tema için</string>
+    <string name="pref_add_cutout_area_title">Çentik alanını kullan</string>
 </resources>

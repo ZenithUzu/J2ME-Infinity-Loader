@@ -356,4 +356,16 @@
     <string name="quick_group_speed">Vitesse</string>
     <string name="quick_group_tools">Outils</string>
     <string name="quick_other">Autre…</string>
+    <string name="pref_category_appearance">Apparence</string>
+    <string name="pref_category_game">En jeu</string>
+    <string name="pref_category_controls">Commandes</string>
+    <string name="pref_category_files">Fichiers et données</string>
+    <string name="pref_category_app">Application</string>
+    <string name="picker_access_title">Tes jeux</string>
+    <string name="picker_access_message">Pour afficher tes dossiers avec seulement les jeux (.jar, .jad, .zip) et en choisir plusieurs à la fois, comme dans JL-Mod, l\'appli a besoin d\'accéder à tous les fichiers. Tes jeux et sauvegardes iront dans %s, conservé si tu désinstalles l\'appli.</string>
+    <string name="picker_access_allow">Autoriser</string>
+    <string name="picker_access_system">Utiliser le sélecteur du système</string>
+    <string name="pref_black_background_title">Fond noir</string>
+    <string name="pref_black_background_summary">Pour le thème sombre</string>
+    <string name="pref_add_cutout_area_title">Utiliser la zone de l\'encoche</string>
 </resources>

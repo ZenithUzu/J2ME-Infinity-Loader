@@ -1,82 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Settings, grouped like a Material 3 settings screen. The icons are tinted with one
+     neutral color in SettingsFragment (minimal look). The actions of the old ⋮ menu of the
+     library are here too (Files and data, App). -->
 <androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
-    <ListPreference
-        android:defaultValue="@string/pref_theme_default"
-        android:entries="@array/pref_theme_entries"
-        android:entryValues="@array/pref_theme_values"
-        android:icon="@drawable/ic_setting_theme"
-        android:key="pref_theme"
-        app:useSimpleSummaryProvider="true"
-        android:title="@string/pref_theme_title" />
-    <SwitchPreferenceCompat
-        android:defaultValue="true"
-        android:icon="@drawable/ic_setting_theme"
-        android:key="pref_dynamic_colors"
-        android:summary="@string/pref_dynamic_colors_summary"
-        android:title="@string/pref_dynamic_colors" />
-    <ListPreference
-        android:icon="@drawable/ic_setting_translate"
-        android:key="pref_language"
-        android:title="@string/pref_language"
-        app:persistent="false"
-        app:useSimpleSummaryProvider="true" />
-    <SwitchPreferenceCompat
-        android:defaultValue="false"
-        android:icon="@drawable/ic_setting_black_background"
-        android:key="pref_black_background"
-        android:summary="@string/pref_black_background_summary"
-        android:title="@string/pref_black_background_title" />
-    <SwitchPreferenceCompat
-        android:defaultValue="false"
-        android:icon="@drawable/ic_setting_enable_action_bar"
-        android:key="pref_actionbar_switch"
-        android:summary="@string/pref_enable_actionbar_summary"
-        android:title="@string/pref_enable_actionbar_title" />
-    <SwitchPreferenceCompat
-        android:defaultValue="false"
-        android:icon="@drawable/ic_setting_enable_statusbar"
-        android:key="pref_statusbar_switch"
-        android:summary="@string/pref_enable_actionbar_summary"
-        android:title="@string/pref_enable_statusbar_title" />
-    <SwitchPreferenceCompat
-        android:defaultValue="true"
-        android:icon="@drawable/ic_setting_add_cutout_area"
-        android:key="pref_add_cutout_area"
-        android:title="@string/pref_add_cutout_area_title"
-        app:isPreferenceVisible="false"
-        tools:isPreferenceVisible="true" />
-    <SwitchPreferenceCompat
-        android:defaultValue="false"
-        android:icon="@drawable/ic_setting_keep_screen_on"
-        android:key="pref_wakelock_switch"
-        android:title="@string/pref_wakelock_title" />
-    <SwitchPreferenceCompat
-        android:defaultValue="false"
-        android:icon="@drawable/ic_setting_screenshot"
-        android:key="pref_screenshot_switch"
-        android:title="@string/pref_screenshot_title"
-        android:summary="@string/pref_screenshot_summary"/>
-    <SwitchPreferenceCompat
-        android:defaultValue="true"
-        android:icon="@drawable/ic_setting_enable_vibration"
-        android:key="pref_vibration_switch"
-        android:title="@string/pref_vibration_title" />
-    <Preference
-        android:key="pref_default_settings"
-        android:icon="@drawable/ic_setting_default"
-        android:title="@string/profiles" />
-    <Preference
-        android:key="emulator_dir"
-        android:icon="@drawable/ic_setting_folder"
-        android:title="@string/pref_emulator_dir"
-        tools:summary="/sdcard/J2ME-Loader" />
+
+    <PreferenceCategory android:title="@string/pref_category_appearance">
+        <ListPreference
+            android:defaultValue="@string/pref_theme_default"
+            android:entries="@array/pref_theme_entries"
+            android:entryValues="@array/pref_theme_values"
+            android:icon="@drawable/ic_setting_theme"
+            android:key="pref_theme"
+            android:title="@string/pref_theme_title"
+            app:useSimpleSummaryProvider="true" />
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:icon="@drawable/ic_setting_palette"
+            android:key="pref_dynamic_colors"
+            android:summary="@string/pref_dynamic_colors_summary"
+            android:title="@string/pref_dynamic_colors" />
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:icon="@drawable/ic_setting_black_background"
+            android:key="pref_black_background"
+            android:summary="@string/pref_black_background_summary"
+            android:title="@string/pref_black_background_title" />
+        <ListPreference
+            android:icon="@drawable/ic_setting_translate"
+            android:key="pref_language"
+            android:title="@string/pref_language"
+            app:persistent="false"
+            app:useSimpleSummaryProvider="true" />
+    </PreferenceCategory>
+
     <PreferenceCategory android:title="@string/pref_category_library">
         <ListPreference
             android:defaultValue="48"
             android:entries="@array/pref_grid_icon_size_entries"
             android:entryValues="@array/pref_grid_icon_size_values"
+            android:icon="@drawable/ic_setting_grid"
             android:key="pref_grid_icon_size"
             android:title="@string/pref_grid_icon_size"
             app:useSimpleSummaryProvider="true" />
@@ -90,44 +54,129 @@
             android:key="pref_grid_hide_titles"
             android:title="@string/pref_grid_hide_titles" />
     </PreferenceCategory>
-    <SwitchPreferenceCompat
-        android:defaultValue="true"
-        android:key="pref_check_updates_start"
-        android:summary="@string/pref_check_updates_start_summary"
-        android:title="@string/pref_check_updates_start" />
-    <Preference
-        android:key="pref_import_filters"
-        android:icon="@drawable/ic_setting_folder"
-        android:summary="@string/pref_import_filters_summary"
-        android:title="@string/pref_import_filters" />
-    <ListPreference
-        android:defaultValue="0"
-        android:entries="@array/button_style_entries"
-        android:entryValues="@array/button_style_values"
-        android:icon="@drawable/ic_setting_button_shape"
-        android:key="pref_button_style"
-        app:useSimpleSummaryProvider="true"
-        android:title="@string/pref_button_style" />
-    <Preference
-        android:key="pref_pad_skin"
-        android:icon="@drawable/ic_setting_folder"
-        android:summary="@string/pref_pad_skin_summary"
-        android:title="@string/pref_pad_skin" />
-    <Preference
-        android:icon="@drawable/ic_setting_folder"
-        android:key="pref_data_folder"
-        android:title="@string/pref_data_folder" />
-    <Preference
-        android:key="pref_backup"
-        android:icon="@drawable/ic_setting_backup"
-        android:summary="@string/pref_backup_summary"
-        android:title="@string/pref_backup" />
+
+    <PreferenceCategory android:title="@string/pref_category_game">
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:icon="@drawable/ic_setting_enable_action_bar"
+            android:key="pref_actionbar_switch"
+            android:summary="@string/pref_enable_actionbar_summary"
+            android:title="@string/pref_enable_actionbar_title" />
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:icon="@drawable/ic_setting_enable_statusbar"
+            android:key="pref_statusbar_switch"
+            android:summary="@string/pref_enable_actionbar_summary"
+            android:title="@string/pref_enable_statusbar_title" />
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:icon="@drawable/ic_setting_add_cutout_area"
+            android:key="pref_add_cutout_area"
+            android:title="@string/pref_add_cutout_area_title"
+            app:isPreferenceVisible="false"
+            tools:isPreferenceVisible="true" />
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:icon="@drawable/ic_setting_keep_screen_on"
+            android:key="pref_wakelock_switch"
+            android:title="@string/pref_wakelock_title" />
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:icon="@drawable/ic_setting_screenshot"
+            android:key="pref_screenshot_switch"
+            android:summary="@string/pref_screenshot_summary"
+            android:title="@string/pref_screenshot_title" />
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:icon="@drawable/ic_setting_enable_vibration"
+            android:key="pref_vibration_switch"
+            android:title="@string/pref_vibration_title" />
+        <Preference
+            android:icon="@drawable/ic_setting_default"
+            android:key="pref_default_settings"
+            android:title="@string/profiles" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/pref_category_controls">
+        <ListPreference
+            android:defaultValue="0"
+            android:entries="@array/button_style_entries"
+            android:entryValues="@array/button_style_values"
+            android:icon="@drawable/ic_setting_button_shape"
+            android:key="pref_button_style"
+            android:title="@string/pref_button_style"
+            app:useSimpleSummaryProvider="true" />
+        <Preference
+            android:icon="@drawable/ic_setting_skin"
+            android:key="pref_pad_skin"
+            android:summary="@string/pref_pad_skin_summary"
+            android:title="@string/pref_pad_skin" />
+        <Preference
+            android:icon="@drawable/ic_setting_filter"
+            android:key="pref_import_filters"
+            android:summary="@string/pref_import_filters_summary"
+            android:title="@string/pref_import_filters" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/pref_category_files">
+        <Preference
+            android:icon="@drawable/ic_setting_import"
+            android:key="pref_import_game"
+            android:title="@string/action_import_game" />
+        <Preference
+            android:icon="@drawable/ic_setting_folder"
+            android:key="pref_install_folder"
+            android:title="@string/action_install_folder" />
+        <Preference
+            android:icon="@drawable/ic_setting_folder"
+            android:key="pref_data_folder"
+            android:title="@string/pref_data_folder" />
+        <Preference
+            android:icon="@drawable/ic_setting_folder"
+            android:key="emulator_dir"
+            android:title="@string/pref_emulator_dir"
+            tools:summary="/sdcard/J2ME-Loader" />
+        <Preference
+            android:icon="@drawable/ic_setting_backup"
+            android:key="pref_backup"
+            android:summary="@string/pref_backup_summary"
+            android:title="@string/pref_backup" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/pref_category_app">
+        <Preference
+            android:icon="@drawable/ic_setting_update"
+            android:key="pref_check_updates_now"
+            android:title="@string/update_title" />
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="pref_check_updates_start"
+            android:summary="@string/pref_check_updates_start_summary"
+            android:title="@string/pref_check_updates_start" />
+        <Preference
+            android:icon="@drawable/ic_setting_help"
+            android:key="pref_help"
+            android:title="@string/help" />
+        <Preference
+            android:icon="@drawable/ic_setting_info"
+            android:key="pref_about"
+            android:title="@string/about" />
+        <Preference
+            android:icon="@drawable/ic_setting_log"
+            android:key="pref_save_log"
+            android:title="@string/save_log" />
+        <Preference
+            android:icon="@drawable/ic_setting_exit"
+            android:key="pref_exit"
+            android:title="@string/exit" />
+    </PreferenceCategory>
+
     <PreferenceCategory android:title="@string/pref_category_experimental">
         <SwitchPreferenceCompat
-            android:key="micro3d_using_message"
-            app:defaultValue="false"
             android:icon="@drawable/ic_setting_message"
+            android:key="micro3d_using_message"
+            android:summary="@string/pref_mascot_summary"
             android:title="@string/pref_mascot_title"
-            android:summary="@string/pref_mascot_summary" />
+            app:defaultValue="false" />
     </PreferenceCategory>
 </androidx.preference.PreferenceScreen>

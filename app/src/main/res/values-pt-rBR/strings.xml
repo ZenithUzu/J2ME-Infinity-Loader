@@ -359,4 +359,16 @@
     <string name="quick_group_speed">Velocidade</string>
     <string name="quick_group_tools">Ferramentas</string>
     <string name="quick_other">Outro…</string>
+    <string name="pref_category_appearance">Aparência</string>
+    <string name="pref_category_game">Durante o jogo</string>
+    <string name="pref_category_controls">Controles</string>
+    <string name="pref_category_files">Arquivos e dados</string>
+    <string name="pref_category_app">App</string>
+    <string name="picker_access_title">Seus jogos</string>
+    <string name="picker_access_message">Para mostrar suas pastas só com os jogos (.jar, .jad, .zip) e escolher vários de uma vez, como no JL-Mod, o app precisa de acesso a todos os arquivos. Seus jogos e saves irão para %s, que fica mesmo se você desinstalar o app.</string>
+    <string name="picker_access_allow">Permitir</string>
+    <string name="picker_access_system">Usar o seletor do sistema</string>
+    <string name="pref_black_background_title">Fundo preto</string>
+    <string name="pref_black_background_summary">Para o tema escuro</string>
+    <string name="pref_add_cutout_area_title">Usar a área do recorte</string>
 </resources>

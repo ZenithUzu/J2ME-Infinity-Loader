@@ -309,4 +309,16 @@
     <string name="quick_group_speed">Szybkość</string>
     <string name="quick_group_tools">Narzędzia</string>
     <string name="quick_other">Inne…</string>
+    <string name="pref_category_appearance">Wygląd</string>
+    <string name="pref_category_game">Podczas gry</string>
+    <string name="pref_category_controls">Sterowanie</string>
+    <string name="pref_category_files">Pliki i dane</string>
+    <string name="pref_category_app">Aplikacja</string>
+    <string name="picker_access_title">Twoje gry</string>
+    <string name="picker_access_message">Aby pokazywać foldery tylko z grami (.jar, .jad, .zip) i wybierać kilka naraz, jak w JL-Mod, aplikacja potrzebuje dostępu do wszystkich plików. Gry i zapisy przeniosą się do %s, który zostaje po odinstalowaniu aplikacji.</string>
+    <string name="picker_access_allow">Zezwól</string>
+    <string name="picker_access_system">Użyj systemowego wyboru</string>
+    <string name="pref_black_background_title">Czarne tło</string>
+    <string name="pref_black_background_summary">Do ciemnego motywu</string>
+    <string name="pref_add_cutout_area_title">Używaj obszaru wycięcia</string>
 </resources>

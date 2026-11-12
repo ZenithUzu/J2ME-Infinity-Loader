@@ -359,4 +359,16 @@
     <string name="quick_group_speed">Velocidad</string>
     <string name="quick_group_tools">Herramientas</string>
     <string name="quick_other">Otro…</string>
+    <string name="pref_category_appearance">Apariencia</string>
+    <string name="pref_category_game">Al jugar</string>
+    <string name="pref_category_controls">Controles</string>
+    <string name="pref_category_files">Archivos y datos</string>
+    <string name="pref_category_app">Aplicación</string>
+    <string name="picker_access_title">Tus juegos</string>
+    <string name="picker_access_message">Para mostrar tus carpetas con solo los juegos (.jar, .jad, .zip) y elegir varios a la vez, como en JL-Mod, la app necesita acceso a todos los archivos. Tus juegos y partidas pasarán a %s, que se conserva si desinstalas la app.</string>
+    <string name="picker_access_allow">Dar permiso</string>
+    <string name="picker_access_system">Usar el selector del sistema</string>
+    <string name="pref_black_background_title">Fondo negro</string>
+    <string name="pref_black_background_summary">Para el tema oscuro</string>
+    <string name="pref_add_cutout_area_title">Usar la zona de la cámara</string>
 </resources>

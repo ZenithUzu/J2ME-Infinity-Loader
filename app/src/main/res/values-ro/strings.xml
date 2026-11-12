@@ -263,4 +263,16 @@
     <string name="quick_group_speed">Viteză</string>
     <string name="quick_group_tools">Unelte</string>
     <string name="quick_other">Altul…</string>
+    <string name="pref_category_appearance">Aspect</string>
+    <string name="pref_category_game">În timpul jocului</string>
+    <string name="pref_category_controls">Controale</string>
+    <string name="pref_category_files">Fișiere și date</string>
+    <string name="pref_category_app">Aplicație</string>
+    <string name="picker_access_title">Jocurile tale</string>
+    <string name="picker_access_message">Ca să arate dosarele doar cu jocuri (.jar, .jad, .zip) și să alegi mai multe deodată, ca în JL-Mod, aplicația are nevoie de acces la toate fișierele. Jocurile și salvările se mută în %s, care rămâne dacă dezinstalezi aplicația.</string>
+    <string name="picker_access_allow">Permite</string>
+    <string name="picker_access_system">Folosește selectorul sistemului</string>
+    <string name="pref_black_background_title">Fundal negru</string>
+    <string name="pref_black_background_summary">Pentru tema întunecată</string>
+    <string name="pref_add_cutout_area_title">Folosește zona decupajului</string>
 </resources>
