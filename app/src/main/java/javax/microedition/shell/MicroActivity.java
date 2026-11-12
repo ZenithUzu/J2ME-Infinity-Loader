@@ -549,12 +549,7 @@ public class MicroActivity extends AppCompatActivity {
 	public boolean onKeyUp(int keyCode, KeyEvent event) {
 		if ((keyCode == menuKey || keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_MENU)
 				&& (event.getFlags() & (KeyEvent.FLAG_LONG_PRESS | KeyEvent.FLAG_CANCELED)) == 0) {
-			// Back opens the quick panel in the game; the menu key still opens the full menu
-			if (keyCode == KeyEvent.KEYCODE_BACK && current instanceof Canvas) {
-				showQuickPanel();
-			} else {
-				openOptionsMenu();
-			}
+			showQuickPanel(); // Back and the menu key open the quick menu (it has everything)
 			return true;
 		}
 		return super.onKeyUp(keyCode, event);
@@ -569,33 +564,11 @@ public class MicroActivity extends AppCompatActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.midlet_displayable, menu);
-		menu.findItem(R.id.action_lock_orientation).setVisible(true);
-		if (actionBarEnabled) {
-			menu.findItem(R.id.action_quick_settings).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-			menu.findItem(R.id.action_ime_keyboard).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-			menu.findItem(R.id.action_take_screenshot).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-		}
-		if (inputMethodManager == null) {
-			menu.findItem(R.id.action_ime_keyboard).setVisible(false);
-		}
-		if (ContextHolder.getVk() == null) {
-			menu.findItem(R.id.action_submenu_vk).setVisible(false);
-		}
-		return true;
-	}
-
-	@Override
-	public boolean onPrepareOptionsMenu(Menu menu) {
-		if (current instanceof Canvas) {
-			menu.setGroupVisible(R.id.action_group_canvas, true);
-			VirtualKeyboard vk = ContextHolder.getVk();
-			if (vk != null) {
-				boolean visible = vk.getLayoutEditMode() != VirtualKeyboard.LAYOUT_EOF;
-				menu.findItem(R.id.action_layout_edit_finish).setVisible(visible);
-			}
-		} else {
-			menu.setGroupVisible(R.id.action_group_canvas, false);
-		}
+		// everything else is in the quick menu now; the bar keeps only its button
+		for (int i = 0; i < menu.size(); i++) menu.getItem(i).setVisible(false);
+		MenuItem quick = menu.findItem(R.id.action_quick_settings);
+		quick.setVisible(true);
+		quick.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 		return true;
 	}
 
@@ -628,7 +601,7 @@ public class MicroActivity extends AppCompatActivity {
 		} else if (id == R.id.action_memory_editor) {
 			MemoryEditor.show(this);
 		} else if (id == R.id.action_quick_settings) {
-			showQuickSettings();
+			showQuickPanel();
 		} else if (ContextHolder.getVk() != null) {
 			// Handled only when virtual keyboard is enabled
 			handleVkOptions(id);
@@ -745,83 +718,48 @@ public class MicroActivity extends AppCompatActivity {
 		dialog.show();
 	}
 
-	/**
-	 * Quick settings (like JarNix's menu): changes that apply at once, without leaving the
-	 * game, and are saved in the game's settings.
-	 */
-	private void showQuickSettings() {
-		VirtualKeyboard vk = ContextHolder.getVk();
-		java.util.ArrayList<String> names = new java.util.ArrayList<>();
-		java.util.ArrayList<Runnable> actions = new java.util.ArrayList<>();
-		if (vk != null && vk.getLayoutEditMode() != VirtualKeyboard.LAYOUT_EOF) {
-			names.add(getString(R.string.quick_edit_done));
-			actions.add(() -> handleVkOptions(R.id.action_layout_edit_finish));
-		}
-		if (vk == null || vk.isUserHidden()) {
-			names.add(getString(R.string.quick_keyboard_show));
-			actions.add(this::showKeyboardNow);
-		} else {
-			names.add(getString(R.string.quick_keyboard_hide));
-			actions.add(() -> vk.setUserHidden(true));
-		}
-		if (vk != null) {
-			names.add(getString(R.string.vk_toggle_pad));
-			actions.add(() -> {
-				vk.setUserHidden(false);
-				vk.togglePad();
-			});
-			names.add(getString(R.string.quick_controls));
-			actions.add(this::showControlsMenu);
-		}
-		names.add(getString(R.string.quick_scale));
-		actions.add(this::showQuickScale);
-		names.add(getString(R.string.quick_filter));
-		actions.add(this::showQuickFilter);
-		names.add(getString(Canvas.isFilterBitmap() ? R.string.quick_smooth_off : R.string.quick_smooth_on));
-		actions.add(() -> {
-			microLoader.params.screenFilter = !Canvas.isFilterBitmap();
-			Canvas.setFilterBitmap(microLoader.params.screenFilter);
-			applyQuickChange();
-		});
-		names.add(getString(actionBarEnabled ? R.string.quick_bar_hide : R.string.quick_bar_show));
-		actions.add(() -> setActionBarEnabled(!actionBarEnabled));
-		new AlertDialog.Builder(this)
-				.setTitle(R.string.quick_settings)
-				.setItems(names.toArray(new String[0]), (d, w) -> actions.get(w).run())
-				.show();
-	}
-
 	private static final String PREF_PANEL_SECTION = "quick_panel_section";
 	private View quickPanel;
+	private boolean orientationLocked;
 
 	/**
-	 * Quick panel like Portemon's menu: a side panel over the game, opened with Back, with
-	 * Screen / Controls / Game sections. Its width fits portrait and landscape; it scrolls.
+	 * Quick menu, opened with Back or the bar button. Portrait: a sheet from the bottom that
+	 * leaves the game visible on top (drag its handle to make it taller, or down to close it).
+	 * Landscape: a panel from the right. Screen / Controls / Game tabs; changes apply at once.
 	 */
 	private void showQuickPanel() {
 		if (closeQuickPanel()) return;
 		ViewGroup host = findViewById(android.R.id.content);
 		float dp = getResources().getDisplayMetrics().density;
+		boolean portrait = host.getHeight() >= host.getWidth();
 		FrameLayout veil = new FrameLayout(this);
-		veil.setBackgroundColor(0x66000000);
+		veil.setBackgroundColor(0x33000000);
 		veil.setOnClickListener(v -> closeQuickPanel()); // touching the game closes it
 
 		LinearLayout panel = new LinearLayout(this);
 		panel.setOrientation(LinearLayout.VERTICAL);
 		panel.setClickable(true);
-		int surface = themeColor(com.google.android.material.R.attr.colorSurfaceContainer);
-		android.graphics.drawable.GradientDrawable bg = new android.graphics.drawable.GradientDrawable();
-		bg.setColor(surface);
+		panel.setElevation(8 * dp);
 		float r = 28 * dp;
-		bg.setCornerRadii(new float[]{r, r, 0, 0, 0, 0, r, r});
+		android.graphics.drawable.GradientDrawable bg = new android.graphics.drawable.GradientDrawable();
+		bg.setColor(themeColor(com.google.android.material.R.attr.colorSurfaceContainer));
+		bg.setCornerRadii(portrait ? new float[]{r, r, r, r, 0, 0, 0, 0} : new float[]{r, r, 0, 0, 0, 0, r, r});
 		panel.setBackground(bg);
 		int pad = (int) (16 * dp);
-		panel.setPadding(pad, pad, pad, pad);
-		int width = (int) Math.min(380 * dp, getResources().getDisplayMetrics().widthPixels * 0.9f);
-		veil.addView(panel, new FrameLayout.LayoutParams(width, ViewGroup.LayoutParams.MATCH_PARENT,
-				android.view.Gravity.END));
+		panel.setPadding(pad, portrait ? 0 : pad, pad, 0);
+		FrameLayout.LayoutParams plp;
+		if (portrait) {
+			plp = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+					(int) (host.getHeight() * 0.62f), android.view.Gravity.BOTTOM);
+			panel.addView(sheetHandle(panel, host, dp), new LinearLayout.LayoutParams(
+					ViewGroup.LayoutParams.MATCH_PARENT, (int) (24 * dp)));
+		} else {
+			plp = new FrameLayout.LayoutParams((int) Math.min(340 * dp, host.getWidth() * 0.55f),
+					ViewGroup.LayoutParams.MATCH_PARENT, android.view.Gravity.END);
+		}
+		veil.addView(panel, plp);
 
-		// header: game name and Continue
+		// header: game name, screenshot and Continue
 		LinearLayout header = new LinearLayout(this);
 		header.setGravity(android.view.Gravity.CENTER_VERTICAL);
 		TextView title = new TextView(this);
@@ -829,35 +767,60 @@ public class MicroActivity extends AppCompatActivity {
 		title.setTextAppearance(com.google.android.material.R.style.TextAppearance_Material3_TitleLarge);
 		title.setTextColor(themeColor(com.google.android.material.R.attr.colorOnSurface));
 		title.setMaxLines(1);
-		title.setEllipsize(android.text.TextUtils.TruncateAt.END);
+		title.setEllipsize(TextUtils.TruncateAt.END);
 		header.addView(title, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
+		if (current instanceof Canvas) {
+			ImageView shot = new ImageView(this);
+			shot.setImageResource(R.drawable.ic_q_shot);
+			shot.setColorFilter(themeColor(com.google.android.material.R.attr.colorOnSurface));
+			shot.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+			int ip = (int) (9 * dp);
+			shot.setPadding(ip, ip, ip, ip);
+			shot.setBackground(round(themeColor(com.google.android.material.R.attr.colorSurfaceContainerHighest), 20 * dp));
+			shot.setContentDescription(getString(R.string.take_screenshot));
+			shot.setOnClickListener(v -> {
+				closeQuickPanel();
+				takeScreenshot();
+			});
+			LinearLayout.LayoutParams slp = new LinearLayout.LayoutParams((int) (40 * dp), (int) (40 * dp));
+			slp.rightMargin = (int) (8 * dp);
+			header.addView(shot, slp);
+		}
 		com.google.android.material.button.MaterialButton resume = new com.google.android.material.button.MaterialButton(this);
 		resume.setText(R.string.quick_resume);
+		resume.setIconResource(R.drawable.ic_home_play);
 		resume.setOnClickListener(v -> closeQuickPanel());
 		header.addView(resume);
 		panel.addView(header);
 
-		// sections, like Portemon: Screen / Controls / Game
-		com.google.android.material.button.MaterialButtonToggleGroup tabs =
-				new com.google.android.material.button.MaterialButtonToggleGroup(this);
-		tabs.setSingleSelection(true);
-		tabs.setSelectionRequired(true);
+		// tabs: Screen / Controls / Game, as one rounded segmented bar
+		LinearLayout tabs = new LinearLayout(this);
+		tabs.setBackground(round(themeColor(com.google.android.material.R.attr.colorSurfaceContainerHighest), 22 * dp));
+		int tp = (int) (4 * dp);
+		tabs.setPadding(tp, tp, tp, tp);
 		int[] tabNames = {R.string.quick_section_screen, R.string.quick_section_controls, R.string.quick_section_game};
-		int[] tabIds = new int[3];
+		int[] tabIcons = {R.drawable.ic_q_fit, R.drawable.ic_q_pad, R.drawable.ic_nav_games};
+		TextView[] tabViews = new TextView[3];
 		for (int i = 0; i < 3; i++) {
-			com.google.android.material.button.MaterialButton b = new com.google.android.material.button.MaterialButton(
-					this, null, com.google.android.material.R.attr.materialButtonOutlinedStyle);
-			b.setText(tabNames[i]);
-			b.setId(View.generateViewId());
-			tabIds[i] = b.getId();
-			tabs.addView(b, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
+			TextView t = new TextView(this);
+			t.setText(tabNames[i]);
+			t.setGravity(android.view.Gravity.CENTER);
+			t.setTextSize(13);
+			t.setMaxLines(1);
+			t.setEllipsize(TextUtils.TruncateAt.END);
+			t.setCompoundDrawablePadding((int) (6 * dp));
+			t.setPadding((int) (6 * dp), 0, (int) (6 * dp), 0);
+			tabViews[i] = t;
+			tabs.addView(t, new LinearLayout.LayoutParams(0, (int) (36 * dp), 1));
 		}
 		LinearLayout.LayoutParams tabsLp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
 				ViewGroup.LayoutParams.WRAP_CONTENT);
-		tabsLp.topMargin = (int) (8 * dp);
+		tabsLp.topMargin = (int) (10 * dp);
+		tabsLp.bottomMargin = (int) (10 * dp);
 		panel.addView(tabs, tabsLp);
 
 		android.widget.ScrollView scroll = new android.widget.ScrollView(this);
+		scroll.setVerticalScrollBarEnabled(false);
 		LinearLayout content = new LinearLayout(this);
 		content.setOrientation(LinearLayout.VERTICAL);
 		scroll.addView(content);
@@ -870,27 +833,85 @@ public class MicroActivity extends AppCompatActivity {
 			closeQuickPanel();
 			showExitConfirmation();
 		});
-		panel.addView(exit, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-				ViewGroup.LayoutParams.WRAP_CONTENT));
+		LinearLayout.LayoutParams elp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+				ViewGroup.LayoutParams.WRAP_CONTENT);
+		elp.topMargin = (int) (6 * dp);
+		elp.bottomMargin = (int) (10 * dp);
+		panel.addView(exit, elp);
 
 		SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
-		tabs.addOnButtonCheckedListener((group, id, checked) -> {
-			if (!checked) return;
+		int onColor = themeColor(com.google.android.material.R.attr.colorOnSurface);
+		int offColor = themeColor(com.google.android.material.R.attr.colorOnSurfaceVariant);
+		int selBg = themeColor(com.google.android.material.R.attr.colorSurface);
+		Pick select = which -> {
 			for (int i = 0; i < 3; i++) {
-				if (tabIds[i] == id) {
-					sp.edit().putInt(PREF_PANEL_SECTION, i).apply();
-					fillSection(content, i, dp);
-					scroll.scrollTo(0, 0);
+				boolean on = i == which;
+				TextView t = tabViews[i];
+				t.setBackground(on ? round(selBg, 18 * dp) : null);
+				t.setTextColor(on ? onColor : offColor);
+				t.setTypeface(null, on ? android.graphics.Typeface.BOLD : android.graphics.Typeface.NORMAL);
+				android.graphics.drawable.Drawable d = ContextCompat.getDrawable(this, tabIcons[i]);
+				if (d != null) {
+					d = d.mutate();
+					d.setTint(on ? onColor : offColor);
+					d.setBounds(0, 0, (int) (18 * dp), (int) (18 * dp));
 				}
+				t.setCompoundDrawablesRelative(d, null, null, null);
 			}
-		});
-		tabs.check(tabIds[Math.max(0, Math.min(2, sp.getInt(PREF_PANEL_SECTION, 0)))]);
+			sp.edit().putInt(PREF_PANEL_SECTION, which).apply();
+			fillSection(content, which, dp);
+			scroll.scrollTo(0, 0);
+		};
+		for (int i = 0; i < 3; i++) {
+			int which = i;
+			tabViews[i].setOnClickListener(v -> select.pick(which));
+		}
+		select.pick(Math.max(0, Math.min(2, sp.getInt(PREF_PANEL_SECTION, 0))));
 
 		quickPanel = veil;
 		host.addView(veil, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
 				ViewGroup.LayoutParams.MATCH_PARENT));
-		panel.setTranslationX(width); // slides in from the side
-		panel.animate().translationX(0).setDuration(180).start();
+		veil.setAlpha(0);
+		veil.animate().alpha(1).setDuration(160).start();
+		if (portrait) panel.setTranslationY(plp.height);
+		else panel.setTranslationX(plp.width);
+		panel.animate().translationX(0).translationY(0).setDuration(220)
+				.setInterpolator(new android.view.animation.DecelerateInterpolator(2)).start();
+	}
+
+	/** The bar on top of the portrait sheet: drag it up to make the sheet taller, down to close it. */
+	@SuppressLint("ClickableViewAccessibility")
+	private View sheetHandle(LinearLayout panel, ViewGroup host, float dp) {
+		FrameLayout area = new FrameLayout(this);
+		View bar = new View(this);
+		bar.setBackground(round(themeColor(com.google.android.material.R.attr.colorOutline), 2 * dp));
+		area.addView(bar, new FrameLayout.LayoutParams((int) (32 * dp), (int) (4 * dp), android.view.Gravity.CENTER));
+		area.setOnTouchListener(new View.OnTouchListener() {
+			private float startY;
+			private int startH;
+
+			@Override
+			public boolean onTouch(View v, android.view.MotionEvent e) {
+				ViewGroup.LayoutParams lp = panel.getLayoutParams();
+				int h = host.getHeight();
+				switch (e.getActionMasked()) {
+					case android.view.MotionEvent.ACTION_DOWN:
+						startY = e.getRawY();
+						startH = lp.height;
+						break;
+					case android.view.MotionEvent.ACTION_MOVE:
+						lp.height = (int) Math.max(h * 0.2f, Math.min(h * 0.94f, startH + startY - e.getRawY()));
+						panel.setLayoutParams(lp);
+						break;
+					case android.view.MotionEvent.ACTION_UP:
+					case android.view.MotionEvent.ACTION_CANCEL:
+						if (lp.height < h * 0.35f) closeQuickPanel();
+						break;
+				}
+				return true;
+			}
+		});
+		return area;
 	}
 
 	/** @return true if the panel was open */
@@ -907,115 +928,277 @@ public class MicroActivity extends AppCompatActivity {
 		return com.google.android.material.color.MaterialColors.getColor(this, attr, 0xFF808080);
 	}
 
-	/** The rows of one section; every change is applied at once. */
+	private static android.graphics.drawable.GradientDrawable round(int color, float radius) {
+		android.graphics.drawable.GradientDrawable d = new android.graphics.drawable.GradientDrawable();
+		d.setColor(color);
+		d.setCornerRadius(radius);
+		return d;
+	}
+
+	/** The cards of one tab; every change is applied at once and saved for the game. */
 	private void fillSection(LinearLayout box, int section, float dp) {
 		box.removeAllViews();
 		VirtualKeyboard vk = ContextHolder.getVk();
 		ProfileModel p = microLoader.params;
 		if (section == 0) {
-			sectionTitle(box, R.string.quick_scale, dp);
-			String[] scales = getResources().getStringArray(R.array.pref_scale_type_entries);
-			box.addView(chips(scales, Canvas.getScaleType(), w -> {
+			LinearLayout g = group(box, R.string.quick_group_size, dp);
+			label(g, R.string.quick_scale, dp);
+			g.addView(chips(getResources().getStringArray(R.array.pref_scale_type_entries), p.screenScaleType, w -> {
 				p.screenScaleType = w;
-				p.screenScaleRatio = 100;
+				p.screenScaleRatio = 100; // the whole screen, without an old zoom
 				Canvas.setScale(p.screenGravity, w, p.screenScaleRatio);
 				applyQuickChange();
-			}));
-			ShaderInfo shader = Canvas.getShaderFilter();
-			rowButton(box, getString(R.string.quick_filter) + ": "
-					+ (shader == null ? getString(R.string.identity_filter) : shader.toString()), dp, () -> {
-				closeQuickPanel();
-				showQuickFilter();
-			});
-			rowSwitch(box, R.string.quick_smooth, Canvas.isFilterBitmap(), dp, on -> {
+			}, dp));
+			label(g, R.string.pref_screen_gravity, dp);
+			g.addView(chips(getResources().getStringArray(R.array.pref_screen_gravity_entries), p.screenGravity, w -> {
+				p.screenGravity = w;
+				Canvas.setScale(w, p.screenScaleType, p.screenScaleRatio);
+				applyQuickChange();
+			}, dp));
+
+			g = group(box, R.string.quick_group_image, dp);
+			label(g, R.string.quick_filter, dp);
+			if (p.graphicsMode == 1) {
+				// the game runs in its own process: use its work folder, like when the game starts
+				File dir = new File(microLoader.getShadersDir());
+				Filters.installBundled(this, dir);
+				java.util.ArrayList<ShaderInfo> list = Filters.list(dir);
+				list.add(0, null); // no filter
+				String[] names = new String[list.size()];
+				names[0] = getString(R.string.identity_filter);
+				for (int i = 1; i < names.length; i++) names[i] = list.get(i).toString();
+				g.addView(chips(names, Math.max(0, list.indexOf(Canvas.getShaderFilter())), w -> {
+					ShaderInfo shader = list.get(w);
+					if (shader != null) {
+						shader.dir = dir.getPath() + "/";
+						shader.values = Filters.defaultValues(shader);
+					}
+					p.shader = shader;
+					Canvas.setShaderFilter(shader);
+					applyQuickChange();
+				}, dp));
+			} else {
+				TextView note = new TextView(this);
+				note.setText(R.string.quick_filter_gl_only);
+				note.setTextColor(themeColor(com.google.android.material.R.attr.colorOnSurfaceVariant));
+				note.setPadding((int) (14 * dp), 0, (int) (14 * dp), (int) (8 * dp));
+				g.addView(note);
+			}
+			rowSwitch(g, R.string.quick_smooth, p.screenFilter, dp, on -> {
 				p.screenFilter = on;
 				Canvas.setFilterBitmap(on);
 				applyQuickChange();
 			});
-			rowSwitch(box, R.string.quick_top_bar, actionBarEnabled, dp, this::setActionBarEnabled);
+			rowSwitch(g, R.string.PREF_FRAME_BLEND, p.frameBlend, dp, on -> {
+				p.frameBlend = on;
+				Canvas.setFrameBlend(on);
+				applyQuickChange();
+			});
+			rowSwitch(g, R.string.PREF_AUTO_FIT, p.autoFit, dp, on -> {
+				p.autoFit = on;
+				Canvas.setAutoFit(on);
+				applyQuickChange();
+			});
+
+			g = group(box, R.string.quick_group_rotation, dp);
+			label(g, R.string.PREF_SCREEN_ROTATION, dp);
+			g.addView(chips(getResources().getStringArray(R.array.PREF_SCREEN_ROTATION_ENTRIES), p.screenRotation, w -> {
+				p.screenRotation = w;
+				Canvas.setScreenRotation(w);
+				applyQuickChange();
+			}, dp));
+			label(g, R.string.PREF_ORIENTATION, dp);
+			g.addView(chips(getResources().getStringArray(R.array.PREF_ORIENTATION_ENTRIES), p.orientation, w -> {
+				p.orientation = w;
+				ProfilesManager.saveConfig(p);
+				if (!orientationLocked) setOrientation(vk != null && vk.isPhone() ? ORIENTATION_PORTRAIT : w);
+			}, dp));
+			rowSwitch(g, R.string.action_lock_orientation, orientationLocked, dp, on -> {
+				orientationLocked = on;
+				if (on) {
+					setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LOCKED);
+				} else {
+					VirtualKeyboard k = ContextHolder.getVk();
+					setOrientation(k != null && k.isPhone() ? ORIENTATION_PORTRAIT : microLoader.getOrientation());
+				}
+			});
+
+			g = group(box, R.string.quick_group_bars, dp);
+			rowSwitch(g, R.string.quick_top_bar, actionBarEnabled, dp, this::setActionBarEnabled);
+			rowSwitch(g, R.string.PREF_SHOW_FPS, p.showFps, dp, on -> {
+				p.showFps = on;
+				Canvas.setShowFps(on);
+				applyQuickChange();
+			});
 		} else if (section == 1) {
-			rowSwitch(box, R.string.quick_keys_on_screen, vk != null && !vk.isUserHidden(), dp, on -> {
+			LinearLayout g = group(box, R.string.quick_group_keys, dp);
+			rowSwitch(g, R.string.quick_keys_on_screen, vk != null && !vk.isUserHidden(), dp, on -> {
 				if (on) showKeyboardNow();
 				else if (ContextHolder.getVk() != null) ContextHolder.getVk().setUserHidden(true);
 			});
+			if (vk != null) {
+				LinearLayout row = new LinearLayout(this);
+				int rp = (int) (10 * dp);
+				row.setPadding(rp, (int) (4 * dp), rp, rp);
+				tile(row, R.drawable.ic_q_pad, R.string.vk_toggle_pad, dp, () -> {
+					vk.setUserHidden(false);
+					vk.togglePad();
+				});
+				tile(row, R.drawable.ic_q_move, R.string.quick_edit_controls, dp, () -> {
+					closeQuickPanel();
+					startControlsEditor();
+				});
+				tile(row, R.drawable.ic_q_hide, R.string.hide_buttons, dp, this::showHideButtonDialog);
+				g.addView(row);
+				rowAction(g, R.string.layout_switch, dp, () -> {
+					closeQuickPanel();
+					showSetLayoutDialog();
+				});
+			}
+			if (inputMethodManager != null) {
+				rowAction(g, R.string.action_keyboard_ime, dp, () -> {
+					closeQuickPanel();
+					inputMethodManager.toggleSoftInputFromWindow(binding.displayableContainer.getWindowToken(),
+							InputMethodManager.SHOW_FORCED, 0);
+				});
+			}
 			if (vk == null) return;
-			rowButton(box, getString(R.string.vk_toggle_pad), dp, () -> {
-				vk.setUserHidden(false);
-				vk.togglePad();
-			});
-			rowButton(box, getString(R.string.quick_edit_controls), dp, () -> {
-				closeQuickPanel();
-				startControlsEditor();
-			});
-			rowButton(box, getString(R.string.hide_buttons), dp, this::showHideButtonDialog);
-			sectionTitle(box, R.string.pref_button_style, dp);
-			box.addView(chips(getResources().getStringArray(R.array.button_style_entries), vk.getButtonStyle(), w -> {
+
+			g = group(box, R.string.quick_group_style, dp);
+			g.addView(chips(getResources().getStringArray(R.array.button_style_entries), vk.getButtonStyle(), w -> {
 				vk.setButtonStyle(w);
 				if (vk.getButtonStyle() != w) {
 					Toast.makeText(this, R.string.button_style_no_skin, Toast.LENGTH_LONG).show();
 				}
 				PreferenceManager.getDefaultSharedPreferences(this).edit()
 						.putString(VirtualKeyboard.PREF_BUTTON_STYLE, String.valueOf(vk.getButtonStyle())).apply();
-			}));
-			sectionTitle(box, R.string.quick_opacity, dp);
+			}, dp));
+			label(g, R.string.quick_opacity, dp);
 			com.google.android.material.slider.Slider slider = new com.google.android.material.slider.Slider(this);
 			slider.setValueFrom(0);
 			slider.setValueTo(255);
 			slider.setStepSize(1);
 			slider.setValue(vk.getAlpha());
+			slider.setLabelBehavior(com.google.android.material.slider.LabelFormatter.LABEL_GONE);
 			slider.addOnChangeListener((s, value, user) -> vk.setAlpha((int) value));
-			box.addView(slider);
-			rowButton(box, getString(R.string.quick_reset_layout), dp, vk::resetModeLayout);
-		} else {
-			rowButton(box, getString(R.string.PREF_GAME_SPEED), dp, () -> {
-				closeQuickPanel();
-				showGameSpeedDialog();
+			g.addView(slider);
+			rowSwitch(g, R.string.PREF_VK_FEEDBACK, p.vkFeedback, dp, on -> {
+				p.vkFeedback = on;
+				ProfilesManager.saveConfig(p);
 			});
-			if (current instanceof Canvas) {
-				rowButton(box, getString(R.string.take_screenshot), dp, () -> {
-					closeQuickPanel();
-					takeScreenshot();
-				});
+			rowAction(g, R.string.quick_reset_layout, dp, vk::resetModeLayout);
+		} else {
+			LinearLayout g = group(box, R.string.quick_group_speed, dp);
+			label(g, R.string.PREF_GAME_SPEED, dp);
+			final double[] speeds = {0.25, 0.5, 1, 2, 3, 4, 8, 16};
+			final String[] labels = {"0.25×", "0.5×", "1×", "2×", "3×", "4×", "8×", "16×"};
+			int speed = 2;
+			for (int i = 0; i < speeds.length; i++) {
+				if (speeds[i] == VirtualClock.getSpeed()) speed = i;
 			}
-			rowButton(box, getString(R.string.memory_editor), dp, () -> {
+			g.addView(chips(labels, speed, w -> {
+				VirtualClock.setSpeed(speeds[w]);
+				if (speeds[w] != 1) Toast.makeText(this, R.string.game_speed_hint, Toast.LENGTH_SHORT).show();
+			}, dp));
+			label(g, R.string.PREF_LIMIT_FPS, dp);
+			final int[] limits = {0, 15, 30, 60};
+			int limit = Canvas.getLimitFps();
+			int checked = 4; // "Other..."
+			for (int i = 0; i < limits.length; i++) {
+				if (limits[i] == limit) checked = i;
+			}
+			g.addView(chips(new String[]{getString(R.string.unlimited), "15", "30", "60", getString(R.string.quick_other)},
+					checked, w -> {
+						if (w < limits.length) {
+							microLoader.setLimitFps(limits[w]);
+						} else {
+							closeQuickPanel();
+							showLimitFpsDialog();
+						}
+					}, dp));
+
+			g = group(box, R.string.quick_group_tools, dp);
+			rowAction(g, R.string.memory_editor, dp, () -> {
 				closeQuickPanel();
 				MemoryEditor.show(this);
 			});
-			rowButton(box, getString(R.string.quick_more), dp, () -> {
-				closeQuickPanel();
-				openOptionsMenu();
-			});
+			rowAction(g, R.string.save_log, dp, this::saveLog);
 		}
 	}
 
-	private void sectionTitle(LinearLayout box, int text, float dp) {
+	/** A rounded card with a small colored title, like the groups of the mockup. */
+	private LinearLayout group(LinearLayout box, int title, float dp) {
+		LinearLayout g = new LinearLayout(this);
+		g.setOrientation(LinearLayout.VERTICAL);
+		g.setBackground(round(themeColor(com.google.android.material.R.attr.colorSurface), 18 * dp));
+		g.setPadding(0, 0, 0, (int) (4 * dp));
+		TextView t = new TextView(this);
+		t.setText(title);
+		t.setAllCaps(true);
+		t.setTextSize(12);
+		t.setLetterSpacing(0.04f);
+		t.setTypeface(null, android.graphics.Typeface.BOLD);
+		t.setTextColor(themeColor(androidx.appcompat.R.attr.colorPrimary));
+		t.setPadding((int) (14 * dp), (int) (12 * dp), (int) (14 * dp), (int) (2 * dp));
+		g.addView(t);
+		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+				ViewGroup.LayoutParams.WRAP_CONTENT);
+		lp.bottomMargin = (int) (8 * dp);
+		box.addView(g, lp);
+		return g;
+	}
+
+	private void label(LinearLayout g, int text, float dp) {
 		TextView t = new TextView(this);
 		t.setText(text);
-		t.setTextAppearance(com.google.android.material.R.style.TextAppearance_Material3_TitleSmall);
-		t.setTextColor(themeColor(com.google.android.material.R.attr.colorOnSurfaceVariant));
-		t.setPadding(0, (int) (14 * dp), 0, (int) (4 * dp));
-		box.addView(t);
+		t.setTextSize(15);
+		t.setTextColor(themeColor(com.google.android.material.R.attr.colorOnSurface));
+		t.setPadding((int) (14 * dp), (int) (10 * dp), (int) (14 * dp), (int) (2 * dp));
+		g.addView(t);
 	}
 
-	private void rowButton(LinearLayout box, String text, float dp, Runnable action) {
-		com.google.android.material.button.MaterialButton b = tonalButton();
-		b.setText(text);
-		b.setAllCaps(false);
-		b.setGravity(android.view.Gravity.START | android.view.Gravity.CENTER_VERTICAL);
-		b.setOnClickListener(v -> action.run());
-		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-				(int) (52 * dp));
-		lp.topMargin = (int) (6 * dp);
-		box.addView(b, lp);
+	/** A row that does something when touched. */
+	private void rowAction(LinearLayout g, int text, float dp, Runnable action) {
+		TextView t = new TextView(this);
+		t.setText(text);
+		t.setTextSize(15);
+		t.setTextColor(themeColor(com.google.android.material.R.attr.colorOnSurface));
+		t.setGravity(android.view.Gravity.CENTER_VERTICAL);
+		t.setPadding((int) (14 * dp), 0, (int) (14 * dp), 0);
+		t.setMinHeight((int) (48 * dp));
+		TypedValue out = new TypedValue();
+		getTheme().resolveAttribute(android.R.attr.selectableItemBackground, out, true);
+		t.setBackgroundResource(out.resourceId);
+		t.setOnClickListener(v -> action.run());
+		g.addView(t, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+				ViewGroup.LayoutParams.WRAP_CONTENT));
 	}
 
-	/** Filled button in the secondary container color (Material 3 "tonal"). */
-	private com.google.android.material.button.MaterialButton tonalButton() {
-		com.google.android.material.button.MaterialButton b = new com.google.android.material.button.MaterialButton(this);
-		b.setBackgroundTintList(android.content.res.ColorStateList.valueOf(
-				themeColor(com.google.android.material.R.attr.colorSecondaryContainer)));
-		b.setTextColor(themeColor(com.google.android.material.R.attr.colorOnSecondaryContainer));
-		return b;
+	/** A small square button with an icon over its name (the 3 big actions of Controls). */
+	private void tile(LinearLayout row, int icon, int text, float dp, Runnable action) {
+		LinearLayout t = new LinearLayout(this);
+		t.setOrientation(LinearLayout.VERTICAL);
+		int p = (int) (10 * dp);
+		t.setPadding(p, p, p, p);
+		t.setMinimumHeight((int) (72 * dp));
+		t.setBackground(round(themeColor(com.google.android.material.R.attr.colorSecondaryContainer), 14 * dp));
+		int fg = themeColor(com.google.android.material.R.attr.colorOnSecondaryContainer);
+		ImageView i = new ImageView(this);
+		i.setImageResource(icon);
+		i.setColorFilter(fg);
+		t.addView(i, new LinearLayout.LayoutParams((int) (22 * dp), (int) (22 * dp)));
+		TextView l = new TextView(this);
+		l.setText(text);
+		l.setTextColor(fg);
+		l.setTextSize(12);
+		l.setMaxLines(2);
+		l.setEllipsize(TextUtils.TruncateAt.END);
+		l.setPadding(0, (int) (6 * dp), 0, 0);
+		t.addView(l);
+		t.setOnClickListener(v -> action.run());
+		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT, 1);
+		lp.leftMargin = lp.rightMargin = (int) (3 * dp);
+		row.addView(t, lp);
 	}
 
 	private interface OnOff {
@@ -1028,7 +1211,8 @@ public class MicroActivity extends AppCompatActivity {
 		sw.setText(text);
 		sw.setChecked(checked);
 		sw.setTextColor(themeColor(com.google.android.material.R.attr.colorOnSurface));
-		sw.setMinHeight((int) (52 * dp));
+		sw.setMinHeight((int) (48 * dp));
+		sw.setPadding((int) (14 * dp), 0, (int) (14 * dp), 0);
 		sw.setOnCheckedChangeListener((v, on) -> action.set(on));
 		box.addView(sw, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
 				ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -1038,16 +1222,17 @@ public class MicroActivity extends AppCompatActivity {
 		void pick(int which);
 	}
 
-	/** One-choice chips that wrap to the next line (fit any width). */
-	private View chips(String[] names, int selected, Pick pick) {
+	/** One-choice filter chips that wrap to the next line (fit any width). */
+	private View chips(String[] names, int selected, Pick pick, float dp) {
 		com.google.android.material.chip.ChipGroup group = new com.google.android.material.chip.ChipGroup(this);
 		group.setSingleSelection(true);
 		group.setSelectionRequired(true);
+		group.setChipSpacingVertical((int) (2 * dp));
+		group.setPadding((int) (14 * dp), 0, (int) (14 * dp), (int) (6 * dp));
 		for (int i = 0; i < names.length; i++) {
-			com.google.android.material.chip.Chip c = new com.google.android.material.chip.Chip(
-					this, null, com.google.android.material.R.attr.chipStyle);
+			com.google.android.material.chip.Chip c = (com.google.android.material.chip.Chip)
+					getLayoutInflater().inflate(R.layout.quick_chip, group, false);
 			c.setText(names[i]);
-			c.setCheckable(true);
 			c.setChecked(i == selected);
 			int which = i;
 			c.setOnClickListener(v -> pick.pick(which));
@@ -1145,77 +1330,6 @@ public class MicroActivity extends AppCompatActivity {
 		return b;
 	}
 
-	/** Like JarNix: everything about the on-screen controls from inside the game. */
-	private void showControlsMenu() {
-		VirtualKeyboard vk = ContextHolder.getVk();
-		if (vk == null) return;
-		vk.setUserHidden(false);
-		String[] items = {getString(R.string.quick_move_controls), getString(R.string.quick_resize_controls),
-				getString(R.string.hide_buttons), getString(R.string.quick_opacity),
-				getString(R.string.pref_button_style), getString(R.string.quick_reset_layout)};
-		new AlertDialog.Builder(this)
-				.setTitle(R.string.quick_controls)
-				.setItems(items, (d, w) -> {
-					switch (w) {
-						case 0:
-						case 1: startControlsEditor(); break;
-						case 2: showHideButtonDialog(); break;
-						case 3: showOpacityDialog(vk); break;
-						case 4: showButtonStyleDialog(vk); break;
-						default: vk.resetModeLayout(); break;
-					}
-				})
-				.show();
-	}
-
-	private void toastEditDone() {
-		Toast.makeText(this, R.string.quick_edit_hint, Toast.LENGTH_LONG).show();
-	}
-
-	private void showOpacityDialog(VirtualKeyboard vk) {
-		android.widget.SeekBar bar = new android.widget.SeekBar(this);
-		bar.setMax(255);
-		bar.setProgress(vk.getAlpha());
-		int pad = (int) (24 * getResources().getDisplayMetrics().density);
-		bar.setPadding(pad, pad, pad, pad);
-		int old = vk.getAlpha();
-		bar.setOnSeekBarChangeListener(new android.widget.SeekBar.OnSeekBarChangeListener() {
-			@Override
-			public void onProgressChanged(android.widget.SeekBar s, int progress, boolean user) {
-				vk.setAlpha(progress);
-			}
-
-			@Override
-			public void onStartTrackingTouch(android.widget.SeekBar s) {
-			}
-
-			@Override
-			public void onStopTrackingTouch(android.widget.SeekBar s) {
-			}
-		});
-		new AlertDialog.Builder(this)
-				.setTitle(R.string.quick_opacity)
-				.setView(bar)
-				.setPositiveButton(android.R.string.ok, (d, w) -> ProfilesManager.saveConfig(microLoader.params))
-				.setNegativeButton(android.R.string.cancel, (d, w) -> vk.setAlpha(old))
-				.show();
-	}
-
-	private void showButtonStyleDialog(VirtualKeyboard vk) {
-		new AlertDialog.Builder(this)
-				.setTitle(R.string.pref_button_style)
-				.setSingleChoiceItems(R.array.button_style_entries, vk.getButtonStyle(), (d, w) -> {
-					vk.setButtonStyle(w);
-					if (vk.getButtonStyle() != w) {
-						Toast.makeText(this, R.string.button_style_no_skin, Toast.LENGTH_LONG).show();
-					}
-					PreferenceManager.getDefaultSharedPreferences(this).edit()
-							.putString(VirtualKeyboard.PREF_BUTTON_STYLE, String.valueOf(vk.getButtonStyle())).apply();
-					d.dismiss();
-				})
-				.show();
-	}
-
 	/** Shows the keys again, or turns the on-screen keyboard on if this game had it off. */
 	private void showKeyboardNow() {
 		VirtualKeyboard vk = ContextHolder.getVk();
@@ -1234,50 +1348,6 @@ public class MicroActivity extends AppCompatActivity {
 			((Canvas) current).attachOverlay();
 		}
 		invalidateOptionsMenu();
-	}
-
-	private void showQuickScale() {
-		new AlertDialog.Builder(this)
-				.setTitle(R.string.quick_scale)
-				.setSingleChoiceItems(R.array.pref_scale_type_entries, Canvas.getScaleType(), (d, w) -> {
-					ProfileModel p = microLoader.params;
-					p.screenScaleType = w;
-					p.screenScaleRatio = 100; // the whole screen, without an old zoom
-					Canvas.setScale(p.screenGravity, w, p.screenScaleRatio);
-					applyQuickChange();
-					d.dismiss();
-				})
-				.show();
-	}
-
-	private void showQuickFilter() {
-		if (microLoader.params.graphicsMode != 1) {
-			Toast.makeText(this, R.string.quick_filter_gl_only, Toast.LENGTH_LONG).show();
-			return;
-		}
-		// the game runs in its own process: use its work folder, like when the game starts
-		File dir = new File(microLoader.getShadersDir());
-		Filters.installBundled(this, dir);
-		java.util.ArrayList<ShaderInfo> list = Filters.list(dir);
-		list.add(0, null); // no filter
-		String[] names = new String[list.size()];
-		names[0] = getString(R.string.identity_filter);
-		for (int i = 1; i < names.length; i++) names[i] = list.get(i).toString();
-		int checked = Math.max(0, list.indexOf(Canvas.getShaderFilter()));
-		new AlertDialog.Builder(this)
-				.setTitle(R.string.quick_filter)
-				.setSingleChoiceItems(names, checked, (d, w) -> {
-					ShaderInfo shader = list.get(w);
-					if (shader != null) {
-						shader.dir = dir.getPath() + "/";
-						shader.values = Filters.defaultValues(shader);
-					}
-					microLoader.params.shader = shader;
-					Canvas.setShaderFilter(shader);
-					applyQuickChange();
-					d.dismiss();
-				})
-				.show();
 	}
 
 	/** Shows a quick settings change on the running game and saves it for next time. */

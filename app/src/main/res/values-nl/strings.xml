@@ -302,4 +302,13 @@
     <string name="quick_done">Klaar</string>
     <string name="quick_move_piece">Verplaatsen: deel</string>
     <string name="quick_move_free">Verplaatsen: vrij</string>
+    <string name="quick_group_size">Grootte</string>
+    <string name="quick_group_image">Beeld</string>
+    <string name="quick_group_rotation">Draaien</string>
+    <string name="quick_group_bars">Balken</string>
+    <string name="quick_group_keys">Schermknoppen</string>
+    <string name="quick_group_style">Stijl</string>
+    <string name="quick_group_speed">Snelheid</string>
+    <string name="quick_group_tools">Hulpmiddelen</string>
+    <string name="quick_other">Anders…</string>
 </resources>

@@ -68,10 +68,14 @@
 
     <style name="ConfigTitleTextStyle">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">40dp</item>
-        <item name="android:textSize">18sp</item>
-        <item name="android:textColor">?attr/textColorPrimary</item>
-        <item name="android:gravity">center</item>
+        <item name="android:layout_height">36dp</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:letterSpacing">0.04</item>
+        <item name="android:paddingStart">4dp</item>
+        <item name="android:textColor">?attr/colorPrimary</item>
+        <item name="android:gravity">start|center_vertical</item>
     </style>
 
     <style name="SwitchStyle">
@@ -85,8 +89,10 @@
         <item name="android:minHeight">38dp</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">16sp</item>
-        <item name="android:textColorHint">#b0b0b0</item>
+        <item name="android:textColorHint">?attr/colorOnSurfaceVariant</item>
         <item name="android:textColor">?attr/textColorPrimary</item>
+        <item name="android:background">@drawable/bg_edit_outline</item>
+        <item name="android:layout_margin">3dp</item>
     </style>
 
     <style name="ButtonStyle" parent="Widget.Material3.Button.TonalButton">

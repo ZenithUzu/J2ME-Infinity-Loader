@@ -317,4 +317,13 @@
     <string name="quick_done">Готово</string>
     <string name="quick_move_piece">Местене: част</string>
     <string name="quick_move_free">Местене: свободно</string>
+    <string name="quick_group_size">Размер</string>
+    <string name="quick_group_image">Изображение</string>
+    <string name="quick_group_rotation">Завъртане</string>
+    <string name="quick_group_bars">Ленти</string>
+    <string name="quick_group_keys">Екранни бутони</string>
+    <string name="quick_group_style">Стил</string>
+    <string name="quick_group_speed">Скорост</string>
+    <string name="quick_group_tools">Инструменти</string>
+    <string name="quick_other">Друго…</string>
 </resources>

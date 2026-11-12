@@ -347,4 +347,13 @@
     <string name="quick_done">Terminé</string>
     <string name="quick_move_piece">Déplacer : bloc</string>
     <string name="quick_move_free">Déplacer : libre</string>
+    <string name="quick_group_size">Taille</string>
+    <string name="quick_group_image">Image</string>
+    <string name="quick_group_rotation">Rotation</string>
+    <string name="quick_group_bars">Barres</string>
+    <string name="quick_group_keys">Touches à l\'écran</string>
+    <string name="quick_group_style">Style</string>
+    <string name="quick_group_speed">Vitesse</string>
+    <string name="quick_group_tools">Outils</string>
+    <string name="quick_other">Autre…</string>
 </resources>

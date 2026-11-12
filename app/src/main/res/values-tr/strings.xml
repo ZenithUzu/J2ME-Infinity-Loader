@@ -348,4 +348,13 @@
     <string name="quick_done">Bitti</string>
     <string name="quick_move_piece">Taşı: parça</string>
     <string name="quick_move_free">Taşı: serbest</string>
+    <string name="quick_group_size">Boyut</string>
+    <string name="quick_group_image">Görüntü</string>
+    <string name="quick_group_rotation">Döndürme</string>
+    <string name="quick_group_bars">Çubuklar</string>
+    <string name="quick_group_keys">Ekran düğmeleri</string>
+    <string name="quick_group_style">Stil</string>
+    <string name="quick_group_speed">Hız</string>
+    <string name="quick_group_tools">Araçlar</string>
+    <string name="quick_other">Diğer…</string>
 </resources>

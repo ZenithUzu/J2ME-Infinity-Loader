@@ -332,6 +332,7 @@ public abstract class Canvas extends Displayable {
 	public static void setScreenRotation(int mode) {
 		Canvas.screenRotation = mode == 1 ? 90 : mode == 2 ? 270 : 0;
 		if (mode == 3) AutoRotate.begin();
+		else AutoRotate.tracking = false; // a fixed choice from the quick menu wins
 	}
 
 	public static void setScale(int screenGravity, int scaleType, int scaleRatio) {
@@ -380,6 +381,11 @@ protected int getSupersamplingFactor() {
 
 	public static void setShowFps(boolean showFps) {
 		Canvas.showFps = showFps;
+	}
+
+	/** @return the FPS limit, 0 if there is none */
+	public static int getLimitFps() {
+		return fpsLimit >= 1000 ? 0 : fpsLimit;
 	}
 
 	public static void setLimitFps(int fpsLimit) {

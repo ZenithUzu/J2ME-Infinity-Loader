@@ -334,4 +334,13 @@
     <string name="quick_done">Fertig</string>
     <string name="quick_move_piece">Verschieben: Teil</string>
     <string name="quick_move_free">Verschieben: frei</string>
+    <string name="quick_group_size">Größe</string>
+    <string name="quick_group_image">Bild</string>
+    <string name="quick_group_rotation">Drehung</string>
+    <string name="quick_group_bars">Leisten</string>
+    <string name="quick_group_keys">Bildschirmtasten</string>
+    <string name="quick_group_style">Stil</string>
+    <string name="quick_group_speed">Tempo</string>
+    <string name="quick_group_tools">Werkzeuge</string>
+    <string name="quick_other">Andere…</string>
 </resources>

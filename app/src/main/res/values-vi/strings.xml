@@ -342,4 +342,13 @@
     <string name="quick_done">Xong</string>
     <string name="quick_move_piece">Di chuyển: cụm</string>
     <string name="quick_move_free">Di chuyển: tự do</string>
+    <string name="quick_group_size">Kích thước</string>
+    <string name="quick_group_image">Hình ảnh</string>
+    <string name="quick_group_rotation">Xoay</string>
+    <string name="quick_group_bars">Thanh</string>
+    <string name="quick_group_keys">Nút trên màn hình</string>
+    <string name="quick_group_style">Kiểu</string>
+    <string name="quick_group_speed">Tốc độ</string>
+    <string name="quick_group_tools">Công cụ</string>
+    <string name="quick_other">Khác…</string>
 </resources>

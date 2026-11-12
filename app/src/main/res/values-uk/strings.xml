@@ -350,4 +350,13 @@
     <string name="quick_done">Готово</string>
     <string name="quick_move_piece">Рухати: блок</string>
     <string name="quick_move_free">Рухати: вільно</string>
+    <string name="quick_group_size">Розмір</string>
+    <string name="quick_group_image">Зображення</string>
+    <string name="quick_group_rotation">Поворот</string>
+    <string name="quick_group_bars">Панелі</string>
+    <string name="quick_group_keys">Екранні кнопки</string>
+    <string name="quick_group_style">Стиль</string>
+    <string name="quick_group_speed">Швидкість</string>
+    <string name="quick_group_tools">Інструменти</string>
+    <string name="quick_other">Інше…</string>
 </resources>

@@ -250,4 +250,13 @@
     <string name="quick_done">ହେଲା</string>
     <string name="quick_move_piece">ଘୁଞ୍ଚାନ୍ତୁ: ଅଂଶ</string>
     <string name="quick_move_free">ଘୁଞ୍ଚାନ୍ତୁ: ମୁକ୍ତ</string>
+    <string name="quick_group_size">ଆକାର</string>
+    <string name="quick_group_image">ଛବି</string>
+    <string name="quick_group_rotation">ଘୂର୍ଣ୍ଣନ</string>
+    <string name="quick_group_bars">ବାର</string>
+    <string name="quick_group_keys">ସ୍କ୍ରିନ ବଟନ</string>
+    <string name="quick_group_style">ଶୈଳୀ</string>
+    <string name="quick_group_speed">ଗତି</string>
+    <string name="quick_group_tools">ଉପକରଣ</string>
+    <string name="quick_other">ଅନ୍ୟ…</string>
 </resources>

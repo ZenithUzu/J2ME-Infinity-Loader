@@ -350,4 +350,13 @@
     <string name="quick_done">تم</string>
     <string name="quick_move_piece">النقل: قطعة</string>
     <string name="quick_move_free">النقل: حر</string>
+    <string name="quick_group_size">الحجم</string>
+    <string name="quick_group_image">الصورة</string>
+    <string name="quick_group_rotation">التدوير</string>
+    <string name="quick_group_bars">الأشرطة</string>
+    <string name="quick_group_keys">أزرار الشاشة</string>
+    <string name="quick_group_style">النمط</string>
+    <string name="quick_group_speed">السرعة</string>
+    <string name="quick_group_tools">الأدوات</string>
+    <string name="quick_other">أخرى…</string>
 </resources>

@@ -350,4 +350,13 @@
     <string name="quick_done">完成</string>
     <string name="quick_move_piece">移动：整组</string>
     <string name="quick_move_free">移动：自由</string>
+    <string name="quick_group_size">大小</string>
+    <string name="quick_group_image">画面</string>
+    <string name="quick_group_rotation">旋转</string>
+    <string name="quick_group_bars">栏</string>
+    <string name="quick_group_keys">屏幕按键</string>
+    <string name="quick_group_style">样式</string>
+    <string name="quick_group_speed">速度</string>
+    <string name="quick_group_tools">工具</string>
+    <string name="quick_other">其他…</string>
 </resources>

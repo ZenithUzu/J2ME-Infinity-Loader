@@ -350,4 +350,13 @@
     <string name="quick_done">Selesai</string>
     <string name="quick_move_piece">Pindah: bagian</string>
     <string name="quick_move_free">Pindah: bebas</string>
+    <string name="quick_group_size">Ukuran</string>
+    <string name="quick_group_image">Gambar</string>
+    <string name="quick_group_rotation">Rotasi</string>
+    <string name="quick_group_bars">Bilah</string>
+    <string name="quick_group_keys">Tombol layar</string>
+    <string name="quick_group_style">Gaya</string>
+    <string name="quick_group_speed">Kecepatan</string>
+    <string name="quick_group_tools">Alat</string>
+    <string name="quick_other">Lainnya…</string>
 </resources>

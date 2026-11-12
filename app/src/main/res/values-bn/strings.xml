@@ -253,4 +253,13 @@
     <string name="quick_done">সম্পন্ন</string>
     <string name="quick_move_piece">সরান: অংশ</string>
     <string name="quick_move_free">সরান: মুক্ত</string>
+    <string name="quick_group_size">আকার</string>
+    <string name="quick_group_image">ছবি</string>
+    <string name="quick_group_rotation">ঘোরানো</string>
+    <string name="quick_group_bars">বার</string>
+    <string name="quick_group_keys">স্ক্রিন বোতাম</string>
+    <string name="quick_group_style">স্টাইল</string>
+    <string name="quick_group_speed">গতি</string>
+    <string name="quick_group_tools">টুল</string>
+    <string name="quick_other">অন্যান্য…</string>
 </resources>

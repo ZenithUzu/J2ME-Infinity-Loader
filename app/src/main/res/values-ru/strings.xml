@@ -355,4 +355,13 @@
     <string name="quick_done">Готово</string>
     <string name="quick_move_piece">Двигать: блок</string>
     <string name="quick_move_free">Двигать: свободно</string>
+    <string name="quick_group_size">Размер</string>
+    <string name="quick_group_image">Изображение</string>
+    <string name="quick_group_rotation">Поворот</string>
+    <string name="quick_group_bars">Панели</string>
+    <string name="quick_group_keys">Экранные кнопки</string>
+    <string name="quick_group_style">Стиль</string>
+    <string name="quick_group_speed">Скорость</string>
+    <string name="quick_group_tools">Инструменты</string>
+    <string name="quick_other">Другое…</string>
 </resources>

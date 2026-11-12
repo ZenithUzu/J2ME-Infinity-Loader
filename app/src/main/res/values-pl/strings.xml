@@ -300,4 +300,13 @@
     <string name="quick_done">Gotowe</string>
     <string name="quick_move_piece">Przesuń: część</string>
     <string name="quick_move_free">Przesuń: swobodnie</string>
+    <string name="quick_group_size">Rozmiar</string>
+    <string name="quick_group_image">Obraz</string>
+    <string name="quick_group_rotation">Obrót</string>
+    <string name="quick_group_bars">Paski</string>
+    <string name="quick_group_keys">Przyciski ekranowe</string>
+    <string name="quick_group_style">Styl</string>
+    <string name="quick_group_speed">Szybkość</string>
+    <string name="quick_group_tools">Narzędzia</string>
+    <string name="quick_other">Inne…</string>
 </resources>

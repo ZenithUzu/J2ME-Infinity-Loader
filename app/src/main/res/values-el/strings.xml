@@ -333,4 +333,13 @@
     <string name="quick_done">Τέλος</string>
     <string name="quick_move_piece">Μετακίνηση: κομμάτι</string>
     <string name="quick_move_free">Μετακίνηση: ελεύθερα</string>
+    <string name="quick_group_size">Μέγεθος</string>
+    <string name="quick_group_image">Εικόνα</string>
+    <string name="quick_group_rotation">Περιστροφή</string>
+    <string name="quick_group_bars">Γραμμές</string>
+    <string name="quick_group_keys">Κουμπιά οθόνης</string>
+    <string name="quick_group_style">Στυλ</string>
+    <string name="quick_group_speed">Ταχύτητα</string>
+    <string name="quick_group_tools">Εργαλεία</string>
+    <string name="quick_other">Άλλο…</string>
 </resources>

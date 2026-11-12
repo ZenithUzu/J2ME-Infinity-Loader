@@ -443,4 +443,13 @@
     <string name="quick_done">Done</string>
     <string name="quick_move_piece">Move: piece</string>
     <string name="quick_move_free">Move: free</string>
+    <string name="quick_group_size">Size</string>
+    <string name="quick_group_image">Image</string>
+    <string name="quick_group_rotation">Rotation</string>
+    <string name="quick_group_bars">Bars</string>
+    <string name="quick_group_keys">On-screen keys</string>
+    <string name="quick_group_style">Style</string>
+    <string name="quick_group_speed">Speed</string>
+    <string name="quick_group_tools">Tools</string>
+    <string name="quick_other">Other…</string>
 </resources>

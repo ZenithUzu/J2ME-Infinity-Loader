@@ -269,4 +269,13 @@
     <string name="quick_done">تمام</string>
     <string name="quick_move_piece">جابه‌جایی: بخش</string>
     <string name="quick_move_free">جابه‌جایی: آزاد</string>
+    <string name="quick_group_size">اندازه</string>
+    <string name="quick_group_image">تصویر</string>
+    <string name="quick_group_rotation">چرخش</string>
+    <string name="quick_group_bars">نوارها</string>
+    <string name="quick_group_keys">دکمه‌های صفحه</string>
+    <string name="quick_group_style">سبک</string>
+    <string name="quick_group_speed">سرعت</string>
+    <string name="quick_group_tools">ابزارها</string>
+    <string name="quick_other">دیگر…</string>
 </resources>

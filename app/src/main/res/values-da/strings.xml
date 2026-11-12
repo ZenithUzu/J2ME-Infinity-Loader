@@ -224,4 +224,13 @@
     <string name="quick_done">Færdig</string>
     <string name="quick_move_piece">Flyt: del</string>
     <string name="quick_move_free">Flyt: frit</string>
+    <string name="quick_group_size">Størrelse</string>
+    <string name="quick_group_image">Billede</string>
+    <string name="quick_group_rotation">Rotation</string>
+    <string name="quick_group_bars">Bjælker</string>
+    <string name="quick_group_keys">Skærmknapper</string>
+    <string name="quick_group_style">Stil</string>
+    <string name="quick_group_speed">Hastighed</string>
+    <string name="quick_group_tools">Værktøjer</string>
+    <string name="quick_other">Andet…</string>
 </resources>

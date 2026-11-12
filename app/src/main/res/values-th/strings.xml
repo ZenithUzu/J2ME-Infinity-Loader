@@ -236,4 +236,13 @@
     <string name="quick_done">เสร็จ</string>
     <string name="quick_move_piece">ย้าย: ทั้งชุด</string>
     <string name="quick_move_free">ย้าย: อิสระ</string>
+    <string name="quick_group_size">ขนาด</string>
+    <string name="quick_group_image">ภาพ</string>
+    <string name="quick_group_rotation">การหมุน</string>
+    <string name="quick_group_bars">แถบ</string>
+    <string name="quick_group_keys">ปุ่มบนหน้าจอ</string>
+    <string name="quick_group_style">สไตล์</string>
+    <string name="quick_group_speed">ความเร็ว</string>
+    <string name="quick_group_tools">เครื่องมือ</string>
+    <string name="quick_other">อื่นๆ…</string>
 </resources>

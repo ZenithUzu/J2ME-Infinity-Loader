@@ -302,4 +302,13 @@
     <string name="quick_done">완료</string>
     <string name="quick_move_piece">이동: 부품</string>
     <string name="quick_move_free">이동: 자유</string>
+    <string name="quick_group_size">크기</string>
+    <string name="quick_group_image">이미지</string>
+    <string name="quick_group_rotation">회전</string>
+    <string name="quick_group_bars">바</string>
+    <string name="quick_group_keys">화면 버튼</string>
+    <string name="quick_group_style">스타일</string>
+    <string name="quick_group_speed">속도</string>
+    <string name="quick_group_tools">도구</string>
+    <string name="quick_other">기타…</string>
 </resources>

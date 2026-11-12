@@ -350,4 +350,13 @@
     <string name="quick_done">Hotovo</string>
     <string name="quick_move_piece">Posun: část</string>
     <string name="quick_move_free">Posun: volně</string>
+    <string name="quick_group_size">Velikost</string>
+    <string name="quick_group_image">Obraz</string>
+    <string name="quick_group_rotation">Otočení</string>
+    <string name="quick_group_bars">Lišty</string>
+    <string name="quick_group_keys">Tlačítka na obrazovce</string>
+    <string name="quick_group_style">Styl</string>
+    <string name="quick_group_speed">Rychlost</string>
+    <string name="quick_group_tools">Nástroje</string>
+    <string name="quick_other">Jiné…</string>
 </resources>
