@@ -1070,9 +1070,8 @@ public class MicroActivity extends AppCompatActivity {
 			}, dp));
 
 			g = group(box, R.string.quick_group_image, dp);
-			label(g, R.string.quick_filter, dp);
 			if (p.graphicsMode == 1) {
-				// the game runs in its own process: use its work folder, like when the game starts
+				// one row with the filter in use; touching it opens the list (it can be long)
 				File dir = new File(microLoader.getShadersDir());
 				Filters.installBundled(this, dir);
 				java.util.ArrayList<ShaderInfo> list = Filters.list(dir);
@@ -1080,17 +1079,27 @@ public class MicroActivity extends AppCompatActivity {
 				String[] names = new String[list.size()];
 				names[0] = getString(R.string.identity_filter);
 				for (int i = 1; i < names.length; i++) names[i] = list.get(i).toString();
-				g.addView(chips(names, Math.max(0, list.indexOf(Canvas.getShaderFilter())), w -> {
-					ShaderInfo shader = list.get(w);
-					if (shader != null) {
-						shader.dir = dir.getPath() + "/";
-						shader.values = Filters.defaultValues(shader);
-					}
-					p.shader = shader;
-					Canvas.setShaderFilter(shader);
-					applyQuickChange();
-				}, dp));
+				int now = Math.max(0, list.indexOf(Canvas.getShaderFilter()));
+				TextView[] value = new TextView[1];
+				value[0] = rowValue(g, R.string.quick_filter, names[now] + "  ▾", dp, () ->
+						new com.google.android.material.dialog.MaterialAlertDialogBuilder(this)
+								.setTitle(R.string.quick_filter)
+								.setSingleChoiceItems(names, Math.max(0, list.indexOf(Canvas.getShaderFilter())), (d, w) -> {
+									ShaderInfo shader = list.get(w);
+									if (shader != null) {
+										shader.dir = dir.getPath() + "/";
+										shader.values = Filters.defaultValues(shader);
+									}
+									p.shader = shader;
+									Canvas.setShaderFilter(shader);
+									applyQuickChange();
+									value[0].setText(names[w] + "  ▾");
+									d.dismiss();
+								})
+								.setNegativeButton(android.R.string.cancel, null)
+								.show());
 			} else {
+				label(g, R.string.quick_filter, dp);
 				TextView note = new TextView(this);
 				note.setText(R.string.quick_filter_gl_only);
 				note.setTextColor(themeColor(com.google.android.material.R.attr.colorOnSurfaceVariant));
@@ -1286,6 +1295,34 @@ public class MicroActivity extends AppCompatActivity {
 		t.setOnClickListener(v -> action.run());
 		g.addView(t, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
 				ViewGroup.LayoutParams.WRAP_CONTENT));
+	}
+
+	/** A row "title ......... value" that does something when touched; returns the value. */
+	private TextView rowValue(LinearLayout g, int title, String value, float dp, Runnable action) {
+		LinearLayout r = new LinearLayout(this);
+		r.setGravity(android.view.Gravity.CENTER_VERTICAL);
+		r.setMinimumHeight((int) (48 * dp));
+		r.setPadding((int) (14 * dp), 0, (int) (14 * dp), 0);
+		TypedValue out = new TypedValue();
+		getTheme().resolveAttribute(android.R.attr.selectableItemBackground, out, true);
+		r.setBackgroundResource(out.resourceId);
+		TextView t = new TextView(this);
+		t.setText(title);
+		t.setTextSize(15);
+		t.setTextColor(themeColor(com.google.android.material.R.attr.colorOnSurface));
+		r.addView(t, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
+		TextView v = new TextView(this);
+		v.setText(value);
+		v.setTextSize(14);
+		v.setMaxLines(1);
+		v.setEllipsize(TextUtils.TruncateAt.END);
+		v.setMaxWidth((int) (180 * dp));
+		v.setTextColor(themeColor(androidx.appcompat.R.attr.colorPrimary));
+		r.addView(v);
+		r.setOnClickListener(x -> action.run());
+		g.addView(r, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+				ViewGroup.LayoutParams.WRAP_CONTENT));
+		return v;
 	}
 
 	/** A small square button with an icon over its name (the 3 big actions of Controls). */

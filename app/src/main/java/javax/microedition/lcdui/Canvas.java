@@ -1166,6 +1166,8 @@ protected int getSupersamplingFactor() {
 		private ShaderProgram program;
 		private boolean isStarted;
 		private int frameNumber;
+		/** part of the texture that is shown (0..1) */
+		private volatile float spanX = 1, spanY = 1;
 
 		@Override
 		public void onSurfaceCreated(GL10 gl, EGLConfig config) {
@@ -1176,12 +1178,20 @@ protected int getSupersamplingFactor() {
 			glDisable(GL_DEPTH_TEST);
 			glDepthMask(false);
 			initTex();
-			Bitmap bitmap = offscreenCopy.getBitmap();
-			program.loadVbo(vbo, bitmap.getWidth(), bitmap.getHeight());
+			loadVbo();
 			if (shaderFilter != null && shaderFilter.values != null && program.uSetting >= 0) {
 				glUniform4fv(program.uSetting, 1, shaderFilter.values, 0);
 			}
 			isStarted = true;
+		}
+
+		/** the game's pixels in the texture: filters work on these, not on supersampled ones */
+		private void loadVbo() {
+			Bitmap bitmap = offscreenCopy.getBitmap();
+			float ss = Math.max(1, supersamplingFactor);
+			synchronized (vbo) {
+				program.loadVbo(vbo, bitmap.getWidth() / ss, bitmap.getHeight() / ss, shownW, shownH);
+			}
 		}
 
 		@Override
@@ -1198,7 +1208,10 @@ protected int getSupersamplingFactor() {
 			synchronized (bufferLock) {
 				GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, offscreenCopy.getBitmap(), 0);
 			}
-			program.setOutputSize(onWidth, onHeight, frameNumber++);
+			// output size along the texture's axes (swapped when the image is turned 90/270)
+			boolean turned = screenRotation == 90 || screenRotation == 270;
+			program.setOutputSize(turned ? onHeight : onWidth, turned ? onWidth : onHeight,
+					spanX, spanY, frameNumber++);
 			glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 			if (fpsCounter != null) {
 				fpsCounter.increment();
@@ -1240,13 +1253,10 @@ protected int getSupersamplingFactor() {
 				vertex_bg.put(gr).put(gt).put(t[o[2]][0]).put(t[o[2]][1]);// rt
 				vertex_bg.put(gr).put(gb).put(t[o[3]][0]).put(t[o[3]][1]);// rb
 			}
+			spanX = tw - tx;
+			spanY = th - ty;
 			if (isStarted) {
-				mView.queueEvent(() -> {
-					Bitmap bitmap = offscreenCopy.getBitmap();
-					synchronized (vbo) {
-						program.loadVbo(vbo, bitmap.getWidth(), bitmap.getHeight());
-					}
-				});
+				mView.queueEvent(this::loadVbo);
 			}
 		}
 
@@ -1273,10 +1283,7 @@ protected int getSupersamplingFactor() {
 				glTexParameteri(GLES20.GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, linear ? GL_LINEAR : GL_NEAREST);
 				glTexParameteri(GLES20.GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, linear ? GL_LINEAR : GL_NEAREST);
 				glUniform1i(program.uTextureUnit, 0);
-				Bitmap bitmap = offscreenCopy.getBitmap();
-				synchronized (vbo) {
-					program.loadVbo(vbo, bitmap.getWidth(), bitmap.getHeight());
-				}
+				loadVbo();
 				if (shaderFilter != null && shaderFilter.values != null && program.uSetting >= 0) {
 					glUniform4fv(program.uSetting, 1, shaderFilter.values, 0);
 				}

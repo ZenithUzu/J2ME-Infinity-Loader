@@ -56,11 +56,20 @@ public final class Filters {
 			String[] files = context.getAssets().list(ASSETS);
 			if (files == null) return;
 			dir.mkdirs();
+			// a new app version may bring fixed filters: then the bundled ones are copied again
+			File stamp = new File(dir, ".bundled");
+			String version = String.valueOf(ru.playsoftware.j2meloader.BuildConfig.VERSION_CODE);
+			boolean update = !version.equals(stamp.exists() ? FileUtils.getText(stamp.getAbsolutePath()).trim() : "");
 			for (String name : files) {
 				File out = new File(dir, name);
-				if (out.exists()) continue;
+				if (out.exists() && !update) continue;
 				try (InputStream in = context.getAssets().open(ASSETS + "/" + name)) {
 					copy(in, out);
+				}
+			}
+			if (update) {
+				try (java.io.FileOutputStream os = new java.io.FileOutputStream(stamp)) {
+					os.write(version.getBytes());
 				}
 			}
 		} catch (IOException e) {

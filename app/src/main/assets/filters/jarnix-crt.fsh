@@ -6,11 +6,15 @@ uniform vec2 u_texelDelta;
 uniform vec2 u_pixelDelta;
 varying vec2 v_texcoord0;
 uniform vec4 u_setting;
+uniform vec2 TextureSize;
+uniform vec2 InputSize;
 void effectMain() {
-  vec2 uv = v_texcoord0 * 2.0 - 1.0;
+  // the game may use only part of the texture: curve that part, not the whole texture
+  vec2 span = InputSize / TextureSize;
+  vec2 uv = v_texcoord0 / span * 2.0 - 1.0;
   uv *= 1.0 + vec2(uv.y * uv.y, uv.x * uv.x) * 0.045;
-  vec2 tc = uv * 0.5 + 0.5;
-  if (tc.x < 0.0 || tc.y < 0.0 || tc.x > 1.0 || tc.y > 1.0) { gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0); return; }
+  vec2 tc = (uv * 0.5 + 0.5) * span;
+  if (tc.x < 0.0 || tc.y < 0.0 || tc.x > span.x || tc.y > span.y) { gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0); return; }
   vec3 c = texture2D(sampler0, tc).rgb;
   float scan = 0.72 + 0.28 * sin(fract(tc.y / u_texelDelta.y) * 3.14159);
   float m = mod(gl_FragCoord.x, 3.0);

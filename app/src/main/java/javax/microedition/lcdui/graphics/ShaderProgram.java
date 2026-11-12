@@ -145,7 +145,12 @@ public class ShaderProgram {
 		return shader;
 	}
 
-	public void loadVbo(FloatBuffer vbo, float width, float height) {
+	/**
+	 * @param width  texture size in GAME pixels (the bitmap divided by the supersampling), so
+	 *               pixel filters (LCD grid, scanlines, xBR...) work on the game's real pixels
+	 * @param inW    game pixels shown (InputSize)
+	 */
+	public void loadVbo(FloatBuffer vbo, float width, float height, float inW, float inH) {
 		vbo.rewind();
 		glVertexAttribPointer(aPosition, 2, GL_FLOAT, false, 4 * 4, vbo);
 		glEnableVertexAttribArray(aPosition);
@@ -158,16 +163,17 @@ public class ShaderProgram {
 			glUniform2f(uTexelDelta, 1.0f / width, 1.0f / height);
 		}
 		if (uTextureSize >= 0) glUniform2f(uTextureSize, width, height);
-		if (uInputSize >= 0) glUniform2f(uInputSize, width, height);
+		if (uInputSize >= 0) glUniform2f(uInputSize, inW, inH);
 		if (uMvp >= 0) {
 			glUniformMatrix4fv(uMvp, 1, false, new float[]{1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1}, 0);
 		}
 	}
 
 	/** Size of the game image on screen, sent every frame (it changes with scaling). */
-	public void setOutputSize(float width, float height, int frame) {
+	public void setOutputSize(float width, float height, float spanX, float spanY, int frame) {
 		if (width <= 0 || height <= 0) return;
-		if (uPixelDelta >= 0) glUniform2f(uPixelDelta, 1.0f / width, 1.0f / height);
+		// one screen pixel in texture coordinates (the shown part of the texture is span wide)
+		if (uPixelDelta >= 0) glUniform2f(uPixelDelta, spanX / width, spanY / height);
 		if (uOutputSize >= 0) glUniform2f(uOutputSize, width, height);
 		if (uFrameCount >= 0) glUniform1i(uFrameCount, frame);
 	}
