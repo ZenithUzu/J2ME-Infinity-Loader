@@ -371,4 +371,8 @@
     <string name="pref_black_background_title">Fondo negro</string>
     <string name="pref_black_background_summary">Para el tema oscuro</string>
     <string name="pref_add_cutout_area_title">Usar la zona de la cámara</string>
+    <string name="quick_resolution">Resolución</string>
+    <string name="quick_resolution_restart">Los juegos leen el tamaño de pantalla al iniciar, así que la nueva resolución se usa al reiniciar el juego.</string>
+    <string name="quick_restart_now">Reiniciar ahora</string>
+    <string name="quick_restart_later">Después</string>
 </resources>

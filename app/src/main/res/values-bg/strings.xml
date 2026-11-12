@@ -338,4 +338,8 @@
     <string name="pref_black_background_title">Черен фон</string>
     <string name="pref_black_background_summary">За тъмната тема</string>
     <string name="pref_add_cutout_area_title">Използвай зоната на изреза</string>
+    <string name="quick_resolution">Резолюция</string>
+    <string name="quick_resolution_restart">Игрите четат размера на екрана при стартиране, затова новата резолюция важи след рестарт на играта.</string>
+    <string name="quick_restart_now">Рестартирай</string>
+    <string name="quick_restart_later">По-късно</string>
 </resources>

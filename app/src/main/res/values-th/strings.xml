@@ -257,4 +257,8 @@
     <string name="pref_black_background_title">พื้นหลังสีดำ</string>
     <string name="pref_black_background_summary">สำหรับธีมมืด</string>
     <string name="pref_add_cutout_area_title">ใช้พื้นที่รอยบาก</string>
+    <string name="quick_resolution">ความละเอียด</string>
+    <string name="quick_resolution_restart">เกมอ่านขนาดหน้าจอตอนเริ่ม ความละเอียดใหม่จึงใช้หลังจากเริ่มเกมใหม่</string>
+    <string name="quick_restart_now">เริ่มใหม่ตอนนี้</string>
+    <string name="quick_restart_later">ภายหลัง</string>
 </resources>

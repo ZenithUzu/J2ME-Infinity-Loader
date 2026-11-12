@@ -368,4 +368,8 @@
     <string name="pref_black_background_title">Fond noir</string>
     <string name="pref_black_background_summary">Pour le thème sombre</string>
     <string name="pref_add_cutout_area_title">Utiliser la zone de l\'encoche</string>
+    <string name="quick_resolution">Résolution</string>
+    <string name="quick_resolution_restart">Les jeux lisent la taille de l\'écran au démarrage : la nouvelle résolution s\'applique après avoir relancé le jeu.</string>
+    <string name="quick_restart_now">Relancer maintenant</string>
+    <string name="quick_restart_later">Plus tard</string>
 </resources>

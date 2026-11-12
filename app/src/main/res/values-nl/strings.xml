@@ -323,4 +323,8 @@
     <string name="pref_black_background_title">Zwarte achtergrond</string>
     <string name="pref_black_background_summary">Voor het donkere thema</string>
     <string name="pref_add_cutout_area_title">Uitsparing gebruiken</string>
+    <string name="quick_resolution">Resolutie</string>
+    <string name="quick_resolution_restart">Games lezen de schermgrootte bij het starten, dus de nieuwe resolutie geldt na het herstarten van de game.</string>
+    <string name="quick_restart_now">Nu herstarten</string>
+    <string name="quick_restart_later">Later</string>
 </resources>

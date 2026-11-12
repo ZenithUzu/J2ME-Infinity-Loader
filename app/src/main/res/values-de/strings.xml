@@ -355,4 +355,8 @@
     <string name="pref_black_background_title">Schwarzer Hintergrund</string>
     <string name="pref_black_background_summary">Für das dunkle Design</string>
     <string name="pref_add_cutout_area_title">Kamera-Aussparung nutzen</string>
+    <string name="quick_resolution">Auflösung</string>
+    <string name="quick_resolution_restart">Spiele lesen die Bildschirmgröße beim Start, daher gilt die neue Auflösung nach einem Neustart des Spiels.</string>
+    <string name="quick_restart_now">Jetzt neu starten</string>
+    <string name="quick_restart_later">Später</string>
 </resources>

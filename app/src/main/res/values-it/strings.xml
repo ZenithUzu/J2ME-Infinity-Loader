@@ -310,4 +310,8 @@
     <string name="pref_black_background_title">Sfondo nero</string>
     <string name="pref_black_background_summary">Per il tema scuro</string>
     <string name="pref_add_cutout_area_title">Usa l\'area del notch</string>
+    <string name="quick_resolution">Risoluzione</string>
+    <string name="quick_resolution_restart">I giochi leggono le dimensioni dello schermo all\'avvio, quindi la nuova risoluzione vale dopo aver riavviato il gioco.</string>
+    <string name="quick_restart_now">Riavvia ora</string>
+    <string name="quick_restart_later">Più tardi</string>
 </resources>

@@ -274,4 +274,8 @@
     <string name="pref_black_background_title">কালো পটভূমি</string>
     <string name="pref_black_background_summary">ডার্ক থিমের জন্য</string>
     <string name="pref_add_cutout_area_title">কাটআউট এলাকা ব্যবহার করুন</string>
+    <string name="quick_resolution">রেজোলিউশন</string>
+    <string name="quick_resolution_restart">গেম চালু হওয়ার সময় স্ক্রিনের আকার পড়ে, তাই নতুন রেজোলিউশন গেম আবার চালু করলে কাজ করবে।</string>
+    <string name="quick_restart_now">এখনই আবার চালু করুন</string>
+    <string name="quick_restart_later">পরে</string>
 </resources>

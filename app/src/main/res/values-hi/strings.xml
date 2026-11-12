@@ -371,4 +371,8 @@
     <string name="pref_black_background_title">काला बैकग्राउंड</string>
     <string name="pref_black_background_summary">डार्क थीम के लिए</string>
     <string name="pref_add_cutout_area_title">कटआउट क्षेत्र इस्तेमाल करें</string>
+    <string name="quick_resolution">रिज़ॉल्यूशन</string>
+    <string name="quick_resolution_restart">गेम शुरू होते समय स्क्रीन का आकार पढ़ते हैं, इसलिए नया रिज़ॉल्यूशन गेम दोबारा शुरू करने पर लागू होगा।</string>
+    <string name="quick_restart_now">अभी दोबारा शुरू करें</string>
+    <string name="quick_restart_later">बाद में</string>
 </resources>

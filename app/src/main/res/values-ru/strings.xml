@@ -373,4 +373,8 @@
     <string name="picker_access_message">Чтобы показывать папки только с играми (.jar, .jad, .zip) и выбирать несколько сразу, как в JL-Mod, нужен доступ ко всем файлам. Игры и сохранения переедут в %s — эта папка останется после удаления приложения.</string>
     <string name="picker_access_allow">Разрешить</string>
     <string name="picker_access_system">Системный выбор файлов</string>
+    <string name="quick_resolution">Разрешение</string>
+    <string name="quick_resolution_restart">Игры узнают размер экрана при запуске, поэтому новое разрешение заработает после перезапуска игры.</string>
+    <string name="quick_restart_now">Перезапустить</string>
+    <string name="quick_restart_later">Позже</string>
 </resources>

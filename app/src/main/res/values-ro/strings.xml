@@ -275,4 +275,8 @@
     <string name="pref_black_background_title">Fundal negru</string>
     <string name="pref_black_background_summary">Pentru tema întunecată</string>
     <string name="pref_add_cutout_area_title">Folosește zona decupajului</string>
+    <string name="quick_resolution">Rezoluție</string>
+    <string name="quick_resolution_restart">Jocurile citesc mărimea ecranului la pornire, așa că noua rezoluție se aplică după repornirea jocului.</string>
+    <string name="quick_restart_now">Repornește acum</string>
+    <string name="quick_restart_later">Mai târziu</string>
 </resources>

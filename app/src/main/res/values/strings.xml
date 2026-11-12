@@ -461,4 +461,8 @@
     <string name="picker_access_message">To show your folders with only the games (.jar, .jad, .zip) and pick several at once, like JL-Mod, the app needs access to all files. Your games and saves will move to %s, which is kept if you uninstall the app.</string>
     <string name="picker_access_allow">Allow</string>
     <string name="picker_access_system">Use the system picker</string>
+    <string name="quick_resolution">Resolution</string>
+    <string name="quick_resolution_restart">Games read the screen size when they start, so the new resolution is used after restarting the game.</string>
+    <string name="quick_restart_now">Restart now</string>
+    <string name="quick_restart_later">Later</string>
 </resources>

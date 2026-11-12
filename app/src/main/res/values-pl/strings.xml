@@ -321,4 +321,8 @@
     <string name="pref_black_background_title">Czarne tło</string>
     <string name="pref_black_background_summary">Do ciemnego motywu</string>
     <string name="pref_add_cutout_area_title">Używaj obszaru wycięcia</string>
+    <string name="quick_resolution">Rozdzielczość</string>
+    <string name="quick_resolution_restart">Gry odczytują rozmiar ekranu przy starcie, więc nowa rozdzielczość zadziała po ponownym uruchomieniu gry.</string>
+    <string name="quick_restart_now">Uruchom ponownie</string>
+    <string name="quick_restart_later">Później</string>
 </resources>

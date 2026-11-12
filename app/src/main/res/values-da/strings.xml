@@ -245,4 +245,8 @@
     <string name="pref_black_background_title">Sort baggrund</string>
     <string name="pref_black_background_summary">Til det mørke tema</string>
     <string name="pref_add_cutout_area_title">Brug kamerahullets område</string>
+    <string name="quick_resolution">Opløsning</string>
+    <string name="quick_resolution_restart">Spil læser skærmstørrelsen ved start, så den nye opløsning bruges, når spillet genstartes.</string>
+    <string name="quick_restart_now">Genstart nu</string>
+    <string name="quick_restart_later">Senere</string>
 </resources>

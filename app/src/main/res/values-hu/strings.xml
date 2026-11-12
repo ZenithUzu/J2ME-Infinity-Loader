@@ -314,4 +314,8 @@
     <string name="pref_black_background_title">Fekete háttér</string>
     <string name="pref_black_background_summary">A sötét témához</string>
     <string name="pref_add_cutout_area_title">Kivágás területének használata</string>
+    <string name="quick_resolution">Felbontás</string>
+    <string name="quick_resolution_restart">A játékok induláskor olvassák be a képernyő méretét, ezért az új felbontás a játék újraindítása után érvényes.</string>
+    <string name="quick_restart_now">Újraindítás most</string>
+    <string name="quick_restart_later">Később</string>
 </resources>

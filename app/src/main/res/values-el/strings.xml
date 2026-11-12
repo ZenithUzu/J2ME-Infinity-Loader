@@ -354,4 +354,8 @@
     <string name="pref_black_background_title">Μαύρο φόντο</string>
     <string name="pref_black_background_summary">Για το σκούρο θέμα</string>
     <string name="pref_add_cutout_area_title">Χρήση περιοχής εγκοπής</string>
+    <string name="quick_resolution">Ανάλυση</string>
+    <string name="quick_resolution_restart">Τα παιχνίδια διαβάζουν το μέγεθος οθόνης στην εκκίνηση, οπότε η νέα ανάλυση ισχύει μετά την επανεκκίνηση του παιχνιδιού.</string>
+    <string name="quick_restart_now">Επανεκκίνηση τώρα</string>
+    <string name="quick_restart_later">Αργότερα</string>
 </resources>

@@ -243,4 +243,8 @@
     <string name="pref_black_background_title">Musta tausta</string>
     <string name="pref_black_background_summary">Tummaan teemaan</string>
     <string name="pref_add_cutout_area_title">Käytä kameran loven aluetta</string>
+    <string name="quick_resolution">Resoluutio</string>
+    <string name="quick_resolution_restart">Pelit lukevat näytön koon käynnistyessään, joten uusi resoluutio otetaan käyttöön, kun peli käynnistetään uudelleen.</string>
+    <string name="quick_restart_now">Käynnistä uudelleen</string>
+    <string name="quick_restart_later">Myöhemmin</string>
 </resources>

@@ -371,4 +371,8 @@
     <string name="pref_black_background_title">Latar hitam</string>
     <string name="pref_black_background_summary">Untuk tema gelap</string>
     <string name="pref_add_cutout_area_title">Pakai area potongan layar</string>
+    <string name="quick_resolution">Resolusi</string>
+    <string name="quick_resolution_restart">Game membaca ukuran layar saat dimulai, jadi resolusi baru berlaku setelah game dimulai ulang.</string>
+    <string name="quick_restart_now">Mulai ulang sekarang</string>
+    <string name="quick_restart_later">Nanti</string>
 </resources>

@@ -191,7 +191,12 @@ public class ConfigActivity extends BaseActivity implements View.OnClickListener
 				.getString(PREF_DEFAULT_PROFILE, null);
 		loadConfig();
 		if (!params.isNew && !needShow) {
-			startMIDlet();
+			if (intent.getBooleanExtra(KEY_RESTART, false)) {
+				// restart from the quick menu: wait until the old game process has closed
+				new android.os.Handler(android.os.Looper.getMainLooper()).postDelayed(this::startMIDlet, 1500);
+			} else {
+				startMIDlet();
+			}
 			return;
 		}
 		loadKeyLayout();
@@ -860,6 +865,9 @@ public class ConfigActivity extends BaseActivity implements View.OnClickListener
 				.setNegativeButton(android.R.string.cancel, null);
 		builder.show();
 	}
+
+	/** Start the game again after its process closed (e.g. a new resolution). */
+	public static final String KEY_RESTART = "restart";
 
 	private void startMIDlet() {
 		Intent i = new Intent(this, MicroActivity.class);

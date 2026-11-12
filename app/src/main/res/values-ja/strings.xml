@@ -305,4 +305,8 @@
     <string name="pref_black_background_title">黒い背景</string>
     <string name="pref_black_background_summary">ダークテーマ用</string>
     <string name="pref_add_cutout_area_title">切り欠き部分を使う</string>
+    <string name="quick_resolution">解像度</string>
+    <string name="quick_resolution_restart">ゲームは起動時に画面サイズを読み込むため、新しい解像度はゲームを再起動すると使われます。</string>
+    <string name="quick_restart_now">今すぐ再起動</string>
+    <string name="quick_restart_later">あとで</string>
 </resources>

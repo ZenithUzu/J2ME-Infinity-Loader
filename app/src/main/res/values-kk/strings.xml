@@ -371,4 +371,8 @@
     <string name="pref_black_background_title">Қара фон</string>
     <string name="pref_black_background_summary">Қараңғы тақырып үшін</string>
     <string name="pref_add_cutout_area_title">Ойық аймағын пайдалану</string>
+    <string name="quick_resolution">Ажыратымдылық</string>
+    <string name="quick_resolution_restart">Ойындар экран өлшемін іске қосылғанда оқиды, сондықтан жаңа ажыратымдылық ойынды қайта іске қосқаннан кейін қолданылады.</string>
+    <string name="quick_restart_now">Қазір қайта қосу</string>
+    <string name="quick_restart_later">Кейінірек</string>
 </resources>

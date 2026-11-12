@@ -323,4 +323,8 @@
     <string name="pref_black_background_title">검은 배경</string>
     <string name="pref_black_background_summary">어두운 테마용</string>
     <string name="pref_add_cutout_area_title">컷아웃 영역 사용</string>
+    <string name="quick_resolution">해상도</string>
+    <string name="quick_resolution_restart">게임은 시작할 때 화면 크기를 읽으므로 새 해상도는 게임을 다시 시작하면 적용됩니다.</string>
+    <string name="quick_restart_now">지금 다시 시작</string>
+    <string name="quick_restart_later">나중에</string>
 </resources>

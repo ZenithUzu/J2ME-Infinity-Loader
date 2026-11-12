@@ -215,6 +215,17 @@ public abstract class Canvas extends Displayable {
 
 	/** Quick settings: applies filter, smoothing and scaling changes to the running game. */
 	public void refreshDisplay() {
+		// "show FPS" changed from the quick menu: add or remove the counter right away
+		javax.microedition.lcdui.overlay.OverlayView ov = ContextHolder.getActivity().binding.overlayView;
+		if (showFps && fpsCounter == null && surface != null) {
+			fpsCounter = new FpsCounter(ov);
+			ov.addLayer(fpsCounter);
+		} else if (!showFps && fpsCounter != null) {
+			fpsCounter.stop();
+			ov.removeLayer(fpsCounter);
+			fpsCounter = null;
+			ov.postInvalidate();
+		}
 		updateSize();
 		if (renderer != null) {
 			renderer.reload();

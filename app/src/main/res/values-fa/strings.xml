@@ -290,4 +290,8 @@
     <string name="pref_black_background_title">پس‌زمینه سیاه</string>
     <string name="pref_black_background_summary">برای پوسته تیره</string>
     <string name="pref_add_cutout_area_title">استفاده از ناحیه بریدگی</string>
+    <string name="quick_resolution">وضوح</string>
+    <string name="quick_resolution_restart">بازی‌ها اندازه صفحه را هنگام شروع می‌خوانند، پس وضوح جدید پس از راه‌اندازی دوباره بازی اعمال می‌شود.</string>
+    <string name="quick_restart_now">راه‌اندازی دوباره</string>
+    <string name="quick_restart_later">بعداً</string>
 </resources>

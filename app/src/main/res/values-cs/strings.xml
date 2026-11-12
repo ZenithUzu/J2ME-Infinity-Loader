@@ -371,4 +371,8 @@
     <string name="pref_black_background_title">Černé pozadí</string>
     <string name="pref_black_background_summary">Pro tmavý motiv</string>
     <string name="pref_add_cutout_area_title">Využít oblast výřezu</string>
+    <string name="quick_resolution">Rozlišení</string>
+    <string name="quick_resolution_restart">Hry čtou velikost obrazovky při spuštění, nové rozlišení se proto použije po restartu hry.</string>
+    <string name="quick_restart_now">Restartovat</string>
+    <string name="quick_restart_later">Později</string>
 </resources>

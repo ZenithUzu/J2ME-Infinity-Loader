@@ -369,4 +369,8 @@
     <string name="pref_black_background_title">Siyah arka plan</string>
     <string name="pref_black_background_summary">Koyu tema için</string>
     <string name="pref_add_cutout_area_title">Çentik alanını kullan</string>
+    <string name="quick_resolution">Çözünürlük</string>
+    <string name="quick_resolution_restart">Oyunlar ekran boyutunu açılışta okur; yeni çözünürlük oyun yeniden başlatılınca geçerli olur.</string>
+    <string name="quick_restart_now">Şimdi yeniden başlat</string>
+    <string name="quick_restart_later">Sonra</string>
 </resources>

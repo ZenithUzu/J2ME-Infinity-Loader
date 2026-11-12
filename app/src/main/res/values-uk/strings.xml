@@ -371,4 +371,8 @@
     <string name="pref_black_background_title">Чорне тло</string>
     <string name="pref_black_background_summary">Для темної теми</string>
     <string name="pref_add_cutout_area_title">Використовувати область вирізу</string>
+    <string name="quick_resolution">Роздільність</string>
+    <string name="quick_resolution_restart">Ігри дізнаються розмір екрана під час запуску, тож нова роздільність запрацює після перезапуску гри.</string>
+    <string name="quick_restart_now">Перезапустити</string>
+    <string name="quick_restart_later">Пізніше</string>
 </resources>

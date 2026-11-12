@@ -942,6 +942,38 @@ public class MicroActivity extends AppCompatActivity {
 		ProfileModel p = microLoader.params;
 		if (section == 0) {
 			LinearLayout g = group(box, R.string.quick_group_size, dp);
+			// the game's screen size: games read it once at start, so it needs a restart
+			final int[][] sizes = {{128, 128}, {128, 160}, {176, 208}, {176, 220}, {240, 320},
+					{320, 240}, {240, 400}, {360, 640}, {640, 360}};
+			String[] sizeNames = new String[sizes.length];
+			int sizeNow = -1;
+			for (int i = 0; i < sizes.length; i++) {
+				sizeNames[i] = sizes[i][0] + "×" + sizes[i][1];
+				if (sizes[i][0] == p.screenWidth && sizes[i][1] == p.screenHeight) sizeNow = i;
+			}
+			label(g, R.string.quick_resolution, dp);
+			int sizeWas = sizeNow;
+			g.addView(chips(sizeNames, sizeNow, w -> {
+				if (w == sizeWas) return;
+				p.screenWidth = sizes[w][0];
+				p.screenHeight = sizes[w][1];
+				ProfilesManager.saveConfig(p);
+				new AlertDialog.Builder(this)
+						.setTitle(R.string.quick_resolution)
+						.setMessage(R.string.quick_resolution_restart)
+						.setPositiveButton(R.string.quick_restart_now, (d, x) -> {
+							closeQuickPanel();
+							hideSoftInput();
+							// the settings screen (another process) starts the game again
+							startActivity(new Intent(Intent.ACTION_DEFAULT, Uri.parse(appPath), this,
+									ru.playsoftware.j2meloader.config.ConfigActivity.class)
+									.putExtra(Constants.KEY_MIDLET_NAME, appName)
+									.putExtra(ru.playsoftware.j2meloader.config.ConfigActivity.KEY_RESTART, true));
+							MidletThread.destroyApp();
+						})
+						.setNegativeButton(R.string.quick_restart_later, null)
+						.show();
+			}, dp));
 			label(g, R.string.quick_scale, dp);
 			g.addView(chips(getResources().getStringArray(R.array.pref_scale_type_entries), p.screenScaleType, w -> {
 				p.screenScaleType = w;

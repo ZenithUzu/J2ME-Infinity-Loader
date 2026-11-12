@@ -371,4 +371,8 @@
     <string name="pref_black_background_title">خلفية سوداء</string>
     <string name="pref_black_background_summary">للمظهر الداكن</string>
     <string name="pref_add_cutout_area_title">استخدام منطقة القطع</string>
+    <string name="quick_resolution">الدقة</string>
+    <string name="quick_resolution_restart">تقرأ الألعاب حجم الشاشة عند بدئها، لذا تُطبَّق الدقة الجديدة بعد إعادة تشغيل اللعبة.</string>
+    <string name="quick_restart_now">إعادة التشغيل الآن</string>
+    <string name="quick_restart_later">لاحقًا</string>
 </resources>

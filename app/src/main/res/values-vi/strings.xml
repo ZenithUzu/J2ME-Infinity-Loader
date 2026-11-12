@@ -363,4 +363,8 @@
     <string name="pref_black_background_title">Nền đen</string>
     <string name="pref_black_background_summary">Cho giao diện tối</string>
     <string name="pref_add_cutout_area_title">Dùng vùng tai thỏ</string>
+    <string name="quick_resolution">Độ phân giải</string>
+    <string name="quick_resolution_restart">Trò chơi đọc kích thước màn hình khi khởi động, nên độ phân giải mới có hiệu lực sau khi khởi động lại trò chơi.</string>
+    <string name="quick_restart_now">Khởi động lại ngay</string>
+    <string name="quick_restart_later">Để sau</string>
 </resources>

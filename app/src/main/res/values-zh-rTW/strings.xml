@@ -276,4 +276,8 @@
     <string name="pref_black_background_title">黑色背景</string>
     <string name="pref_black_background_summary">用於深色主題</string>
     <string name="pref_add_cutout_area_title">使用挖孔區域</string>
+    <string name="quick_resolution">解析度</string>
+    <string name="quick_resolution_restart">遊戲在啟動時讀取螢幕尺寸，所以新解析度會在重新啟動遊戲後生效。</string>
+    <string name="quick_restart_now">立即重新啟動</string>
+    <string name="quick_restart_later">稍後</string>
 </resources>
