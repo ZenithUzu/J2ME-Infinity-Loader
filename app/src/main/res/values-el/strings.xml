@@ -380,4 +380,10 @@
     <string name="memory_undo">Αναίρεση</string>
     <string name="memory_set_all">Ορισμός σε όλα</string>
     <string name="memory_freeze_all">Πάγωμα όλων</string>
+    <string name="fps_mode">Λειτουργία FPS</string>
+    <string-array name="fps_mode_entries">
+        <item>Δυναμική (οθόνη 60/90/120 Hz ανάλογα με το παιχνίδι)</item>
+        <item>Συγχρονισμός με την οθόνη (vsync)</item>
+        <item>Χωρίς όριο</item>
+    </string-array>
 </resources>

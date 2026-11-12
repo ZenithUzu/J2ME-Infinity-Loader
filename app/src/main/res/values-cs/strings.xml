@@ -397,4 +397,10 @@
     <string name="memory_undo">Zpět</string>
     <string name="memory_set_all">Nastavit vše</string>
     <string name="memory_freeze_all">Zmrazit vše</string>
+    <string name="fps_mode">Režim FPS</string>
+    <string-array name="fps_mode_entries">
+        <item>Dynamický (obrazovka 60/90/120 Hz podle hry)</item>
+        <item>Synchronizováno s obrazovkou (vsync)</item>
+        <item>Bez omezení</item>
+    </string-array>
 </resources>

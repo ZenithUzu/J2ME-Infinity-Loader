@@ -349,4 +349,10 @@
     <string name="memory_undo">Ongedaan maken</string>
     <string name="memory_set_all">Alles instellen</string>
     <string name="memory_freeze_all">Alles bevriezen</string>
+    <string name="fps_mode">FPS-modus</string>
+    <string-array name="fps_mode_entries">
+        <item>Dynamisch (scherm 60/90/120 Hz naar de game)</item>
+        <item>Gelijk met het scherm (vsync)</item>
+        <item>Onbeperkt</item>
+    </string-array>
 </resources>

@@ -389,4 +389,10 @@
     <string name="memory_undo">Hoàn tác</string>
     <string name="memory_set_all">Đặt tất cả</string>
     <string name="memory_freeze_all">Đóng băng tất cả</string>
+    <string name="fps_mode">Chế độ FPS</string>
+    <string-array name="fps_mode_entries">
+        <item>Động (màn hình 60/90/120 Hz theo trò chơi)</item>
+        <item>Đồng bộ với màn hình (vsync)</item>
+        <item>Không giới hạn</item>
+    </string-array>
 </resources>

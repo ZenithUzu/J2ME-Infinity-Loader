@@ -331,4 +331,10 @@
     <string name="memory_undo">元に戻す</string>
     <string name="memory_set_all">すべて変更</string>
     <string name="memory_freeze_all">すべて固定</string>
+    <string name="fps_mode">FPS モード</string>
+    <string-array name="fps_mode_entries">
+        <item>ダイナミック（ゲームに合わせて 60/90/120 Hz）</item>
+        <item>画面に同期（vsync）</item>
+        <item>無制限</item>
+    </string-array>
 </resources>

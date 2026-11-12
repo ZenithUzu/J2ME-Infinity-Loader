@@ -349,4 +349,10 @@
     <string name="memory_undo">Desfazer</string>
     <string name="memory_set_all">Mudar todos</string>
     <string name="memory_freeze_all">Congelar todos</string>
+    <string name="fps_mode">Modo de FPS</string>
+    <string-array name="fps_mode_entries">
+        <item>Dinâmico (ecrã a 60/90/120 Hz conforme o jogo)</item>
+        <item>Sincronizado com o ecrã (vsync)</item>
+        <item>Sem limite</item>
+    </string-array>
 </resources>

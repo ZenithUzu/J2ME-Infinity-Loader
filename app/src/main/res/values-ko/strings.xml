@@ -349,4 +349,10 @@
     <string name="memory_undo">실행 취소</string>
     <string name="memory_set_all">모두 설정</string>
     <string name="memory_freeze_all">모두 고정</string>
+    <string name="fps_mode">FPS 모드</string>
+    <string-array name="fps_mode_entries">
+        <item>동적 (게임에 맞춰 60/90/120Hz)</item>
+        <item>화면과 동기화 (vsync)</item>
+        <item>제한 없음</item>
+    </string-array>
 </resources>

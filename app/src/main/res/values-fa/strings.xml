@@ -316,4 +316,10 @@
     <string name="memory_undo">واگرد</string>
     <string name="memory_set_all">تنظیم همه</string>
     <string name="memory_freeze_all">قفل همه</string>
+    <string name="fps_mode">حالت FPS</string>
+    <string-array name="fps_mode_entries">
+        <item>پویا (صفحه ۶۰/۹۰/۱۲۰ هرتز مطابق بازی)</item>
+        <item>همگام با صفحه (vsync)</item>
+        <item>بدون محدودیت</item>
+    </string-array>
 </resources>

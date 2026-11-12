@@ -283,4 +283,10 @@
     <string name="memory_undo">เลิกทำ</string>
     <string name="memory_set_all">ตั้งทั้งหมด</string>
     <string name="memory_freeze_all">ล็อกทั้งหมด</string>
+    <string name="fps_mode">โหมด FPS</string>
+    <string-array name="fps_mode_entries">
+        <item>ไดนามิก (หน้าจอ 60/90/120 Hz ตามเกม)</item>
+        <item>ซิงค์กับหน้าจอ (vsync)</item>
+        <item>ไม่จำกัด</item>
+    </string-array>
 </resources>

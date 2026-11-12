@@ -364,4 +364,10 @@
     <string name="memory_undo">Отмени</string>
     <string name="memory_set_all">Задай на всички</string>
     <string name="memory_freeze_all">Замрази всички</string>
+    <string name="fps_mode">Режим на FPS</string>
+    <string-array name="fps_mode_entries">
+        <item>Динамичен (екран 60/90/120 Hz според играта)</item>
+        <item>Синхронизиран с екрана (vsync)</item>
+        <item>Без ограничение</item>
+    </string-array>
 </resources>

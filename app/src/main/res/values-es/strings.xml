@@ -397,4 +397,10 @@
     <string name="memory_undo">Deshacer</string>
     <string name="memory_set_all">Cambiar todos</string>
     <string name="memory_freeze_all">Congelar todos</string>
+    <string name="fps_mode">Modo de FPS</string>
+    <string-array name="fps_mode_entries">
+        <item>Dinámico (pantalla a 60/90/120 Hz según el juego)</item>
+        <item>Sincronizado con la pantalla (vsync)</item>
+        <item>Sin límite</item>
+    </string-array>
 </resources>

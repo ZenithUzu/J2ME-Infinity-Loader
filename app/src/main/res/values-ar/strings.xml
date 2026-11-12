@@ -397,4 +397,10 @@
     <string name="memory_undo">تراجع</string>
     <string name="memory_set_all">تعيين الكل</string>
     <string name="memory_freeze_all">تجميد الكل</string>
+    <string name="fps_mode">وضع FPS</string>
+    <string-array name="fps_mode_entries">
+        <item>ديناميكي (الشاشة 60/90/120 هرتز حسب اللعبة)</item>
+        <item>متزامن مع الشاشة (vsync)</item>
+        <item>بلا حد</item>
+    </string-array>
 </resources>

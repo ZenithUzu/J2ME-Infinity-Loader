@@ -301,4 +301,10 @@
     <string name="memory_undo">Anulează</string>
     <string name="memory_set_all">Setează tot</string>
     <string name="memory_freeze_all">Îngheață tot</string>
+    <string name="fps_mode">Mod FPS</string>
+    <string-array name="fps_mode_entries">
+        <item>Dinamic (ecran la 60/90/120 Hz după joc)</item>
+        <item>Sincronizat cu ecranul (vsync)</item>
+        <item>Nelimitat</item>
+    </string-array>
 </resources>

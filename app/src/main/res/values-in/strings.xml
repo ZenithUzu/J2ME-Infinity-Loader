@@ -397,4 +397,10 @@
     <string name="memory_undo">Urungkan</string>
     <string name="memory_set_all">Ubah semua</string>
     <string name="memory_freeze_all">Bekukan semua</string>
+    <string name="fps_mode">Mode FPS</string>
+    <string-array name="fps_mode_entries">
+        <item>Dinamis (layar 60/90/120 Hz sesuai game)</item>
+        <item>Sinkron dengan layar (vsync)</item>
+        <item>Tanpa batas</item>
+    </string-array>
 </resources>

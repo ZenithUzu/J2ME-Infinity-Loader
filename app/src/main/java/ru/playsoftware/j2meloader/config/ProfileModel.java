@@ -102,6 +102,10 @@ public class ProfileModel {
 	@SerializedName("FpsLimit")
 	public int fpsLimit;
 
+	/** Canvas.FPS_DYNAMIC (default), FPS_VSYNC or FPS_UNLIMITED (JarNix) */
+	@SerializedName("FpsMode")
+	public int fpsMode;
+
 	@SerializedName("ForceFullscreen")
 	public boolean forceFullscreen;
 

@@ -407,6 +407,23 @@ protected int getSupersamplingFactor() {
 		Canvas.fpsLimit = fpsLimit;
 	}
 
+	/** FPS modes (from JarNix) */
+	public static final int FPS_DYNAMIC = 0, FPS_VSYNC = 1, FPS_UNLIMITED = 2;
+	private static volatile int fpsMode = FPS_DYNAMIC;
+
+	/**
+	 * dynamic: the game waits for the screen like a phone (no 1000 FPS loops that eat the CPU
+	 * and cause stutter) and the display switches to 60/90/120 Hz to match the game;
+	 * vsync: only the waiting; unlimited: neither (extra frames are dropped).
+	 */
+	public static void setFpsMode(int mode) {
+		fpsMode = mode;
+	}
+
+	public static int getFpsMode() {
+		return fpsMode;
+	}
+
 	public static void setScreenshotRawMode(boolean enable) {
 		screenshotRawMode = enable;
 	}
@@ -489,6 +506,7 @@ protected int getSupersamplingFactor() {
 			offscreenCopy.getBitmap().prepareToDraw();
 			drawScreen(g, canvas);
 		}
+		frameShown();
 		if (fpsCounter != null) {
 			fpsCounter.increment();
 		}
@@ -533,7 +551,9 @@ protected int getSupersamplingFactor() {
 			int shownW = screenRotation != 0 ? onHeight : onWidth;
 			int shownH = screenRotation != 0 ? onWidth : onHeight;
 			float ratio = Math.max((float) shownW / width, (float) shownH / height);
-			factor = Math.round(ratio);
+			// at most 2x: 3x-4x buffers are 9-16 times the pixels to draw, copy and upload
+			// every frame (the main cause of lag) and look almost the same once scaled
+			factor = Math.min(2, Math.round(ratio));
 		} else {
 			factor = supersampling;
 		}
@@ -932,6 +952,7 @@ protected int getSupersamplingFactor() {
 	// GameCanvas
 	protected void flushBuffer(Image image, int x, int y, int width, int height) {
 		limitFps();
+		waitShown();
 		if (width <= 0 || height <= 0 ||
 				x + width < 0 || y + height < 0 ||
 				x >= this.width || y >= this.height) {
@@ -953,6 +974,7 @@ protected int getSupersamplingFactor() {
 	// ExtendedImage
 	public void flushBuffer(Image image, int x, int y) {
 		limitFps();
+		waitShown();
 		synchronized (bufferLock) {
 			image.copyTo(offscreenCopy, x, y);
 			blendFrame();
@@ -960,6 +982,36 @@ protected int getSupersamplingFactor() {
 			AutoRotate.frameShown(this);
 		}
 		requestFlushToScreen();
+	}
+
+	private final Object shownLock = new Object();
+	/** a finished frame is waiting to be drawn on the screen */
+	private boolean framePending;
+
+	/**
+	 * vsync (JarNix): the game thread waits until its previous frame reached the screen, at
+	 * most 100 ms, so it can't run ahead of the display. Never on the event thread (input).
+	 */
+	private void waitShown() {
+		if (fpsMode == FPS_UNLIMITED || Thread.holdsLock(paintEvent)) return;
+		synchronized (shownLock) {
+			long until = android.os.SystemClock.uptimeMillis() + 100;
+			while (framePending && android.os.SystemClock.uptimeMillis() < until) {
+				try {
+					shownLock.wait(20);
+				} catch (InterruptedException e) {
+					return;
+				}
+			}
+			framePending = true;
+		}
+	}
+
+	private void frameShown() {
+		synchronized (shownLock) {
+			framePending = false;
+			shownLock.notifyAll();
+		}
 	}
 
 	/** when the next frame may start (nanoTime), for a fixed cadence */
@@ -1022,6 +1074,10 @@ protected int getSupersamplingFactor() {
 	 */
 	private void frameRateTick() {
 		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) return;
+		if (fpsMode != FPS_DYNAMIC) {
+			if (screenRate != 0) setScreenRate(0); // left dynamic mode: give the display back
+			return;
+		}
 		rateFrames++;
 		long now = android.os.SystemClock.uptimeMillis();
 		if (rateWindowStart == 0) {
@@ -1034,13 +1090,50 @@ protected int getSupersamplingFactor() {
 		rateFrames = 0;
 		rateWindowStart = now;
 		float rate = fps > 95 ? 120 : fps > 65 ? 90 : 60;
+		if (rate != screenRate) setScreenRate(rate);
+	}
+
+	/** rate 0 = no preference */
+	@SuppressLint("NewApi")
+	private void setScreenRate(float rate) {
+		screenRate = rate;
 		Surface s = surface;
-		if (rate == screenRate || s == null || !s.isValid()) return;
-		try {
-			s.setFrameRate(rate, Surface.FRAME_RATE_COMPATIBILITY_DEFAULT);
-			screenRate = rate;
-		} catch (Throwable ignored) {
+		if (s != null && s.isValid()) {
+			try {
+				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+					// also when the switch isn't seamless (most phones)
+					s.setFrameRate(rate, Surface.FRAME_RATE_COMPATIBILITY_DEFAULT,
+							Surface.CHANGE_FRAME_RATE_ALWAYS);
+				} else {
+					s.setFrameRate(rate, Surface.FRAME_RATE_COMPATIBILITY_DEFAULT);
+				}
+			} catch (Throwable ignored) {
+			}
 		}
+		// Xiaomi/Samsung often ignore setFrameRate but follow the window's display mode
+		android.app.Activity a = ContextHolder.getActivity();
+		if (a == null) return;
+		a.runOnUiThread(() -> {
+			android.view.Display d = a.getWindowManager().getDefaultDisplay();
+			android.view.Display.Mode cur = d.getMode();
+			int best = 0;
+			float diff = Float.MAX_VALUE;
+			if (rate > 0) {
+				for (android.view.Display.Mode m : d.getSupportedModes()) {
+					if (m.getPhysicalWidth() != cur.getPhysicalWidth()
+							|| m.getPhysicalHeight() != cur.getPhysicalHeight()) continue;
+					float dd = Math.abs(m.getRefreshRate() - rate);
+					if (dd < diff) {
+						diff = dd;
+						best = m.getModeId();
+					}
+				}
+			}
+			android.view.WindowManager.LayoutParams lp = a.getWindow().getAttributes();
+			if (lp.preferredDisplayModeId == best) return;
+			lp.preferredDisplayModeId = best;
+			a.getWindow().setAttributes(lp);
+		});
 	}
 
 	@SuppressLint("NewApi")
@@ -1064,6 +1157,7 @@ protected int getSupersamplingFactor() {
 				}
 				surface.unlockCanvasAndPost(canvas);
 			}
+			frameShown();
 			if (fpsCounter != null) {
 				fpsCounter.increment();
 			}
@@ -1166,12 +1260,15 @@ protected int getSupersamplingFactor() {
 		private ShaderProgram program;
 		private boolean isStarted;
 		private int frameNumber;
+		/** size of the texture on the GPU (0 = not created yet) */
+		private int texW, texH;
 		/** part of the texture that is shown (0..1) */
 		private volatile float spanX = 1, spanY = 1;
 
 		@Override
 		public void onSurfaceCreated(GL10 gl, EGLConfig config) {
 			program = new ShaderProgram(shaderFilter);
+			texW = texH = 0; // new GL context: the texture has to be created again
 			int c = Canvas.backgroundColor;
 			glClearColor((c >> 16 & 0xff) / 255.0f, (c >> 8 & 0xff) / 255.0f, (c & 0xff) / 255.0f, 1.0f);
 			glDisable(GL_BLEND);
@@ -1206,8 +1303,17 @@ protected int getSupersamplingFactor() {
 		public void onDrawFrame(GL10 gl) {
 			glClear(GL_COLOR_BUFFER_BIT);
 			synchronized (bufferLock) {
-				GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, offscreenCopy.getBitmap(), 0);
+				Bitmap b = offscreenCopy.getBitmap();
+				if (b.getWidth() == texW && b.getHeight() == texH) {
+					// same size: update the texture in place instead of creating it every frame
+					GLUtils.texSubImage2D(GLES20.GL_TEXTURE_2D, 0, 0, 0, b);
+				} else {
+					GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, b, 0);
+					texW = b.getWidth();
+					texH = b.getHeight();
+				}
 			}
+			frameShown();
 			// output size along the texture's axes (swapped when the image is turned 90/270)
 			boolean turned = screenRotation == 90 || screenRotation == 270;
 			program.setOutputSize(turned ? onHeight : onWidth, turned ? onWidth : onHeight,

@@ -340,4 +340,10 @@
     <string name="memory_undo">Visszavonás</string>
     <string name="memory_set_all">Mind beállítása</string>
     <string name="memory_freeze_all">Mind fagyasztása</string>
+    <string name="fps_mode">FPS mód</string>
+    <string-array name="fps_mode_entries">
+        <item>Dinamikus (képernyő 60/90/120 Hz a játékhoz)</item>
+        <item>Képernyővel szinkronban (vsync)</item>
+        <item>Korlátlan</item>
+    </string-array>
 </resources>

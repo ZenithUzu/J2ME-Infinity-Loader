@@ -397,4 +397,10 @@
     <string name="memory_undo">पूर्ववत</string>
     <string name="memory_set_all">सबको बदलें</string>
     <string name="memory_freeze_all">सबको जमाएँ</string>
+    <string name="fps_mode">FPS मोड</string>
+    <string-array name="fps_mode_entries">
+        <item>डायनैमिक (गेम के हिसाब से 60/90/120 Hz)</item>
+        <item>स्क्रीन के साथ सिंक (vsync)</item>
+        <item>असीमित</item>
+    </string-array>
 </resources>

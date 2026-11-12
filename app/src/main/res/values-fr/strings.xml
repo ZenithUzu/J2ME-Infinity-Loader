@@ -394,4 +394,10 @@
     <string name="memory_undo">Annuler</string>
     <string name="memory_set_all">Tout changer</string>
     <string name="memory_freeze_all">Tout geler</string>
+    <string name="fps_mode">Mode FPS</string>
+    <string-array name="fps_mode_entries">
+        <item>Dynamique (écran à 60/90/120 Hz selon le jeu)</item>
+        <item>Synchronisé avec l\'écran (vsync)</item>
+        <item>Illimité</item>
+    </string-array>
 </resources>

@@ -397,4 +397,10 @@
     <string name="memory_undo">撤销</string>
     <string name="memory_set_all">全部设置</string>
     <string name="memory_freeze_all">全部冻结</string>
+    <string name="fps_mode">FPS 模式</string>
+    <string-array name="fps_mode_entries">
+        <item>动态（屏幕随游戏切换 60/90/120 Hz）</item>
+        <item>与屏幕同步（垂直同步）</item>
+        <item>不限制</item>
+    </string-array>
 </resources>

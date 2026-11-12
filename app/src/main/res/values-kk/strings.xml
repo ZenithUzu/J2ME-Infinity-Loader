@@ -397,4 +397,10 @@
     <string name="memory_undo">Болдырмау</string>
     <string name="memory_set_all">Барлығына қою</string>
     <string name="memory_freeze_all">Барлығын қатыру</string>
+    <string name="fps_mode">FPS режимі</string>
+    <string-array name="fps_mode_entries">
+        <item>Динамикалық (экран ойынға сай 60/90/120 Гц)</item>
+        <item>Экранмен үндес (vsync)</item>
+        <item>Шектеусіз</item>
+    </string-array>
 </resources>

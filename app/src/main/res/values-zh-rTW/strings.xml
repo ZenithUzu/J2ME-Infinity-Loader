@@ -302,4 +302,10 @@
     <string name="memory_undo">復原</string>
     <string name="memory_set_all">全部設定</string>
     <string name="memory_freeze_all">全部凍結</string>
+    <string name="fps_mode">FPS 模式</string>
+    <string-array name="fps_mode_entries">
+        <item>動態（螢幕隨遊戲切換 60/90/120 Hz）</item>
+        <item>與螢幕同步（垂直同步）</item>
+        <item>不限制</item>
+    </string-array>
 </resources>

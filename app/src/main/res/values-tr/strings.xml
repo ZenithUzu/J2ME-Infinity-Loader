@@ -395,4 +395,10 @@
     <string name="memory_undo">Geri al</string>
     <string name="memory_set_all">Hepsini ayarla</string>
     <string name="memory_freeze_all">Hepsini dondur</string>
+    <string name="fps_mode">FPS modu</string>
+    <string-array name="fps_mode_entries">
+        <item>Dinamik (ekran oyuna göre 60/90/120 Hz)</item>
+        <item>Ekranla senkron (vsync)</item>
+        <item>Sınırsız</item>
+    </string-array>
 </resources>

@@ -271,4 +271,10 @@
     <string name="memory_undo">Fortryd</string>
     <string name="memory_set_all">Sæt alle</string>
     <string name="memory_freeze_all">Frys alle</string>
+    <string name="fps_mode">FPS-tilstand</string>
+    <string-array name="fps_mode_entries">
+        <item>Dynamisk (skærm på 60/90/120 Hz efter spillet)</item>
+        <item>Synkroniseret med skærmen (vsync)</item>
+        <item>Ubegrænset</item>
+    </string-array>
 </resources>

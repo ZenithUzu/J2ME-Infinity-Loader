@@ -540,14 +540,10 @@ public class ConfigActivity extends BaseActivity implements View.OnClickListener
 		screenPresets.clear();
 		customPresets.clear();
 
-		screenPresets.add("128 x 128");
-		screenPresets.add("128 x 160");
-		screenPresets.add("132 x 176");
-		screenPresets.add("176 x 220");
-		screenPresets.add("240 x 320");
-		screenPresets.add("352 x 416");
-		screenPresets.add("640 x 360");
-		screenPresets.add("800 x 480");
+		// the common J2ME phone screens (ScreenSizes), then sizes made for this phone
+		for (int[] size : ScreenSizes.SIZES) {
+			screenPresets.add(size[0] + RESOLUTION_TEMPLATE + size[1]);
+		}
 
 		if (w > h) {
 			screenPresets.add(h * 3 / 4 + RESOLUTION_TEMPLATE + h);

@@ -297,4 +297,10 @@
     <string name="memory_undo">ପୂର୍ବବତ୍</string>
     <string name="memory_set_all">ସବୁ ସେଟ୍</string>
     <string name="memory_freeze_all">ସବୁ ଫ୍ରିଜ୍</string>
+    <string name="fps_mode">FPS ମୋଡ୍</string>
+    <string-array name="fps_mode_entries">
+        <item>ଡାଇନାମିକ୍ (ଖେଳ ଅନୁସାରେ 60/90/120 Hz)</item>
+        <item>ସ୍କ୍ରିନ୍ ସହ ସିଙ୍କ୍ (vsync)</item>
+        <item>ଅସୀମିତ</item>
+    </string-array>
 </resources>

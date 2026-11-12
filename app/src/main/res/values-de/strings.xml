@@ -381,4 +381,10 @@
     <string name="memory_undo">Rückgängig</string>
     <string name="memory_set_all">Alle setzen</string>
     <string name="memory_freeze_all">Alle einfrieren</string>
+    <string name="fps_mode">FPS-Modus</string>
+    <string-array name="fps_mode_entries">
+        <item>Dynamisch (Bildschirm 60/90/120 Hz je nach Spiel)</item>
+        <item>Mit dem Bildschirm synchron (VSync)</item>
+        <item>Unbegrenzt</item>
+    </string-array>
 </resources>

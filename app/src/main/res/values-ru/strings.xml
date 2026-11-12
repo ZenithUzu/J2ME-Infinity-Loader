@@ -399,4 +399,10 @@
     <string name="memory_undo">Отменить</string>
     <string name="memory_set_all">Задать всем</string>
     <string name="memory_freeze_all">Заморозить все</string>
+    <string name="fps_mode">Режим FPS</string>
+    <string-array name="fps_mode_entries">
+        <item>Динамический (экран 60/90/120 Гц под игру)</item>
+        <item>Синхронно с экраном (vsync)</item>
+        <item>Без ограничений</item>
+    </string-array>
 </resources>

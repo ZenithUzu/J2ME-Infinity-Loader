@@ -336,4 +336,10 @@
     <string name="memory_undo">Annulla</string>
     <string name="memory_set_all">Imposta tutti</string>
     <string name="memory_freeze_all">Congela tutti</string>
+    <string name="fps_mode">Modalità FPS</string>
+    <string-array name="fps_mode_entries">
+        <item>Dinamica (schermo a 60/90/120 Hz in base al gioco)</item>
+        <item>Sincronizzata con lo schermo (vsync)</item>
+        <item>Illimitata</item>
+    </string-array>
 </resources>

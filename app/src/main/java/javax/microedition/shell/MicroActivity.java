@@ -1023,38 +1023,32 @@ public class MicroActivity extends AppCompatActivity {
 		ProfileModel p = microLoader.params;
 		if (section == 0) {
 			LinearLayout g = group(box, R.string.quick_group_size, dp);
-			// the game's screen size: games read it once at start, so it needs a restart
-			final int[][] sizes = {{128, 128}, {128, 160}, {176, 208}, {176, 220}, {240, 320},
-					{320, 240}, {240, 400}, {360, 640}, {640, 360}};
-			String[] sizeNames = new String[sizes.length];
+			// the game's screen size: one row, the list opens on touch (games read it at start,
+			// so a new size needs a restart)
+			int[][] sizes = ru.playsoftware.j2meloader.config.ScreenSizes.SIZES;
+			String[] sizeItems = new String[sizes.length];
+			for (int i = 0; i < sizes.length; i++) {
+				sizeItems[i] = ru.playsoftware.j2meloader.config.ScreenSizes.name(i) + "   ·   "
+						+ ru.playsoftware.j2meloader.config.ScreenSizes.PHONES[i];
+			}
 			int sizeNow = -1;
 			for (int i = 0; i < sizes.length; i++) {
-				sizeNames[i] = sizes[i][0] + "×" + sizes[i][1];
 				if (sizes[i][0] == p.screenWidth && sizes[i][1] == p.screenHeight) sizeNow = i;
 			}
-			label(g, R.string.quick_resolution, dp);
 			int sizeWas = sizeNow;
-			g.addView(chips(sizeNames, sizeNow, w -> {
-				if (w == sizeWas) return;
-				p.screenWidth = sizes[w][0];
-				p.screenHeight = sizes[w][1];
-				ProfilesManager.saveConfig(p);
-				new AlertDialog.Builder(this)
-						.setTitle(R.string.quick_resolution)
-						.setMessage(R.string.quick_resolution_restart)
-						.setPositiveButton(R.string.quick_restart_now, (d, x) -> {
-							closeQuickPanel();
-							hideSoftInput();
-							// the settings screen (another process) starts the game again
-							startActivity(new Intent(Intent.ACTION_DEFAULT, Uri.parse(appPath), this,
-									ru.playsoftware.j2meloader.config.ConfigActivity.class)
-									.putExtra(Constants.KEY_MIDLET_NAME, appName)
-									.putExtra(ru.playsoftware.j2meloader.config.ConfigActivity.KEY_RESTART, true));
-							MidletThread.destroyApp();
-						})
-						.setNegativeButton(R.string.quick_restart_later, null)
-						.show();
-			}, dp));
+			rowValue(g, R.string.quick_resolution, p.screenWidth + "×" + p.screenHeight + "  ▾", dp, () ->
+					new com.google.android.material.dialog.MaterialAlertDialogBuilder(this)
+							.setTitle(R.string.quick_resolution)
+							.setSingleChoiceItems(sizeItems, sizeWas, (d, w) -> {
+								d.dismiss();
+								if (w == sizeWas) return;
+								p.screenWidth = sizes[w][0];
+								p.screenHeight = sizes[w][1];
+								ProfilesManager.saveConfig(p);
+								askRestart();
+							})
+							.setNegativeButton(android.R.string.cancel, null)
+							.show());
 			label(g, R.string.quick_scale, dp);
 			g.addView(chips(getResources().getStringArray(R.array.pref_scale_type_entries), p.screenScaleType, w -> {
 				p.screenScaleType = w;
@@ -1223,22 +1217,49 @@ public class MicroActivity extends AppCompatActivity {
 				VirtualClock.setSpeed(speeds[w]);
 				if (speeds[w] != 1) Toast.makeText(this, R.string.game_speed_hint, Toast.LENGTH_SHORT).show();
 			}, dp));
-			label(g, R.string.PREF_LIMIT_FPS, dp);
-			final int[] limits = {0, 15, 30, 60};
-			int limit = Canvas.getLimitFps();
-			int checked = 4; // "Other..."
+			// FPS like JarNix: how the game is paced with the screen, and an optional cap
+			String[] modes = getResources().getStringArray(R.array.fps_mode_entries);
+			TextView[] modeValue = new TextView[1];
+			modeValue[0] = rowValue(g, R.string.fps_mode, modes[Canvas.getFpsMode()] + "  ▾", dp, () ->
+					new com.google.android.material.dialog.MaterialAlertDialogBuilder(this)
+							.setTitle(R.string.fps_mode)
+							.setSingleChoiceItems(modes, Canvas.getFpsMode(), (d, w) -> {
+								Canvas.setFpsMode(w);
+								p.fpsMode = w;
+								ProfilesManager.saveConfig(p);
+								modeValue[0].setText(modes[w] + "  ▾");
+								d.dismiss();
+							})
+							.setNegativeButton(android.R.string.cancel, null)
+							.show());
+			final int[] limits = {0, 15, 20, 25, 30, 50, 60, 90, 120};
+			String[] limitNames = new String[limits.length];
+			limitNames[0] = getString(R.string.unlimited);
+			for (int i = 1; i < limits.length; i++) limitNames[i] = String.valueOf(limits[i]);
+			int limitNow = Canvas.getLimitFps();
+			int checked = -1;
 			for (int i = 0; i < limits.length; i++) {
-				if (limits[i] == limit) checked = i;
+				if (limits[i] == limitNow) checked = i;
 			}
-			g.addView(chips(new String[]{getString(R.string.unlimited), "15", "30", "60", getString(R.string.quick_other)},
-					checked, w -> {
-						if (w < limits.length) {
-							microLoader.setLimitFps(limits[w]);
-						} else {
-							closeQuickPanel();
-							showLimitFpsDialog();
-						}
-					}, dp));
+			int limitWas = checked;
+			TextView[] limitValue = new TextView[1];
+			limitValue[0] = rowValue(g, R.string.PREF_LIMIT_FPS,
+					(limitNow == 0 ? limitNames[0] : String.valueOf(limitNow)) + "  ▾", dp, () ->
+					new com.google.android.material.dialog.MaterialAlertDialogBuilder(this)
+							.setTitle(R.string.PREF_LIMIT_FPS)
+							.setSingleChoiceItems(limitNames, limitWas, (d, w) -> {
+								microLoader.setLimitFps(limits[w]);
+								p.fpsLimit = limits[w];
+								ProfilesManager.saveConfig(p);
+								limitValue[0].setText(limitNames[w] + "  ▾");
+								d.dismiss();
+							})
+							.setNeutralButton(R.string.quick_other, (d, w) -> {
+								closeQuickPanel();
+								showLimitFpsDialog();
+							})
+							.setNegativeButton(android.R.string.cancel, null)
+							.show());
 
 			g = group(box, R.string.quick_group_tools, dp);
 			rowAction(g, R.string.memory_editor, dp, () -> {
@@ -1295,6 +1316,25 @@ public class MicroActivity extends AppCompatActivity {
 		t.setOnClickListener(v -> action.run());
 		g.addView(t, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
 				ViewGroup.LayoutParams.WRAP_CONTENT));
+	}
+
+	/** New resolution: games read it at start, so restart now or later. */
+	private void askRestart() {
+		new AlertDialog.Builder(this)
+				.setTitle(R.string.quick_resolution)
+				.setMessage(R.string.quick_resolution_restart)
+				.setPositiveButton(R.string.quick_restart_now, (d, x) -> {
+					closeQuickPanel();
+					hideSoftInput();
+					// the settings screen (another process) starts the game again
+					startActivity(new Intent(Intent.ACTION_DEFAULT, Uri.parse(appPath), this,
+							ru.playsoftware.j2meloader.config.ConfigActivity.class)
+							.putExtra(Constants.KEY_MIDLET_NAME, appName)
+							.putExtra(ru.playsoftware.j2meloader.config.ConfigActivity.KEY_RESTART, true));
+					MidletThread.destroyApp();
+				})
+				.setNegativeButton(R.string.quick_restart_later, null)
+				.show();
 	}
 
 	/** A row "title ......... value" that does something when touched; returns the value. */
